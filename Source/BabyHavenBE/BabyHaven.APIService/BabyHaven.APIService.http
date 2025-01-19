@@ -1,0 +1,6 @@
+@BabyHaven.APIService_HostAddress = http://localhost:5126
+
+GET {{BabyHaven.APIService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

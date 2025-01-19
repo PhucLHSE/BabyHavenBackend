@@ -1,0 +1,162 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "SWP391_ChildGrowthTrackingSystemContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "BabyHaven.Repositories",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[Alerts]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BasicGrowthRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BlogApprovals]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BlogCategories]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BlogReferences]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Blogs]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Children]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ConsultationRequests]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ConsultationResponses]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DevelopmentalRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Diseases]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DoctorHospitals]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Doctors]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DoctorSpecializations]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Features]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GrowthRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Hospitals]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MemberMemberships]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Members]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MembershipPackages]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Milestones]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NutritionalRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PackageFeatures]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PhysiologicalRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Promotions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RatingFeedbacks]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Roles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Specializations]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Transactions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserAccounts]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}

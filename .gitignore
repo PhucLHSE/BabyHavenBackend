@@ -9,15 +9,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-/FA24_SE1702_PRN221_G6_KoiShowManagement/.vs/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.RazorWebApp/bin/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.RazorWebApp/obj/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.Service/bin/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.Service/obj/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.Data/bin/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.Data/obj/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.Common/bin/
-/FA24_SE1702_PRN221_G6_KoiShowManagement/KoiShowManagement.Common/obj/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -408,8 +399,3 @@ FodyWeavers.xsd
 
 # Ignore appsettings.json to prevent conflicts in connection strings
 appsettings.json
-
-# Ignore WPF auto-generated files
-KoiShowManagement.WPFApp/
-
-
