@@ -27,5 +27,16 @@ namespace BabyHaven.Repositories.Repositories
 
             return membershipPackages;
         }
+
+        public async Task<MembershipPackage> GetByIdMembershipPackageAsync(int PackegeID)
+        {
+            var membershipPackage = await _context.MembershipPackages
+                .Include(mp => mp.Promotion)
+                .Include(mp => mp.PackageFeatures)
+                   .ThenInclude(pf => pf.Feature)
+                .FirstOrDefaultAsync(mp => mp.PackageId == PackegeID);
+
+            return membershipPackage;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace BabyHaven.Services.IServices
     public interface IMembershipPackageService
     {
         Task<IServiceResult> GetAll();
+        Task<IServiceResult> GetById(int PackageId);
     }
 }

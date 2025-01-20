@@ -34,10 +34,26 @@ namespace BabyHaven.Services.Services
             }
             else
             {
-                var membershipPackageDtos = membershipPackages.Select(package => package.MapToDto()).ToList();
+                var membershipPackageDtos = membershipPackages.Select(package => package.MapToMembershipPackageViewAllDto()).ToList();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     membershipPackageDtos);
+            }
+        }
+
+        public async Task<IServiceResult> GetById(int PackageId)
+        {
+            var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdMembershipPackageAsync(PackageId);
+
+            if (membershipPackage == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, new MembershipPackageViewDetailsDto());
+            }
+            else
+            {
+                var membershipPackageDto = membershipPackage.MapToMembershipPackageViewDetailsDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, membershipPackageDto);
             }
         }
     }

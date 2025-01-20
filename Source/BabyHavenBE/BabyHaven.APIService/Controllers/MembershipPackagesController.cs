@@ -20,7 +20,18 @@ namespace BabyHaven.APIService.Controllers
         [HttpGet]
         public async Task<IServiceResult> Get()
         {
-            return await _membershipPackageService.GetAll();
+            var membershipPackages = await _membershipPackageService.GetAll();
+
+            return membershipPackages;
+        }
+
+        // GET api/<MembershipPackagesController>/5
+        [HttpGet("{id}")]
+        public async Task<IServiceResult> Get(int id)
+        {
+            var membershipPackage = await _membershipPackageService.GetById(id);
+
+            return membershipPackage;
         }
     }
 }
