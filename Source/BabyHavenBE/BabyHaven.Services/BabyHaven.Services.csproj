@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IServices\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\BabyHaven.Common\BabyHaven.Common.csproj" />
+    <ProjectReference Include="..\BabyHaven.Repositories\BabyHaven.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,8 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\BabyHaven.Common\BabyHaven.Common.csproj" />
   </ItemGroup>
 
 </Project>

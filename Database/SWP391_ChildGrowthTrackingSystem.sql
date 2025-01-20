@@ -495,24 +495,43 @@ GO
 -- Insert Children
 INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, RelationshipToMember, Status)
 VALUES
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')), 'Child 1', '2022-01-01', 'Female', 3.2, 50, 'O', NULL, 'Daughter', 'Active'),  -- Member 1
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), 'Child 2', '2021-06-15', 'Male', 3.5, 52, 'A', NULL, 'Son', 'Active'),  -- Member 2
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 'Child 3', '2020-12-10', 'Female', 3.0, 48, 'B', NULL, 'Daughter', 'Active'),  -- Member 3
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 'Child 4', '2019-11-25', 'Male', 3.4, 49, 'AB', NULL, 'Son', 'Active');  -- Member 3
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')), 
+'Child 1', '2022-01-01', 'Female', 3.2, 50, 'O', NULL, 'Daughter', 'Active'),  -- Member 1
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), 
+'Child 2', '2021-06-15', 'Male', 3.5, 52, 'A', NULL, 'Son', 'Active'),  -- Member 2
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
+'Child 3', '2020-12-10', 'Female', 3.0, 48, 'B', NULL, 'Daughter', 'Active'),  -- Member 3
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
+'Child 4', '2019-11-25', 'Male', 3.4, 49, 'AB', NULL, 'Son', 'Active');  -- Member 3
 GO
 
 -- Insert MemberMemberships
 INSERT INTO MemberMemberships (MemberID, PackageID, StartDate, EndDate, Status)
 VALUES
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')), (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Free'), GETDATE(), DATEADD(MONTH, 1, GETDATE()), 'Active'),  -- Member 1 - Free
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Free'), GETDATE(), DATEADD(MONTH, 1, GETDATE()), 'Inactive'),  -- Member 2 - Free, then Standard
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard'), DATEADD(MONTH, 1, GETDATE()), DATEADD(MONTH, 13, GETDATE()), 'Active'),  -- Member 2 - Standard
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Free'), GETDATE(), DATEADD(MONTH, 1, GETDATE()), 'Inactive'),  -- Member 3 - Free, then Premium
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium'), DATEADD(MONTH, 1, GETDATE()), DATEADD(MONTH, 13, GETDATE()), 'Active');  -- Member 3 - Premium
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')), 
+(SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Free'), GETDATE(), DATEADD(MONTH, 1, GETDATE()), 'Active'),  -- Member 1 - Free
+
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), 
+(SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Free'), GETDATE(), DATEADD(MONTH, 1, GETDATE()), 'Inactive'),  -- Member 2 - Free, then Standard
+
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), 
+(SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard'), DATEADD(MONTH, 1, GETDATE()), DATEADD(MONTH, 13, GETDATE()), 'Active'),  -- Member 2 - Standard
+
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
+(SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Free'), GETDATE(), DATEADD(MONTH, 1, GETDATE()), 'Inactive'),  -- Member 3 - Free, then Premium
+
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
+(SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium'), DATEADD(MONTH, 1, GETDATE()), DATEADD(MONTH, 13, GETDATE()), 'Active');  -- Member 3 - Premium
+
 GO
 
 -- Insert Transactions
 INSERT INTO Transactions (UserID, MemberMembershipID, Amount, Currency, TransactionType, PaymentMethod, TransactionDate, PaymentDate, PaymentStatus)
 VALUES
-((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2'), (SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')) AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard')), 100.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success'),
-((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), (SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 200.00, 'VND', 'Purchase', 'MoMo', GETDATE(), GETDATE(), 'Success');
+((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2'), 
+(SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')) 
+AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard')), 100.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success'),
+
+((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), 
+(SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
+AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 200.00, 'VND', 'Purchase', 'MoMo', GETDATE(), GETDATE(), 'Success');
