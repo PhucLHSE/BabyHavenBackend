@@ -1,7 +1,8 @@
 ﻿using BabyHaven.Common;
+using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Common.Enum.MembershipPackageEnums;
 using BabyHaven.Repositories;
-using BabyHaven.Repositories.DTOs.MembershipPackageDTOs;
+using BabyHaven.Repositories.Mappers;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -33,20 +34,7 @@ namespace BabyHaven.Services.Services
             }
             else
             {
-                var membershipPackageDtos = membershipPackages.Select(package => new MembershipPackageViewAllDto
-                {
-                    PackageId = package.PackageId,
-                    PackageName = package.PackageName,
-                    Description = package.Description,
-                    Price = package.Price,
-                    Currency = package.Currency,
-                    DurationMonths = package.DurationMonths,
-                    IsRecurring = package.IsRecurring,
-                    MaxChildrenAllowed = package.MaxChildrenAllowed,
-                    Status = Enum.Parse<MembershipPackageStatus>(package.Status, true),
-                    PromotionCode = package.Promotion?.PromotionCode,
-                    DiscountPercent = package.Promotion?.DiscountPercent
-                }).ToList();
+                var membershipPackageDtos = membershipPackages.Select(package => package.MapToDto()).ToList();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     membershipPackageDtos);

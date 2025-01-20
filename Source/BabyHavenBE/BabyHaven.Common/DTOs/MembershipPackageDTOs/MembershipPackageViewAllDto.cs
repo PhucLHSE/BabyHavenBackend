@@ -6,24 +6,24 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace BabyHaven.Repositories.DTOs.MembershipPackageDTOs
+namespace BabyHaven.Common.DTOs.MembershipPackageDTOs
 {
     public class MembershipPackageViewAllDto
     {
         public int PackageId { get; set; }
-        public string PackageName { get; set; }
-        public string Description { get; set; }
+        public string PackageName { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
-        public string Currency { get; set; }
+        public string Currency { get; set; } = string.Empty;
         public int DurationMonths { get; set; }
         public bool IsRecurring { get; set; }
         public int MaxChildrenAllowed { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public MembershipPackageStatus Status { get; set; }
+        public MembershipPackageStatus Status { get; set; } = MembershipPackageStatus.Inactive;
 
         // Add information from Promotions table
-        public string PromotionCode { get; set; }
+        public string PromotionCode { get; set; } = string.Empty;
         public decimal? DiscountPercent { get; set; }
     }
 }
