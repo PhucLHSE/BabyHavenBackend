@@ -1,6 +1,8 @@
 ﻿using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Common.Enum.MembershipPackageEnums;
+using BabyHaven.Repositories.DBContext;
 using BabyHaven.Repositories.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +73,52 @@ namespace BabyHaven.Repositories.Mappers
                                .Select(pf => pf.Feature.FeatureName)
                                .ToList() ?? new List<string>()
             };
+        }
+
+        public static async Task<MembershipPackage> MapToMembershipPackageCreateDtoAsync(this MembershipPackageCreateDto dto, SWP391_ChildGrowthTrackingSystemContext dbContext)
+        {
+            // Step 1: Create membership package
+            var membershipPackage = new MembershipPackage
+            {
+                PackageName = dto.PackageName,
+                Description = dto.Description,
+                Price = dto.Price,
+                Currency = dto.Currency,
+                DurationMonths = dto.DurationMonths,
+                IsRecurring = dto.IsRecurring,
+                TrialPeriodDays = dto.TrialPeriodDays,
+                MaxChildrenAllowed = dto.MaxChildrenAllowed,
+                SupportLevel = dto.SupportLevel,
+                Status = dto.Status.ToString()
+            };
+
+            // Step 2: Add features to membership package
+            membershipPackage.PackageFeatures = dto.FeatureNames?.Select(name => new PackageFeature
+            {
+                Feature = new Feature
+                {
+                    FeatureName = name,
+                    Status = "Active"
+                },
+                CreatedAt = DateTime.Now,
+                Status = "Active"
+            }).ToList() ?? new List<PackageFeature>();
+
+            // Step 3: Promotion processing
+            if (!string.IsNullOrEmpty(dto.PromotionCode))
+            {
+                var promotion = await dbContext.Promotions
+                                               .FirstOrDefaultAsync(p => p.PromotionCode == dto.PromotionCode);
+
+                if (promotion == null)
+                {
+                    throw new InvalidOperationException("Promotion not found.");
+                }
+
+                membershipPackage.PromotionId = promotion?.PromotionId;
+            }
+
+            return membershipPackage;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BabyHaven.Services.Base;
+﻿using BabyHaven.Repositories.Models;
+using BabyHaven.Services.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> GetAll();
         Task<IServiceResult> GetById(int PackageId);
+        Task<IServiceResult> Save(MembershipPackage membershipPackage);
     }
 }

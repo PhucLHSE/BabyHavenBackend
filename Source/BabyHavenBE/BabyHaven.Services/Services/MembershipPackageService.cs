@@ -56,5 +56,46 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, membershipPackageDto);
             }
         }
+
+        public async Task<IServiceResult> Save(MembershipPackage membershipPackage)
+        {
+            try
+            {
+                int result = -1;
+
+                var membershipPackageTmp = _unitOfWork.MembershipPackageRepository.GetById(membershipPackage.PackageId);
+
+                if (membershipPackageTmp != null)
+                {
+                    result = await _unitOfWork.MembershipPackageRepository.UpdateAsync(membershipPackage);
+
+                    if (result > 0)
+                    {
+                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, membershipPackage);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                    }
+                }
+                else
+                {
+                    result = await _unitOfWork.MembershipPackageRepository.CreateAsync(membershipPackage);
+
+                    if (result > 0)
+                    {
+                        return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, membershipPackage);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG, membershipPackage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }
