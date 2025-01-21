@@ -30,9 +30,6 @@ namespace BabyHaven.Common.DTOs.MembershipPackageDTOs
         [Range(1, 120, ErrorMessage = "DurationMonths must be between 1 and 120.")]
         public int DurationMonths { get; set; }
 
-        [Required(ErrorMessage = "IsRecurring is required.")]
-        public bool IsRecurring { get; set; }
-
         [Range(0, 365, ErrorMessage = "TrialPeriodDays must be between 0 and 365.")]
         public int? TrialPeriodDays { get; set; }
 
@@ -46,18 +43,5 @@ namespace BabyHaven.Common.DTOs.MembershipPackageDTOs
         [Required(ErrorMessage = "Status is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public MembershipPackageStatus Status { get; set; } = MembershipPackageStatus.Inactive;
-
-
-        [MaxLength(50, ErrorMessage = "PromotionCode cannot exceed 50 characters.")]
-        public string? PromotionCode { get; set; }
-
-        [MaxLength(2000, ErrorMessage = "PromotionDescription cannot exceed 2000 characters.")]
-        public string? PromotionDescription { get; set; }
-
-        [Range(0, 100, ErrorMessage = "DiscountPercent must be between 0 and 100.")]
-        public int? DiscountPercent { get; set; }
-
-        //[Required(ErrorMessage = "At least one feature is required.")]
-        public List<string> FeatureNames { get; set; } = new List<string>();
     }
 }

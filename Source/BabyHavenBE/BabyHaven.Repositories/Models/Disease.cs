@@ -11,9 +11,13 @@ public partial class Disease
 
     public string DiseaseName { get; set; }
 
-    public double LowerBound { get; set; }
+    public double LowerBoundMale { get; set; }
 
-    public double UpperBound { get; set; }
+    public double UpperBoundMale { get; set; }
+
+    public double LowerBoundFemale { get; set; }
+
+    public double UpperBoundFemale { get; set; }
 
     public int MinAge { get; set; }
 

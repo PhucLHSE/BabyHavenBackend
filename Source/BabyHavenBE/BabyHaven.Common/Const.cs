@@ -11,6 +11,7 @@ namespace BabyHaven.Common
         #region Error Codes
 
         public static int ERROR_EXCEPTION = -4;
+        public static int ERROR_VALIDATION_CODE = -2;
 
         #endregion
 

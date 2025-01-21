@@ -19,24 +19,5 @@ namespace BabyHaven.Repositories.Repositories
 
         public MembershipPackageRepository(SWP391_ChildGrowthTrackingSystemContext context)
             => _context = context;
-
-        public async Task<List<MembershipPackage>> GetAllMembershipPackageAsync()
-        {
-            var membershipPackages = await _context.MembershipPackages.
-                Include(mp => mp.Promotion).ToListAsync();
-
-            return membershipPackages;
-        }
-
-        public async Task<MembershipPackage> GetByIdMembershipPackageAsync(int PackegeID)
-        {
-            var membershipPackage = await _context.MembershipPackages
-                .Include(mp => mp.Promotion)
-                .Include(mp => mp.PackageFeatures)
-                   .ThenInclude(pf => pf.Feature)
-                .FirstOrDefaultAsync(mp => mp.PackageId == PackegeID);
-
-            return membershipPackage;
-        }
     }
 }

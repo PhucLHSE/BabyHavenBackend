@@ -19,23 +19,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[BasicGrowthRecords]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[BlogApprovals]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[BlogCategories]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[BlogReferences]",
+         "Name": "[dbo].[Blogs]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Blogs]",
+         "Name": "[dbo].[ChildMilestones]",
          "ObjectType": 0
       },
       {
@@ -51,15 +43,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DevelopmentalRecords]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Diseases]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[DoctorHospitals]",
          "ObjectType": 0
       },
       {
@@ -79,10 +63,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Hospitals]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[MemberMemberships]",
          "ObjectType": 0
       },
@@ -99,15 +79,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[NutritionalRecords]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[PackageFeatures]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[PhysiologicalRecords]",
+         "Name": "[dbo].[PackagePromotions]",
          "ObjectType": 0
       },
       {

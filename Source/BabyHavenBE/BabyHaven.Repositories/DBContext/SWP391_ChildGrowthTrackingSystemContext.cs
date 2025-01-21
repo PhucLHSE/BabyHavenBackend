@@ -21,37 +21,27 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
     public virtual DbSet<Alert> Alerts { get; set; }
 
-    public virtual DbSet<BasicGrowthRecord> BasicGrowthRecords { get; set; }
-
     public virtual DbSet<Blog> Blogs { get; set; }
-
-    public virtual DbSet<BlogApproval> BlogApprovals { get; set; }
 
     public virtual DbSet<BlogCategory> BlogCategories { get; set; }
 
-    public virtual DbSet<BlogReference> BlogReferences { get; set; }
-
     public virtual DbSet<Child> Children { get; set; }
+
+    public virtual DbSet<ChildMilestone> ChildMilestones { get; set; }
 
     public virtual DbSet<ConsultationRequest> ConsultationRequests { get; set; }
 
     public virtual DbSet<ConsultationResponse> ConsultationResponses { get; set; }
 
-    public virtual DbSet<DevelopmentalRecord> DevelopmentalRecords { get; set; }
-
     public virtual DbSet<Disease> Diseases { get; set; }
 
     public virtual DbSet<Doctor> Doctors { get; set; }
-
-    public virtual DbSet<DoctorHospital> DoctorHospitals { get; set; }
 
     public virtual DbSet<DoctorSpecialization> DoctorSpecializations { get; set; }
 
     public virtual DbSet<Feature> Features { get; set; }
 
     public virtual DbSet<GrowthRecord> GrowthRecords { get; set; }
-
-    public virtual DbSet<Hospital> Hospitals { get; set; }
 
     public virtual DbSet<Member> Members { get; set; }
 
@@ -61,11 +51,9 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
     public virtual DbSet<Milestone> Milestones { get; set; }
 
-    public virtual DbSet<NutritionalRecord> NutritionalRecords { get; set; }
-
     public virtual DbSet<PackageFeature> PackageFeatures { get; set; }
 
-    public virtual DbSet<PhysiologicalRecord> PhysiologicalRecords { get; set; }
+    public virtual DbSet<PackagePromotion> PackagePromotions { get; set; }
 
     public virtual DbSet<Promotion> Promotions { get; set; }
 
@@ -90,7 +78,8 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
         return connectionString;
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"))
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
     //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -100,7 +89,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
     {
         modelBuilder.Entity<Alert>(entity =>
         {
-            entity.HasKey(e => e.AlertId).HasName("PK__Alerts__EBB16AED4E9EDA97");
+            entity.HasKey(e => e.AlertId).HasName("PK__Alerts__EBB16AED049C2DEF");
 
             entity.Property(e => e.AlertId).HasColumnName("AlertID");
             entity.Property(e => e.AlertDate)
@@ -108,50 +97,40 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.DiseaseId).HasColumnName("DiseaseID");
             entity.Property(e => e.GrowthRecordId).HasColumnName("GrowthRecordID");
-            entity.Property(e => e.Message).IsRequired();
+            entity.Property(e => e.Message)
+                .IsRequired()
+                .HasMaxLength(2000);
             entity.Property(e => e.SeverityLevel).HasMaxLength(50);
 
             entity.HasOne(d => d.Disease).WithMany(p => p.Alerts)
                 .HasForeignKey(d => d.DiseaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Alerts__DiseaseI__690797E6");
+                .HasConstraintName("FK__Alerts__DiseaseI__4F47C5E3");
 
             entity.HasOne(d => d.GrowthRecord).WithMany(p => p.Alerts)
                 .HasForeignKey(d => d.GrowthRecordId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Alerts__GrowthRe__681373AD");
-        });
-
-        modelBuilder.Entity<BasicGrowthRecord>(entity =>
-        {
-            entity.HasKey(e => e.BasicRecordId).HasName("PK__BasicGro__FC7A97A156B177D0");
-
-            entity.Property(e => e.BasicRecordId).HasColumnName("BasicRecordID");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.RecordId).HasColumnName("RecordID");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Record).WithMany(p => p.BasicGrowthRecords)
-                .HasForeignKey(d => d.RecordId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__BasicGrow__Recor__6EF57B66");
+                .HasConstraintName("FK__Alerts__GrowthRe__4E53A1AA");
         });
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50D6B76E1F");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E5062379F54");
 
             entity.Property(e => e.BlogId).HasColumnName("BlogID");
             entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.Content).IsRequired();
+            entity.Property(e => e.Content)
+                .IsRequired()
+                .HasMaxLength(2000);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.ImageBlog)
+                .IsRequired()
+                .HasMaxLength(2000);
+            entity.Property(e => e.ReferenceSources).HasMaxLength(2000);
+            entity.Property(e => e.RejectionReason).HasMaxLength(2000);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -170,37 +149,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Author).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.AuthorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Blogs__AuthorID__7B264821");
+                .HasConstraintName("FK__Blogs__AuthorID__681373AD");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Blogs__CategoryI__7C1A6C5A");
-        });
-
-        modelBuilder.Entity<BlogApproval>(entity =>
-        {
-            entity.HasKey(e => e.ApprovalId).HasName("PK__BlogAppr__328477D44911197C");
-
-            entity.Property(e => e.ApprovalId).HasColumnName("ApprovalID");
-            entity.Property(e => e.ApprovalDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.ApprovalStatus)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasDefaultValue("Needs Revision");
-            entity.Property(e => e.BlogId).HasColumnName("BlogID");
-
-            entity.HasOne(d => d.Blog).WithMany(p => p.BlogApprovals)
-                .HasForeignKey(d => d.BlogId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__BlogAppro__BlogI__00DF2177");
+                .HasConstraintName("FK__Blogs__CategoryI__690797E6");
         });
 
         modelBuilder.Entity<BlogCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__BlogCate__19093A2B67A7524A");
+            entity.HasKey(e => e.CategoryId).HasName("PK__BlogCate__19093A2B36458987");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName)
@@ -210,53 +169,27 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.ParentCategoryId).HasColumnName("ParentCategoryID");
-            entity.Property(e => e.ThumbnailImage)
-                .HasMaxLength(255)
-                .IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
             entity.HasOne(d => d.ParentCategory).WithMany(p => p.InverseParentCategory)
                 .HasForeignKey(d => d.ParentCategoryId)
-                .HasConstraintName("FK__BlogCateg__Paren__756D6ECB");
-        });
-
-        modelBuilder.Entity<BlogReference>(entity =>
-        {
-            entity.HasKey(e => e.ReferenceId).HasName("PK__BlogRefe__E1A99A79CE61AEBD");
-
-            entity.Property(e => e.ReferenceId).HasColumnName("ReferenceID");
-            entity.Property(e => e.BlogId).HasColumnName("BlogID");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.ReferenceText).IsRequired();
-            entity.Property(e => e.ReferenceUrl)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("ReferenceURL");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Blog).WithMany(p => p.BlogReferences)
-                .HasForeignKey(d => d.BlogId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__BlogRefer__BlogI__05A3D694");
+                .HasConstraintName("FK__BlogCateg__Paren__625A9A57");
         });
 
         modelBuilder.Entity<Child>(entity =>
         {
-            entity.HasKey(e => e.ChildId).HasName("PK__Children__BEFA07367E97F3F8");
+            entity.HasKey(e => e.ChildId).HasName("PK__Children__BEFA07368FE8791B");
 
             entity.Property(e => e.ChildId)
                 .HasDefaultValueSql("(newid())")
                 .HasColumnName("ChildID");
+            entity.Property(e => e.Allergies).HasMaxLength(2000);
             entity.Property(e => e.BloodType)
-                .IsRequired()
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.CreatedAt)
@@ -270,6 +203,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.Notes).HasMaxLength(2000);
             entity.Property(e => e.RelationshipToMember)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -288,9 +222,44 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasConstraintName("FK__Children__Member__628FA481");
         });
 
+        modelBuilder.Entity<ChildMilestone>(entity =>
+        {
+            entity.HasKey(e => new { e.ChildId, e.MilestoneId }).HasName("PK__ChildMil__2E664F333FF5E8B2");
+
+            entity.Property(e => e.ChildId).HasColumnName("ChildID");
+            entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
+            entity.Property(e => e.Category).HasMaxLength(100);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Guidelines).HasMaxLength(2000);
+            entity.Property(e => e.Importance)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasDefaultValue("Medium");
+            entity.Property(e => e.Notes).HasMaxLength(2000);
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasDefaultValue("Not Achieved");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.Child).WithMany(p => p.ChildMilestones)
+                .HasForeignKey(d => d.ChildId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ChildMile__Child__5BAD9CC8");
+
+            entity.HasOne(d => d.Milestone).WithMany(p => p.ChildMilestones)
+                .HasForeignKey(d => d.MilestoneId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ChildMile__Miles__5CA1C101");
+        });
+
         modelBuilder.Entity<ConsultationRequest>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Consulta__33A8519A3AAB538A");
+            entity.HasKey(e => e.RequestId).HasName("PK__Consulta__33A8519AB463C4C0");
 
             entity.Property(e => e.RequestId).HasColumnName("RequestID");
             entity.Property(e => e.Attachments)
@@ -301,6 +270,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.MemberId).HasColumnName("MemberID");
             entity.Property(e => e.RequestDate)
                 .HasDefaultValueSql("(getdate())")
@@ -317,23 +287,25 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Child).WithMany(p => p.ConsultationRequests)
                 .HasForeignKey(d => d.ChildId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Child__4C6B5938");
+                .HasConstraintName("FK__Consultat__Child__32AB8735");
 
             entity.HasOne(d => d.Member).WithMany(p => p.ConsultationRequests)
                 .HasForeignKey(d => d.MemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Membe__4B7734FF");
+                .HasConstraintName("FK__Consultat__Membe__31B762FC");
         });
 
         modelBuilder.Entity<ConsultationResponse>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Consulta__1AAA640C9F2B875F");
+            entity.HasKey(e => e.ResponseId).HasName("PK__Consulta__1AAA640CC98378AC");
 
             entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
             entity.Property(e => e.Attachments)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.Content).IsRequired();
+            entity.Property(e => e.Content)
+                .IsRequired()
+                .HasMaxLength(2000);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -353,45 +325,23 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Doctor).WithMany(p => p.ConsultationResponses)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Docto__540C7B00");
+                .HasConstraintName("FK__Consultat__Docto__3A4CA8FD");
 
             entity.HasOne(d => d.Request).WithMany(p => p.ConsultationResponses)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Reque__531856C7");
-        });
-
-        modelBuilder.Entity<DevelopmentalRecord>(entity =>
-        {
-            entity.HasKey(e => e.DevelopmentalRecordId).HasName("PK__Developm__1C8624B22E61EEC0");
-
-            entity.Property(e => e.DevelopmentalRecordId).HasColumnName("DevelopmentalRecordID");
-            entity.Property(e => e.AttentionSpan).HasMaxLength(50);
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.DevelopmentalMilestones).HasMaxLength(255);
-            entity.Property(e => e.MentalHealthStatus).HasMaxLength(50);
-            entity.Property(e => e.NeurologicalReflexes).HasMaxLength(255);
-            entity.Property(e => e.RecordId).HasColumnName("RecordID");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Record).WithMany(p => p.DevelopmentalRecords)
-                .HasForeignKey(d => d.RecordId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Developme__Recor__7D439ABD");
+                .HasConstraintName("FK__Consultat__Reque__395884C4");
         });
 
         modelBuilder.Entity<Disease>(entity =>
         {
-            entity.HasKey(e => e.DiseaseId).HasName("PK__Diseases__69B533A9A40F56E6");
+            entity.HasKey(e => e.DiseaseId).HasName("PK__Diseases__69B533A9F0E40612");
 
             entity.Property(e => e.DiseaseId).HasColumnName("DiseaseID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.DiseaseName)
                 .IsRequired()
                 .HasMaxLength(100)
@@ -403,21 +353,27 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.LastModified)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Notes).HasMaxLength(2000);
+            entity.Property(e => e.Prevention).HasMaxLength(2000);
             entity.Property(e => e.Severity)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.Symptoms).IsRequired();
+            entity.Property(e => e.Symptoms)
+                .IsRequired()
+                .HasMaxLength(2000);
+            entity.Property(e => e.Treatment).HasMaxLength(2000);
         });
 
         modelBuilder.Entity<Doctor>(entity =>
         {
-            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDFEC13D48B");
+            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDF5698118F");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E38D1F2FF50").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E3884486C85").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D10534F8AF2E97").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D10534D2F60A37").IsUnique();
 
             entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
+            entity.Property(e => e.Biography).HasMaxLength(2000);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -429,8 +385,10 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.LicenseNumber)
-                .IsRequired()
+            entity.Property(e => e.HospitalAddress)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.HospitalName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Name)
@@ -453,41 +411,12 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Doctors)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Doctors__UserID__2DE6D218");
-        });
-
-        modelBuilder.Entity<DoctorHospital>(entity =>
-        {
-            entity.HasKey(e => e.DoctorHospitalId).HasName("PK__DoctorHo__64B9134F1EF3258C");
-
-            entity.Property(e => e.DoctorHospitalId).HasColumnName("DoctorHospitalID");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
-            entity.Property(e => e.HospitalId).HasColumnName("HospitalID");
-            entity.Property(e => e.Status)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasDefaultValue("Active");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorHospitals)
-                .HasForeignKey(d => d.DoctorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DoctorHos__Docto__43D61337");
-
-            entity.HasOne(d => d.Hospital).WithMany(p => p.DoctorHospitals)
-                .HasForeignKey(d => d.HospitalId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DoctorHos__Hospi__44CA3770");
+                .HasConstraintName("FK__Doctors__UserID__1F98B2C1");
         });
 
         modelBuilder.Entity<DoctorSpecialization>(entity =>
         {
-            entity.HasKey(e => e.DoctorSpecializationId).HasName("PK__DoctorSp__14F6ED6DA84951E7");
+            entity.HasKey(e => e.DoctorSpecializationId).HasName("PK__DoctorSp__14F6ED6DE060AA90");
 
             entity.Property(e => e.DoctorSpecializationId).HasColumnName("DoctorSpecializationID");
             entity.Property(e => e.CreatedAt)
@@ -506,22 +435,23 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorSpecializations)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DoctorSpe__Docto__3864608B");
+                .HasConstraintName("FK__DoctorSpe__Docto__2A164134");
 
             entity.HasOne(d => d.Specialization).WithMany(p => p.DoctorSpecializations)
                 .HasForeignKey(d => d.SpecializationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DoctorSpe__Speci__395884C4");
+                .HasConstraintName("FK__DoctorSpe__Speci__2B0A656D");
         });
 
         modelBuilder.Entity<Feature>(entity =>
         {
-            entity.HasKey(e => e.FeatureId).HasName("PK__Features__82230A29A34CD5B1");
+            entity.HasKey(e => e.FeatureId).HasName("PK__Features__82230A29E64BCE29");
 
             entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.FeatureName)
                 .IsRequired()
                 .HasMaxLength(255)
@@ -537,13 +467,22 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<GrowthRecord>(entity =>
         {
-            entity.HasKey(e => e.RecordId).HasName("PK__GrowthRe__FBDF78C973946B43");
+            entity.HasKey(e => e.RecordId).HasName("PK__GrowthRe__FBDF78C97E504D39");
 
             entity.Property(e => e.RecordId).HasColumnName("RecordID");
+            entity.Property(e => e.AttentionSpan).HasMaxLength(50);
             entity.Property(e => e.ChildId).HasColumnName("ChildID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.DevelopmentalMilestones).HasMaxLength(255);
+            entity.Property(e => e.Hearing).HasMaxLength(50);
+            entity.Property(e => e.ImmunizationStatus).HasMaxLength(2000);
+            entity.Property(e => e.MentalHealthStatus).HasMaxLength(50);
+            entity.Property(e => e.NeurologicalReflexes).HasMaxLength(255);
+            entity.Property(e => e.Notes).HasMaxLength(2000);
+            entity.Property(e => e.NutritionalStatus).HasMaxLength(50);
+            entity.Property(e => e.PhysicalActivityLevel).HasMaxLength(50);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -552,6 +491,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Verified).HasDefaultValue(false);
+            entity.Property(e => e.Vision).HasMaxLength(50);
 
             entity.HasOne(d => d.Child).WithMany(p => p.GrowthRecords)
                 .HasForeignKey(d => d.ChildId)
@@ -564,38 +504,11 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasConstraintName("FK__GrowthRec__Recor__6A30C649");
         });
 
-        modelBuilder.Entity<Hospital>(entity =>
-        {
-            entity.HasKey(e => e.HospitalId).HasName("PK__Hospital__38C2E58FE7025B23");
-
-            entity.Property(e => e.HospitalId).HasColumnName("HospitalID");
-            entity.Property(e => e.Address)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.ContactInfo)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.HospitalName)
-                .IsRequired()
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Status)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasDefaultValue("Active");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-        });
-
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemberId).HasName("PK__Members__0CF04B38484285EA");
+            entity.HasKey(e => e.MemberId).HasName("PK__Members__0CF04B387F01875C");
 
-            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCAD69674F1A").IsUnique();
+            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCAD51CDF8F1").IsUnique();
 
             entity.Property(e => e.MemberId)
                 .HasDefaultValueSql("(newid())")
@@ -606,6 +519,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.JoinDate).HasColumnType("datetime");
             entity.Property(e => e.LeaveDate).HasColumnType("datetime");
+            entity.Property(e => e.Notes).HasMaxLength(2000);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -620,7 +534,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<MemberMembership>(entity =>
         {
-            entity.HasKey(e => e.MemberMembershipId).HasName("PK__MemberMe__5EAB967F0DB870EA");
+            entity.HasKey(e => e.MemberMembershipId).HasName("PK__MemberMe__5EAB967F61605AC5");
 
             entity.Property(e => e.MemberMembershipId)
                 .HasDefaultValueSql("(newid())")
@@ -628,6 +542,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.MemberId).HasColumnName("MemberID");
@@ -644,17 +559,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Member).WithMany(p => p.MemberMemberships)
                 .HasForeignKey(d => d.MemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__MemberMem__Membe__1EA48E88");
+                .HasConstraintName("FK__MemberMem__Membe__10566F31");
 
             entity.HasOne(d => d.Package).WithMany(p => p.MemberMemberships)
                 .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__MemberMem__Packa__1F98B2C1");
+                .HasConstraintName("FK__MemberMem__Packa__114A936A");
         });
 
         modelBuilder.Entity<MembershipPackage>(entity =>
         {
-            entity.HasKey(e => e.PackageId).HasName("PK__Membersh__322035EC869F662E");
+            entity.HasKey(e => e.PackageId).HasName("PK__Membersh__322035EC99C63FD1");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.CreatedAt)
@@ -663,12 +578,12 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.Currency)
                 .HasMaxLength(10)
                 .HasDefaultValue("VND");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.PackageName)
                 .IsRequired()
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.PromotionId).HasColumnName("PromotionID");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -677,22 +592,18 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Promotion).WithMany(p => p.MembershipPackages)
-                .HasForeignKey(d => d.PromotionId)
-                .HasConstraintName("FK__Membershi__Promo__0C85DE4D");
         });
 
         modelBuilder.Entity<Milestone>(entity =>
         {
-            entity.HasKey(e => e.MilestoneId).HasName("PK__Mileston__09C48058C00B3081");
+            entity.HasKey(e => e.MilestoneId).HasName("PK__Mileston__09C480580B2CCAB4");
 
             entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
             entity.Property(e => e.Category).HasMaxLength(100);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.GrowthRecordId).HasColumnName("GrowthRecordID");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.Importance)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -700,48 +611,16 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.MilestoneName)
                 .IsRequired()
                 .HasMaxLength(255);
-            entity.Property(e => e.Status)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasDefaultValue("Not Achieved");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-
-            entity.HasOne(d => d.GrowthRecord).WithMany(p => p.Milestones)
-                .HasForeignKey(d => d.GrowthRecordId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Milestone__Growt__6FB49575");
-        });
-
-        modelBuilder.Entity<NutritionalRecord>(entity =>
-        {
-            entity.HasKey(e => e.NutritionalRecordId).HasName("PK__Nutritio__76ECB7E48DB89C90");
-
-            entity.Property(e => e.NutritionalRecordId).HasColumnName("NutritionalRecordID");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.NutritionalStatus).HasMaxLength(50);
-            entity.Property(e => e.PhysicalActivityLevel).HasMaxLength(50);
-            entity.Property(e => e.RecordId).HasColumnName("RecordID");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Record).WithMany(p => p.NutritionalRecords)
-                .HasForeignKey(d => d.RecordId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Nutrition__Recor__73BA3083");
         });
 
         modelBuilder.Entity<PackageFeature>(entity =>
         {
-            entity.HasKey(e => new { e.PackageId, e.FeatureId }).HasName("PK__PackageF__BA02054E2C111336");
+            entity.HasKey(e => new { e.PackageId, e.FeatureId }).HasName("PK__PackageF__BA02054E8B2F16CF");
 
-            entity.Property(e => e.PackageId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("PackageID");
+            entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
@@ -754,46 +633,50 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Feature).WithMany(p => p.PackageFeatures)
                 .HasForeignKey(d => d.FeatureId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PackageFe__Featu__17036CC0");
+                .HasConstraintName("FK__PackageFe__Featu__08B54D69");
 
             entity.HasOne(d => d.Package).WithMany(p => p.PackageFeatures)
                 .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PackageFe__Packa__160F4887");
+                .HasConstraintName("FK__PackageFe__Packa__07C12930");
         });
 
-        modelBuilder.Entity<PhysiologicalRecord>(entity =>
+        modelBuilder.Entity<PackagePromotion>(entity =>
         {
-            entity.HasKey(e => e.PhysiologicalRecordId).HasName("PK__Physiolo__F1DFF2E7112FEFB0");
+            entity.HasKey(e => new { e.PackageId, e.PromotionId }).HasName("PK__PackageP__D70C771EB9692175");
 
-            entity.Property(e => e.PhysiologicalRecordId).HasColumnName("PhysiologicalRecordID");
+            entity.Property(e => e.PackageId).HasColumnName("PackageID");
+            entity.Property(e => e.PromotionId).HasColumnName("PromotionID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Hearing).HasMaxLength(50);
-            entity.Property(e => e.RecordId).HasColumnName("RecordID");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Vision).HasMaxLength(50);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
 
-            entity.HasOne(d => d.Record).WithMany(p => p.PhysiologicalRecords)
-                .HasForeignKey(d => d.RecordId)
+            entity.HasOne(d => d.Package).WithMany(p => p.PackagePromotions)
+                .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Physiolog__Recor__787EE5A0");
+                .HasConstraintName("FK__PackagePr__Packa__7D439ABD");
+
+            entity.HasOne(d => d.Promotion).WithMany(p => p.PackagePromotions)
+                .HasForeignKey(d => d.PromotionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__PackagePr__Promo__7E37BEF6");
         });
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2F3A89A7A3");
+            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2F4F9A5DE5");
 
             entity.Property(e => e.PromotionId)
                 .HasDefaultValueSql("(newid())")
                 .HasColumnName("PromotionID");
-            entity.Property(e => e.ApplicablePackageIds).HasColumnName("ApplicablePackageIDs");
+            entity.Property(e => e.ApplicablePackageIds)
+                .HasMaxLength(2000)
+                .HasColumnName("ApplicablePackageIDs");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.MaxDiscountAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.MinPurchaseAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.PromotionCode)
@@ -815,18 +698,19 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PromotionCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Promotion__Creat__04E4BC85");
+                .HasConstraintName("FK__Promotion__Creat__71D1E811");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.PromotionModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Promotion__Modif__05D8E0BE");
+                .HasConstraintName("FK__Promotion__Modif__72C60C4A");
         });
 
         modelBuilder.Entity<RatingFeedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__RatingFe__6A4BEDD6C3E9CA2E");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__RatingFe__6A4BEDD679579FA3");
 
+            entity.Property(e => e.Comment).HasMaxLength(2000);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -847,22 +731,23 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Response).WithMany(p => p.RatingFeedbacks)
                 .HasForeignKey(d => d.ResponseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RatingFee__Respo__5D95E53A");
+                .HasConstraintName("FK__RatingFee__Respo__43D61337");
 
             entity.HasOne(d => d.User).WithMany(p => p.RatingFeedbacks)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RatingFee__UserI__5CA1C101");
+                .HasConstraintName("FK__RatingFee__UserI__42E1EEFE");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A3339BA7E");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A34C9F024");
 
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.RoleName)
                 .IsRequired()
                 .HasMaxLength(255)
@@ -878,12 +763,13 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Specialization>(entity =>
         {
-            entity.HasKey(e => e.SpecializationId).HasName("PK__Speciali__5809D84F418E79C7");
+            entity.HasKey(e => e.SpecializationId).HasName("PK__Speciali__5809D84FBAFCB353");
 
             entity.Property(e => e.SpecializationId).HasColumnName("SpecializationID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.SpecializationName)
                 .IsRequired()
                 .HasMaxLength(255)
@@ -899,7 +785,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__55433A4B95B0E3AD");
+            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__55433A4B18E857C3");
 
             entity.Property(e => e.TransactionId)
                 .HasDefaultValueSql("(newid())")
@@ -935,23 +821,23 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.MemberMembership).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.MemberMembershipId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Transacti__Membe__2645B050");
+                .HasConstraintName("FK__Transacti__Membe__17F790F9");
 
             entity.HasOne(d => d.User).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Transacti__UserI__25518C17");
+                .HasConstraintName("FK__Transacti__UserI__17036CC0");
         });
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCACC25D7365");
+            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC9CE8BDE1");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E46205D6BD").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E463B2FFB4").IsUnique();
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E3853E174A2").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E38B0E5B709").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D105343E7D7639").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D1053488BCB1E8").IsUnique();
 
             entity.Property(e => e.UserId)
                 .HasDefaultValueSql("(newid())")
@@ -984,6 +870,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .IsRequired()
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.ProfilePicture).HasMaxLength(2000);
             entity.Property(e => e.RegistrationDate).HasColumnType("datetime");
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.Status)

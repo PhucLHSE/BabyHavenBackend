@@ -31,11 +31,11 @@ public partial class Child
 
     public string Status { get; set; }
 
-    public string StatusChangeReason { get; set; }
-
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
+
+    public virtual ICollection<ChildMilestone> ChildMilestones { get; set; } = new List<ChildMilestone>();
 
     public virtual ICollection<ConsultationRequest> ConsultationRequests { get; set; } = new List<ConsultationRequest>();
 

@@ -1,4 +1,5 @@
-﻿using BabyHaven.Repositories.Models;
+﻿using BabyHaven.Common.DTOs.MembershipPackageDTOs;
+using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,6 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> GetAll();
         Task<IServiceResult> GetById(int PackageId);
-        Task<IServiceResult> Save(MembershipPackage membershipPackage);
+        Task<IServiceResult> Save(MembershipPackageCreateDto MembershipPackageDto);
     }
 }

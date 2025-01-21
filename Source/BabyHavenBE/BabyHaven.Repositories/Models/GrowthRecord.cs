@@ -13,7 +13,53 @@ public partial class GrowthRecord
 
     public Guid RecordedBy { get; set; }
 
-    public int AgeAtRecord { get; set; }
+    public double Weight { get; set; }
+
+    public double Height { get; set; }
+
+    public double? HeadCircumference { get; set; }
+
+    public double? MuscleMass { get; set; }
+
+    public double? ChestCircumference { get; set; }
+
+    public string NutritionalStatus { get; set; }
+
+    public double? FerritinLevel { get; set; }
+
+    public double? Triglycerides { get; set; }
+
+    public double? BloodSugarLevel { get; set; }
+
+    public string PhysicalActivityLevel { get; set; }
+
+    public int? HeartRate { get; set; }
+
+    public double? BloodPressure { get; set; }
+
+    public double? BodyTemperature { get; set; }
+
+    public double? OxygenSaturation { get; set; }
+
+    public double? SleepDuration { get; set; }
+
+    public string Vision { get; set; }
+
+    public string Hearing { get; set; }
+
+    public string ImmunizationStatus { get; set; }
+
+    public string MentalHealthStatus { get; set; }
+
+    public double? GrowthHormoneLevel { get; set; }
+
+    public string AttentionSpan { get; set; }
+
+    public string NeurologicalReflexes { get; set; }
+
+    public string DevelopmentalMilestones { get; set; }
+
+    public string Notes { get; set; }
 
     public string Status { get; set; }
 
@@ -25,17 +71,7 @@ public partial class GrowthRecord
 
     public virtual ICollection<Alert> Alerts { get; set; } = new List<Alert>();
 
-    public virtual ICollection<BasicGrowthRecord> BasicGrowthRecords { get; set; } = new List<BasicGrowthRecord>();
-
     public virtual Child Child { get; set; }
-
-    public virtual ICollection<DevelopmentalRecord> DevelopmentalRecords { get; set; } = new List<DevelopmentalRecord>();
-
-    public virtual ICollection<Milestone> Milestones { get; set; } = new List<Milestone>();
-
-    public virtual ICollection<NutritionalRecord> NutritionalRecords { get; set; } = new List<NutritionalRecord>();
-
-    public virtual ICollection<PhysiologicalRecord> PhysiologicalRecords { get; set; } = new List<PhysiologicalRecord>();
 
     public virtual UserAccount RecordedByNavigation { get; set; }
 }

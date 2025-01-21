@@ -25,7 +25,7 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var membershipPackages = await _unitOfWork.MembershipPackageRepository.GetAllMembershipPackageAsync();
+            var membershipPackages = await _unitOfWork.MembershipPackageRepository.GetAllAsync();
 
             if (membershipPackages == null || !membershipPackages.Any())
             {
@@ -34,7 +34,9 @@ namespace BabyHaven.Services.Services
             }
             else
             {
-                var membershipPackageDtos = membershipPackages.Select(package => package.MapToMembershipPackageViewAllDto()).ToList();
+                var membershipPackageDtos = membershipPackages
+                    .Select(package => package.MapToMembershipPackageViewAllDto())
+                    .ToList();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     membershipPackageDtos);
@@ -43,7 +45,7 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int PackageId)
         {
-            var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdMembershipPackageAsync(PackageId);
+            var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(PackageId);
 
             if (membershipPackage == null)
             {
@@ -57,21 +59,36 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> Save(MembershipPackage membershipPackage)
+        public async Task<IServiceResult> Save(MembershipPackageCreateDto MembershipPackageDto)
         {
             try
             {
                 int result = -1;
 
-                var membershipPackageTmp = _unitOfWork.MembershipPackageRepository.GetById(membershipPackage.PackageId);
+                // Map DTO to Entity
+                var membershipPackageDto = MembershipPackageDto.MapToMembershipPackageCreateDto();
+
+                // Check if the package exists in the database
+                var membershipPackageTmp = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(membershipPackageDto.PackageId);
 
                 if (membershipPackageTmp != null)
                 {
-                    result = await _unitOfWork.MembershipPackageRepository.UpdateAsync(membershipPackage);
+                    // Update current fields directly
+                    membershipPackageTmp.PackageName = membershipPackageDto.PackageName;
+                    membershipPackageTmp.Description = membershipPackageDto.Description;
+                    membershipPackageTmp.Price = membershipPackageDto.Price;
+                    membershipPackageTmp.Currency = membershipPackageDto.Currency;
+                    membershipPackageTmp.DurationMonths = membershipPackageDto.DurationMonths;
+                    membershipPackageTmp.TrialPeriodDays = membershipPackageDto.TrialPeriodDays;
+                    membershipPackageTmp.MaxChildrenAllowed = membershipPackageDto.MaxChildrenAllowed;
+                    membershipPackageTmp.SupportLevel = membershipPackageDto.SupportLevel;
+                    membershipPackageTmp.Status = membershipPackageDto.Status;
+
+                    result = await _unitOfWork.MembershipPackageRepository.UpdateAsync(membershipPackageTmp);
 
                     if (result > 0)
                     {
-                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, membershipPackage);
+                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, membershipPackageTmp);
                     }
                     else
                     {
@@ -80,15 +97,15 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
-                    result = await _unitOfWork.MembershipPackageRepository.CreateAsync(membershipPackage);
+                    result = await _unitOfWork.MembershipPackageRepository.CreateAsync(membershipPackageDto);
 
                     if (result > 0)
                     {
-                        return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, membershipPackage);
+                        return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, MembershipPackageDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG, membershipPackage);
+                        return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG, MembershipPackageDto);
                     }
                 }
             }

@@ -15,23 +15,23 @@ public partial class Blog
 
     public Guid AuthorId { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public int CategoryId { get; set; }
 
-    public DateTime UpdatedAt { get; set; }
+    public string ImageBlog { get; set; }
 
     public string Status { get; set; }
 
-    public int CategoryId { get; set; }
+    public string RejectionReason { get; set; }
 
     public string Tags { get; set; }
 
     public string ReferenceSources { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
     public virtual UserAccount Author { get; set; }
-
-    public virtual ICollection<BlogApproval> BlogApprovals { get; set; } = new List<BlogApproval>();
-
-    public virtual ICollection<BlogReference> BlogReferences { get; set; } = new List<BlogReference>();
 
     public virtual BlogCategory Category { get; set; }
 }

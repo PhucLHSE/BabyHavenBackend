@@ -43,7 +43,7 @@ public partial class Promotion
 
     public virtual UserAccount CreatedByNavigation { get; set; }
 
-    public virtual ICollection<MembershipPackage> MembershipPackages { get; set; } = new List<MembershipPackage>();
-
     public virtual UserAccount ModifiedByNavigation { get; set; }
+
+    public virtual ICollection<PackagePromotion> PackagePromotions { get; set; } = new List<PackagePromotion>();
 }

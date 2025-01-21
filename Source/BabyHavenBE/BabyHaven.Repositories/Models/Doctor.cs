@@ -19,11 +19,11 @@ public partial class Doctor
 
     public string Degree { get; set; }
 
-    public string LicenseNumber { get; set; }
+    public string HospitalName { get; set; }
+
+    public string HospitalAddress { get; set; }
 
     public string Biography { get; set; }
-
-    public byte[] ProfilePicture { get; set; }
 
     public string Status { get; set; }
 
@@ -32,8 +32,6 @@ public partial class Doctor
     public DateTime UpdatedAt { get; set; }
 
     public virtual ICollection<ConsultationResponse> ConsultationResponses { get; set; } = new List<ConsultationResponse>();
-
-    public virtual ICollection<DoctorHospital> DoctorHospitals { get; set; } = new List<DoctorHospital>();
 
     public virtual ICollection<DoctorSpecialization> DoctorSpecializations { get; set; } = new List<DoctorSpecialization>();
 

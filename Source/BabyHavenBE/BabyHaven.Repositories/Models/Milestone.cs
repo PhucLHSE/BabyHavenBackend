@@ -9,25 +9,23 @@ public partial class Milestone
 {
     public int MilestoneId { get; set; }
 
-    public int GrowthRecordId { get; set; }
-
     public string MilestoneName { get; set; }
 
-    public DateOnly? AchievedDate { get; set; }
-
-    public string Status { get; set; }
-
-    public string Notes { get; set; }
-
-    public string Guidelines { get; set; }
+    public string Description { get; set; }
 
     public string Importance { get; set; }
 
     public string Category { get; set; }
 
+    public int? MinAge { get; set; }
+
+    public int? MaxAge { get; set; }
+
+    public bool IsPersonal { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
 
-    public virtual GrowthRecord GrowthRecord { get; set; }
+    public virtual ICollection<ChildMilestone> ChildMilestones { get; set; } = new List<ChildMilestone>();
 }

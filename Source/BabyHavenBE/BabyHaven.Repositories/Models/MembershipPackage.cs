@@ -19,15 +19,11 @@ public partial class MembershipPackage
 
     public int DurationMonths { get; set; }
 
-    public bool IsRecurring { get; set; }
-
     public int? TrialPeriodDays { get; set; }
 
     public int MaxChildrenAllowed { get; set; }
 
     public string SupportLevel { get; set; }
-
-    public Guid? PromotionId { get; set; }
 
     public string Status { get; set; }
 
@@ -39,5 +35,5 @@ public partial class MembershipPackage
 
     public virtual ICollection<PackageFeature> PackageFeatures { get; set; } = new List<PackageFeature>();
 
-    public virtual Promotion Promotion { get; set; }
+    public virtual ICollection<PackagePromotion> PackagePromotions { get; set; } = new List<PackagePromotion>();
 }

@@ -11,6 +11,7 @@ namespace BabyHaven.Services.Base
         public int Status { get; set; }
         public string? Message { get; set; }
         public object? Data { get; set; }
+        public List<string>? Errors { get; set; }
 
         public ServiceResult()
         {
@@ -29,6 +30,13 @@ namespace BabyHaven.Services.Base
             Status = status;
             Message = message;
             Data = data;
+        }
+
+        public ServiceResult(int status, string message, List<string> errors)
+        {
+            Status = status;
+            Message = message;
+            Errors = errors;
         }
     }
 }
