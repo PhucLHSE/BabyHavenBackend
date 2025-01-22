@@ -13,6 +13,7 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> GetAll();
         Task<IServiceResult> GetById(int PackageId);
-        Task<IServiceResult> Save(MembershipPackageCreateDto MembershipPackageDto);
+        Task<IServiceResult> Create(MembershipPackageCreateDto MembershipPackageDto);
+        Task<IServiceResult> Update(MembershipPackageUpdateDto MembershipPackageDto);
     }
 }

@@ -13,7 +13,7 @@ namespace BabyHaven.Repositories.Mappers
 {
     public static class MembershipPackageMapper
     {
-        // Mapper cho MembershipPackageViewAllDto
+        // Mapper MembershipPackageViewAllDto
         public static MembershipPackageViewAllDto MapToMembershipPackageViewAllDto(this MembershipPackage model)
         {
             return new MembershipPackageViewAllDto
@@ -26,14 +26,14 @@ namespace BabyHaven.Repositories.Mappers
                 DurationMonths = model.DurationMonths,
                 MaxChildrenAllowed = model.MaxChildrenAllowed,
 
-                // Chuyển đổi Status từ string sang enum
+                // Convert Status from string to enum
                 Status = Enum.TryParse<MembershipPackageStatus>(model.Status, true, out var status)
                           ? status
                           : MembershipPackageStatus.Inactive
             };
         }
 
-        // Mapper cho MembershipPackageViewDetailsDto
+        // Mapper MembershipPackageViewDetailsDto
         public static MembershipPackageViewDetailsDto MapToMembershipPackageViewDetailsDto(this MembershipPackage model)
         {
             return new MembershipPackageViewDetailsDto
@@ -48,7 +48,7 @@ namespace BabyHaven.Repositories.Mappers
                 MaxChildrenAllowed = model.MaxChildrenAllowed,
                 SupportLevel = model.SupportLevel,
 
-                // Chuyển đổi Status từ string sang enum
+                // Convert Status from string to enum
                 Status = Enum.TryParse<MembershipPackageStatus>(model.Status, true, out var status)
                           ? status
                           : MembershipPackageStatus.Inactive,
@@ -58,6 +58,7 @@ namespace BabyHaven.Repositories.Mappers
             };
         }
 
+        // Mapper MapToMembershipPackageCreateDto
         public static MembershipPackage MapToMembershipPackageCreateDto(this MembershipPackageCreateDto dto)
         {
             return new MembershipPackage
@@ -72,6 +73,37 @@ namespace BabyHaven.Repositories.Mappers
                 SupportLevel = dto.SupportLevel,
                 Status = dto.Status.ToString()
             };
+        }
+
+        // Mapper MapToMembershipPackageUpdateDto
+        public static void MapToMembershipPackageUpdateDto(this MembershipPackageUpdateDto updateDto, MembershipPackage package)
+        {
+            if (!string.IsNullOrWhiteSpace(updateDto.PackageName))
+                package.PackageName = updateDto.PackageName;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.Description))
+                package.Description = updateDto.Description;
+
+            if (updateDto.Price.HasValue)
+                package.Price = updateDto.Price.Value;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.Currency))
+                package.Currency = updateDto.Currency;
+
+            if (updateDto.DurationMonths.HasValue)
+                package.DurationMonths = updateDto.DurationMonths.Value;
+
+            if (updateDto.TrialPeriodDays.HasValue)
+                package.TrialPeriodDays = updateDto.TrialPeriodDays;
+
+            if (updateDto.MaxChildrenAllowed.HasValue)
+                package.MaxChildrenAllowed = updateDto.MaxChildrenAllowed.Value;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.SupportLevel))
+                package.SupportLevel = updateDto.SupportLevel;
+
+            if (updateDto.Status.HasValue)
+                package.Status = updateDto.Status.ToString();
         }
     }
 }
