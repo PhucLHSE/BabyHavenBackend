@@ -9,8 +9,6 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
 {
     public class DiseaseViewAllDto
     {
-        public int DiseaseId { get; set; }
-
         public string DiseaseName { get; set; } = string.Empty;
 
         public double LowerBoundMale { get; set; }
@@ -39,6 +37,5 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
 
         public string? Notes { get; set; }
 
-        public bool IsActive { get; set; }
     }
 }
