@@ -15,5 +15,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetById(int PackageId);
         Task<IServiceResult> Create(MembershipPackageCreateDto MembershipPackageDto);
         Task<IServiceResult> Update(MembershipPackageUpdateDto MembershipPackageDto);
+        Task<IServiceResult> DeleteById(int PackageId);
     }
 }

@@ -131,5 +131,37 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
+
+        public async Task<IServiceResult> DeleteById(int PackageId)
+        {
+            try
+            {
+                var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(PackageId);
+
+                if (membershipPackage == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, new MembershipPackage());
+                }
+                else
+                {
+                    var deleteDto = membershipPackage.MapToMembershipPackageDeleteDto();
+
+                    var result = await _unitOfWork.MembershipPackageRepository.RemoveAsync(membershipPackage);
+
+                    if (result)
+                    {
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG, deleteDto);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG, deleteDto);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }

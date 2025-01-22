@@ -105,5 +105,30 @@ namespace BabyHaven.Repositories.Mappers
             if (updateDto.Status.HasValue)
                 package.Status = updateDto.Status.ToString();
         }
+
+        // Mapper MembershipPackageDeleteDto
+        public static MembershipPackageDeleteDto MapToMembershipPackageDeleteDto(this MembershipPackage model)
+        {
+            return new MembershipPackageDeleteDto
+            {
+                PackageId = model.PackageId,
+                PackageName = model.PackageName,
+                Description = model.Description,
+                Price = model.Price,
+                Currency = model.Currency,
+                DurationMonths = model.DurationMonths,
+                TrialPeriodDays = model.TrialPeriodDays,
+                MaxChildrenAllowed = model.MaxChildrenAllowed,
+                SupportLevel = model.SupportLevel,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<MembershipPackageStatus>(model.Status, true, out var status)
+                          ? status
+                          : MembershipPackageStatus.Inactive,
+
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt
+            };
+        }
     }
 }
