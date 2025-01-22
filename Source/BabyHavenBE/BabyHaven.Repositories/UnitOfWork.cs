@@ -11,11 +11,20 @@ namespace BabyHaven.Repositories
     public class UnitOfWork
     {
         private SWP391_ChildGrowthTrackingSystemContext context;
+        private FeatureRepository featureRepository;
         private MembershipPackageRepository membershipPackageRepository;
         private DiseaseRepository diseaseRepository;
         public UnitOfWork() 
         {
             context ??= new SWP391_ChildGrowthTrackingSystemContext();
+        }
+
+        public FeatureRepository FeatureRepository
+        {
+            get
+            {
+                return featureRepository ??= new FeatureRepository(context);
+            }
         }
 
         public MembershipPackageRepository MembershipPackageRepository

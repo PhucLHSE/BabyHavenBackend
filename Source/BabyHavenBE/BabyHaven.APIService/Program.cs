@@ -4,6 +4,7 @@ using BabyHaven.Services.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IMembershipPackageService, MembershipPackageService>();
 builder.Services.AddScoped<IDiseaseService, DiseaseService>();
 

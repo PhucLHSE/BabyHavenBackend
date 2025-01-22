@@ -35,7 +35,7 @@ namespace BabyHaven.Services.Services
             else
             {
                 var membershipPackageDtos = membershipPackages
-                    .Select(package => package.MapToMembershipPackageViewAllDto())
+                    .Select(packages => packages.MapToMembershipPackageViewAllDto())
                     .ToList();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
