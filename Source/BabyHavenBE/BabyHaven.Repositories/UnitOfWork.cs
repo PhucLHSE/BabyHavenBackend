@@ -12,7 +12,7 @@ namespace BabyHaven.Repositories
     {
         private SWP391_ChildGrowthTrackingSystemContext context;
         private MembershipPackageRepository membershipPackageRepository;
-
+        private DiseaseRepository diseaseRepository;
         public UnitOfWork() 
         {
             context ??= new SWP391_ChildGrowthTrackingSystemContext();
@@ -23,6 +23,14 @@ namespace BabyHaven.Repositories
             get
             {
                 return membershipPackageRepository ??= new MembershipPackageRepository(context);
+            }
+        }
+
+        public DiseaseRepository DiseaseRepository
+        {
+            get
+            {
+                return diseaseRepository ??= new DiseaseRepository(context);
             }
         }
     }
