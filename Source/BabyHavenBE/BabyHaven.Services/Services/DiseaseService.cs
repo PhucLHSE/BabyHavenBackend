@@ -60,7 +60,7 @@ namespace BabyHaven.Services.Services
                 int result = -1;
 
                 // Map DTO to Entity
-                var diseaseDto = diseaseCreateDto.MapToMembershipPackageCreateDto();
+                var diseaseDto = diseaseCreateDto.MapToDiseaseCreateDto();
 
                 // Check if the package exists in the database
                 var diseaseTmp = await _unitOfWork.DiseaseRepository.GetByIdAsync(diseaseDto.DiseaseId);

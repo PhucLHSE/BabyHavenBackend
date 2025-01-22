@@ -58,7 +58,7 @@ namespace BabyHaven.Services.Mappers
             };
         }
 
-        public static Disease MapToMembershipPackageCreateDto(this DiseaseCreateDto model)
+        public static Disease MapToDiseaseCreateDto(this DiseaseCreateDto model)
         {
             return new Disease
             {
