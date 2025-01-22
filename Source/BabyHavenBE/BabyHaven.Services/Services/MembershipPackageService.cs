@@ -59,54 +59,71 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> Save(MembershipPackageCreateDto MembershipPackageDto)
+        public async Task<IServiceResult> Create(MembershipPackageCreateDto membershipPackageDto)
         {
             try
             {
-                int result = -1;
+                // Check if the package exists in the database
+                var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByPackageNameAsync(membershipPackageDto.PackageName);
+
+                if (membershipPackage != null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Package with the same name already exists.");
+                }
 
                 // Map DTO to Entity
-                var membershipPackageDto = MembershipPackageDto.MapToMembershipPackageCreateDto();
+                var newMembershipPackage = membershipPackageDto.MapToMembershipPackageCreateDto();
 
-                // Check if the package exists in the database
-                var membershipPackageTmp = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(membershipPackageDto.PackageId);
+                // Add creation and update time information
+                newMembershipPackage.CreatedAt = DateTime.UtcNow;
+                newMembershipPackage.UpdatedAt = DateTime.UtcNow;
 
-                if (membershipPackageTmp != null)
+                // Save data to database
+                var result = await _unitOfWork.MembershipPackageRepository.CreateAsync(newMembershipPackage);
+
+                if (result > 0)
                 {
-                    // Update current fields directly
-                    membershipPackageTmp.PackageName = membershipPackageDto.PackageName;
-                    membershipPackageTmp.Description = membershipPackageDto.Description;
-                    membershipPackageTmp.Price = membershipPackageDto.Price;
-                    membershipPackageTmp.Currency = membershipPackageDto.Currency;
-                    membershipPackageTmp.DurationMonths = membershipPackageDto.DurationMonths;
-                    membershipPackageTmp.TrialPeriodDays = membershipPackageDto.TrialPeriodDays;
-                    membershipPackageTmp.MaxChildrenAllowed = membershipPackageDto.MaxChildrenAllowed;
-                    membershipPackageTmp.SupportLevel = membershipPackageDto.SupportLevel;
-                    membershipPackageTmp.Status = membershipPackageDto.Status;
-
-                    result = await _unitOfWork.MembershipPackageRepository.UpdateAsync(membershipPackageTmp);
-
-                    if (result > 0)
-                    {
-                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, membershipPackageTmp);
-                    }
-                    else
-                    {
-                        return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
-                    }
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, newMembershipPackage);
                 }
                 else
                 {
-                    result = await _unitOfWork.MembershipPackageRepository.CreateAsync(membershipPackageDto);
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
 
-                    if (result > 0)
-                    {
-                        return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, MembershipPackageDto);
-                    }
-                    else
-                    {
-                        return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG, MembershipPackageDto);
-                    }
+        public async Task<IServiceResult> Update(MembershipPackageUpdateDto membershipPackageDto)
+        {
+            try
+            {
+                // Check if the package exists in the database
+                var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(membershipPackageDto.PackageId);
+
+                if (membershipPackage == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Package not found.");
+                }
+
+                //Map DTO to Entity
+                membershipPackageDto.MapToMembershipPackageUpdateDto(membershipPackage);
+
+                // Update time information
+                membershipPackage.UpdatedAt = DateTime.UtcNow;
+
+                // Save data to database
+                var result = await _unitOfWork.MembershipPackageRepository.UpdateAsync(membershipPackage);
+
+                if (result > 0)
+                {
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, membershipPackage);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)

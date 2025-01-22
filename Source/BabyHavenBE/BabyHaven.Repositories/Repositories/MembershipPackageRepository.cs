@@ -19,5 +19,11 @@ namespace BabyHaven.Repositories.Repositories
 
         public MembershipPackageRepository(SWP391_ChildGrowthTrackingSystemContext context)
             => _context = context;
+
+        public async Task<MembershipPackage?> GetByPackageNameAsync(string packageName)
+        {
+            return await _context.MembershipPackages
+                .FirstOrDefaultAsync(mp => mp.PackageName == packageName);
+        }
     }
 }
