@@ -10,5 +10,6 @@ namespace BabyHaven.Services.IServices
     public interface IFeatureService
     {
         Task<IServiceResult> GetAll();
+        Task<IServiceResult> GetById(int FeatureId);
     }
 }

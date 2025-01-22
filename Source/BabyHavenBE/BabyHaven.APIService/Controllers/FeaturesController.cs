@@ -1,5 +1,6 @@
 ﻿using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
+using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,6 +22,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> Get()
         {
             return await _featureService.GetAll();
+        }
+
+        // GET api/<FeaturesController>/5
+        [HttpGet("{id}")]
+        public async Task<IServiceResult> Get(int id)
+        {
+            return await _featureService.GetById(id);
         }
     }
 }

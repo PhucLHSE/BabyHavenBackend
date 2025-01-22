@@ -26,5 +26,24 @@ namespace BabyHaven.Services.Mappers
                           : FeatureStatus.Inactive
             };
         }
+
+        // Mapper FeatureViewDetailsDto
+        public static FeatureViewDetailsDto MapToFeatureViewDetailsDto(this Feature model)
+        {
+            return new FeatureViewDetailsDto
+            {
+                FeatureId = model.FeatureId,
+                FeatureName = model.FeatureName,
+                Description = model.Description,
+
+                //Convert Status from string to enum
+                Status = Enum.TryParse<FeatureStatus>(model.Status, true, out var status)
+                          ? status
+                          : FeatureStatus.Inactive,
+
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt
+            };
+        }
     }
 }

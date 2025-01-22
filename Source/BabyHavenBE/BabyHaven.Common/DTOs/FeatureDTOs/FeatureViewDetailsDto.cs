@@ -1,5 +1,4 @@
 ﻿using BabyHaven.Common.Enum.FeatureEnums;
-using BabyHaven.Common.Enum.MembershipPackageEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Common.DTOs.FeatureDTOs
 {
-    public class FeatureViewAllDto
+    public class FeatureViewDetailsDto
     {
         public int FeatureId { get; set; }
 
@@ -19,5 +18,9 @@ namespace BabyHaven.Common.DTOs.FeatureDTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public FeatureStatus Status { get; set; } = FeatureStatus.Inactive;
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }

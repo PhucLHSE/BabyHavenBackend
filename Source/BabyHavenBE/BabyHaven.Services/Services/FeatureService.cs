@@ -25,7 +25,7 @@ namespace BabyHaven.Services.Services
         {
             var features = await _unitOfWork.FeatureRepository.GetAllAsync();
 
-            if (features == null && !features.Any())
+            if (features == null || !features.Any())
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, 
                     new List<FeatureViewAllDto>());
@@ -38,6 +38,22 @@ namespace BabyHaven.Services.Services
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, 
                     featureDtos);
+            }
+        }
+
+        public async Task<IServiceResult> GetById(int FeatureId)
+        {
+            var feature = await _unitOfWork.FeatureRepository.GetByIdAsync(FeatureId);
+
+            if (feature == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, new FeatureViewDetailsDto());
+            }
+            else
+            {
+                var featureDto = feature.MapToFeatureViewDetailsDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, featureDto);
             }
         }
     }
