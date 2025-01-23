@@ -14,5 +14,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetById(int FeatureId);
         Task<IServiceResult> Create(FeatureCreateDto featureDto);
         Task<IServiceResult> Update(FeatureUpdateDto featureDto);
+        Task<IServiceResult> DeleteById(int FeatureId);
     }
 }

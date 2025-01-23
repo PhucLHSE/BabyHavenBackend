@@ -34,7 +34,7 @@ namespace BabyHaven.APIService.Controllers
             return await _featureService.GetById(id);
         }
 
-        // POST api/<MembershipPackagesController>
+        // POST api/<FeaturesController>
         [HttpPost]
         public async Task<IServiceResult> Post(FeatureCreateDto featureCreateDto)
         {
@@ -46,7 +46,7 @@ namespace BabyHaven.APIService.Controllers
             return await _featureService.Create(featureCreateDto);
         }
 
-        // PUT api/<MembershipPackagesController>/5
+        // PUT api/<FeaturesController>/5
         [HttpPut("{id}")]
         public async Task<IServiceResult> Put(FeatureUpdateDto featureUpdateDto)
         {
@@ -56,6 +56,18 @@ namespace BabyHaven.APIService.Controllers
             }
 
             return await _featureService.Update(featureUpdateDto);
+        }
+
+        // DELETE api/<FeaturesController>/5
+        [HttpDelete("{id}")]
+        public async Task<IServiceResult> Delete(int id)
+        {
+            return await _featureService.DeleteById(id);
+        }
+
+        private bool MembershipPackageExists(int id)
+        {
+            return _featureService.GetById(id) != null;
         }
     }
 }

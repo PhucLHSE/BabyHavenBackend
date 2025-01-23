@@ -1,6 +1,7 @@
 ﻿using BabyHaven.Common.DTOs.FeatureDTOs;
 using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Common.Enum.FeatureEnums;
+using BabyHaven.Common.Enum.MembershipPackageEnums;
 using BabyHaven.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,24 @@ namespace BabyHaven.Services.Mappers
 
             if (updateDto.Status.HasValue)
                 feature.Status = updateDto.Status.ToString();
+        }
+
+        // Mapper FeatureDeleteDto
+        public static FeatureDeleteDto MapToFeatureDeleteDto(this Feature model)
+        {
+            return new FeatureDeleteDto
+            {
+                FeatureName = model.FeatureName,
+                Description = model.Description,
+
+                //Convert Status from string to enum
+                Status = Enum.TryParse<FeatureStatus>(model.Status, true, out var status)
+                          ? status
+                          : FeatureStatus.Inactive,
+
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt
+            };
         }
     }
 }

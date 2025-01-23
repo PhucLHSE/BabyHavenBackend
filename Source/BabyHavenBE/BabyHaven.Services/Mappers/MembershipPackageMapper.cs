@@ -111,7 +111,6 @@ namespace BabyHaven.Repositories.Mappers
         {
             return new MembershipPackageDeleteDto
             {
-                PackageId = model.PackageId,
                 PackageName = model.PackageName,
                 Description = model.Description,
                 Price = model.Price,

@@ -49,13 +49,15 @@ namespace BabyHaven.Services.Services
 
             if (membershipPackage == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, new MembershipPackageViewDetailsDto());
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new MembershipPackageViewDetailsDto());
             }
             else
             {
                 var membershipPackageDto = membershipPackage.MapToMembershipPackageViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, membershipPackageDto);
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    membershipPackageDto);
             }
         }
 
@@ -83,7 +85,8 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, newMembershipPackage);
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                        newMembershipPackage);
                 }
                 else
                 {
@@ -119,7 +122,8 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, membershipPackage);
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                        membershipPackage);
                 }
                 else
                 {
@@ -140,21 +144,24 @@ namespace BabyHaven.Services.Services
 
                 if (membershipPackage == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, new MembershipPackage());
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                        new MembershipPackageDeleteDto());
                 }
                 else
                 {
-                    var deleteDto = membershipPackage.MapToMembershipPackageDeleteDto();
+                    var deleteMembershipPackageDto = membershipPackage.MapToMembershipPackageDeleteDto();
 
                     var result = await _unitOfWork.MembershipPackageRepository.RemoveAsync(membershipPackage);
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG, deleteDto);
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                            deleteMembershipPackageDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG, deleteDto);
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                            deleteMembershipPackageDto);
                     }
                 }
             }

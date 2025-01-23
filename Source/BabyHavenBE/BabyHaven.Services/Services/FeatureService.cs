@@ -2,6 +2,7 @@
 using BabyHaven.Common.DTOs.FeatureDTOs;
 using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Repositories;
+using BabyHaven.Repositories.Mappers;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -49,13 +50,15 @@ namespace BabyHaven.Services.Services
 
             if (feature == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, new FeatureViewDetailsDto());
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new FeatureViewDetailsDto());
             }
             else
             {
                 var featureDto = feature.MapToFeatureViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, featureDto);
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    featureDto);
             }
         }
 
@@ -83,7 +86,8 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, newFeature);
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                        newFeature);
                 }
                 else
                 {
@@ -119,11 +123,47 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, feature);
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                        feature);
                 }
                 else
                 {
                     return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> DeleteById(int FeatureId)
+        {
+            try
+            {
+                var feature = await _unitOfWork.FeatureRepository.GetByIdAsync(FeatureId);
+
+                if (feature == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                        new FeatureDeleteDto());
+                }
+                else
+                {
+                    var deleteFeatureDto = feature.MapToFeatureDeleteDto();
+
+                    var result = await _unitOfWork.FeatureRepository.RemoveAsync(feature);
+
+                    if (result)
+                    {
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                            deleteFeatureDto);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                            deleteFeatureDto);
+                    }
                 }
             }
             catch (Exception ex)
