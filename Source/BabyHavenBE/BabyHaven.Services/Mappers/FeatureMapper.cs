@@ -45,5 +45,16 @@ namespace BabyHaven.Services.Mappers
                 UpdatedAt = model.UpdatedAt
             };
         }
+
+        //Mapper FeatureCreateDto
+        public static Feature MapToFeatureCreateDto(this FeatureCreateDto dto)
+        {
+            return new Feature
+            {
+                FeatureName = dto.FeatureName,
+                Description = dto.Description,
+                Status = dto.Status.ToString()
+            };
+        }
     }
 }

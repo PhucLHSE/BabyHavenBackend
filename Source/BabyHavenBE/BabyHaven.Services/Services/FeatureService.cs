@@ -1,6 +1,7 @@
 ﻿using BabyHaven.Common;
 using BabyHaven.Common.DTOs.FeatureDTOs;
 using BabyHaven.Repositories;
+using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Mappers;
@@ -54,6 +55,43 @@ namespace BabyHaven.Services.Services
                 var featureDto = feature.MapToFeatureViewDetailsDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, featureDto);
+            }
+        }
+
+        public async Task<IServiceResult> Create(FeatureCreateDto featureDto)
+        {
+            try
+            {
+                // Check if the feature exists in the database
+                var feature = await _unitOfWork.FeatureRepository.GetByFeatureNameAsync(featureDto.FeatureName);
+
+                if (feature != null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Feature with the same name already exists.");
+                }
+
+                // Map DTO to Entity
+                var newFeature = featureDto.MapToFeatureCreateDto();
+
+                // Add creation and update time information
+                newFeature.CreatedAt = DateTime.UtcNow;
+                newFeature.UpdatedAt = DateTime.UtcNow;
+
+                // Save data to database
+                var result = await _unitOfWork.FeatureRepository.CreateAsync(newFeature);
+
+                if (result > 0)
+                {
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, newFeature);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
     }

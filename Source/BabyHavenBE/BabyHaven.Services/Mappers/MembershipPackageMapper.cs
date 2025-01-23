@@ -58,7 +58,7 @@ namespace BabyHaven.Repositories.Mappers
             };
         }
 
-        // Mapper MapToMembershipPackageCreateDto
+        // Mapper MembershipPackageCreateDto
         public static MembershipPackage MapToMembershipPackageCreateDto(this MembershipPackageCreateDto dto)
         {
             return new MembershipPackage
@@ -75,7 +75,7 @@ namespace BabyHaven.Repositories.Mappers
             };
         }
 
-        // Mapper MapToMembershipPackageUpdateDto
+        // Mapper MembershipPackageUpdateDto
         public static void MapToMembershipPackageUpdateDto(this MembershipPackageUpdateDto updateDto, MembershipPackage package)
         {
             if (!string.IsNullOrWhiteSpace(updateDto.PackageName))

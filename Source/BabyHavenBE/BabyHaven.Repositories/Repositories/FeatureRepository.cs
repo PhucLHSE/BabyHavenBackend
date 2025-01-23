@@ -1,6 +1,7 @@
 ﻿using BabyHaven.Repositories.Base;
 using BabyHaven.Repositories.DBContext;
 using BabyHaven.Repositories.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,11 @@ namespace BabyHaven.Repositories.Repositories
 
         public FeatureRepository(SWP391_ChildGrowthTrackingSystemContext context)
             => _context = context;
+
+        public async Task<Feature?> GetByFeatureNameAsync(string featureName)
+        {
+            return await _context.Features
+                .FirstOrDefaultAsync(f => f.FeatureName == featureName);
+        }
     }
 }

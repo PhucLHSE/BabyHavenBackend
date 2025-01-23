@@ -1,7 +1,10 @@
-﻿using BabyHaven.Services.Base;
+﻿using BabyHaven.Common.DTOs.MembershipPackageDTOs;
+using BabyHaven.Common;
+using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
+using BabyHaven.Common.DTOs.FeatureDTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,6 +32,18 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> Get(int id)
         {
             return await _featureService.GetById(id);
+        }
+
+        // POST api/<MembershipPackagesController>
+        [HttpPost]
+        public async Task<IServiceResult> Post(FeatureCreateDto featureCreateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+            }
+
+            return await _featureService.Create(featureCreateDto);
         }
     }
 }
