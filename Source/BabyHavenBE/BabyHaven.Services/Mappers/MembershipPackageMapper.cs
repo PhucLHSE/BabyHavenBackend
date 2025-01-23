@@ -18,7 +18,7 @@ namespace BabyHaven.Repositories.Mappers
         {
             return new MembershipPackageViewAllDto
             {
-                PackageId = model.PackageId,
+                // MembershipPackage
                 PackageName = model.PackageName,
                 Description = model.Description,
                 Price = model.Price,
@@ -38,7 +38,7 @@ namespace BabyHaven.Repositories.Mappers
         {
             return new MembershipPackageViewDetailsDto
             {
-                PackageId = model.PackageId,
+                // MembershipPackage
                 PackageName = model.PackageName,
                 Description = model.Description,
                 Price = model.Price,

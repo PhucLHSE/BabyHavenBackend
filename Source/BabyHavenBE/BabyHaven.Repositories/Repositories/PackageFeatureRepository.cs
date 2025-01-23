@@ -29,5 +29,15 @@ namespace BabyHaven.Repositories.Repositories
 
             return packageFeatures;
         }
+
+        public async Task<PackageFeature> GetByIdPackageFeatureAsync(int packageId, int featureId)
+        {
+            var packageFeature = await _context.PackageFeatures
+                .Include(pf => pf.Package)
+                .Include(pf => pf.Feature)
+                .FirstOrDefaultAsync(pf => pf.PackageId == packageId && pf.FeatureId == featureId);
+
+            return packageFeature ?? new PackageFeature();
+        }
     }
 }

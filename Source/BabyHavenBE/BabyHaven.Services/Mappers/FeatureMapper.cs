@@ -18,7 +18,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new FeatureViewAllDto
             {
-                FeatureId = model.FeatureId,
+                // Feature
                 FeatureName = model.FeatureName,
                 Description = model.Description,
 
@@ -34,7 +34,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new FeatureViewDetailsDto
             {
-                FeatureId = model.FeatureId,
+                // Feature
                 FeatureName = model.FeatureName,
                 Description = model.Description,
 
