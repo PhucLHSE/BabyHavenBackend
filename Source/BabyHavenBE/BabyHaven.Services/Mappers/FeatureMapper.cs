@@ -1,4 +1,5 @@
 ﻿using BabyHaven.Common.DTOs.FeatureDTOs;
+using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Common.Enum.FeatureEnums;
 using BabyHaven.Repositories.Models;
 using System;
@@ -55,6 +56,19 @@ namespace BabyHaven.Services.Mappers
                 Description = dto.Description,
                 Status = dto.Status.ToString()
             };
+        }
+
+        //Mapper FeatureUpdateDto
+        public static void MapToFeatureUpdateDto(this FeatureUpdateDto updateDto, Feature feature)
+        {
+            if (!string.IsNullOrWhiteSpace(updateDto.FeatureName))
+                feature.FeatureName = updateDto.FeatureName;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.Description))
+                feature.Description = updateDto.Description;
+
+            if (updateDto.Status.HasValue)
+                feature.Status = updateDto.Status.ToString();
         }
     }
 }

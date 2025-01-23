@@ -1,5 +1,6 @@
 ﻿using BabyHaven.Common;
 using BabyHaven.Common.DTOs.FeatureDTOs;
+using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
@@ -87,6 +88,42 @@ namespace BabyHaven.Services.Services
                 else
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> Update(FeatureUpdateDto featureDto)
+        {
+            try
+            {
+                // Check if the package exists in the database
+                var feature = await _unitOfWork.FeatureRepository.GetByIdAsync(featureDto.FeatureId);
+
+                if (feature == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Feature not found.");
+                }
+
+                //Map DTO to Entity
+                featureDto.MapToFeatureUpdateDto(feature);
+
+                // Update time information
+                feature.UpdatedAt = DateTime.UtcNow;
+
+                // Save data to database
+                var result = await _unitOfWork.FeatureRepository.UpdateAsync(feature);
+
+                if (result > 0)
+                {
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, feature);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
