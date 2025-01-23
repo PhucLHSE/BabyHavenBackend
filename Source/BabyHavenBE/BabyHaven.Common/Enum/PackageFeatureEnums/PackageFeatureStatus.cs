@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BabyHaven.Common.Enum.FeatureEnums
+namespace BabyHaven.Common.Enum.PackageFeatureEnums
 {
-    public enum FeatureStatus
+    public enum PackageFeatureStatus
     {
         Active,
         Inactive,

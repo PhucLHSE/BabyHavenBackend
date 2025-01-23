@@ -10,7 +10,6 @@ namespace BabyHaven.Common.Enum.MembershipPackageEnums
     {
         Active,
         Inactive,
-        Pending,
-        Archived
+        Pending
     }
 }
