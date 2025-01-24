@@ -59,5 +59,17 @@ namespace BabyHaven.Services.Mappers
                           : PackageFeatureStatus.Inactive
             };
         }
+
+        //Mapper PackageFeatureCreateDto
+        public static PackageFeature MapToPackageFeature(this PackageFeatureCreateDto dto, int packageId, int featureId)
+        {
+            return new PackageFeature
+            {
+                PackageId = packageId,
+                FeatureId = featureId,
+                Status = dto.Status.ToString(),
+                CreatedAt = DateTime.UtcNow
+            };
+        }
     }
 }

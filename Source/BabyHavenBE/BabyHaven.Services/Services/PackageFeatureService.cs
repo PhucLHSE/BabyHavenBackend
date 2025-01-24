@@ -59,5 +59,73 @@ namespace BabyHaven.Services.Services
                     packageFeatureDto);
             }
         }
+
+        public async Task<IServiceResult> Create(PackageFeatureCreateDto packageFeatureDto)
+        {
+            try
+            {
+                // Retrieve mappings: PackageName -> PackageId and FeatureName -> FeatureId
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository.GetAllPackageNameToIdMappingAsync();
+                var featureNameToIdMapping = await _unitOfWork.FeatureRepository.GetAllFeatureNameToIdMappingAsync();
+
+                // Check if the provided PackageName exists
+                if (!packageNameToIdMapping.ContainsKey(packageFeatureDto.PackageName))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        $"PackageName '{packageFeatureDto.PackageName}' does not exist.");
+                }
+
+                // Check if the provided FeatureName exists
+                if (!featureNameToIdMapping.ContainsKey(packageFeatureDto.FeatureName))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        $"FeatureName '{packageFeatureDto.FeatureName}' does not exist.");
+                }
+
+                // Check if PackageFeature already exists in the database
+                var packageId = packageNameToIdMapping[packageFeatureDto.PackageName];
+                var featureId = featureNameToIdMapping[packageFeatureDto.FeatureName];
+
+                // Check if the PackageFeature already exists in the database
+                var existingPackageFeature = await _unitOfWork.PackageFeatureRepository
+                    .GetByIdPackageFeatureAsync(packageId, featureId);
+
+                if (existingPackageFeature != null && existingPackageFeature.PackageId > 0)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        "The specified PackageFeature already exists.");
+                }
+
+                // Map the DTO to an entity object
+                var newPackageFeature = packageFeatureDto.MapToPackageFeature(packageId, featureId);
+
+                // Add timestamp for creation
+                newPackageFeature.CreatedAt = DateTime.UtcNow;
+
+                // Save the new entity to the database
+                var result = await _unitOfWork.PackageFeatureRepository.CreateAsync(newPackageFeature);
+
+                if (result > 0)
+                {
+                    var responseDto = new PackageFeatureCreateDto
+                    {
+                        PackageName = packageFeatureDto.PackageName,
+                        FeatureName = packageFeatureDto.FeatureName,
+                        Status = packageFeatureDto.Status
+                    };
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, 
+                        responseDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }

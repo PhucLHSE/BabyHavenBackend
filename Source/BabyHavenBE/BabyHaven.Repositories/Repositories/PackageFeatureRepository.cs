@@ -37,7 +37,7 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(pf => pf.Feature)
                 .FirstOrDefaultAsync(pf => pf.PackageId == packageId && pf.FeatureId == featureId);
 
-            return packageFeature ?? new PackageFeature();
+            return packageFeature;
         }
     }
 }

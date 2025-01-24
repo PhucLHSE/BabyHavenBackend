@@ -25,5 +25,11 @@ namespace BabyHaven.Repositories.Repositories
             return await _context.MembershipPackages
                 .FirstOrDefaultAsync(mp => mp.PackageName == packageName);
         }
+
+        public async Task<Dictionary<string, int>> GetAllPackageNameToIdMappingAsync()
+        {
+            return await _context.MembershipPackages
+                .ToDictionaryAsync(p => p.PackageName, p => p.PackageId);
+        }
     }
 }

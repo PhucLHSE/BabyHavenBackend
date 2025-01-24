@@ -25,5 +25,11 @@ namespace BabyHaven.Repositories.Repositories
             return await _context.Features
                 .FirstOrDefaultAsync(f => f.FeatureName == featureName);
         }
+
+        public async Task<Dictionary<string, int>> GetAllFeatureNameToIdMappingAsync()
+        {
+            return await _context.Features
+                .ToDictionaryAsync(f => f.FeatureName, f => f.FeatureId);
+        }
     }
 }
