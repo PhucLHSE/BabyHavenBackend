@@ -133,7 +133,40 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> RecoverById(int diseaseId)
+        {
+            try
+            {
+                // Check if the disease exists in the database
+                var disease = await _unitOfWork.DiseaseRepository.GetByIdAsync(diseaseId);
+                if (disease == null)
+                {
+                    // Return a warning if the disease does not exist
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
+                }
 
+                // Mark the disease as "active" (recovery)
+                disease.IsActive = true;
+
+                // Save the updated status to the database
+                var result = await _unitOfWork.DiseaseRepository.UpdateAsync(disease);
+                if (result > 0)
+                {
+                    // Return success response along with the updated disease object
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, disease);
+                }
+                else
+                {
+                    // Return failure response if the update was not successful
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exception and return an error response
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.Message);
+            }
+        }
 
         public async Task<IServiceResult> UpdateById(int DiseaseId, DiseaseUpdateDto diseaseUpdateDto)
         {

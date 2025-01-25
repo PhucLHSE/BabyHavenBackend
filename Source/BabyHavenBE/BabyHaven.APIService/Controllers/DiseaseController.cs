@@ -51,5 +51,19 @@ namespace BabyHaven.APIService.Controllers
             }
             return await _diseaseService.UpdateById(id, diseaseUpdateDto);
         }
+
+        [HttpPut("predelete/{id}")]
+        public async Task<IServiceResult> PreDelete(int id)
+        {
+            var result = await _diseaseService.PreDeleteById(id);
+            return result;
+        }
+
+        [HttpPut("recover/{id}")]
+        public async Task<IServiceResult> Recover(int id)
+        {
+            var result = await _diseaseService.RecoverById(id);
+            return result;
+        }
     }
 }

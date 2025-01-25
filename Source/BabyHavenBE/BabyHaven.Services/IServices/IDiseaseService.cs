@@ -17,5 +17,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> DeleteById(int DiseaseId);
         Task<IServiceResult> UpdateById(int DiseaseId, DiseaseUpdateDto diseaseUpdateDto);
         Task<IServiceResult> PreDeleteById(int DiseaseId);
+        Task<IServiceResult> RecoverById(int DiseaseId);
     }
 }
