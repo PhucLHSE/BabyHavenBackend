@@ -9,6 +9,7 @@ builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IMembershipPackageService, MembershipPackageService>();
 builder.Services.AddScoped<IPackageFeatureService, PackageFeatureService>();
 builder.Services.AddScoped<IDiseaseService, DiseaseService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
