@@ -15,6 +15,7 @@ namespace BabyHaven.Repositories
         private MembershipPackageRepository membershipPackageRepository;
         private PackageFeatureRepository packageFeatureRepository;
         private DiseaseRepository diseaseRepository;
+        private RoleRepository roleRepository;
 
         public UnitOfWork() 
         {
@@ -50,6 +51,13 @@ namespace BabyHaven.Repositories
             get
             {
                 return diseaseRepository ??= new DiseaseRepository(context);
+            }
+        }
+        public RoleRepository RoleRepository
+        {
+            get
+            {
+                return roleRepository ??= new RoleRepository(context);
             }
         }
     }
