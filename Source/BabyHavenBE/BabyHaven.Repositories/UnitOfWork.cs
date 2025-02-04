@@ -1,4 +1,5 @@
 ﻿using BabyHaven.Repositories.DBContext;
+using BabyHaven.Repositories.Models;
 using BabyHaven.Repositories.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace BabyHaven.Repositories
         private PackageFeatureRepository packageFeatureRepository;
         private DiseaseRepository diseaseRepository;
         private RoleRepository roleRepository;
+        private UserAccountRepository userAccountRepository;
 
         public UnitOfWork() 
         {
@@ -59,6 +61,13 @@ namespace BabyHaven.Repositories
             {
                 return roleRepository ??= new RoleRepository(context);
             }
+        }
+        public UserAccountRepository UserAccountRepository
+        { 
+            get
+            {
+                return userAccountRepository ??= new UserAccountRepository(context);
+            } 
         }
     }
 }
