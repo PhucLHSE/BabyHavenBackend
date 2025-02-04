@@ -14,12 +14,12 @@ namespace BabyHaven.APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserAccountController : ControllerBase
+    public class UserAccountsController : ControllerBase
     {
         private readonly IConfiguration _config;
         private readonly IUserAccountService _userAccountsService;
 
-        public UserAccountController(IConfiguration config, IUserAccountService userAccountsService)
+        public UserAccountsController(IConfiguration config, IUserAccountService userAccountsService)
         {
             _config = config;
             _userAccountsService = userAccountsService;
