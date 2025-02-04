@@ -4,6 +4,7 @@ using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.RoleDTOs;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,6 +22,7 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<RolesController>
         [HttpGet]
+        [Authorize(Roles = "3")]
         public async Task<IServiceResult> Get()
         {
             return await _roleService.GetAll();
@@ -28,6 +30,7 @@ namespace BabyHaven.APIService.Controllers
 
         // GET api/<RolesController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "3")]
         public async Task<IServiceResult> Get(int id)
         {
             return await _roleService.GetById(id);
@@ -35,6 +38,7 @@ namespace BabyHaven.APIService.Controllers
 
         // POST api/<RolesController>
         [HttpPost]
+        [Authorize(Roles = "3")]
         public async Task<IServiceResult> Post(RoleCreateDto roleCreateDto)
         {
             if (!ModelState.IsValid)
@@ -47,6 +51,7 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<RolesController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "3")]
         public async Task<IServiceResult> Put(RoleUpdateDto roleUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -59,6 +64,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<RolesController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "3")]
         public async Task<IServiceResult> Delete(int id)
         {
             return await _roleService.DeleteById(id);
