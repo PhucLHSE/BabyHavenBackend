@@ -1,7 +1,10 @@
-﻿using BabyHaven.Common.DTOs.UserAccountDTOs;
+﻿using BabyHaven.Common;
+using BabyHaven.Common.DTOs.UserAccountDTOs;
 using BabyHaven.Repositories.Models;
+using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,51 +19,52 @@ namespace BabyHaven.APIService.Controllers
     [ApiController]
     public class UserAccountsController : ControllerBase
     {
-        private readonly IConfiguration _config;
+
         private readonly IUserAccountService _userAccountsService;
 
-        public UserAccountsController(IConfiguration config, IUserAccountService userAccountsService)
+        public UserAccountsController(IUserAccountService userAccountsService)
         {
-            _config = config;
+
             _userAccountsService = userAccountsService;
         }
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginReqeust request)
+        // GET: api/<UserAccountsController>
+        [HttpGet]
+        public async Task<IServiceResult> Get()
         {
-            var user = await _userAccountsService.Authenticate(request.Email, request.Password);
-
-            if (user == null)
-                return Unauthorized();
-
-            var token = GenerateJSONWebToken(user);
-
-            return Ok(token);
+            return await _userAccountsService.GetAll();
         }
 
-        private string GenerateJSONWebToken(UserAccount userAccount)
+        // GET api/<UserAccountsController>/5
+        [HttpGet("{id}")]
+        public async Task<IServiceResult> Get(Guid id)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"]
-                    , _config["Jwt:Audience"]
-                    , new Claim[]
-                    {
-                new(ClaimTypes.Name, userAccount.Email),
-                //new(ClaimTypes.Email, systemUserAccount.Email),
-                new(ClaimTypes.Role, userAccount.RoleId.ToString()),
-                    },
-                    expires: DateTime.Now.AddMinutes(120),
-                    signingCredentials: credentials
-                );
-
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return tokenString;
+            return await _userAccountsService.GetById(id);
         }
 
-        public sealed record LoginReqeust(string Email, string Password);
+        // PUT api/<UserAccountsController>/5
+        [HttpPut("{id}")]
+        public async Task<IServiceResult> Put(UserAccountUpdateDto userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+            }
+
+            return await _userAccountsService.Update(userDto);
+        }
+
+        // DELETE api/<UserAccountsController>/5
+        [HttpDelete("{id}")]
+        public async Task<IServiceResult> Delete(Guid id)
+        {
+            return await _userAccountsService.DeleteById(id);
+        }
+
+        private bool UserAccountExists(Guid id)
+        {
+            return _userAccountsService.GetById(id) != null;
+        }
 
     }
 }
