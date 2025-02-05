@@ -16,5 +16,8 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetById(Guid UserId);
         Task<IServiceResult> Update(UserAccountUpdateDto userDto);
         Task<IServiceResult> DeleteById(Guid UserId);
+        Task<UserAccount?> GetByEmailAsync(string email);
+        Task<bool> CreateAsync(UserAccount userAccount);
+        
     }
 }
