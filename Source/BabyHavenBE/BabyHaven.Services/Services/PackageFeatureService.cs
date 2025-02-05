@@ -82,7 +82,7 @@ namespace BabyHaven.Services.Services
                         $"FeatureName '{packageFeatureDto.FeatureName}' does not exist.");
                 }
 
-                // Check if PackageFeature already exists in the database
+                // Get PackageId and FeatureId from PackageName and FeatureName
                 var packageId = packageNameToIdMapping[packageFeatureDto.PackageName];
                 var featureId = featureNameToIdMapping[packageFeatureDto.FeatureName];
 
@@ -120,6 +120,59 @@ namespace BabyHaven.Services.Services
                 else
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> Update(PackageFeatureUpdateDto packageFeatureDto)
+        {
+            try
+            {
+                // // Retrieve mappings: PackageName -> PackageId and FeatureName -> FeatureId
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository.GetAllPackageNameToIdMappingAsync();
+                var featureNameToIdMapping = await _unitOfWork.FeatureRepository.GetAllFeatureNameToIdMappingAsync();
+
+                // Check if the provided PackageName exists
+                if (!packageNameToIdMapping.ContainsKey(packageFeatureDto.PackageName))
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        $"PackageName '{packageFeatureDto.PackageName}' does not exist.");
+
+                // Check if the provided FeatureName exists
+                if (!featureNameToIdMapping.ContainsKey(packageFeatureDto.FeatureName))
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        $"FeatureName '{packageFeatureDto.FeatureName}' does not exist.");
+
+                // Get PackageId and FeatureId from PackageName and FeatureName
+                int packageId = packageNameToIdMapping[packageFeatureDto.PackageName];
+                int featureId = featureNameToIdMapping[packageFeatureDto.FeatureName];
+
+                //  Check if the PackageFeature already exists in the database
+                var existingPackageFeature = await _unitOfWork.PackageFeatureRepository.
+                    GetByIdPackageFeatureAsync(packageId, featureId);
+
+                if (existingPackageFeature == null)
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        "The specified PackageFeature does not exist.");
+
+                // Map the update data
+                existingPackageFeature.MapToUpdatedPackageFeature(packageFeatureDto);
+
+                // Save the new entity to the database
+                var result = await _unitOfWork.PackageFeatureRepository.UpdateAsync(existingPackageFeature);
+
+                if (result > 0)
+                {
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, 
+                        packageFeatureDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG, 
+                        packageFeatureDto);
                 }
             }
             catch (Exception ex)
