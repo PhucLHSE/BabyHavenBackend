@@ -81,7 +81,7 @@ namespace BabyHaven.Services.Mappers
                 Address = dto.Address,
                 Password = dto.Password,
                 RoleId = dto.RoleId,
-                Status = dto.Status.ToString(),
+                Status = UserAccountStatus.Active.ToString(),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -152,6 +152,27 @@ namespace BabyHaven.Services.Mappers
             {
                 Email = dto.Email,
                 Password = dto.Password
+            };
+        }
+
+        public static UserAccount MapToGoogleUser(this LoginGoogleDto googleDto, byte[]? profilePicture)
+        {
+            return new UserAccount
+            {
+                Username = googleDto.Email.Split('@')[0],  // Lấy phần trước @ làm username
+                Email = googleDto.Email,
+                Name = googleDto.Name,
+                PhoneNumber = "N/A", // Không có phone từ Google
+                Gender = "Other",  // Google không cung cấp giới tính
+                DateOfBirth = null, // Không có DOB từ Google
+                Address = "N/A",
+                Password = Guid.NewGuid().ToString(), // Dummy password
+                ProfilePicture = profilePicture,
+                Status = UserAccountStatus.Active.ToString(),
+                RoleId = googleDto.RoleId,
+                RegistrationDate = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
         }
     }

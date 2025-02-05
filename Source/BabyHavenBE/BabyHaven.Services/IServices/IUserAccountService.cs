@@ -12,5 +12,7 @@ namespace BabyHaven.Services.IServices
     public interface IUserAccountService
     {
         Task<UserAccount> Authenticate(string email, string password);
+        Task<IServiceResult> AuthenticateWithGoogle(LoginGoogleDto googleDto);
+
     }
 }

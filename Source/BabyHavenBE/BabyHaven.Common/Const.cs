@@ -25,6 +25,8 @@ namespace BabyHaven.Common
         public static string SUCCESS_UPDATE_MSG = "Update data success";
         public static int SUCCESS_DELETE_CODE = 1;
         public static string SUCCESS_DELETE_MSG = "Delete data success";
+        public static int SUCCESS_LOGIN_CODE = 1;
+        public static string SUCCESS_LOGIN_GOOGLE_MSG = "Login Google success";
 
 
         #endregion

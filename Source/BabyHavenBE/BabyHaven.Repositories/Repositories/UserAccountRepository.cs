@@ -38,5 +38,32 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.UserAccounts.FirstOrDefaultAsync(u => u.Email == email && u.Password == password && u.Status == "Active");
         }
+
+        public async Task<UserAccount?> GetByEmailAsync(string email)
+        {
+            return await _context.UserAccounts.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        //public async Task<UserAccount> CreateGoogleUserAsync(UserAccount userAccount)
+        //{
+        //    await _context.UserAccounts.AddAsync(userAccount);
+        //    await _context.SaveChangesAsync();
+        //    return userAccount;
+        //}
+
+        public async Task<byte[]?> DownloadImageAsByteArray(string imageUrl)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    return await client.GetByteArrayAsync(imageUrl);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
