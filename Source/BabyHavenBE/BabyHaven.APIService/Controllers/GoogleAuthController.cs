@@ -87,11 +87,11 @@ namespace BabyHaven.APIService.Controllers
             return Ok(new { token, userDto });
         }
 
-        [HttpPost("signout-google")]
-        public async Task<IActionResult> SignOutGoogle()
+        [HttpGet("google-signout")]
+        public IActionResult GoogleSignOut()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Ok(new { message = "Google Sign-Out successful" });
+            var googleLogoutUrl = "https://accounts.google.com/Logout";
+            return Redirect(googleLogoutUrl);
         }
     }
 }
