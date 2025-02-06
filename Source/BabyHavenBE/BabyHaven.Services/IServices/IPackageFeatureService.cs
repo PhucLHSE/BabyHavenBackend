@@ -13,5 +13,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetAll();
         Task<IServiceResult> GetById(int packageId, int featureId);
         Task<IServiceResult> Create(PackageFeatureCreateDto packageFeatureCreateDto);
+        Task<IServiceResult> Update(PackageFeatureUpdateDto packageFeatureUpdateDto);
     }
 }

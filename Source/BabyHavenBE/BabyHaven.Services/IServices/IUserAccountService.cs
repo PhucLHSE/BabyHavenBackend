@@ -13,6 +13,11 @@ namespace BabyHaven.Services.IServices
     {
         Task<UserAccount> Authenticate(string email, string password);
         Task<IServiceResult> AuthenticateWithGoogle(LoginGoogleDto googleDto);
-
+        Task<IServiceResult> GetAll();
+        Task<IServiceResult> GetById(Guid UserId);
+        Task<IServiceResult> Update(UserAccountUpdateDto userDto);
+        Task<IServiceResult> DeleteById(Guid UserId);
+        Task<UserAccount?> GetByEmailAsync(string email);
+        Task<bool> CreateAsync(UserAccount userAccount);
     }
 }

@@ -4,6 +4,7 @@ using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,26 +20,49 @@ namespace BabyHaven.APIService.Controllers
     public class UserAccountsController : ControllerBase
     {
         private readonly IUserAccountService _userAccountsService;
-        private readonly IJwtTokenService _jwtTokenService;
-        public UserAccountsController( IUserAccountService userAccountsService, IJwtTokenService jwtTokenService)
+
+        public UserAccountsController(IUserAccountService userAccountsService)
         {
+
             _userAccountsService = userAccountsService;
-            _jwtTokenService = jwtTokenService;
         }
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginReqeust request)
+        // GET: api/<UserAccountsController>
+        [HttpGet]
+        public async Task<IServiceResult> Get()
         {
-            var user = await _userAccountsService.Authenticate(request.Email, request.Password);
-
-            if (user == null)
-                return Unauthorized();
-
-            var token = _jwtTokenService.GenerateJSONWebToken(user);
-
-            return Ok(token);
+            return await _userAccountsService.GetAll();
         }
 
-        public sealed record LoginReqeust(string Email, string Password);
+        // GET api/<UserAccountsController>/5
+        [HttpGet("{id}")]
+        public async Task<IServiceResult> Get(Guid id)
+        {
+            return await _userAccountsService.GetById(id);
+        }
+
+        // PUT api/<UserAccountsController>/5
+        [HttpPut("{id}")]
+        public async Task<IServiceResult> Put(UserAccountUpdateDto userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+            }
+
+            return await _userAccountsService.Update(userDto);
+        }
+
+        // DELETE api/<UserAccountsController>/5
+        [HttpDelete("{id}")]
+        public async Task<IServiceResult> Delete(Guid id)
+        {
+            return await _userAccountsService.DeleteById(id);
+        }
+
+        private bool UserAccountExists(Guid id)
+        {
+            return _userAccountsService.GetById(id) != null;
+        }
     }
 }
