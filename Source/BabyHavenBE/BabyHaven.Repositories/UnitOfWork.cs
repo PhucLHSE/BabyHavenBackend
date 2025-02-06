@@ -18,6 +18,7 @@ namespace BabyHaven.Repositories
         private DiseaseRepository diseaseRepository;
         private RoleRepository roleRepository;
         private UserAccountRepository userAccountRepository;
+        private SpecializationRepository specializationRepository;
 
         public UnitOfWork() 
         {
@@ -68,6 +69,13 @@ namespace BabyHaven.Repositories
             {
                 return userAccountRepository ??= new UserAccountRepository(context);
             } 
+        }
+        public SpecializationRepository SpecializationRepository
+        { 
+            get
+            {
+                return specializationRepository ??= new SpecializationRepository(context);
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ builder.Services.AddScoped<IPackageFeatureService, PackageFeatureService>();
 builder.Services.AddScoped<IDiseaseService, DiseaseService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
+builder.Services.AddScoped<ISpecializationService, SpecializationService>();
 
 // Register UnitOfWork and UserAccountRepository
 builder.Services.AddScoped<UnitOfWork>();
