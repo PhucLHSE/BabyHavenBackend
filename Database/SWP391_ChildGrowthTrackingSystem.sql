@@ -30,7 +30,7 @@ CREATE TABLE UserAccounts (
     Password VARCHAR(255) NOT NULL,                         -- Mật khẩu
     RegistrationDate DATETIME NOT NULL,                     -- Ngày đăng ký
     LastLogin DATETIME,                                     -- Ngày đăng nhập lần cuối
-    ProfilePicture VARBINARY(2000),                          -- Lưu ảnh dưới dạng nhị phân
+    ProfilePicture VARBINARY(2000),                         -- Lưu ảnh dưới dạng nhị phân
     Status NVARCHAR(50) NOT NULL DEFAULT 'Active',          -- Trạng thái người dùng
     VerificationCode VARCHAR(10),                           -- Mã xác thực
     IsVerified BIT DEFAULT 0,                               -- Trạng thái xác thực người dùng
@@ -48,7 +48,7 @@ CREATE TABLE Members (
     Status NVARCHAR(50) NOT NULL DEFAULT 'Active',          -- Trạng thái thành viên (1: active, 2: inactive, 3: pending, etc.)
     JoinDate DATETIME NOT NULL,                             -- Ngày gia nhập
     LeaveDate DATETIME,                                     -- Ngày rời khỏi hệ thống (nếu có)
-	Notes NVARCHAR(2000),                                    -- Ghi chú thêm
+	Notes NVARCHAR(2000),                                   -- Ghi chú thêm
     FOREIGN KEY (UserID) REFERENCES UserAccounts(UserID)    -- Liên kết với bảng UserAccounts
 );
 
@@ -112,11 +112,11 @@ CREATE TABLE GrowthRecords (
 CREATE TABLE Promotions (
     PromotionID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(), -- Mã khuyến mãi
     PromotionCode VARCHAR(50) NOT NULL,                       -- Mã khuyến mãi duy nhất
-    Description NVARCHAR(2000),                                -- Mô tả chi tiết về khuyến mãi
+    Description NVARCHAR(2000),                               -- Mô tả chi tiết về khuyến mãi
     DiscountPercent INT NOT NULL,                             -- Phần trăm giảm giá
     MinPurchaseAmount DECIMAL(10, 2),                         -- Mức mua tối thiểu để áp dụng khuyến mãi
     MaxDiscountAmount DECIMAL(10, 2),                         -- Giới hạn giảm giá tối đa
-    ApplicablePackageIDs NVARCHAR(2000),                       -- Các gói thành viên áp dụng (nếu có)
+    ApplicablePackageIDs NVARCHAR(2000),                      -- Các gói thành viên áp dụng (nếu có)
     TargetAudience VARCHAR(255),                              -- Đối tượng áp dụng khuyến mãi
     StartDate DATE NOT NULL,                                  -- Ngày bắt đầu khuyến mãi
     EndDate DATE NOT NULL,                                    -- Ngày kết thúc khuyến mãi
@@ -135,7 +135,7 @@ CREATE TABLE Promotions (
 CREATE TABLE MembershipPackages (
     PackageID INT PRIMARY KEY IDENTITY(1,1),
     PackageName VARCHAR(255) NOT NULL,                      -- Tên gói thành viên
-    Description NVARCHAR(2000),                              -- Mô tả về gói thành viên
+    Description NVARCHAR(2000),                             -- Mô tả về gói thành viên
     Price DECIMAL(10, 2) NOT NULL,                          -- Giá gói thành viên
     Currency NVARCHAR(10) DEFAULT 'VND',                    -- Đơn vị tiền tệ của giá gói
     DurationMonths INT NOT NULL,                            -- Thời gian sử dụng gói trong tháng
@@ -152,7 +152,7 @@ CREATE TABLE PackagePromotions (
     PackageID INT NOT NULL,
     PromotionID UNIQUEIDENTIFIER NOT NULL,
     IsActive BIT NOT NULL DEFAULT 1,                         -- Trạng thái hoạt động của mối quan hệ (1: Active, 0: Inactive)
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,    -- Thời gian mối quan hệ này được tạo
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian mối quan hệ này được tạo
 	UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (PackageID, PromotionID),
     FOREIGN KEY (PackageID) REFERENCES MembershipPackages(PackageID),
@@ -184,15 +184,15 @@ CREATE TABLE PackageFeatures (
 -- Table MemberMemberships
 CREATE TABLE MemberMemberships (
     MemberMembershipID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    MemberID UNIQUEIDENTIFIER NOT NULL,                     -- Liên kết với bảng Members
+    MemberID UNIQUEIDENTIFIER NOT NULL,                      -- Liên kết với bảng Members
     PackageID INT NOT NULL,                                  -- Liên kết với bảng MembershipPackages
     StartDate DATETIME NOT NULL,                             -- Ngày bắt đầu gói thành viên
     EndDate DATETIME NOT NULL,                               -- Ngày kết thúc gói thành viên
     Status NVARCHAR(50) NOT NULL DEFAULT 'Active',           -- Trạng thái của gói thành viên (Active, Inactive, Pending, Suspended, Expired, Canceled, Renewing, Trial)
-    IsActive BIT NOT NULL DEFAULT 1,                          -- Trạng thái hoạt động của gói
-    Description NVARCHAR(2000),                               -- Mô tả gói thành viên
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,    -- Thời gian tạo
-    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,    -- Thời gian cập nhật
+    IsActive BIT NOT NULL DEFAULT 1,                         -- Trạng thái hoạt động của gói
+    Description NVARCHAR(2000),                              -- Mô tả gói thành viên
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian tạo
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian cập nhật
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID),     -- Liên kết với bảng Members
     FOREIGN KEY (PackageID) REFERENCES MembershipPackages(PackageID)  -- Liên kết với bảng MembershipPackages
 );
@@ -235,7 +235,7 @@ CREATE TABLE Doctors (
 CREATE TABLE Specializations (
     SpecializationID INT PRIMARY KEY IDENTITY(1,1),             -- Sử dụng UNIQUEIDENTIFIER làm khóa chính và tự động tạo GUID
     SpecializationName VARCHAR(255) NOT NULL,                   -- Tên chuyên ngành không thể null
-    Description NVARCHAR(2000),                                  -- Mô tả về chuyên ngành
+    Description NVARCHAR(2000),                                 -- Mô tả về chuyên ngành
     Status NVARCHAR(50) NOT NULL DEFAULT 'Active',              -- Trạng thái của chuyên ngành (1: active, 0: inactive)
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,      -- Thời gian tạo
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP       -- Thời gian cập nhật
@@ -259,7 +259,7 @@ CREATE TABLE ConsultationRequests (
     MemberID UNIQUEIDENTIFIER NOT NULL,                              -- Liên kết với bảng Members
     ChildID UNIQUEIDENTIFIER NOT NULL,                               -- Liên kết với bảng Children
     RequestDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,         -- Ngày tạo yêu cầu tư vấn
-    Description NVARCHAR(2000),                                       -- Mô tả chi tiết về yêu cầu tư vấn
+    Description NVARCHAR(2000),                                      -- Mô tả chi tiết về yêu cầu tư vấn
     Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                  -- Trạng thái yêu cầu: 0 (pending), 1 (approved), 2 (rejected)
     Urgency NVARCHAR(50),                                            -- Mức độ khẩn cấp: low, medium, high
     Attachments VARCHAR(255),                                        -- Đường dẫn tệp đính kèm
@@ -330,7 +330,7 @@ CREATE TABLE Alerts (
     GrowthRecordID INT NOT NULL,                           -- Liên kết với bảng GrowthRecords
     AlertDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày giờ cảnh báo
     DiseaseID INT NOT NULL,                                -- Liên kết với bảng Diseases
-    Message NVARCHAR(2000) NOT NULL,                        -- Nội dung cảnh báo
+    Message NVARCHAR(2000) NOT NULL,                       -- Nội dung cảnh báo
     IsRead BIT NOT NULL DEFAULT 0,                         -- Trạng thái đọc
     SeverityLevel NVARCHAR(50),                            -- Mức độ nghiêm trọng
     IsAcknowledged BIT NOT NULL DEFAULT 0,                 -- Trạng thái xác nhận
@@ -342,7 +342,7 @@ CREATE TABLE Alerts (
 CREATE TABLE Milestones (
     MilestoneID INT PRIMARY KEY IDENTITY(1,1),
     MilestoneName NVARCHAR(255) NOT NULL,                 -- Tên mốc phát triển
-    Description NVARCHAR(2000),                            -- Mô tả mốc phát triển
+    Description NVARCHAR(2000),                           -- Mô tả mốc phát triển
     Importance NVARCHAR(50) NOT NULL DEFAULT 'Medium',    -- Độ quan trọng
     Category NVARCHAR(100),                               -- Nhóm mốc
     MinAge INT NULL,                                      -- Tuổi bắt đầu áp dụng (tháng)
@@ -373,7 +373,7 @@ CREATE TABLE ChildMilestones (
 CREATE TABLE BlogCategories (
     CategoryID INT PRIMARY KEY IDENTITY(1,1),                  -- ID thể loại
     CategoryName VARCHAR(255) NOT NULL,                        -- Tên thể loại bài viết (không được NULL)
-    Description NVARCHAR(2000),                                 -- Mô tả về thể loại
+    Description NVARCHAR(2000),                                -- Mô tả về thể loại
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian tạo thể loại
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian cập nhật thể loại
     IsActive BIT NOT NULL DEFAULT 1,                           -- Trạng thái thể loại (1: Active, 0: Inactive)
@@ -388,9 +388,9 @@ CREATE TABLE Blogs (
     Content NVARCHAR(2000) NOT NULL,                           -- Nội dung bài viết
     AuthorID UNIQUEIDENTIFIER NOT NULL,                        -- ID tác giả (admin hoặc người dùng)
 	CategoryID INT NOT NULL,                                   -- ID thể loại bài viết
-	ImageBlog NVARCHAR(2000) NOT NULL,                          -- URL hoặc đường dẫn tới ảnh
+	ImageBlog NVARCHAR(2000) NOT NULL,                         -- URL hoặc đường dẫn tới ảnh
     Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',            -- Trạng thái bài viết ('Pending', 'Approved', 'Rejected')
-	RejectionReason NVARCHAR(2000),                             -- Lý do từ chối (nếu có)
+	RejectionReason NVARCHAR(2000),                            -- Lý do từ chối (nếu có)
     Tags VARCHAR(255),                                         -- Các tag của bài viết
     ReferenceSources NVARCHAR(2000),                           -- Các trích dẫn hoặc nguồn tài liệu tham khảo
 	CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian tạo bài viết
@@ -464,6 +464,53 @@ VALUES
 (3, 7, 'Active'), -- F7: Rate and Feedback Consultants
 (3, 8, 'Active'), -- F8: View Blogs
 (3, 9, 'Active'); -- F9: Create and Track Milestones
+
+GO
+
+-- Insert Promotions
+INSERT INTO Promotions (PromotionCode, Description, DiscountPercent, MinPurchaseAmount, MaxDiscountAmount, 
+                        ApplicablePackageIDs, TargetAudience, StartDate, EndDate, Status, RedemptionCount, UsageLimit, 
+                        CreatedBy, ModifiedBy)
+VALUES
+('NEWYEAR25', 'Giảm giá 20% cho tất cả các gói thành viên nhân dịp năm mới', 20, 0, 200000, 
+ '1,2,3', 'Tất cả thành viên', '2025-01-01', '2025-01-10', 'Active', 0, 1000, 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user')),
+
+('FREEMONTH', 'Nhận 1 tháng miễn phí khi đăng ký gói Premium', 100, 1279000, 1279000, 
+ '3', 'Thành viên mới', '2025-02-01', '2025-02-28', 'Active', 0, 500, 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user')),
+
+('SUMMER50', 'Giảm 50% cho gói Standard trong mùa hè', 50, 379000, 189500, 
+ '2', 'Tất cả thành viên', '2025-06-01', '2025-06-30', 'Active', 0, 500, 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user')),
+
+('LOYALTY10', 'Giảm 10% cho thành viên đã gia hạn trên 1 năm', 10, 0, 500000, 
+ '2,3', 'Thành viên lâu năm', '2025-01-01', '2025-12-31', 'Active', 0, NULL, 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
+ (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'));
+
+ GO
+
+ -- Insert PackagePromotions
+ INSERT INTO PackagePromotions (PackageID, PromotionID, IsActive)
+VALUES
+-- NEWYEAR25 Promotions
+(1, (SELECT PromotionID FROM Promotions WHERE PromotionCode = 'NEWYEAR25'), 1),
+(2, (SELECT PromotionID FROM Promotions WHERE PromotionCode = 'NEWYEAR25'), 1),
+(3, (SELECT PromotionID FROM Promotions WHERE PromotionCode = 'NEWYEAR25'), 1),
+
+-- FREEMONTH Promotions
+(3, (SELECT PromotionID FROM Promotions WHERE PromotionCode = 'FREEMONTH'), 1),
+
+-- SUMMER50 Promotions
+(2, (SELECT PromotionID FROM Promotions WHERE PromotionCode = 'SUMMER50'), 1),
+
+-- LOYALTY10 Promotions
+(2, (SELECT PromotionID FROM Promotions WHERE PromotionCode = 'LOYALTY10'), 1),
+(3, (SELECT PromotionID FROM Promotions WHERE PromotionCode = 'LOYALTY10'), 1);
 
 GO
 
