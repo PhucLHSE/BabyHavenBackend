@@ -18,12 +18,10 @@ namespace BabyHaven.APIService.Controllers
     [ApiController]
     public class UserAccountsController : ControllerBase
     {
-        private readonly IConfiguration _config;
         private readonly IUserAccountService _userAccountsService;
         private readonly IJwtTokenService _jwtTokenService;
-        public UserAccountsController(IConfiguration config, IUserAccountService userAccountsService, IJwtTokenService jwtTokenService)
+        public UserAccountsController( IUserAccountService userAccountsService, IJwtTokenService jwtTokenService)
         {
-            _config = config;
             _userAccountsService = userAccountsService;
             _jwtTokenService = jwtTokenService;
         }
