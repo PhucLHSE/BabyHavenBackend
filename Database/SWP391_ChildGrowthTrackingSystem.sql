@@ -25,7 +25,7 @@ CREATE TABLE UserAccounts (
     PhoneNumber VARCHAR(20) UNIQUE NOT NULL,                -- Số điện thoại duy nhất
     Name VARCHAR(255) NOT NULL,                             -- Tên người dùng
     Gender NVARCHAR(20) NOT NULL,                           -- Giới tính (Female, Male, Other)
-    DateOfBirth DATE NOT NULL,                              -- Ngày sinh
+    DateOfBirth DATE,                              -- Ngày sinh
     Address VARCHAR(255) NOT NULL,                          -- Địa chỉ
     Password VARCHAR(255) NOT NULL,                         -- Mật khẩu
     RegistrationDate DATETIME NOT NULL,                     -- Ngày đăng ký
@@ -528,3 +528,48 @@ AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'S
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), 
 (SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
 AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 1279000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success');
+
+--Insert Diseases
+INSERT INTO Diseases (DiseaseName, LowerBoundMale, UpperBoundMale, LowerBoundFemale, UpperBoundFemale, MinAge, MaxAge, Severity, DiseaseType, Symptoms, Treatment, Prevention, Description, Notes, IsActive)
+VALUES
+    ('Obesity', 25.0, 40.0, 24.0, 39.0, 5, 18, 'High', 'Metabolic Disorder',
+     'Excessive body fat, difficulty in breathing, fatigue, joint pain',
+     'Balanced diet, regular exercise, medical consultation if needed',
+     'Promote healthy eating habits, increase physical activity',
+     'A condition characterized by excessive fat accumulation, leading to health risks.',
+     'Monitor BMI regularly to prevent severe complications.', 1),
+
+    ('Malnutrition', 10.0, 15.0, 9.0, 14.0, 1, 10, 'High', 'Nutritional Deficiency',
+     'Underweight, weak immune system, delayed growth, brittle hair',
+     'High-protein and nutrient-rich diet, vitamin supplements',
+     'Ensure proper nutrition intake, promote breastfeeding for infants',
+     'A condition resulting from lack of essential nutrients in the diet.',
+     'Common in developing countries, affects cognitive development.', 1),
+
+    ('Anemia', 11.0, 14.0, 10.0, 13.5, 3, 16, 'Medium', 'Blood Disorder',
+     'Paleness, fatigue, shortness of breath, dizziness',
+     'Iron supplements, iron-rich diet (red meat, leafy greens)',
+     'Maintain a diet rich in iron and vitamin C, regular health check-ups',
+     'A condition where there is a deficiency of red blood cells or hemoglobin in the blood.',
+     'Common in children due to poor diet and rapid growth phases.', 1),
+
+    ('Diabetes Type 1', 15.0, 25.0, 14.0, 24.0, 6, 18, 'High', 'Endocrine Disorder',
+     'Frequent urination, excessive thirst, weight loss, fatigue',
+     'Insulin therapy, carbohydrate management, regular monitoring',
+     'Healthy diet, physical activity, routine glucose level checks',
+     'A chronic disease where the pancreas produces little or no insulin.',
+     'Requires lifelong insulin therapy to regulate blood sugar levels.', 1),
+
+    ('Stunted Growth', 12.0, 18.0, 11.0, 17.0, 1, 10, 'Medium', 'Developmental Disorder',
+     'Short stature, delayed physical development, cognitive impairment',
+     'Nutritional supplements, balanced diet, medical monitoring',
+     'Ensure adequate food intake, early intervention for nutrient deficiencies',
+     'A condition where a child’s growth rate is significantly lower than expected.',
+     'Can be caused by poor nutrition, infections, or genetic conditions.', 1),
+
+    ('Asthma', 18.0, 28.0, 17.0, 27.0, 4, 18, 'Medium', 'Respiratory Disorder',
+     'Shortness of breath, wheezing, coughing, chest tightness',
+     'Inhalers, medication, avoiding triggers (allergens, smoke)',
+     'Avoid smoking exposure, control allergens at home',
+     'A chronic respiratory condition where the airways become inflamed and narrow.',
+     'Can be triggered by allergens, pollution, or respiratory infections.', 1);

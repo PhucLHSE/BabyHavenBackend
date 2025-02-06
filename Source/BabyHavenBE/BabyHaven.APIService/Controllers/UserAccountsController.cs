@@ -19,7 +19,6 @@ namespace BabyHaven.APIService.Controllers
     [ApiController]
     public class UserAccountsController : ControllerBase
     {
-
         private readonly IUserAccountService _userAccountsService;
 
         public UserAccountsController(IUserAccountService userAccountsService)
@@ -65,6 +64,5 @@ namespace BabyHaven.APIService.Controllers
         {
             return _userAccountsService.GetById(id) != null;
         }
-
     }
 }
