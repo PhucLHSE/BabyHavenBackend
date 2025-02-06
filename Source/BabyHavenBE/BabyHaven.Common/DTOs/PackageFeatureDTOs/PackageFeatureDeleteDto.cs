@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Common.DTOs.PackageFeatureDTOs
 {
-    public class PackageFeatureViewDetailsDto
+    public class PackageFeatureDeleteDto
     {
         // MembershipPackage details
         public string PackageName { get; set; } = string.Empty;

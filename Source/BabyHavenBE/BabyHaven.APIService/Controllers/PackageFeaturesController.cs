@@ -57,5 +57,17 @@ namespace BabyHaven.APIService.Controllers
 
             return await _packageFeatureService.Update(packageFeatureUpdateDto);
         }
+
+        // DELETE api/<FeaturesController>/5/3
+        [HttpDelete("{packageId}/{featuredId}")]
+        public async Task<IServiceResult> Delete(int packageId, int featuredId)
+        {
+            return await _packageFeatureService.DeleteById(packageId, featuredId);
+        }
+
+        private bool PackageFeatureExists(int packageId, int featuredId)
+        {
+            return _packageFeatureService.GetById(packageId, featuredId) != null;
+        }
     }
 }
