@@ -20,10 +20,12 @@ builder.Services.AddScoped<IDiseaseService, DiseaseService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
+builder.Services.AddScoped<IGrowthRecordService, GrowthRecordService>();
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<UserAccountRepository>();
+builder.Services.AddScoped<GrowthRecordRepository>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
