@@ -161,6 +161,9 @@ namespace BabyHaven.Services.Services
                 // Map the update data
                 existingPackageFeature.MapToUpdatedPackageFeature(packageFeatureDto);
 
+                // Update time information
+                existingPackageFeature.UpdatedAt = DateTime.Now;
+
                 // Save the new entity to the database
                 var result = await _unitOfWork.PackageFeatureRepository.UpdateAsync(existingPackageFeature);
 

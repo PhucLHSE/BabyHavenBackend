@@ -11,7 +11,7 @@ USE SWP391_ChildGrowthTrackingSystem;
 CREATE TABLE Roles (
     RoleID INT PRIMARY KEY IDENTITY(1,1),
     RoleName VARCHAR(255) NOT NULL,                        -- Tên của vai trò (ví dụ: Admin, Member, Doctor)
-    Description NVARCHAR(2000),                             -- Mô tả chi tiết về vai trò
+    Description NVARCHAR(2000),                            -- Mô tả chi tiết về vai trò
     Status NVARCHAR(50) NOT NULL DEFAULT 'Active',         -- Trạng thái (Inactive, Active, Pending, etc.)
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Thời gian tạo vai trò
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP  -- Thời gian cập nhật vai trò
@@ -25,7 +25,7 @@ CREATE TABLE UserAccounts (
     PhoneNumber VARCHAR(20) UNIQUE NOT NULL,                -- Số điện thoại duy nhất
     Name VARCHAR(255) NOT NULL,                             -- Tên người dùng
     Gender NVARCHAR(20) NOT NULL,                           -- Giới tính (Female, Male, Other)
-    DateOfBirth DATE,                              -- Ngày sinh
+    DateOfBirth DATE,                                       -- Ngày sinh
     Address VARCHAR(255) NOT NULL,                          -- Địa chỉ
     Password VARCHAR(255) NOT NULL,                         -- Mật khẩu
     RegistrationDate DATETIME NOT NULL,                     -- Ngày đăng ký
@@ -153,6 +153,7 @@ CREATE TABLE PackagePromotions (
     PromotionID UNIQUEIDENTIFIER NOT NULL,
     IsActive BIT NOT NULL DEFAULT 1,                         -- Trạng thái hoạt động của mối quan hệ (1: Active, 0: Inactive)
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,    -- Thời gian mối quan hệ này được tạo
+	UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (PackageID, PromotionID),
     FOREIGN KEY (PackageID) REFERENCES MembershipPackages(PackageID),
     FOREIGN KEY (PromotionID) REFERENCES Promotions(PromotionID)
@@ -173,6 +174,7 @@ CREATE TABLE PackageFeatures (
     PackageID INT,                                           -- Gói thành viên
     FeatureID INT,                                           -- Tính năng
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian tạo
+	UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	Status NVARCHAR(50) NOT NULL DEFAULT 'Active',
     PRIMARY KEY (PackageID, FeatureID),                      -- Khóa chính kép
     FOREIGN KEY (PackageID) REFERENCES MembershipPackages(PackageID),
@@ -302,7 +304,7 @@ CREATE TABLE RatingFeedbacks (
 
 -- Table Diseases
 CREATE TABLE Diseases (
-    DiseaseID INT PRIMARY KEY IDENTITY(1,1),              -- ID bệnh
+    DiseaseID INT PRIMARY KEY IDENTITY(1,1),                -- ID bệnh
     DiseaseName VARCHAR(100) NOT NULL,                      -- Tên bệnh
     LowerBoundMale FLOAT NOT NULL,                          -- Giới hạn thấp cho chỉ số đối với nam (cân nặng, chiều cao, BMI)
     UpperBoundMale FLOAT NOT NULL,                          -- Giới hạn cao cho chỉ số đối với nam
@@ -312,11 +314,11 @@ CREATE TABLE Diseases (
     MaxAge INT NOT NULL,                                    -- Độ tuổi lớn nhất có thể mắc bệnh
     Severity NVARCHAR(50) NOT NULL,                         -- Độ nghiêm trọng (High, Medium, Low)
     DiseaseType NVARCHAR(50) NOT NULL,                      -- Loại bệnh (ví dụ: Béo phì, Suy dinh dưỡng)
-    Symptoms NVARCHAR(2000) NOT NULL,                        -- Triệu chứng bệnh
-    Treatment NVARCHAR(2000),                                -- Phương pháp điều trị
-    Prevention NVARCHAR(2000),                               -- Phương pháp phòng ngừa
+    Symptoms NVARCHAR(2000) NOT NULL,                       -- Triệu chứng bệnh
+    Treatment NVARCHAR(2000),                               -- Phương pháp điều trị
+    Prevention NVARCHAR(2000),                              -- Phương pháp phòng ngừa
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,  -- Thời gian tạo
-    LastModified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Thời gian chỉnh sửa gần nhất
+    LastModified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,-- Thời gian chỉnh sửa gần nhất
     Description NVARCHAR(2000),                              -- Mô tả về bệnh
     Notes NVARCHAR(2000),                                    -- Ghi chú thêm
     IsActive BIT NOT NULL DEFAULT 1                          -- Trạng thái (Hoạt động hoặc không)
@@ -528,6 +530,8 @@ AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'S
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), 
 (SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
 AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 1279000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success');
+
+GO
 
 --Insert Diseases
 INSERT INTO Diseases (DiseaseName, LowerBoundMale, UpperBoundMale, LowerBoundFemale, UpperBoundFemale, MinAge, MaxAge, Severity, DiseaseType, Symptoms, Treatment, Prevention, Description, Notes, IsActive)

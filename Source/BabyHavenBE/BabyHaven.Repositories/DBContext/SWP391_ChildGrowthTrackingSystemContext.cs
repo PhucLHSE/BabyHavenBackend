@@ -89,7 +89,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
     {
         modelBuilder.Entity<Alert>(entity =>
         {
-            entity.HasKey(e => e.AlertId).HasName("PK__Alerts__EBB16AED049C2DEF");
+            entity.HasKey(e => e.AlertId).HasName("PK__Alerts__EBB16AED87497E8A");
 
             entity.Property(e => e.AlertId).HasColumnName("AlertID");
             entity.Property(e => e.AlertDate)
@@ -105,17 +105,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Disease).WithMany(p => p.Alerts)
                 .HasForeignKey(d => d.DiseaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Alerts__DiseaseI__4F47C5E3");
+                .HasConstraintName("FK__Alerts__DiseaseI__51300E55");
 
             entity.HasOne(d => d.GrowthRecord).WithMany(p => p.Alerts)
                 .HasForeignKey(d => d.GrowthRecordId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Alerts__GrowthRe__4E53A1AA");
+                .HasConstraintName("FK__Alerts__GrowthRe__503BEA1C");
         });
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E5062379F54");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50FD28C509");
 
             entity.Property(e => e.BlogId).HasColumnName("BlogID");
             entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
@@ -149,17 +149,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Author).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.AuthorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Blogs__AuthorID__681373AD");
+                .HasConstraintName("FK__Blogs__AuthorID__69FBBC1F");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Blogs__CategoryI__690797E6");
+                .HasConstraintName("FK__Blogs__CategoryI__6AEFE058");
         });
 
         modelBuilder.Entity<BlogCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__BlogCate__19093A2B36458987");
+            entity.HasKey(e => e.CategoryId).HasName("PK__BlogCate__19093A2BAE0279E5");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName)
@@ -178,12 +178,12 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
             entity.HasOne(d => d.ParentCategory).WithMany(p => p.InverseParentCategory)
                 .HasForeignKey(d => d.ParentCategoryId)
-                .HasConstraintName("FK__BlogCateg__Paren__625A9A57");
+                .HasConstraintName("FK__BlogCateg__Paren__6442E2C9");
         });
 
         modelBuilder.Entity<Child>(entity =>
         {
-            entity.HasKey(e => e.ChildId).HasName("PK__Children__BEFA07368FE8791B");
+            entity.HasKey(e => e.ChildId).HasName("PK__Children__BEFA0736E95AD349");
 
             entity.Property(e => e.ChildId)
                 .HasDefaultValueSql("(newid())")
@@ -224,7 +224,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<ChildMilestone>(entity =>
         {
-            entity.HasKey(e => new { e.ChildId, e.MilestoneId }).HasName("PK__ChildMil__2E664F333FF5E8B2");
+            entity.HasKey(e => new { e.ChildId, e.MilestoneId }).HasName("PK__ChildMil__2E664F332E6DD762");
 
             entity.Property(e => e.ChildId).HasColumnName("ChildID");
             entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
@@ -249,17 +249,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Child).WithMany(p => p.ChildMilestones)
                 .HasForeignKey(d => d.ChildId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ChildMile__Child__5BAD9CC8");
+                .HasConstraintName("FK__ChildMile__Child__5D95E53A");
 
             entity.HasOne(d => d.Milestone).WithMany(p => p.ChildMilestones)
                 .HasForeignKey(d => d.MilestoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ChildMile__Miles__5CA1C101");
+                .HasConstraintName("FK__ChildMile__Miles__5E8A0973");
         });
 
         modelBuilder.Entity<ConsultationRequest>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Consulta__33A8519AB463C4C0");
+            entity.HasKey(e => e.RequestId).HasName("PK__Consulta__33A8519ACC08EFB8");
 
             entity.Property(e => e.RequestId).HasColumnName("RequestID");
             entity.Property(e => e.Attachments)
@@ -287,17 +287,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Child).WithMany(p => p.ConsultationRequests)
                 .HasForeignKey(d => d.ChildId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Child__32AB8735");
+                .HasConstraintName("FK__Consultat__Child__3493CFA7");
 
             entity.HasOne(d => d.Member).WithMany(p => p.ConsultationRequests)
                 .HasForeignKey(d => d.MemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Membe__31B762FC");
+                .HasConstraintName("FK__Consultat__Membe__339FAB6E");
         });
 
         modelBuilder.Entity<ConsultationResponse>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Consulta__1AAA640CC98378AC");
+            entity.HasKey(e => e.ResponseId).HasName("PK__Consulta__1AAA640CC4CCBC6F");
 
             entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
             entity.Property(e => e.Attachments)
@@ -325,17 +325,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Doctor).WithMany(p => p.ConsultationResponses)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Docto__3A4CA8FD");
+                .HasConstraintName("FK__Consultat__Docto__3C34F16F");
 
             entity.HasOne(d => d.Request).WithMany(p => p.ConsultationResponses)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Consultat__Reque__395884C4");
+                .HasConstraintName("FK__Consultat__Reque__3B40CD36");
         });
 
         modelBuilder.Entity<Disease>(entity =>
         {
-            entity.HasKey(e => e.DiseaseId).HasName("PK__Diseases__69B533A9F0E40612");
+            entity.HasKey(e => e.DiseaseId).HasName("PK__Diseases__69B533A9CE76F994");
 
             entity.Property(e => e.DiseaseId).HasColumnName("DiseaseID");
             entity.Property(e => e.CreatedAt)
@@ -366,11 +366,11 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Doctor>(entity =>
         {
-            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDF5698118F");
+            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDFF7E02A95");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E3884486C85").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E38029A96D9").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D10534D2F60A37").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D1053411BCCCF8").IsUnique();
 
             entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
             entity.Property(e => e.Biography).HasMaxLength(2000);
@@ -411,12 +411,12 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Doctors)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Doctors__UserID__1F98B2C1");
+                .HasConstraintName("FK__Doctors__UserID__2180FB33");
         });
 
         modelBuilder.Entity<DoctorSpecialization>(entity =>
         {
-            entity.HasKey(e => e.DoctorSpecializationId).HasName("PK__DoctorSp__14F6ED6DE060AA90");
+            entity.HasKey(e => e.DoctorSpecializationId).HasName("PK__DoctorSp__14F6ED6DDE75D1A2");
 
             entity.Property(e => e.DoctorSpecializationId).HasColumnName("DoctorSpecializationID");
             entity.Property(e => e.CreatedAt)
@@ -435,17 +435,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorSpecializations)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DoctorSpe__Docto__2A164134");
+                .HasConstraintName("FK__DoctorSpe__Docto__2BFE89A6");
 
             entity.HasOne(d => d.Specialization).WithMany(p => p.DoctorSpecializations)
                 .HasForeignKey(d => d.SpecializationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DoctorSpe__Speci__2B0A656D");
+                .HasConstraintName("FK__DoctorSpe__Speci__2CF2ADDF");
         });
 
         modelBuilder.Entity<Feature>(entity =>
         {
-            entity.HasKey(e => e.FeatureId).HasName("PK__Features__82230A29E64BCE29");
+            entity.HasKey(e => e.FeatureId).HasName("PK__Features__82230A29C597B4D1");
 
             entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
             entity.Property(e => e.CreatedAt)
@@ -467,7 +467,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<GrowthRecord>(entity =>
         {
-            entity.HasKey(e => e.RecordId).HasName("PK__GrowthRe__FBDF78C97E504D39");
+            entity.HasKey(e => e.RecordId).HasName("PK__GrowthRe__FBDF78C99FBF43F3");
 
             entity.Property(e => e.RecordId).HasColumnName("RecordID");
             entity.Property(e => e.AttentionSpan).HasMaxLength(50);
@@ -506,9 +506,9 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemberId).HasName("PK__Members__0CF04B387F01875C");
+            entity.HasKey(e => e.MemberId).HasName("PK__Members__0CF04B38C519505A");
 
-            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCAD51CDF8F1").IsUnique();
+            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCADEA2D663A").IsUnique();
 
             entity.Property(e => e.MemberId)
                 .HasDefaultValueSql("(newid())")
@@ -534,7 +534,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<MemberMembership>(entity =>
         {
-            entity.HasKey(e => e.MemberMembershipId).HasName("PK__MemberMe__5EAB967F61605AC5");
+            entity.HasKey(e => e.MemberMembershipId).HasName("PK__MemberMe__5EAB967FB495E0C2");
 
             entity.Property(e => e.MemberMembershipId)
                 .HasDefaultValueSql("(newid())")
@@ -559,17 +559,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Member).WithMany(p => p.MemberMemberships)
                 .HasForeignKey(d => d.MemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__MemberMem__Membe__10566F31");
+                .HasConstraintName("FK__MemberMem__Membe__123EB7A3");
 
             entity.HasOne(d => d.Package).WithMany(p => p.MemberMemberships)
                 .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__MemberMem__Packa__114A936A");
+                .HasConstraintName("FK__MemberMem__Packa__1332DBDC");
         });
 
         modelBuilder.Entity<MembershipPackage>(entity =>
         {
-            entity.HasKey(e => e.PackageId).HasName("PK__Membersh__322035EC99C63FD1");
+            entity.HasKey(e => e.PackageId).HasName("PK__Membersh__322035EC4086B0FA");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.CreatedAt)
@@ -596,7 +596,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Milestone>(entity =>
         {
-            entity.HasKey(e => e.MilestoneId).HasName("PK__Mileston__09C480580B2CCAB4");
+            entity.HasKey(e => e.MilestoneId).HasName("PK__Mileston__09C4805858B17217");
 
             entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
             entity.Property(e => e.Category).HasMaxLength(100);
@@ -618,7 +618,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<PackageFeature>(entity =>
         {
-            entity.HasKey(e => new { e.PackageId, e.FeatureId }).HasName("PK__PackageF__BA02054E8B2F16CF");
+            entity.HasKey(e => new { e.PackageId, e.FeatureId }).HasName("PK__PackageF__BA02054EDDEFA745");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
@@ -629,21 +629,24 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValue("Active");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Feature).WithMany(p => p.PackageFeatures)
                 .HasForeignKey(d => d.FeatureId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PackageFe__Featu__08B54D69");
+                .HasConstraintName("FK__PackageFe__Featu__0A9D95DB");
 
             entity.HasOne(d => d.Package).WithMany(p => p.PackageFeatures)
                 .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PackageFe__Packa__07C12930");
+                .HasConstraintName("FK__PackageFe__Packa__09A971A2");
         });
 
         modelBuilder.Entity<PackagePromotion>(entity =>
         {
-            entity.HasKey(e => new { e.PackageId, e.PromotionId }).HasName("PK__PackageP__D70C771EB9692175");
+            entity.HasKey(e => new { e.PackageId, e.PromotionId }).HasName("PK__PackageP__D70C771E10545257");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.PromotionId).HasColumnName("PromotionID");
@@ -651,21 +654,24 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Package).WithMany(p => p.PackagePromotions)
                 .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PackagePr__Packa__7D439ABD");
+                .HasConstraintName("FK__PackagePr__Packa__7E37BEF6");
 
             entity.HasOne(d => d.Promotion).WithMany(p => p.PackagePromotions)
                 .HasForeignKey(d => d.PromotionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PackagePr__Promo__7E37BEF6");
+                .HasConstraintName("FK__PackagePr__Promo__7F2BE32F");
         });
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2F4F9A5DE5");
+            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2FD54A266A");
 
             entity.Property(e => e.PromotionId)
                 .HasDefaultValueSql("(newid())")
@@ -708,7 +714,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<RatingFeedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__RatingFe__6A4BEDD679579FA3");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__RatingFe__6A4BEDD6E01B6BB2");
 
             entity.Property(e => e.Comment).HasMaxLength(2000);
             entity.Property(e => e.CreatedAt)
@@ -731,17 +737,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.Response).WithMany(p => p.RatingFeedbacks)
                 .HasForeignKey(d => d.ResponseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RatingFee__Respo__43D61337");
+                .HasConstraintName("FK__RatingFee__Respo__45BE5BA9");
 
             entity.HasOne(d => d.User).WithMany(p => p.RatingFeedbacks)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RatingFee__UserI__42E1EEFE");
+                .HasConstraintName("FK__RatingFee__UserI__44CA3770");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A34C9F024");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A6DA7BCCF");
 
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.CreatedAt)
@@ -763,7 +769,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Specialization>(entity =>
         {
-            entity.HasKey(e => e.SpecializationId).HasName("PK__Speciali__5809D84FBAFCB353");
+            entity.HasKey(e => e.SpecializationId).HasName("PK__Speciali__5809D84F39ADB034");
 
             entity.Property(e => e.SpecializationId).HasColumnName("SpecializationID");
             entity.Property(e => e.CreatedAt)
@@ -785,7 +791,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__55433A4B18E857C3");
+            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__55433A4B12253DA5");
 
             entity.Property(e => e.TransactionId)
                 .HasDefaultValueSql("(newid())")
@@ -821,23 +827,23 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasOne(d => d.MemberMembership).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.MemberMembershipId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Transacti__Membe__17F790F9");
+                .HasConstraintName("FK__Transacti__Membe__19DFD96B");
 
             entity.HasOne(d => d.User).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Transacti__UserI__17036CC0");
+                .HasConstraintName("FK__Transacti__UserI__18EBB532");
         });
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC9CE8BDE1");
+            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCACB8F518B4");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E463B2FFB4").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E43F526449").IsUnique();
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E38B0E5B709").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E38A12C8A3E").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D1053488BCB1E8").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D10534B2E02647").IsUnique();
 
             entity.Property(e => e.UserId)
                 .HasDefaultValueSql("(newid())")
