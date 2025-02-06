@@ -12,11 +12,11 @@ namespace BabyHaven.APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SpecializationController : ControllerBase
+    public class SpecializationsController : ControllerBase
     {
         private readonly ISpecializationService _specializationService;
 
-        public SpecializationController(ISpecializationService specializationService)
+        public SpecializationsController(ISpecializationService specializationService)
             => _specializationService = specializationService;
         // GET: api/<SpecializationController>
         [HttpGet]
