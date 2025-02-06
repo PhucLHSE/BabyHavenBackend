@@ -19,7 +19,7 @@ public partial class UserAccount
 
     public string Gender { get; set; }
 
-    public DateOnly DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 
     public string Address { get; set; }
 

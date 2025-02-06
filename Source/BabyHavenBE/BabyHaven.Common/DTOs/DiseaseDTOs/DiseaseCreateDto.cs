@@ -15,19 +15,19 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
         public string DiseaseName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "LowerBoundMale is required.")]
-        [Range(1, 100, ErrorMessage = "LowerBoundMale must be between 1 and 100.")]
+        [Range(1, 1000, ErrorMessage = "LowerBoundMale must be between 1 and 1000.")]
         public double LowerBoundMale { get; set; }
 
         [Required(ErrorMessage = "UpperBoundMale is required.")]
-        [Range(1, 100, ErrorMessage = "UpperBoundMale must be between 1 and 100.")]
+        [Range(1, 1000, ErrorMessage = "UpperBoundMale must be between 1 and 1000.")]
         public double UpperBoundMale { get; set; }
 
         [Required(ErrorMessage = "LowerBoundFemale is required.")]
-        [Range(1, 100, ErrorMessage = "LowerBoundFemale must be between 1 and 100.")]
+        [Range(1, 1000, ErrorMessage = "LowerBoundFemale must be between 1 and 1000.")]
         public double LowerBoundFemale { get; set; }
 
         [Required(ErrorMessage = "UpperBoundFemale is required.")]
-        [Range(1, 100, ErrorMessage = "UpperBoundFemale must be between 1 and 100.")]
+        [Range(1, 1000, ErrorMessage = "UpperBoundFemale must be between 1 and 1000.")]
         public double UpperBoundFemale { get; set; }
 
         [Required(ErrorMessage = "MinAge is required.")]
@@ -61,8 +61,5 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
 
         [MaxLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
         public string? Notes { get; set; }
-
-        [Required(ErrorMessage = "Status is required.")]
-        public bool IsActive { get; set; } = true;
     }
 }

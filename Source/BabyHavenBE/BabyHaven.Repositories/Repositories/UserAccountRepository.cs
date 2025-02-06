@@ -48,6 +48,20 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.UserAccounts.FirstOrDefaultAsync(u => u.Email == email);
         }
-
+        
+        public async Task<byte[]?> DownloadImageAsByteArray(string imageUrl)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    return await client.GetByteArrayAsync(imageUrl);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

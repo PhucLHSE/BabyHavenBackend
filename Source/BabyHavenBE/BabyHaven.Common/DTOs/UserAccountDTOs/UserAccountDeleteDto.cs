@@ -21,7 +21,7 @@ namespace BabyHaven.Common.DTOs.UserAccountDTOs
 
         public string Gender { get; set; } = string.Empty;
 
-        public DateOnly DateOfBirth { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
 
         public string Address { get; set; } = string.Empty;
 

@@ -71,5 +71,12 @@ namespace BabyHaven.Services.Mappers
                 CreatedAt = DateTime.UtcNow
             };
         }
+
+        //Mapper PackageFeatureUpdateDto
+        public static void MapToUpdatedPackageFeature(this PackageFeature packageFeature, PackageFeatureUpdateDto updateDto)
+        {
+            if (updateDto.Status.HasValue)
+                packageFeature.Status = updateDto.Status.ToString();
+        }
     }
 }
