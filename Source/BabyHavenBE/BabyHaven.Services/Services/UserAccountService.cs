@@ -167,12 +167,12 @@ namespace BabyHaven.Services.Services
         }
         public async Task<UserAccount?> GetByEmailAsync(string email)
         {
-            return await _repository.GetByEmailAsync(email);
+            return await _unitOfWork.UserAccountRepository.GetByEmailAsync(email);
         }
 
         public async Task<bool> CreateAsync(UserAccount userAccount)
         {
-            await _repository.CreateAsync(userAccount);
+            await _unitOfWork.UserAccountRepository.CreateAsync(userAccount);
             return true;
         }
 
