@@ -38,7 +38,7 @@ namespace BabyHaven.Services.Services
             {
                 user = await CreateGoogleUserAsync(googleDto);
             }
-
+            user.LastLogin = DateTime.Now;
             return new ServiceResult(Const.SUCCESS_LOGIN_CODE, Const.SUCCESS_LOGIN_GOOGLE_MSG, user);
         }
 

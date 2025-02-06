@@ -172,7 +172,8 @@ namespace BabyHaven.Services.Mappers
                 RoleId = googleDto.RoleId,
                 RegistrationDate = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = DateTime.UtcNow,
+                IsVerified = true
             };
         }
     }
