@@ -28,10 +28,10 @@ namespace BabyHaven.APIService.Controllers
         }
 
         // GET api/<PackageFeaturesController>/5/3
-        [HttpGet("{PackageId}/{FeatureId}")]
-        public async Task<IServiceResult> Get(int PackageId, int FeatureId)
+        [HttpGet("{packageId}/{featureId}")]
+        public async Task<IServiceResult> Get(int packageId, int featureId)
         {
-            return await _packageFeatureService.GetById(PackageId, FeatureId);
+            return await _packageFeatureService.GetById(packageId, featureId);
         }
 
         // POST api/<PackageFeaturesController>
