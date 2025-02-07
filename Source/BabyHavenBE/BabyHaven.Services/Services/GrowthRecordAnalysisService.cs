@@ -26,9 +26,9 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> AnalyzeGrowthRecord(GrowthRecordAnalysisDto record)
         {
-            var endpoint = "https://tuant-m6ui1h78-eastus2.cognitiveservices.azure.com/";
-            var apiKey = "3JQymFLAcERJ2dopHobPABFNPuZkQcunsmB1AOzLxZwI2ZGY7TfgJQQJ99BBACHYHv6XJ3w3AAAAACOG82e7";
-            var deploymentName = "GrowthAnalysis";
+            var endpoint = _config["AzureOpenAI:Endpoint"];
+            var apiKey = _config["AzureOpenAI:ApiKey"];
+            var deploymentName = _config["AzureOpenAI:DeploymentName"];
 
             if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(apiKey))
             {
