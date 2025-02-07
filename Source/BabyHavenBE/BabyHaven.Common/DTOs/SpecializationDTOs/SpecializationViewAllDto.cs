@@ -13,7 +13,6 @@ namespace BabyHaven.Common.DTOs.SpecializationDTOs
     {
         public string SpecializationName { get; set; } = string.Empty;
 
-        public string Description { get; set; } = string.Empty;
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public SpecializationStatus Status { get; set; } = SpecializationStatus.Inactive;

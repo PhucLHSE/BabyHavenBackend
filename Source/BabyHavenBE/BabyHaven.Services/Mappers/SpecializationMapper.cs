@@ -20,7 +20,6 @@ namespace BabyHaven.Services.Mappers
             {
                 // Feature
                 SpecializationName = model.SpecializationName,
-                Description = model.Description,
 
                 // Convert Status from string to enum
                 Status = Enum.TryParse<SpecializationStatus>(model.Status, true, out var status)
@@ -34,7 +33,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new SpecializationViewDetailsDto
             {
-                // Feature
+                // Specialization  
                 SpecializationName = model.SpecializationName,
                 Description = model.Description,
 
