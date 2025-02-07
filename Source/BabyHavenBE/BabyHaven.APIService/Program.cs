@@ -1,4 +1,5 @@
-﻿using BabyHaven.Repositories;
+﻿using Azure;
+using BabyHaven.Repositories;
 using BabyHaven.Repositories.Repositories;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OpenAI;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -21,6 +23,7 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IGrowthRecordService, GrowthRecordService>();
+builder.Services.AddScoped<IGrowthAnalysisService, GrowthRecordAnalysisService>();
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();
@@ -62,6 +65,7 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+
 // Cấu hình CORS
 builder.Services.AddCors(options =>
 {
