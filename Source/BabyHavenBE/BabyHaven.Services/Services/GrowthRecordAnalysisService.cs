@@ -15,13 +15,11 @@ namespace BabyHaven.Services.Services
 {
     public class GrowthRecordAnalysisService : IGrowthAnalysisService
     {
-        private readonly GrowthRecordRepository _growthRecordRepository;
         private readonly IConfiguration _config;
 
-        public GrowthRecordAnalysisService(IConfiguration config, GrowthRecordRepository growthRecordRepository)
+        public GrowthRecordAnalysisService(IConfiguration config)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
-            _growthRecordRepository = growthRecordRepository ?? throw new ArgumentNullException(nameof(growthRecordRepository));
         }
 
         public async Task<IServiceResult> AnalyzeGrowthRecord(GrowthRecordAnalysisDto record)
