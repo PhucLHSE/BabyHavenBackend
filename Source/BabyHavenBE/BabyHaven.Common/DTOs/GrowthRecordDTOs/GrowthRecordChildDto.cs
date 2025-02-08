@@ -56,6 +56,9 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         [Range(40, 90, ErrorMessage = "Chest Circumference must be between 40 and 90 cm.")]
         public double? ChestCircumference { get; set; }
 
+        [MaxLength(255, ErrorMessage = "DevelopmentalMilestones cannot exceed 255 characters.")]
+        public string? DevelopmentalMilestones { get; set; }
+
         [MaxLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
         public string? Notes { get; set; }
     }
