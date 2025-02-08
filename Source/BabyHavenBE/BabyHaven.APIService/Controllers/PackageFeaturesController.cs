@@ -28,10 +28,10 @@ namespace BabyHaven.APIService.Controllers
         }
 
         // GET api/<PackageFeaturesController>/5/3
-        [HttpGet("{PackageId}/{FeatureId}")]
-        public async Task<IServiceResult> Get(int PackageId, int FeatureId)
+        [HttpGet("{packageId}/{featureId}")]
+        public async Task<IServiceResult> Get(int packageId, int featureId)
         {
-            return await _packageFeatureService.GetById(PackageId, FeatureId);
+            return await _packageFeatureService.GetById(packageId, featureId);
         }
 
         // POST api/<PackageFeaturesController>
@@ -56,6 +56,18 @@ namespace BabyHaven.APIService.Controllers
             }
 
             return await _packageFeatureService.Update(packageFeatureUpdateDto);
+        }
+
+        // DELETE api/<FeaturesController>/5/3
+        [HttpDelete("{packageId}/{featuredId}")]
+        public async Task<IServiceResult> Delete(int packageId, int featuredId)
+        {
+            return await _packageFeatureService.DeleteById(packageId, featuredId);
+        }
+
+        private bool PackageFeatureExists(int packageId, int featuredId)
+        {
+            return _packageFeatureService.GetById(packageId, featuredId) != null;
         }
     }
 }
