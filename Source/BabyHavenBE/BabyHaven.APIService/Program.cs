@@ -68,17 +68,17 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-//// Cấu hình CORS
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAllOrigins",
-//        policy =>
-//        {
-//            policy.AllowAnyOrigin()
-//                  .AllowAnyMethod()
-//                  .AllowAnyHeader();
-//        });
-//});
+// Cấu hình CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
 
 //Cấu hình Cookie
 builder.Services.ConfigureApplicationCookie(options =>
@@ -139,7 +139,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseCors("AllowAllOrigins");
+app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 
