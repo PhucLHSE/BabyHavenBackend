@@ -19,6 +19,8 @@ namespace BabyHaven.Repositories
         private RoleRepository roleRepository;
         private UserAccountRepository userAccountRepository;
         private SpecializationRepository specializationRepository;
+        private ChildrenRepository childrenRepository;
+        private GrowthRecordRepository growthRecordRepository;
 
         public UnitOfWork() 
         {
@@ -56,6 +58,7 @@ namespace BabyHaven.Repositories
                 return diseaseRepository ??= new DiseaseRepository(context);
             }
         }
+      
         public RoleRepository RoleRepository
         {
             get
@@ -63,6 +66,7 @@ namespace BabyHaven.Repositories
                 return roleRepository ??= new RoleRepository(context);
             }
         }
+      
         public UserAccountRepository UserAccountRepository
         { 
             get
@@ -70,6 +74,23 @@ namespace BabyHaven.Repositories
                 return userAccountRepository ??= new UserAccountRepository(context);
             } 
         }
+
+        public ChildrenRepository ChildrenRepository
+        {
+            get
+            {
+                return childrenRepository ??= new ChildrenRepository(context);
+            }
+        }
+
+        public GrowthRecordRepository GrowthRecordRepository
+        {
+            get
+            {
+                return growthRecordRepository ??= new GrowthRecordRepository(context);
+            }
+        }
+      
         public SpecializationRepository SpecializationRepository
         { 
             get
