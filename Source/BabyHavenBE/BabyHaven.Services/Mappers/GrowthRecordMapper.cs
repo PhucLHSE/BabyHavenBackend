@@ -22,8 +22,6 @@ namespace BabyHaven.Services.Mappers
                 HeadCircumference = dto.HeadCircumference,
                 ImmunizationStatus = dto.ImmunizationStatus,
                 Notes = dto.Notes,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 
@@ -40,9 +38,6 @@ namespace BabyHaven.Services.Mappers
                 NutritionalStatus = dto.NutritionalStatus,
                 ImmunizationStatus = dto.ImmunizationStatus,
                 Notes = dto.Notes,
-                DevelopmentalMilestones = dto.DevelopmentalMilestones,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 
@@ -63,9 +58,6 @@ namespace BabyHaven.Services.Mappers
                 Vision = dto.Vision,
                 Hearing = dto.Hearing,
                 Notes = dto.Notes,
-                DevelopmentalMilestones = dto.DevelopmentalMilestones,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 
@@ -87,8 +79,6 @@ namespace BabyHaven.Services.Mappers
                 NeurologicalReflexes = dto.NeurologicalReflexes,
                 DevelopmentalMilestones = dto.DevelopmentalMilestones,
                 Notes = dto.Notes,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 

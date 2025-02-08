@@ -17,12 +17,10 @@ namespace BabyHaven.Services.Services
     public class UserAccountService : IUserAccountService
     {
         private readonly UnitOfWork _unitOfWork;
-        private readonly IJwtTokenService _jwtTokenService;
 
-        public UserAccountService(UnitOfWork unitOfWork, IJwtTokenService jwtTokenService)
+        public UserAccountService(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _jwtTokenService = jwtTokenService;
         }
 
         public async Task<UserAccount> Authenticate(string email, string password)

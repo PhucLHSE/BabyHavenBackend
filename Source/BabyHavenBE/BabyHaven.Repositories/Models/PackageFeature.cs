@@ -13,6 +13,8 @@ public partial class PackageFeature
 
     public DateTime CreatedAt { get; set; }
 
+    public DateTime UpdatedAt { get; set; }
+
     public string Status { get; set; }
 
     public virtual Feature Feature { get; set; }

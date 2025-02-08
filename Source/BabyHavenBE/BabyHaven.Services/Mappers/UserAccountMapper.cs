@@ -82,8 +82,6 @@ namespace BabyHaven.Services.Mappers
                 Password = dto.Password,
                 RoleId = dto.RoleId,
                 Status = UserAccountStatus.Active.ToString(),
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 
@@ -119,6 +117,7 @@ namespace BabyHaven.Services.Mappers
 
             if (updateDto.Status.HasValue)
                 userAccount.Status = updateDto.Status.ToString();
+            userAccount.UpdatedAt = DateTime.UtcNow;
         }
 
         // Mapper UserAccountDeleteDto
@@ -171,8 +170,6 @@ namespace BabyHaven.Services.Mappers
                 Status = UserAccountStatus.Active.ToString(),
                 RoleId = 1,
                 RegistrationDate = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
                 IsVerified = true
             };
         }
