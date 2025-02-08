@@ -169,7 +169,7 @@ namespace BabyHaven.Services.Mappers
                 Password = Guid.NewGuid().ToString(), // Dummy password
                 ProfilePicture = profilePicture,
                 Status = UserAccountStatus.Active.ToString(),
-                RoleId = googleDto.RoleId,
+                RoleId = 1,
                 RegistrationDate = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,

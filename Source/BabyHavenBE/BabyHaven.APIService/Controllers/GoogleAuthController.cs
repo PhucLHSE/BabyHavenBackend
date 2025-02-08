@@ -64,8 +64,7 @@ namespace BabyHaven.APIService.Controllers
             {
                 Email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
                 Name = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
-                ProfilePictureUrl = claims?.FirstOrDefault(c => c.Type == "picture")?.Value,
-                RoleId = 3
+                ProfilePictureUrl = claims?.FirstOrDefault(c => c.Type == "picture")?.Value
             };
 
             var serviceResult = await _userAccountService.AuthenticateWithGoogle(loginGoogleDto);
@@ -90,7 +89,7 @@ namespace BabyHaven.APIService.Controllers
         [HttpGet("google-signout")]
         public IActionResult GoogleSignOut()
         {
-            var googleLogoutUrl = "https://accounts.google.com/Logout";
+            var googleLogoutUrl = "https://accounts.google.com/logout";
             return Redirect(googleLogoutUrl);
         }
     }
