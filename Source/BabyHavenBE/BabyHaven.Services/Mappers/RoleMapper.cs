@@ -20,7 +20,6 @@ namespace BabyHaven.Services.Mappers
             {
                 // Role
                 RoleName = model.RoleName,
-                Description = model.Description,
 
                 // Convert Status from string to enum
                 Status = Enum.TryParse<RoleStatus>(model.Status, true, out var status)

@@ -27,14 +27,20 @@ namespace BabyHaven.Common.DTOs.PackageFeatureDTOs
 
         public string SupportLevel { get; set; } = string.Empty;
 
+
         // Feature details
         public string FeatureName { get; set; } = string.Empty;
 
         public string FeatureDescription { get; set; } = string.Empty;
 
+
         // PackageFeature details
         public DateTime CreatedAt { get; set; }
 
+        public DateTime UpdatedAt { get; set; }
+
+
+        // PackageFeature status
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public PackageFeatureStatus Status { get; set; } = PackageFeatureStatus.Inactive;
     }

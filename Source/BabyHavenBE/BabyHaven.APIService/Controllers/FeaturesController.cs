@@ -65,7 +65,7 @@ namespace BabyHaven.APIService.Controllers
             return await _featureService.DeleteById(id);
         }
 
-        private bool MembershipPackageExists(int id)
+        private bool FeatureExists(int id)
         {
             return _featureService.GetById(id) != null;
         }

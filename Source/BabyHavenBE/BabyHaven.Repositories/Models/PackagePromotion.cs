@@ -15,6 +15,8 @@ public partial class PackagePromotion
 
     public DateTime CreatedAt { get; set; }
 
+    public DateTime UpdatedAt { get; set; }
+
     public virtual MembershipPackage Package { get; set; }
 
     public virtual Promotion Promotion { get; set; }
