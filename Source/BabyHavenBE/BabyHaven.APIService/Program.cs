@@ -86,8 +86,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 //Cấu hình Authentication
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; // Mặc định JWT
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; // Khi cần xác thực, ưu tiên JWT
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Cho Google
 })
 .AddCookie(options =>
 {
