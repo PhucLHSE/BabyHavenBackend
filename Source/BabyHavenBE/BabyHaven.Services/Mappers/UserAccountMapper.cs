@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.UserAccountDTOs;
 using BabyHaven.Common.Enum.FeatureEnums;
 using BabyHaven.Common.Enum.UserAccountEnums;
 using BabyHaven.Repositories.Models;
+using NanoidDotNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -161,7 +162,7 @@ namespace BabyHaven.Services.Mappers
                 Username = googleDto.Email.Split('@')[0],  // Lấy phần trước @ làm username
                 Email = googleDto.Email,
                 Name = googleDto.Name,
-                PhoneNumber = "N/A", // Không có phone từ Google
+                PhoneNumber = Nanoid.Generate(size: 16), // Không có phone từ Google
                 Gender = "Other",  // Google không cung cấp giới tính
                 DateOfBirth = null, // Không có DOB từ Google
                 Address = "N/A",
