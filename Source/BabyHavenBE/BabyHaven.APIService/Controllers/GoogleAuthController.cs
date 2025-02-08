@@ -65,7 +65,6 @@ namespace BabyHaven.APIService.Controllers
                 Email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
                 Name = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
                 ProfilePictureUrl = claims?.FirstOrDefault(c => c.Type == "picture")?.Value,
-                RoleId = 3
             };
 
             var serviceResult = await _userAccountService.AuthenticateWithGoogle(loginGoogleDto);

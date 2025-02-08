@@ -16,11 +16,13 @@ namespace BabyHaven.APIService.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IUserAccountService _userAccountsService;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthenticationController(IConfiguration config, IUserAccountService userAccountsService)
+        public AuthenticationController(IConfiguration config, IUserAccountService userAccountsService, IJwtTokenService jwtTokenService)
         {
             _config = config;
             _userAccountsService = userAccountsService;
+            _jwtTokenService = jwtTokenService;
         }
 
         [HttpPost("Login")]
@@ -31,32 +33,32 @@ namespace BabyHaven.APIService.Controllers
             if (user == null)
                 return Unauthorized();
 
-            var token = GenerateJSONWebToken(user);
+            var token = _jwtTokenService.GenerateJSONWebToken(user);
 
             return Ok(token);
         }
 
-        private string GenerateJSONWebToken(UserAccount userAccount)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        //private string GenerateJSONWebToken(UserAccount userAccount)
+        //{
+        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"]
-                    , _config["Jwt:Audience"]
-                    , new Claim[]
-                    {
-                new(ClaimTypes.Name, userAccount.Email),
-                //new(ClaimTypes.Email, systemUserAccount.Email),
-                new(ClaimTypes.Role, userAccount.RoleId.ToString()),
-                    },
-                    expires: DateTime.Now.AddMinutes(120),
-                    signingCredentials: credentials
-                );
+        //    var token = new JwtSecurityToken(_config["Jwt:Issuer"]
+        //            , _config["Jwt:Audience"]
+        //            , new Claim[]
+        //            {
+        //        new(ClaimTypes.Name, userAccount.Email),
+        //        //new(ClaimTypes.Email, systemUserAccount.Email),
+        //        new(ClaimTypes.Role, userAccount.RoleId.ToString()),
+        //            },
+        //            expires: DateTime.Now.AddMinutes(120),
+        //            signingCredentials: credentials
+        //        );
 
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+        //    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return tokenString;
-        }
+        //    return tokenString;
+        //}
 
         public sealed record LoginReqeust(string Email, string Password);
 
