@@ -87,9 +87,9 @@ namespace BabyHaven.APIService.Controllers
         }
 
         [HttpGet("google-signout")]
-        public IActionResult GoogleSignOut()
+        public IActionResult GoogleSignOut() 
+        { 
             var googleLogoutUrl = "https://accounts.google.com/Logout";
-            var googleLogoutUrl = "https://accounts.google.com/logout";
             return Redirect(googleLogoutUrl);
         }
     }
