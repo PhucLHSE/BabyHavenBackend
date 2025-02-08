@@ -50,7 +50,7 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<RolesController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "3")]
         public async Task<IServiceResult> Put(RoleUpdateDto roleUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -63,7 +63,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<RolesController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "3")]
         public async Task<IServiceResult> Delete(int id)
         {
             return await _roleService.DeleteById(id);
