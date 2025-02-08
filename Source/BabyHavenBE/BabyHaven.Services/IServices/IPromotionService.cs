@@ -10,5 +10,6 @@ namespace BabyHaven.Services.IServices
     public interface IPromotionService
     {
         Task<IServiceResult> GetAll();
+        Task<IServiceResult> GetById(Guid PromotionId);
     }
 }

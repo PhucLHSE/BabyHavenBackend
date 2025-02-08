@@ -472,27 +472,27 @@ INSERT INTO Promotions (PromotionCode, Description, DiscountPercent, MinPurchase
                         ApplicablePackageIDs, TargetAudience, StartDate, EndDate, Status, RedemptionCount, UsageLimit, 
                         CreatedBy, ModifiedBy)
 VALUES
-('NEWYEAR25', 'Giảm giá 20% cho tất cả các gói thành viên nhân dịp năm mới', 20, 0, 200000, 
- '1,2,3', 'Tất cả thành viên', '2025-01-01', '2025-01-10', 'Active', 0, 1000, 
+('NEWYEAR25', 'Get 20% off on all membership packages for New Year', 20, 0, 200000, 
+ '1,2,3', 'All members', '2025-01-01', '2025-01-10', 'Active', 0, 1000, 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user')),
 
-('FREEMONTH', 'Nhận 1 tháng miễn phí khi đăng ký gói Premium', 100, 1279000, 1279000, 
- '3', 'Thành viên mới', '2025-02-01', '2025-02-28', 'Active', 0, 500, 
+('FREEMONTH', 'Get 1 free month when subscribing to the Premium package', 100, 1279000, 1279000, 
+ '3', 'New members', '2025-02-01', '2025-02-28', 'Active', 0, 500, 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user')),
 
-('SUMMER50', 'Giảm 50% cho gói Standard trong mùa hè', 50, 379000, 189500, 
- '2', 'Tất cả thành viên', '2025-06-01', '2025-06-30', 'Active', 0, 500, 
+('SUMMER50', 'Get 50% off on the Standard package during the summer', 50, 379000, 189500, 
+ '2', 'All members', '2025-06-01', '2025-06-30', 'Active', 0, 500, 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user')),
 
-('LOYALTY10', 'Giảm 10% cho thành viên đã gia hạn trên 1 năm', 10, 0, 500000, 
- '2,3', 'Thành viên lâu năm', '2025-01-01', '2025-12-31', 'Active', 0, NULL, 
+('LOYALTY10', 'Get 10% off for members who have renewed for over a year', 10, 0, 500000, 
+ '2,3', 'Loyal members', '2025-01-01', '2025-12-31', 'Active', 0, NULL, 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'), 
  (SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'));
 
- GO
+GO
 
  -- Insert PackagePromotions
  INSERT INTO PackagePromotions (PackageID, PromotionID, IsActive)

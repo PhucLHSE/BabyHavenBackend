@@ -42,5 +42,23 @@ namespace BabyHaven.Services.Services
                     promotionDtos);
             }
         }
+
+        public async Task<IServiceResult> GetById(Guid PromotionId)
+        {
+            var promotion = await _unitOfWork.PromotionRepository.GetByIdPromotionAsync(PromotionId);
+
+            if (promotion == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new PromotionViewDetailsDto());
+            }
+            else
+            {
+                var promotionDto = promotion.MapToPromotionViewDetailsDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    promotionDto);
+            }
+        }
     }
 }
