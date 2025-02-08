@@ -42,4 +42,17 @@ public partial class Child
     public virtual ICollection<GrowthRecord> GrowthRecords { get; set; } = new List<GrowthRecord>();
 
     public virtual Member Member { get; set; }
+
+    public int CalculateAge()
+    {
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        var age = today.Year - DateOfBirth.Year;
+
+        if (today < DateOfBirth.AddYears(age))
+        {
+            age--;
+        }
+
+        return age;
+    }
 }

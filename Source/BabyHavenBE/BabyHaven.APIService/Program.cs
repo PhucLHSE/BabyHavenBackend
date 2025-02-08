@@ -1,4 +1,5 @@
-﻿using BabyHaven.Repositories;
+﻿using BabyHaven.Common.Enum.Converters;
+using BabyHaven.Repositories;
 using BabyHaven.Repositories.Repositories;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
@@ -21,16 +22,16 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IGrowthRecordService, GrowthRecordService>();
+builder.Services.AddScoped<IChildrenService, ChildrenService>();
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();
-builder.Services.AddScoped<UserAccountRepository>();
-builder.Services.AddScoped<GrowthRecordRepository>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
 });
 
 // Swagger UI

@@ -75,8 +75,6 @@ namespace BabyHaven.Services.Mappers
                 Treatment = dto.Treatment,
                 Prevention = dto.Prevention,
                 Notes = dto.Notes,
-                CreatedAt = DateTime.UtcNow,
-                LastModified = DateTime.UtcNow,
             };
         }
 

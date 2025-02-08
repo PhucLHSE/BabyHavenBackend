@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common;
 using BabyHaven.Common.DTOs.GrowthRecordDTOs;
+using BabyHaven.Repositories;
 using BabyHaven.Repositories.Repositories;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -14,11 +15,11 @@ namespace BabyHaven.Services.Services
 {
     public class GrowthRecordService : IGrowthRecordService
     {
-        private readonly GrowthRecordRepository _growthRecordRepository;
+        private readonly UnitOfWork _unitOfWork;
 
-        public GrowthRecordService(GrowthRecordRepository growthRecordRepository)
+        public GrowthRecordService(UnitOfWork unitOfWor)
         {
-            _growthRecordRepository = growthRecordRepository ?? throw new ArgumentNullException(nameof(growthRecordRepository));
+            _unitOfWork = unitOfWor ?? throw new ArgumentNullException(nameof(unitOfWor));
         }
 
         public async Task<IServiceResult> CreateGrowthRecordChild(GrowthRecordChildDto dto)
@@ -27,7 +28,7 @@ namespace BabyHaven.Services.Services
             {
                 var growthRecord = dto.MapToGrowthRecordEntity();
 
-                await _growthRecordRepository.CreateAsync(growthRecord);
+                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
 
                 return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
             }
@@ -43,7 +44,7 @@ namespace BabyHaven.Services.Services
             {
                 var growthRecord = dto.MapToGrowthRecordEntity();
 
-                await _growthRecordRepository.CreateAsync(growthRecord);
+                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
 
                 return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
             }
@@ -59,7 +60,7 @@ namespace BabyHaven.Services.Services
             {
                 var growthRecord = dto.MapToGrowthRecordEntity();
 
-                await _growthRecordRepository.CreateAsync(growthRecord);
+                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
 
                 return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
             }
@@ -75,7 +76,7 @@ namespace BabyHaven.Services.Services
             {
                 var growthRecord = dto.MapToGrowthRecordEntity();
 
-                await _growthRecordRepository.CreateAsync(growthRecord);
+                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
 
                 return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
             }
@@ -89,13 +90,13 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var growthRecord = await _growthRecordRepository.GetByIdAsync(recordId);
+                var growthRecord = await _unitOfWork.GrowthRecordRepository.GetByIdAsync(recordId);
                 if (growthRecord == null)
                 {
                     return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG);
                 }
 
-                await _growthRecordRepository.RemoveAsync(growthRecord);
+                await _unitOfWork.GrowthRecordRepository.RemoveAsync(growthRecord);
 
                 return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG);
             }
@@ -109,7 +110,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var growthRecords = await _growthRecordRepository.GetAllGrowthRecordsByChild(childId);
+                var growthRecords = await _unitOfWork.GrowthRecordRepository.GetAllGrowthRecordsByChild(childId);
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, growthRecords);
             }
             catch (Exception ex)
@@ -122,7 +123,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var growthRecord = await _growthRecordRepository.GetGrowthRecordById(recordId, childId);
+                var growthRecord = await _unitOfWork.GrowthRecordRepository.GetGrowthRecordById(recordId, childId);
                 if (growthRecord == null)
                 {
                     return new ServiceResult(Const.FAIL_READ_CODE, Const.FAIL_READ_MSG);
@@ -140,7 +141,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var growthRecords = await _growthRecordRepository.GetRecordsByDateRangeAsync(childId, startDate, endDate);
+                var growthRecords = await _unitOfWork.GrowthRecordRepository.GetRecordsByDateRangeAsync(childId, startDate, endDate);
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, growthRecords);
             }
             catch (Exception ex)
