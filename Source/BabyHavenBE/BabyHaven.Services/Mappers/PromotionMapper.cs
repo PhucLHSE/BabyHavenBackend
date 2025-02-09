@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.PromotionDTOs;
 using BabyHaven.Common.Enum.MembershipPackageEnums;
 using BabyHaven.Common.Enum.PromotionEnums;
 using BabyHaven.Repositories.Models;
+using BabyHaven.Repositories.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +70,28 @@ namespace BabyHaven.Services.Mappers
                 // Fetch User Names instead of IDs
                 CreatedBy = model.CreatedByNavigation?.Name ?? "Unknown",
                 ModifiedBy = model.ModifiedByNavigation?.Name ?? "Unknown"
+            };
+        }
+
+        // Mapper PromotionCreateDto
+        public static Promotion MapToPromotionCreateDto(this PromotionCreateDto dto)
+        {
+            return new Promotion
+            {
+                PromotionCode = dto.PromotionCode,
+                Description = dto.Description,
+                DiscountPercent = dto.DiscountPercent,
+                MinPurchaseAmount = dto.MinPurchaseAmount,
+                MaxDiscountAmount = dto.MaxDiscountAmount,
+                ApplicablePackageIds = dto.ApplicablePackageIds,
+                TargetAudience = dto.TargetAudience,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Status = dto.Status.ToString(), // Convert enum to string for storage
+                RedemptionCount = dto.RedemptionCount ?? 0, // Default to 0 if null
+                UsageLimit = dto.UsageLimit,
+                CreatedBy = dto.CreatedBy,
+                ModifiedBy = dto.ModifiedBy
             };
         }
     }

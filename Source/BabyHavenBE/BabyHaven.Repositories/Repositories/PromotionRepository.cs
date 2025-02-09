@@ -27,5 +27,11 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(p => p.ModifiedByNavigation) 
                 .FirstOrDefaultAsync(p => p.PromotionId == promotionId);
         }
+
+        public async Task<Promotion?> GetByPromotionCodeAsync(string promotionCode)
+        {
+            return await _context.Promotions
+                .FirstOrDefaultAsync(p => p.PromotionCode == promotionCode);
+        }
     }
 }
