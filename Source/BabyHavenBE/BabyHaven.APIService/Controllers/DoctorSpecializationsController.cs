@@ -26,10 +26,10 @@ namespace BabyHaven.APIService.Controllers
         }
 
         // GET api/<DoctorSpecializationsController>/5/3
-        [HttpGet("{specializationId}/{doctorId}")]
-        public async Task<IServiceResult> Get(int specializationId, int doctorId)
+        [HttpGet("{doctorSpecializationId}")]
+        public async Task<IServiceResult> Get(int doctorSpecializationId)
         {
-            return await _doctorSpecializationService.GetById(specializationId, doctorId);
+            return await _doctorSpecializationService.GetById(doctorSpecializationId);
         }
 
         // POST api/<DoctorSpecializationsController>
@@ -45,7 +45,7 @@ namespace BabyHaven.APIService.Controllers
         }
 
         // PUT api/<DoctorSpecializationsController>/5/3
-        [HttpPut("{specializationId}/{doctorId}")]
+        [HttpPut("{doctorSpecializationId}")]
         public async Task<IServiceResult> Put(DoctorSpecializationUpdateDto doctorSpecializationUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -57,15 +57,15 @@ namespace BabyHaven.APIService.Controllers
         }
 
         // DELETE api/<DoctorSpecializationsController>/5/3
-        [HttpDelete("{specializationId}/{doctorId}")]
-        public async Task<IServiceResult> Delete(int specializationId, int doctorId)
+        [HttpDelete("{doctorSpecializationId}")]
+        public async Task<IServiceResult> Delete(int doctorSpecializationId)
         {
-            return await _doctorSpecializationService.DeleteById(specializationId, doctorId);
+            return await _doctorSpecializationService.DeleteById(doctorSpecializationId);
         }
 
-        private bool DoctorSpecializationExists(int packageId, int featuredId)
+        private bool DoctorSpecializationExists(int doctorSpecializationId)
         {
-            return _doctorSpecializationService.GetById(packageId, featuredId) != null;
+            return _doctorSpecializationService.GetById(doctorSpecializationId) != null;
         }
     }
 }
