@@ -60,5 +60,54 @@ namespace BabyHaven.Services.Services
                     promotionDto);
             }
         }
+
+        public async Task<IServiceResult> Create(PromotionCreateDto promotionDto)
+        {
+            try
+            {
+                // Check if the promotion exists in the database
+                var promotion = await _unitOfWork.PromotionRepository.GetByPromotionCodeAsync(promotionDto.PromotionCode);
+
+                if (promotion != null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "PromotionCode with the same code already exists.");
+                }
+
+                // Map DTO to Entity
+                var newPromotion = promotionDto.MapToPromotionCreateDto();
+
+                // Add creation and update time information
+                newPromotion.CreatedAt = DateTime.UtcNow;
+                newPromotion.UpdatedAt = DateTime.UtcNow;
+
+                // Save data to database
+                var result = await _unitOfWork.PromotionRepository.CreateAsync(newPromotion);
+
+                if (result > 0)
+                {
+                    // Retrieve user details from UserAccountRepository
+                    var createdByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(newPromotion.CreatedBy);
+                    var modifiedByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(newPromotion.ModifiedBy);
+
+                    // Assign retrieved user details to navigation properties
+                    newPromotion.CreatedByNavigation = createdByUser;
+                    newPromotion.ModifiedByNavigation = modifiedByUser;
+
+                    // Map the saved entity to a response DTO
+                    var responseDto = newPromotion.MapToPromotionViewDetailsDto();
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                        responseDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }
