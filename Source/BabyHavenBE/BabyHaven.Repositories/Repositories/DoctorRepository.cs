@@ -32,11 +32,11 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(d => d.User)
                 .ToListAsync();
         }
-        public async Task<Doctor> GetByIdWithUsersAsync(int doctorId)
+        public async Task<Doctor> GetByIdWithUsersAsync(int DoctorId)
         {
             return await _context.Doctors
                 .Include(u => u.User)
-                .FirstOrDefaultAsync(u => u.DoctorId == doctorId);
+                .FirstOrDefaultAsync(u => u.DoctorId == DoctorId);
         }
     }
 }
