@@ -28,6 +28,7 @@ builder.Services.AddScoped<IGrowthRecordService, GrowthRecordService>();
 builder.Services.AddScoped<ISpecializationService, SpecializationService>();
 builder.Services.AddScoped<IChildrenService, ChildrenService>();
 builder.Services.AddScoped<IGrowthAnalysisService, GrowthRecordAnalysisService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();
