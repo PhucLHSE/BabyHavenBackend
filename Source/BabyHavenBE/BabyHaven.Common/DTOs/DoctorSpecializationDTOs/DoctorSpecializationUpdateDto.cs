@@ -11,6 +11,8 @@ namespace BabyHaven.Common.DTOs.DoctorSpecializationDTOs
 {
     public class DoctorSpecializationUpdateDto
     {
+        [Required(ErrorMessage = "DoctorSpecializationId is required.")]
+        public int DoctorSpecializationId { get; set; }
         //Doctor
         [Required(ErrorMessage = "DoctorName is required.")]
         [MaxLength(255, ErrorMessage = "DoctorName cannot exceed 255 characters.")]

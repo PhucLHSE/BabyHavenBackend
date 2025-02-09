@@ -41,9 +41,9 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> GetById(int DoctorId, int SpecializationId)
+        public async Task<IServiceResult> GetById(int DoctorSpecializationId)
         {
-            var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository.GetByIdDoctorSpecializationAsync(DoctorId, SpecializationId);
+            var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository.GetByIdDoctorSpecializationAsync(DoctorSpecializationId);
 
             if (doctorSpecialization == null)
             {
@@ -183,12 +183,12 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> DeleteById(int SpecializationId, int DoctorId)
+        public async Task<IServiceResult> DeleteById(int DoctorSpecializationId)
         {
             try
             {
                 // Retrieve the DoctorSpecialization using the provided SpecializationId and DoctorId
-                var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository.GetByIdDoctorSpecializationAsync(SpecializationId, DoctorId);
+                var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository.GetByIdDoctorSpecializationAsync( DoctorSpecializationId);
 
                 // Check if the DoctorSpecialization exists
                 if (doctorSpecialization == null)
