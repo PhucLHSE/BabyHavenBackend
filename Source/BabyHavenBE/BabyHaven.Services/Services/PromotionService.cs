@@ -109,5 +109,53 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
+
+        public async Task<IServiceResult> Update(PromotionUpdateDto promotionDto)
+        {
+            try
+            {
+                // Check if the package exists in the database
+                var promotion = await _unitOfWork.PromotionRepository.GetByIdPromotionAsync(promotionDto.PromotionId);
+
+                if (promotion == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Promotion not found.");
+                }
+
+                //Map DTO to Entity
+                promotionDto.MapToPromotionUpdateDto(promotion);
+
+                // Update time information
+                promotion.UpdatedAt = DateTime.UtcNow;
+
+                // Save data to database
+                var result = await _unitOfWork.PromotionRepository.UpdatePromotionAsync(promotion);
+
+                if (result > 0)
+                {
+                    // Retrieve user details from UserAccountRepository
+                    var createdByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(promotion.CreatedBy);
+                    var modifiedByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(promotion.ModifiedBy);
+
+                    // Assign retrieved user details to navigation properties
+                    promotion.CreatedByNavigation = createdByUser;
+                    promotion.ModifiedByNavigation = modifiedByUser;
+
+                    // Map the saved entity to a response DTO
+                    var responseDto = promotion.MapToPromotionViewDetailsDto();
+
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                        responseDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }

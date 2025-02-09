@@ -94,5 +94,47 @@ namespace BabyHaven.Services.Mappers
                 ModifiedBy = dto.ModifiedBy
             };
         }
+
+        // Mapper PromotionUpdateDto
+        public static void MapToPromotionUpdateDto(this PromotionUpdateDto updateDto, Promotion promotion)
+        {
+            if (!string.IsNullOrWhiteSpace(updateDto.PromotionCode))
+                promotion.PromotionCode = updateDto.PromotionCode;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.Description))
+                promotion.Description = updateDto.Description;
+
+            if (updateDto.DiscountPercent >= 0 && updateDto.DiscountPercent <= 100)
+                promotion.DiscountPercent = updateDto.DiscountPercent;
+
+            if (updateDto.MinPurchaseAmount.HasValue)
+                promotion.MinPurchaseAmount = updateDto.MinPurchaseAmount;
+
+            if (updateDto.MaxDiscountAmount.HasValue)
+                promotion.MaxDiscountAmount = updateDto.MaxDiscountAmount;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.ApplicablePackageIds))
+                promotion.ApplicablePackageIds = updateDto.ApplicablePackageIds;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.TargetAudience))
+                promotion.TargetAudience = updateDto.TargetAudience;
+
+            if (updateDto.EndDate <= updateDto.StartDate)
+                throw new ArgumentException("EndDate must be greater than StartDate.");
+
+            promotion.StartDate = updateDto.StartDate;
+            promotion.EndDate = updateDto.EndDate;
+
+            if (updateDto.Status.HasValue)
+                promotion.Status = updateDto.Status.ToString();
+
+            if (updateDto.RedemptionCount.HasValue)
+                promotion.RedemptionCount = updateDto.RedemptionCount;
+
+            if (updateDto.UsageLimit.HasValue)
+                promotion.UsageLimit = updateDto.UsageLimit;
+
+            promotion.ModifiedBy = updateDto.ModifiedBy;
+        }
     }
 }
