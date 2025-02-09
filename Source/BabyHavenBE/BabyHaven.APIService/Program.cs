@@ -1,4 +1,5 @@
 ﻿using BabyHaven.Common.Enum.Converters;
+using Azure;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Repositories;
 using BabyHaven.Services.IServices;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OpenAI;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -17,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IMembershipPackageService, MembershipPackageService>();
 builder.Services.AddScoped<IPackageFeatureService, PackageFeatureService>();
+builder.Services.AddScoped<IPromotionService, PromotionService>();
 builder.Services.AddScoped<IDiseaseService, DiseaseService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
@@ -24,6 +27,7 @@ builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IGrowthRecordService, GrowthRecordService>();
 builder.Services.AddScoped<ISpecializationService, SpecializationService>();
 builder.Services.AddScoped<IChildrenService, ChildrenService>();
+builder.Services.AddScoped<IGrowthAnalysisService, GrowthRecordAnalysisService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 
 // Đăng ký UnitOfWork và Repository
@@ -65,6 +69,7 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+
 // Cấu hình CORS
 builder.Services.AddCors(options =>
 {
@@ -114,6 +119,15 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("GoogleAuth", policy =>
+        policy.RequireAuthenticatedUser().AddAuthenticationSchemes(GoogleDefaults.AuthenticationScheme));
+
+    options.AddPolicy("JwtAuth", policy =>
+        policy.RequireAuthenticatedUser().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme));
 });
 
 var app = builder.Build();

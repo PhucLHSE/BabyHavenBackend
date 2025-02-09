@@ -52,7 +52,7 @@ namespace BabyHaven.Services.Mappers
 
                 // PackageFeature details
                 CreatedAt = model.CreatedAt,
-                //UpdatedAt = model.UpdatedAt,
+                UpdatedAt = model.UpdatedAt,
 
                 // Convert Status from string to enum
                 Status = Enum.TryParse<PackageFeatureStatus>(model.Status, true, out var status)

@@ -64,7 +64,7 @@ namespace BabyHaven.APIService.Controllers
             {
                 Email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
                 Name = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
-                ProfilePictureUrl = claims?.FirstOrDefault(c => c.Type == "picture")?.Value,
+                ProfilePictureUrl = claims?.FirstOrDefault(c => c.Type == "picture")?.Value
             };
 
             var serviceResult = await _userAccountService.AuthenticateWithGoogle(loginGoogleDto);
@@ -87,10 +87,19 @@ namespace BabyHaven.APIService.Controllers
         }
 
         [HttpGet("google-signout")]
-        public IActionResult GoogleSignOut()
+        public async Task<IActionResult> GoogleSignOut()
         {
-            var googleLogoutUrl = "https://accounts.google.com/Logout";
-            return Redirect(googleLogoutUrl);
+            // Xóa cookie đăng nhập của người dùng
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            //// Đường dẫn đăng xuất Google
+            //var googleLogoutUrl = "https://accounts.google.com/Logout";
+
+            // Chuyển hướng người dùng về trang chủ sau khi đăng xuất
+            return SignOut(new AuthenticationProperties
+            {
+                RedirectUri = "/" // Chuyển hướng về trang chủ sau khi đăng xuất
+            }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }

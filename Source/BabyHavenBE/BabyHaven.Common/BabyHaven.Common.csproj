@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Nanoid" Version="3.1.0" />
+	  <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
+	  <PackageReference Include="OpenAI" Version="2.1.0" />
+  </ItemGroup>
+
+
 </Project>
