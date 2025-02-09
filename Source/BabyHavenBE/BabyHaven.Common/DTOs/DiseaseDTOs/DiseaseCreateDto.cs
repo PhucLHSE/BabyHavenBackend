@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BabyHaven.Common.Enum.AlertEnums;
 
 namespace BabyHaven.Common.DTOs.DiseaseDTOs
 {
@@ -39,15 +40,14 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
         public int MaxAge { get; set; }
 
         [Required(ErrorMessage = "Severity is required.")]
-        [MaxLength(50, ErrorMessage = "Severity cannot exceed 50 characters.")]
-        public string Severity { get; set; } = string.Empty;
+        [JsonConverter(typeof(JsonStringEnumConverter))] // Serialize Enum thành string khi trả về API
+        public SeverityLevelEnum Severity { get; set; }
 
         [Required(ErrorMessage = "DiseaseType is required.")]
-        [MaxLength(50, ErrorMessage = "DiseaseType cannot exceed 50 characters.")]
         public string DiseaseType { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "DiseaseType is required.")]
-        [MaxLength(2000, ErrorMessage = "DiseaseType cannot exceed 2000 characters.")]
+        [Required(ErrorMessage = "Symptoms are required.")]
+        [MaxLength(2000, ErrorMessage = "Symptoms cannot exceed 2000 characters.")]
         public string Symptoms { get; set; } = string.Empty;
 
         [MaxLength(2000, ErrorMessage = "Treatment cannot exceed 2000 characters.")]

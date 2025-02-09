@@ -11,7 +11,7 @@ namespace BabyHaven.Services.Mappers
     public static class GrowthRecordMapper
     {
         // Infant
-        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordInfantDto dto)
+        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordInfantDto dto, List<Alert>? alerts)
         {
             return new GrowthRecord
             {
@@ -22,6 +22,8 @@ namespace BabyHaven.Services.Mappers
                 HeadCircumference = dto.HeadCircumference,
                 ImmunizationStatus = dto.ImmunizationStatus,
                 Notes = dto.Notes,
+                OxygenSaturation = dto.OxygenSaturation,  // Thêm OxygenSaturation vào GrowthRecord
+                Alerts = alerts
             };
         }
 
@@ -83,7 +85,7 @@ namespace BabyHaven.Services.Mappers
         }
 
         //View All
-        public static GrowthRecordViewAllDto MapToGrowthRecordEntity(this GrowthRecord model)
+        public static GrowthRecordViewAllDto MapToGrowthRecordViewAll(this GrowthRecord model)
         {
             return new GrowthRecordViewAllDto
             {
@@ -105,7 +107,7 @@ namespace BabyHaven.Services.Mappers
                 BloodPressure = model.BloodPressure,
                 ImmunizationStatus = model.ImmunizationStatus,
                 NutritionalStatus = model.NutritionalStatus,
-                Notes = model.Notes
+                Notes = model.Notes,
             };
         }
     }
