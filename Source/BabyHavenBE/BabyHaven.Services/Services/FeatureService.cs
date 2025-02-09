@@ -86,8 +86,11 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+                    // Map the saved entity to a response DTO
+                    var responseDto = newFeature.MapToFeatureViewDetailsDto();
+
                     return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
-                        newFeature);
+                        responseDto);
                 }
                 else
                 {
@@ -123,8 +126,11 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+                    // Map the saved entity to a response DTO
+                    var responseDto = feature.MapToFeatureViewDetailsDto();
+
                     return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
-                        feature);
+                        responseDto);
                 }
                 else
                 {
