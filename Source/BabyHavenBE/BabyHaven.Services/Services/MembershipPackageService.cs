@@ -85,8 +85,11 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+                    // Map the saved entity to a response DTO
+                    var responseDto = newMembershipPackage.MapToMembershipPackageViewDetailsDto();
+
                     return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
-                        newMembershipPackage);
+                        responseDto);
                 }
                 else
                 {
@@ -122,8 +125,11 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+                    // Map the saved entity to a response DTO
+                    var responseDto = membershipPackage.MapToMembershipPackageViewDetailsDto();
+
                     return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
-                        membershipPackage);
+                        responseDto);
                 }
                 else
                 {
