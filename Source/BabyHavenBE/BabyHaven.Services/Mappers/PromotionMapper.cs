@@ -136,5 +136,46 @@ namespace BabyHaven.Services.Mappers
 
             promotion.ModifiedBy = updateDto.ModifiedBy;
         }
+
+        // Mapper PromotionDeleteDto
+        public static PromotionDeleteDto MapToPromotionDeleteDto(this Promotion model)
+        {
+            return new PromotionDeleteDto
+            {
+                // Basic Promotion Information
+                PromotionCode = model.PromotionCode,
+                Description = model.Description,
+                DiscountPercent = model.DiscountPercent,
+
+                // Purchase Amount Constraints
+                MinPurchaseAmount = model.MinPurchaseAmount,
+                MaxDiscountAmount = model.MaxDiscountAmount,
+
+                // Applicability and Target Audience
+                ApplicablePackageIds = model.ApplicablePackageIds,
+                TargetAudience = model.TargetAudience,
+
+                // Promotion Duration
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<PromotionStatus>(model.Status, true, out var status)
+                  ? status
+                  : PromotionStatus.Inactive,
+
+                // Redemption and Usage Limits
+                RedemptionCount = model.RedemptionCount,
+                UsageLimit = model.UsageLimit,
+
+                // Audit Information
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt,
+
+                // Fetch User Names instead of IDs
+                CreatedBy = model.CreatedByNavigation?.Name ?? "Unknown",
+                ModifiedBy = model.ModifiedByNavigation?.Name ?? "Unknown"
+            };
+        }
     }
 }
