@@ -1,7 +1,5 @@
-﻿using BabyHaven.Common.DTOs.PackageFeatureDTOs;
-using BabyHaven.Common.DTOs.PackagePromotionDTOs;
+﻿using BabyHaven.Common.DTOs.PackagePromotionDTOs;
 using BabyHaven.Common.Enum.MembershipPackageEnums;
-using BabyHaven.Common.Enum.PackageFeatureEnums;
 using BabyHaven.Common.Enum.PromotionEnums;
 using BabyHaven.Repositories.Models;
 using System;
@@ -26,7 +24,7 @@ namespace BabyHaven.Services.Mappers
                 SupportLevel = model.Package?.SupportLevel ?? string.Empty,
 
                 // Mapping promotion details
-                PromotionName = model.Promotion?.PromotionCode ?? string.Empty,
+                PromotionCode = model.Promotion?.PromotionCode ?? string.Empty,
                 DiscountPercent = model.Promotion?.DiscountPercent ?? 0,
                 MaxDiscountAmount = model.Promotion?.MaxDiscountAmount,
                 TargetAudience = model.Promotion?.TargetAudience ?? string.Empty,
@@ -58,7 +56,6 @@ namespace BabyHaven.Services.Mappers
                      : MembershipPackageStatus.Inactive,
 
                 // Mapping promotion details
-                PromotionName = model.Promotion?.PromotionCode ?? string.Empty,
                 PromotionCode = model.Promotion?.PromotionCode ?? string.Empty,
                 PromotionDescription = model.Promotion?.Description ?? string.Empty,
                 DiscountPercent = model.Promotion?.DiscountPercent ?? 0,
@@ -78,6 +75,18 @@ namespace BabyHaven.Services.Mappers
                 // Audit Information
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt
+            };
+        }
+
+        //Mapper PackagePromotionCreateDto
+        public static PackagePromotion MapToPackagePromotion(this PackagePromotionCreateDto dto, int packageId, Guid promotionId)
+        {
+            return new PackagePromotion
+            {
+                PackageId = packageId,
+                PromotionId = promotionId,
+                IsActive = dto.IsActive,
+                CreatedAt = DateTime.UtcNow
             };
         }
     }

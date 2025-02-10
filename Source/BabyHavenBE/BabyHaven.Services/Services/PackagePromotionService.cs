@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.PackagePromotionDTOs;
-using BabyHaven.Common.DTOs.FeatureDTOs;
 
 namespace BabyHaven.Services.Services
 {
@@ -57,6 +56,67 @@ namespace BabyHaven.Services.Services
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     packagePromotionDto);
+            }
+        }
+
+        public async Task<IServiceResult> Create(PackagePromotionCreateDto packagePromotionDto)
+        {
+            try
+            {
+                // Retrieve mappings: PackageName -> PackageId and PromotionCode -> PromotionId
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository.GetAllPackageNameToIdMappingAsync();
+                var promotionCodeToIdMapping = await _unitOfWork.PromotionRepository.GetAllPromotionCodeToIdMappingAsync();
+
+                // Check existence and retrieve PackageId from PackageName
+                if (!packageNameToIdMapping.TryGetValue(packagePromotionDto.PackageName, out var packageId))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        $"PackageName '{packagePromotionDto.PackageName}' does not exist.");
+                }
+
+                // Check existence and retrieve PromotionId from PromotionCode
+                if (!promotionCodeToIdMapping.TryGetValue(packagePromotionDto.PromotionCode, out var promotionId))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        $"PromotionCode '{packagePromotionDto.PromotionCode}' does not exist.");
+                }
+
+                // Check if the PackagePromotion already exists in the database
+                var existingPackagePromotion = await _unitOfWork.PackagePromotionRepository
+                    .GetByIdPackagePromotionAsync(packageId, promotionId);
+
+                if (existingPackagePromotion != null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "The specified PackageFeature already exists.");
+                }
+
+                // Map the DTO to an entity object
+                var newPackagePromotion = packagePromotionDto.MapToPackagePromotion(packageId, promotionId);
+
+                // Save the new entity to the database
+                var result = await _unitOfWork.PackagePromotionRepository.CreateAsync(newPackagePromotion);
+
+                if (result > 0)
+                {
+                    var responseDto = new PackagePromotionCreateDto
+                    {
+                        PackageName = packagePromotionDto.PackageName,
+                        PromotionCode = packagePromotionDto.PromotionCode,
+                        IsActive = packagePromotionDto.IsActive
+                    };
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                        responseDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
     }
