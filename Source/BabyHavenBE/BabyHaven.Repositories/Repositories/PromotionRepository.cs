@@ -45,5 +45,11 @@ namespace BabyHaven.Repositories.Repositories
             _context.Entry(promotion).State = EntityState.Detached;
             return result;
         }
+
+        public async Task<Dictionary<string, Guid>> GetAllPromotionCodeToIdMappingAsync()
+        {
+            return await _context.Promotions
+                .ToDictionaryAsync(p => p.PromotionCode, p => p.PromotionId);
+        }
     }
 }

@@ -33,8 +33,6 @@ namespace BabyHaven.Common.DTOs.PackagePromotionDTOs
 
 
         // Promotion Information
-        public string PromotionName { get; set; } = string.Empty;
-
         public string PromotionCode { get; set; } = string.Empty;
 
         public string PromotionDescription { get; set; } = string.Empty;
