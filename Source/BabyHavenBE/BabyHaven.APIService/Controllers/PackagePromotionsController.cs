@@ -22,5 +22,12 @@ namespace BabyHaven.APIService.Controllers
         {
             return await _packagePromotionsService.GetAll();
         }
+
+        // GET api/<PackagePromotionsController>/5/3
+        [HttpGet("{packageId}/{promotionId}")]
+        public async Task<IServiceResult> Get(int packageId, Guid promotionId)
+        {
+            return await _packagePromotionsService.GetById(packageId, promotionId);
+        }
     }
 }
