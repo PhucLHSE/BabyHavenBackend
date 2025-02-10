@@ -38,7 +38,8 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed",
+                    ModelState);
             }
 
             return await _packagePromotionsService.Create(packagePromotionCreateDto);

@@ -1,9 +1,6 @@
-﻿using BabyHaven.Common.DTOs.MembershipPackageDTOs;
-using BabyHaven.Common.DTOs.PromotionDTOs;
-using BabyHaven.Common.Enum.MembershipPackageEnums;
+﻿using BabyHaven.Common.DTOs.PromotionDTOs;
 using BabyHaven.Common.Enum.PromotionEnums;
 using BabyHaven.Repositories.Models;
-using BabyHaven.Repositories.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

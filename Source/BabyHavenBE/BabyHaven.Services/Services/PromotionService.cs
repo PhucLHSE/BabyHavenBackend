@@ -1,5 +1,4 @@
-﻿using BabyHaven.Common.DTOs.MembershipPackageDTOs;
-using BabyHaven.Common;
+﻿using BabyHaven.Common;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Mappers;
 using BabyHaven.Services.Base;
@@ -25,7 +24,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var promotions = await _unitOfWork.PromotionRepository.GetAllAsync();
+            var promotions = await _unitOfWork.PromotionRepository
+                .GetAllAsync();
 
             if (promotions == null || !promotions.Any())
             {
@@ -45,7 +45,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(Guid PromotionId)
         {
-            var promotion = await _unitOfWork.PromotionRepository.GetByIdPromotionAsync(PromotionId);
+            var promotion = await _unitOfWork.PromotionRepository
+                .GetByIdPromotionAsync(PromotionId);
 
             if (promotion == null)
             {
@@ -66,11 +67,13 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Check if the promotion exists in the database
-                var promotion = await _unitOfWork.PromotionRepository.GetByPromotionCodeAsync(promotionDto.PromotionCode);
+                var promotion = await _unitOfWork.PromotionRepository
+                    .GetByPromotionCodeAsync(promotionDto.PromotionCode);
 
                 if (promotion != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "PromotionCode with the same code already exists.");
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "PromotionCode with the same code already exists.");
                 }
 
                 // Map DTO to Entity
@@ -81,13 +84,17 @@ namespace BabyHaven.Services.Services
                 newPromotion.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.PromotionRepository.CreateAsync(newPromotion);
+                var result = await _unitOfWork.PromotionRepository
+                    .CreateAsync(newPromotion);
 
                 if (result > 0)
                 {
                     // Retrieve user details from UserAccountRepository
-                    var createdByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(newPromotion.CreatedBy);
-                    var modifiedByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(newPromotion.ModifiedBy);
+                    var createdByUser = await _unitOfWork.UserAccountRepository
+                        .GetByIdAsync(newPromotion.CreatedBy);
+
+                    var modifiedByUser = await _unitOfWork.UserAccountRepository
+                        .GetByIdAsync(newPromotion.ModifiedBy);
 
                     // Assign retrieved user details to navigation properties
                     newPromotion.CreatedByNavigation = createdByUser;
@@ -115,11 +122,13 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Check if the package exists in the database
-                var promotion = await _unitOfWork.PromotionRepository.GetByIdPromotionAsync(promotionDto.PromotionId);
+                var promotion = await _unitOfWork.PromotionRepository
+                    .GetByIdPromotionAsync(promotionDto.PromotionId);
 
                 if (promotion == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Promotion not found.");
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        "Promotion not found.");
                 }
 
                 //Map DTO to Entity
@@ -129,13 +138,17 @@ namespace BabyHaven.Services.Services
                 promotion.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.PromotionRepository.UpdatePromotionAsync(promotion);
+                var result = await _unitOfWork.PromotionRepository
+                    .UpdatePromotionAsync(promotion);
 
                 if (result > 0)
                 {
                     // Retrieve user details from UserAccountRepository
-                    var createdByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(promotion.CreatedBy);
-                    var modifiedByUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(promotion.ModifiedBy);
+                    var createdByUser = await _unitOfWork.UserAccountRepository
+                        .GetByIdAsync(promotion.CreatedBy);
+
+                    var modifiedByUser = await _unitOfWork.UserAccountRepository
+                        .GetByIdAsync(promotion.ModifiedBy);
 
                     // Assign retrieved user details to navigation properties
                     promotion.CreatedByNavigation = createdByUser;
@@ -162,7 +175,8 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var promotion = await _unitOfWork.PromotionRepository.GetByIdPromotionAsync(PromotionId);
+                var promotion = await _unitOfWork.PromotionRepository
+                    .GetByIdPromotionAsync(PromotionId);
 
                 if (promotion == null)
                 {
@@ -173,7 +187,8 @@ namespace BabyHaven.Services.Services
                 {
                     var deletePromotionDto = promotion.MapToPromotionDeleteDto();
 
-                    var result = await _unitOfWork.PromotionRepository.RemoveAsync(promotion);
+                    var result = await _unitOfWork.PromotionRepository
+                        .RemoveAsync(promotion);
 
                     if (result)
                     {

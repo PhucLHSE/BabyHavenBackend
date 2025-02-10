@@ -1,9 +1,6 @@
 ﻿using BabyHaven.Common;
 using BabyHaven.Common.DTOs.FeatureDTOs;
-using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Repositories;
-using BabyHaven.Repositories.Mappers;
-using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Mappers;
@@ -26,7 +23,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var features = await _unitOfWork.FeatureRepository.GetAllAsync();
+            var features = await _unitOfWork.FeatureRepository
+                .GetAllAsync();
 
             if (features == null || !features.Any())
             {
@@ -46,7 +44,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int FeatureId)
         {
-            var feature = await _unitOfWork.FeatureRepository.GetByIdAsync(FeatureId);
+            var feature = await _unitOfWork.FeatureRepository
+                .GetByIdAsync(FeatureId);
 
             if (feature == null)
             {
@@ -67,11 +66,13 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Check if the feature exists in the database
-                var feature = await _unitOfWork.FeatureRepository.GetByFeatureNameAsync(featureDto.FeatureName);
+                var feature = await _unitOfWork.FeatureRepository
+                    .GetByFeatureNameAsync(featureDto.FeatureName);
 
                 if (feature != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Feature with the same name already exists.");
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        "Feature with the same name already exists.");
                 }
 
                 // Map DTO to Entity
@@ -82,7 +83,8 @@ namespace BabyHaven.Services.Services
                 newFeature.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.FeatureRepository.CreateAsync(newFeature);
+                var result = await _unitOfWork.FeatureRepository
+                    .CreateAsync(newFeature);
 
                 if (result > 0)
                 {
@@ -108,11 +110,13 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Check if the package exists in the database
-                var feature = await _unitOfWork.FeatureRepository.GetByIdAsync(featureDto.FeatureId);
+                var feature = await _unitOfWork.FeatureRepository
+                    .GetByIdAsync(featureDto.FeatureId);
 
                 if (feature == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Feature not found.");
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        "Feature not found.");
                 }
 
                 //Map DTO to Entity
@@ -122,7 +126,8 @@ namespace BabyHaven.Services.Services
                 feature.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.FeatureRepository.UpdateAsync(feature);
+                var result = await _unitOfWork.FeatureRepository
+                    .UpdateAsync(feature);
 
                 if (result > 0)
                 {
@@ -147,7 +152,8 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var feature = await _unitOfWork.FeatureRepository.GetByIdAsync(FeatureId);
+                var feature = await _unitOfWork.FeatureRepository
+                    .GetByIdAsync(FeatureId);
 
                 if (feature == null)
                 {
@@ -158,7 +164,8 @@ namespace BabyHaven.Services.Services
                 {
                     var deleteFeatureDto = feature.MapToFeatureDeleteDto();
 
-                    var result = await _unitOfWork.FeatureRepository.RemoveAsync(feature);
+                    var result = await _unitOfWork.FeatureRepository
+                        .RemoveAsync(feature);
 
                     if (result)
                     {

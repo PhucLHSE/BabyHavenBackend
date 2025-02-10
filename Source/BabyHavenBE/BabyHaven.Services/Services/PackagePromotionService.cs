@@ -23,7 +23,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var packagePromotions = await _unitOfWork.PackagePromotionRepository.GetAllPackagePromotionAsync();
+            var packagePromotions = await _unitOfWork.PackagePromotionRepository
+                .GetAllPackagePromotionAsync();
 
             if (packagePromotions == null || !packagePromotions.Any())
             {
@@ -43,7 +44,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int PackageId, Guid PromotionId)
         {
-            var packagePromotion = await _unitOfWork.PackagePromotionRepository.GetByIdPackagePromotionAsync(PackageId, PromotionId);
+            var packagePromotion = await _unitOfWork.PackagePromotionRepository
+                .GetByIdPackagePromotionAsync(PackageId, PromotionId);
 
             if (packagePromotion == null)
             {
@@ -64,18 +66,23 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Retrieve mappings: PackageName -> PackageId and PromotionCode -> PromotionId
-                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository.GetAllPackageNameToIdMappingAsync();
-                var promotionCodeToIdMapping = await _unitOfWork.PromotionRepository.GetAllPromotionCodeToIdMappingAsync();
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
+                    .GetAllPackageNameToIdMappingAsync();
+
+                var promotionCodeToIdMapping = await _unitOfWork.PromotionRepository
+                    .GetAllPromotionCodeToIdMappingAsync();
 
                 // Check existence and retrieve PackageId from PackageName
-                if (!packageNameToIdMapping.TryGetValue(packagePromotionDto.PackageName, out var packageId))
+                if (!packageNameToIdMapping
+                    .TryGetValue(packagePromotionDto.PackageName, out var packageId))
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PackageName '{packagePromotionDto.PackageName}' does not exist.");
                 }
 
                 // Check existence and retrieve PromotionId from PromotionCode
-                if (!promotionCodeToIdMapping.TryGetValue(packagePromotionDto.PromotionCode, out var promotionId))
+                if (!promotionCodeToIdMapping
+                    .TryGetValue(packagePromotionDto.PromotionCode, out var promotionId))
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PromotionCode '{packagePromotionDto.PromotionCode}' does not exist.");
@@ -95,7 +102,8 @@ namespace BabyHaven.Services.Services
                 var newPackagePromotion = packagePromotionDto.MapToPackagePromotion(packageId, promotionId);
 
                 // Save the new entity to the database
-                var result = await _unitOfWork.PackagePromotionRepository.CreateAsync(newPackagePromotion);
+                var result = await _unitOfWork.PackagePromotionRepository
+                    .CreateAsync(newPackagePromotion);
 
                 if (result > 0)
                 {

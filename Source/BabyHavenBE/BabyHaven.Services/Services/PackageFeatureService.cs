@@ -1,5 +1,4 @@
-﻿using BabyHaven.Common.DTOs.FeatureDTOs;
-using BabyHaven.Common;
+﻿using BabyHaven.Common;
 using BabyHaven.Repositories;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -24,7 +23,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var packageFeatures = await _unitOfWork.PackageFeatureRepository.GetAllPackageFeatureAsync();
+            var packageFeatures = await _unitOfWork.PackageFeatureRepository
+                .GetAllPackageFeatureAsync();
 
             if (packageFeatures == null || !packageFeatures.Any())
             {
@@ -44,7 +44,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int PackageId, int FeatureId)
         {
-            var packageFeature = await _unitOfWork.PackageFeatureRepository.GetByIdPackageFeatureAsync(PackageId, FeatureId);
+            var packageFeature = await _unitOfWork.PackageFeatureRepository
+                .GetByIdPackageFeatureAsync(PackageId, FeatureId);
 
             if (packageFeature == null)
             {
@@ -65,26 +66,27 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Retrieve mappings: PackageName -> PackageId and FeatureName -> FeatureId
-                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository.GetAllPackageNameToIdMappingAsync();
-                var featureNameToIdMapping = await _unitOfWork.FeatureRepository.GetAllFeatureNameToIdMappingAsync();
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
+                    .GetAllPackageNameToIdMappingAsync();
 
-                // Check if the provided PackageName exists
-                if (!packageNameToIdMapping.ContainsKey(packageFeatureDto.PackageName))
+                var featureNameToIdMapping = await _unitOfWork.FeatureRepository
+                    .GetAllFeatureNameToIdMappingAsync();
+
+                // Check existence and retrieve PackageId
+                if (!packageNameToIdMapping
+                    .TryGetValue(packageFeatureDto.PackageName, out var packageId))
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         $"PackageName '{packageFeatureDto.PackageName}' does not exist.");
                 }
 
                 // Check if the provided FeatureName exists
-                if (!featureNameToIdMapping.ContainsKey(packageFeatureDto.FeatureName))
+                if (!featureNameToIdMapping
+                    .TryGetValue(packageFeatureDto.FeatureName, out var featureId))
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         $"FeatureName '{packageFeatureDto.FeatureName}' does not exist.");
                 }
-
-                // Get PackageId and FeatureId from PackageName and FeatureName
-                var packageId = packageNameToIdMapping[packageFeatureDto.PackageName];
-                var featureId = featureNameToIdMapping[packageFeatureDto.FeatureName];
 
                 // Check if the PackageFeature already exists in the database
                 var existingPackageFeature = await _unitOfWork.PackageFeatureRepository
@@ -99,11 +101,9 @@ namespace BabyHaven.Services.Services
                 // Map the DTO to an entity object
                 var newPackageFeature = packageFeatureDto.MapToPackageFeature(packageId, featureId);
 
-                // Add timestamp for creation
-                newPackageFeature.CreatedAt = DateTime.UtcNow;
-
                 // Save the new entity to the database
-                var result = await _unitOfWork.PackageFeatureRepository.CreateAsync(newPackageFeature);
+                var result = await _unitOfWork.PackageFeatureRepository
+                    .CreateAsync(newPackageFeature);
 
                 if (result > 0)
                 {
@@ -133,22 +133,27 @@ namespace BabyHaven.Services.Services
             try
             {
                 // // Retrieve mappings: PackageName -> PackageId and FeatureName -> FeatureId
-                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository.GetAllPackageNameToIdMappingAsync();
-                var featureNameToIdMapping = await _unitOfWork.FeatureRepository.GetAllFeatureNameToIdMappingAsync();
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
+                    .GetAllPackageNameToIdMappingAsync();
 
-                // Check if the provided PackageName exists
-                if (!packageNameToIdMapping.ContainsKey(packageFeatureDto.PackageName))
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                var featureNameToIdMapping = await _unitOfWork.FeatureRepository
+                    .GetAllFeatureNameToIdMappingAsync();
+
+                // Check existence and retrieve PackageId
+                if (!packageNameToIdMapping
+                    .TryGetValue(packageFeatureDto.PackageName, out var packageId))
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         $"PackageName '{packageFeatureDto.PackageName}' does not exist.");
-
+                }    
+                    
                 // Check if the provided FeatureName exists
-                if (!featureNameToIdMapping.ContainsKey(packageFeatureDto.FeatureName))
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                if (!featureNameToIdMapping
+                    .TryGetValue(packageFeatureDto.FeatureName, out var featureId))
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         $"FeatureName '{packageFeatureDto.FeatureName}' does not exist.");
-
-                // Get PackageId and FeatureId from PackageName and FeatureName
-                int packageId = packageNameToIdMapping[packageFeatureDto.PackageName];
-                int featureId = featureNameToIdMapping[packageFeatureDto.FeatureName];
+                }   
 
                 //  Check if the PackageFeature already exists in the database
                 var existingPackageFeature = await _unitOfWork.PackageFeatureRepository.
@@ -165,7 +170,8 @@ namespace BabyHaven.Services.Services
                 existingPackageFeature.UpdatedAt = DateTime.Now;
 
                 // Save the new entity to the database
-                var result = await _unitOfWork.PackageFeatureRepository.UpdateAsync(existingPackageFeature);
+                var result = await _unitOfWork.PackageFeatureRepository
+                    .UpdateAsync(existingPackageFeature);
 
                 if (result > 0)
                 {
@@ -189,7 +195,8 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Retrieve the PackageFeature using the provided PackageId and FeatureId
-                var packageFeature = await _unitOfWork.PackageFeatureRepository.GetByIdPackageFeatureAsync(PackageId, FeatureId);
+                var packageFeature = await _unitOfWork.PackageFeatureRepository
+                    .GetByIdPackageFeatureAsync(PackageId, FeatureId);
 
                 // Check if the PackageFeature exists
                 if (packageFeature == null)
@@ -202,7 +209,8 @@ namespace BabyHaven.Services.Services
                     // Map to PackageFeatureDeleteDto for response
                     var deletePackageFeatureDto = packageFeature.MapToPackageFeatureDeleteDto();
 
-                    var result = await _unitOfWork.PackageFeatureRepository.RemoveAsync(packageFeature);
+                    var result = await _unitOfWork.PackageFeatureRepository
+                        .RemoveAsync(packageFeature);
 
                     if (result)
                     {
