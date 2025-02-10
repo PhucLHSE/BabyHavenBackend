@@ -20,6 +20,7 @@ builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IMembershipPackageService, MembershipPackageService>();
 builder.Services.AddScoped<IPackageFeatureService, PackageFeatureService>();
 builder.Services.AddScoped<IPromotionService, PromotionService>();
+builder.Services.AddScoped<IPackagePromotionService, PackagePromotionService>();
 builder.Services.AddScoped<IDiseaseService, DiseaseService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
