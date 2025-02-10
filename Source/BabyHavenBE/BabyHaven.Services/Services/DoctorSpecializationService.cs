@@ -131,50 +131,31 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                // // Retrieve mappings: SpecializationName -> SpecializationId and DoctorName -> DoctorId
-                var specializationNameToIdMapping = await _unitOfWork.SpecializationRepository.GetAllSpecializationNameToIdMappingAsync();
-                var doctorNameToIdMapping = await _unitOfWork.DoctorRepository.GetAllDoctorNameToIdMappingAsync();
+                // Check if DoctorSpecialization exists
+                var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository
+                    .GetByIdAsync(doctorSpecializationUpdateDto.DoctorSpecializationId);
 
-                // Check if the provided DoctorName exists
-                if (!doctorNameToIdMapping.ContainsKey(doctorSpecializationUpdateDto.DoctorName))
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
-                        $"DoctorName '{doctorSpecializationUpdateDto.DoctorName}' does not exist.");
+                if (doctorSpecialization == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "DoctorSpecialization not found.");
+                }
 
-                // Check if the provided SpecializationName exists
-                if (!specializationNameToIdMapping.ContainsKey(doctorSpecializationUpdateDto.SpecializationName))
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
-                        $"SpecializationName '{doctorSpecializationUpdateDto.SpecializationName}' does not exist.");
+                // Call the correct extension method
+                doctorSpecialization.MapToUpdatedDoctorSpecialization(doctorSpecializationUpdateDto);
 
-                // Get SpecializationId and DoctorId from SpecializationName and FeatureName
-                int specializationId = specializationNameToIdMapping[doctorSpecializationUpdateDto.SpecializationName];
-                int doctorId = doctorNameToIdMapping[doctorSpecializationUpdateDto.DoctorName];
+                // Update modification timestamp
+                doctorSpecialization.UpdatedAt = DateTime.UtcNow;
 
-                //  Check if the DoctorSpecialization already exists in the database
-                var existingDoctorSpecialization = await _unitOfWork.DoctorSpecializationRepository.
-                    GetByIdDoctorSpecializationAsync(specializationId, doctorId);
-
-                if (existingDoctorSpecialization == null)
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
-                        "The specified DoctorSpecialization does not exist.");
-
-                // Map the update data
-                existingDoctorSpecialization.MapToUpdatedDoctorSpecialization(doctorSpecializationUpdateDto);
-
-                // Update time information
-                existingDoctorSpecialization.UpdatedAt = DateTime.Now;
-
-                // Save the new entity to the database
-                var result = await _unitOfWork.DoctorSpecializationRepository.UpdateAsync(existingDoctorSpecialization);
+                // Save changes to the database
+                var result = await _unitOfWork.DoctorSpecializationRepository.UpdateAsync(doctorSpecialization);
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
-                        doctorSpecializationUpdateDto);
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, doctorSpecialization);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG,
-                        doctorSpecializationUpdateDto);
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
@@ -182,6 +163,8 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
+
+
 
         public async Task<IServiceResult> DeleteById(int DoctorSpecializationId)
         {
