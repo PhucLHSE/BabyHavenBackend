@@ -49,7 +49,7 @@ namespace BabyHaven.Services.Services
             if (packageFeature == null)
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
-                    new FeatureViewDetailsDto());
+                    new PackageFeatureViewDetailsDto());
             }
             else
             {

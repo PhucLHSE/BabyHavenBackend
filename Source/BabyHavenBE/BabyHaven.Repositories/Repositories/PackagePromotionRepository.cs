@@ -29,5 +29,15 @@ namespace BabyHaven.Repositories.Repositories
 
             return packagePromotions;
         }
+
+        public async Task<PackagePromotion> GetByIdPackagePromotionAsync(int packageId, Guid promotionId)
+        {
+            var packagePromotion = await _context.PackagePromotions
+                .Include(pf => pf.Package)
+                .Include(pf => pf.Promotion)
+                .FirstOrDefaultAsync(pf => pf.PackageId == packageId && pf.PromotionId == promotionId);
+
+            return packagePromotion;
+        }
     }
 }

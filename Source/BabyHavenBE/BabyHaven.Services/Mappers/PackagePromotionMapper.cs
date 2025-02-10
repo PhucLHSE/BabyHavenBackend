@@ -1,4 +1,8 @@
-﻿using BabyHaven.Common.DTOs.PackagePromotionDTOs;
+﻿using BabyHaven.Common.DTOs.PackageFeatureDTOs;
+using BabyHaven.Common.DTOs.PackagePromotionDTOs;
+using BabyHaven.Common.Enum.MembershipPackageEnums;
+using BabyHaven.Common.Enum.PackageFeatureEnums;
+using BabyHaven.Common.Enum.PromotionEnums;
 using BabyHaven.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -31,6 +35,49 @@ namespace BabyHaven.Services.Mappers
 
                 // Mapping IsActive as a boolean
                 IsActive = model.IsActive
+            };
+        }
+
+        // Mapper PackagePromotionViewDetailsDto
+        public static PackagePromotionViewDetailsDto MapToPackagePromotionViewDetailsDto(this PackagePromotion model)
+        {
+            return new PackagePromotionViewDetailsDto
+            {
+                // Mapping package details
+                PackageName = model.Package?.PackageName ?? string.Empty,
+                Description = model.Package?.Description ?? string.Empty,
+                Price = model.Package?.Price ?? 0,
+                Currency = model.Package?.Currency ?? string.Empty,
+                DurationMonths = model.Package?.DurationMonths ?? 0,
+                TrialPeriodDays = model.Package?.TrialPeriodDays,
+                MaxChildrenAllowed = model.Package?.MaxChildrenAllowed ?? 0,
+                SupportLevel = model.Package?.SupportLevel ?? string.Empty,
+                PackageStatus = model.Package != null 
+                     ? (MembershipPackageStatus)Enum.Parse(
+                         typeof(MembershipPackageStatus), model.Package.Status, true) 
+                     : MembershipPackageStatus.Inactive,
+
+                // Mapping promotion details
+                PromotionName = model.Promotion?.PromotionCode ?? string.Empty,
+                PromotionCode = model.Promotion?.PromotionCode ?? string.Empty,
+                PromotionDescription = model.Promotion?.Description ?? string.Empty,
+                DiscountPercent = model.Promotion?.DiscountPercent ?? 0,
+                MinPurchaseAmount = model.Promotion?.MinPurchaseAmount,
+                MaxDiscountAmount = model.Promotion?.MaxDiscountAmount,
+                TargetAudience = model.Promotion?.TargetAudience ?? string.Empty,
+                StartDate = model.Promotion?.StartDate ?? default,
+                EndDate = model.Promotion?.EndDate ?? default,
+                PromotionStatus = model.Promotion != null 
+                     ? (PromotionStatus)Enum.Parse(
+                         typeof(PromotionStatus), model.Promotion.Status, true) 
+                     : PromotionStatus.Inactive,
+
+                // Mapping IsActive as a boolean
+                IsActive = model.IsActive,
+
+                // Audit Information
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt
             };
         }
     }
