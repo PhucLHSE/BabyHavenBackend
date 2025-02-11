@@ -20,6 +20,7 @@ namespace BabyHaven.Repositories
         private DiseaseRepository diseaseRepository;
         private RoleRepository roleRepository;
         private UserAccountRepository userAccountRepository;
+        private MemberRepository memberRepository;
         private SpecializationRepository specializationRepository;
         private ChildrenRepository childrenRepository;
         private GrowthRecordRepository growthRecordRepository;
@@ -102,6 +103,14 @@ namespace BabyHaven.Repositories
             {
                 return userAccountRepository ??= new UserAccountRepository(context);
             } 
+        }
+
+        public MemberRepository MemberRepository
+        {
+            get
+            {
+                return memberRepository ??= new MemberRepository(context);
+            }
         }
 
         public ChildrenRepository ChildrenRepository
