@@ -89,5 +89,11 @@ namespace BabyHaven.Services.Mappers
                 CreatedAt = DateTime.UtcNow
             };
         }
+
+        //Mapper PackagePromotionUpdateDto
+        public static void MapToUpdatedPackagePromotion(this PackagePromotion packagePromotion, PackagePromotionUpdateDto updateDto)
+        {
+            packagePromotion.IsActive = updateDto.IsActive;
+        }
     }
 }

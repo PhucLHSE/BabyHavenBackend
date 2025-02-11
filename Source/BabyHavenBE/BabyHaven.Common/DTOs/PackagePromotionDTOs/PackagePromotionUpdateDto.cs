@@ -1,15 +1,13 @@
-﻿using BabyHaven.Common.Enum.PackageFeatureEnums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BabyHaven.Common.DTOs.PackagePromotionDTOs
 {
-    public class PackagePromotionCreateDto
+    public class PackagePromotionUpdateDto
     {
         // MembershipPackage
         [Required(ErrorMessage = "PackageName is required.")]
