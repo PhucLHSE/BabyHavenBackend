@@ -26,10 +26,28 @@ namespace BabyHaven.Repositories
         private DoctorRepository doctorRepository;
         private DoctorSpecializationRepository doctorSpecializationRepository;
         private AlertRepository alertRepository;
+        private MilestoneRepository milestoneRepository;
+        private ChildMilestoneRepository childMilestoneRepository;
 
         public UnitOfWork() 
         {
             context ??= new SWP391_ChildGrowthTrackingSystemContext();
+        }
+
+        public ChildMilestoneRepository ChildMilestoneRepository
+        {
+            get
+            {
+                return childMilestoneRepository ??= new ChildMilestoneRepository(context);
+            }
+        }
+
+        public MilestoneRepository MilestoneRepository
+        {
+            get
+            {
+                return milestoneRepository ??= new MilestoneRepository(context);
+            }
         }
 
         public AlertRepository AlertRepository

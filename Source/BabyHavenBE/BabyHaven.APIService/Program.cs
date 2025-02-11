@@ -33,6 +33,8 @@ builder.Services.AddScoped<IGrowthAnalysisService, GrowthRecordAnalysisService>(
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IDoctorSpecializationService, DoctorSpecializationService>();
 builder.Services.AddScoped<IAlertService, AlertService>();
+builder.Services.AddScoped<IMilestoneService, MilestoneService>();
+builder.Services.AddScoped<IChildMilestoneService, ChildMilestoneService>();
 
 
 // Đăng ký UnitOfWork và Repository
