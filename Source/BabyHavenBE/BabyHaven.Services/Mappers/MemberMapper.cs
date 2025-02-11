@@ -44,5 +44,29 @@ namespace BabyHaven.Services.Mappers
                 Notes = model.Notes
             };
         }
+
+        // Mapper MemberUpdateDto
+        public static void MapToMemberUpdateDto(this MemberUpdateDto updateDto, Member member)
+        {
+            // Do not update UserId to prevent changing the foreign key
+            //if (updateDto.UserId != Guid.Empty)
+            //    member.UserId = updateDto.UserId;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.EmergencyContact))
+                member.EmergencyContact = updateDto.EmergencyContact;
+
+            if (Enum.IsDefined(typeof(MemberStatus), updateDto.Status))
+                member.Status = updateDto.Status.ToString();
+
+            // Do not update JoinDate to preserve the original membership start date
+            //if (updateDto.JoinDate != default)
+            //    member.JoinDate = updateDto.JoinDate;
+
+            if (updateDto.LeaveDate.HasValue)
+                member.LeaveDate = updateDto.LeaveDate;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.Notes))
+                member.Notes = updateDto.Notes;
+        }
     }
 }
