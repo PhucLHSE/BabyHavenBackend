@@ -16,12 +16,15 @@ namespace BabyHaven.Repositories
         private MembershipPackageRepository membershipPackageRepository;
         private PackageFeatureRepository packageFeatureRepository;
         private PromotionRepository promotionRepository;
+        private PackagePromotionRepository packagePromotionRepository;
         private DiseaseRepository diseaseRepository;
         private RoleRepository roleRepository;
         private UserAccountRepository userAccountRepository;
         private SpecializationRepository specializationRepository;
         private ChildrenRepository childrenRepository;
         private GrowthRecordRepository growthRecordRepository;
+        private DoctorRepository doctorRepository;
+        private DoctorSpecializationRepository doctorSpecializationRepository;
         private AlertRepository alertRepository;
 
         public UnitOfWork() 
@@ -66,6 +69,14 @@ namespace BabyHaven.Repositories
             get
             {
                 return promotionRepository ??= new PromotionRepository(context);
+            }
+        }
+
+        public PackagePromotionRepository PackagePromotionRepository
+        {
+            get
+            {
+                return packagePromotionRepository ??= new PackagePromotionRepository(context);
             }
         }
 
@@ -114,6 +125,20 @@ namespace BabyHaven.Repositories
             get
             {
                 return specializationRepository ??= new SpecializationRepository(context);
+            }
+        }
+        public DoctorRepository DoctorRepository
+        {
+            get
+            {
+                return doctorRepository ??= new DoctorRepository(context);
+            }
+        }
+        public DoctorSpecializationRepository DoctorSpecializationRepository
+        {
+            get
+            {
+                return doctorSpecializationRepository ??= new DoctorSpecializationRepository(context);
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using BabyHaven.Common.DTOs.FeatureDTOs;
-using BabyHaven.Common.DTOs.PackageFeatureDTOs;
-using BabyHaven.Common.Enum.FeatureEnums;
+﻿using BabyHaven.Common.DTOs.PackageFeatureDTOs;
 using BabyHaven.Common.Enum.PackageFeatureEnums;
 using BabyHaven.Repositories.Models;
 using System;

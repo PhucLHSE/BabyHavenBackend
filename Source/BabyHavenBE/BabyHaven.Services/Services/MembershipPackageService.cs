@@ -1,9 +1,7 @@
 ﻿using BabyHaven.Common;
 using BabyHaven.Common.DTOs.MembershipPackageDTOs;
-using BabyHaven.Common.Enum.MembershipPackageEnums;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Mappers;
-using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using System;
@@ -25,7 +23,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var membershipPackages = await _unitOfWork.MembershipPackageRepository.GetAllAsync();
+            var membershipPackages = await _unitOfWork.MembershipPackageRepository
+                .GetAllAsync();
 
             if (membershipPackages == null || !membershipPackages.Any())
             {
@@ -45,7 +44,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int PackageId)
         {
-            var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(PackageId);
+            var membershipPackage = await _unitOfWork.MembershipPackageRepository
+                .GetByIdAsync(PackageId);
 
             if (membershipPackage == null)
             {
@@ -66,11 +66,13 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Check if the package exists in the database
-                var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByPackageNameAsync(membershipPackageDto.PackageName);
+                var membershipPackage = await _unitOfWork.MembershipPackageRepository
+                    .GetByPackageNameAsync(membershipPackageDto.PackageName);
 
                 if (membershipPackage != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Package with the same name already exists.");
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "Package with the same name already exists.");
                 }
 
                 // Map DTO to Entity
@@ -81,12 +83,16 @@ namespace BabyHaven.Services.Services
                 newMembershipPackage.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.MembershipPackageRepository.CreateAsync(newMembershipPackage);
+                var result = await _unitOfWork.MembershipPackageRepository
+                    .CreateAsync(newMembershipPackage);
 
                 if (result > 0)
                 {
+                    // Map the saved entity to a response DTO
+                    var responseDto = newMembershipPackage.MapToMembershipPackageViewDetailsDto();
+
                     return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
-                        newMembershipPackage);
+                        responseDto);
                 }
                 else
                 {
@@ -104,11 +110,13 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Check if the package exists in the database
-                var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(membershipPackageDto.PackageId);
+                var membershipPackage = await _unitOfWork.MembershipPackageRepository
+                    .GetByIdAsync(membershipPackageDto.PackageId);
 
                 if (membershipPackage == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Package not found.");
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        "Package not found.");
                 }
 
                 //Map DTO to Entity
@@ -118,12 +126,16 @@ namespace BabyHaven.Services.Services
                 membershipPackage.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.MembershipPackageRepository.UpdateAsync(membershipPackage);
+                var result = await _unitOfWork.MembershipPackageRepository
+                    .UpdateAsync(membershipPackage);
 
                 if (result > 0)
                 {
+                    // Map the saved entity to a response DTO
+                    var responseDto = membershipPackage.MapToMembershipPackageViewDetailsDto();
+
                     return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
-                        membershipPackage);
+                        responseDto);
                 }
                 else
                 {
@@ -140,7 +152,8 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var membershipPackage = await _unitOfWork.MembershipPackageRepository.GetByIdAsync(PackageId);
+                var membershipPackage = await _unitOfWork.MembershipPackageRepository
+                    .GetByIdAsync(PackageId);
 
                 if (membershipPackage == null)
                 {
@@ -151,7 +164,8 @@ namespace BabyHaven.Services.Services
                 {
                     var deleteMembershipPackageDto = membershipPackage.MapToMembershipPackageDeleteDto();
 
-                    var result = await _unitOfWork.MembershipPackageRepository.RemoveAsync(membershipPackage);
+                    var result = await _unitOfWork.MembershipPackageRepository
+                        .RemoveAsync(membershipPackage);
 
                     if (result)
                     {

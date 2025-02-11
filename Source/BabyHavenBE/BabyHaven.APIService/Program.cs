@@ -21,6 +21,7 @@ builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IMembershipPackageService, MembershipPackageService>();
 builder.Services.AddScoped<IPackageFeatureService, PackageFeatureService>();
 builder.Services.AddScoped<IPromotionService, PromotionService>();
+builder.Services.AddScoped<IPackagePromotionService, PackagePromotionService>();
 builder.Services.AddScoped<IDiseaseService, DiseaseService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
@@ -29,7 +30,10 @@ builder.Services.AddScoped<IGrowthRecordService, GrowthRecordService>();
 builder.Services.AddScoped<ISpecializationService, SpecializationService>();
 builder.Services.AddScoped<IChildrenService, ChildrenService>();
 builder.Services.AddScoped<IGrowthAnalysisService, GrowthRecordAnalysisService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IDoctorSpecializationService, DoctorSpecializationService>();
 builder.Services.AddScoped<IAlertService, AlertService>();
+
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();

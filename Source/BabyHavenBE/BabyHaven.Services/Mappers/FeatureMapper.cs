@@ -1,7 +1,5 @@
 ﻿using BabyHaven.Common.DTOs.FeatureDTOs;
-using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Common.Enum.FeatureEnums;
-using BabyHaven.Common.Enum.MembershipPackageEnums;
 using BabyHaven.Repositories.Models;
 using System;
 using System.Collections.Generic;
