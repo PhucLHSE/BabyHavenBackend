@@ -29,12 +29,12 @@ namespace BabyHaven.APIService.Controllers
         /// <summary>
         /// Gets an alert by ID.
         /// </summary>
-        /// <param name="alertId">The ID of the alert to retrieve.</param>
+        /// <param name="id">The ID of the alert to retrieve.</param>
         /// <returns>The result of the retrieval operation.</returns>
-        [HttpGet("{alertId}")]
-        public async Task<IActionResult> GetById(int alertId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var result = await _alertService.GetById(alertId);
+            var result = await _alertService.GetById(id);
             return StatusCode(result.Status, result);
         }
 
@@ -71,12 +71,35 @@ namespace BabyHaven.APIService.Controllers
         /// <summary>
         /// Deletes an alert by ID.
         /// </summary>
-        /// <param name="alertId">The ID of the alert to delete.</param>
+        /// <param name="id">The ID of the alert to delete.</param>
         /// <returns>The result of the deletion operation.</returns>
-        [HttpDelete("{alertId}")]
-        public async Task<IActionResult> Delete(int alertId)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = await _alertService.Delete(alertId);
+            var result = await _alertService.Delete(id);
+            return StatusCode(result.Status, result);
+        }
+
+        /// <summary>
+        /// Creates an automatic alert for a child.
+        /// </summary>
+        /// <param name="id">The ID of the child.</param>
+        /// <returns>The result of the creation operation.</returns>
+        [HttpGet("create-automatic/{id}")]
+        public async Task<IActionResult> CreateAutomatic(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest("Invalid child ID provided.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return BadRequest(errors); // Trả về lỗi nếu model không hợp lệ
+            }
+
+            var result = await _alertService.CheckAndCreateAlert(id);
             return StatusCode(result.Status, result);
         }
     }

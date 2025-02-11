@@ -34,8 +34,5 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
 
         [MaxLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
         public string? Notes { get; set; }
-
-        [MaxLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
-        public double? OxygenSaturation { get; set; }
     }
 }

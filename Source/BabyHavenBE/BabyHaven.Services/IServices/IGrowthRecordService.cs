@@ -18,6 +18,5 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetGrowthRecordById(int recordId, Guid childId);
         Task<IServiceResult> GetAllGrowthRecordsByChild(Guid childId);
         Task<IServiceResult> GetRecordsByDateRangeAsync(Guid childId, DateTime startDate, DateTime endDate);
-        Task<IServiceResult> CheckAndCreateAlert(Guid childId);
     }
 }

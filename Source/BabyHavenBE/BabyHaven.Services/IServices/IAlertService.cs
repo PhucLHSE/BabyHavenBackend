@@ -15,5 +15,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> Create(AlertCreateDto dto);
         Task<IServiceResult> Update(AlertUpdateDto dto);
         Task<IServiceResult> Delete(int alertId);
+        Task<IServiceResult> CheckAndCreateAlert(Guid childId);
     }
 }

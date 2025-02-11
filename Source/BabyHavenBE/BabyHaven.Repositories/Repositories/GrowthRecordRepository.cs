@@ -43,9 +43,14 @@ namespace BabyHaven.Repositories.Repositories
 
         public async Task<GrowthRecord> GetLatestGrowthRecordByChildAsync(Guid childId)
         {
-            if (childId == Guid.Empty) throw new ArgumentException("Invalid child ID", nameof(childId));
+            if (childId == Guid.Empty)
+            {
+                throw new ArgumentException("Invalid child ID", nameof(childId));
+            }
 
             return await _context.GrowthRecords
+                .Include(gr => gr.Child)
+                .Include(gr => gr.RecordedByNavigation)
                 .AsNoTracking()
                 .Where(gr => gr.ChildId == childId)
                 .OrderByDescending(gr => gr.CreatedAt)

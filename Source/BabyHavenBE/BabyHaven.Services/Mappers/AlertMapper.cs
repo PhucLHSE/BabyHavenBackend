@@ -44,10 +44,6 @@ namespace BabyHaven.Services.Mappers
                 AlertDate = alert.AlertDate,
                 Message = alert.Message,
                 SeverityLevel = alert.SeverityLevel,
-                Prevention = alert.Disease?.Prevention,
-                TreatMent = alert.Disease?.Treatment,
-                DiseaseName = alert.Disease?.DiseaseName,
-                GrowthRecordDate = alert.GrowthRecord?.CreatedAt
             };
         }
         public static AlertViewDetailsDto ToAlertViewDetailsDto(this Alert alert)
@@ -62,14 +58,10 @@ namespace BabyHaven.Services.Mappers
                 IsRead = alert.IsRead,
                 SeverityLevel = alert.SeverityLevel,
                 IsAcknowledged = alert.IsAcknowledged,
-                Prevention = alert.Disease?.Prevention,
-                TreatMent = alert.Disease?.Treatment,
-                DiseaseName = alert.Disease?.DiseaseName,
-                GrowthRecordDate = alert.GrowthRecord?.CreatedAt
             };
         }
 
-        public static Alert ToAlertFromGrowthRecord(GrowthRecord record, Disease disease, string? customMessage = null)
+        public static Alert ToAlertFromGrowthRecord(this Disease disease, GrowthRecord record, string? customMessage = null)
         {
             string defaultMessage = $"Alert: {disease.DiseaseName}";
 
@@ -88,9 +80,7 @@ namespace BabyHaven.Services.Mappers
                 Message = customMessage ?? defaultMessage,
                 IsRead = false,
                 IsAcknowledged = false,
-                SeverityLevel = disease.Severity,
-                Disease = disease,
-                GrowthRecord = record
+                SeverityLevel = disease.Severity              
             };
         }
     }

@@ -11,7 +11,7 @@ namespace BabyHaven.Services.Mappers
     public static class GrowthRecordMapper
     {
         // Infant
-        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordInfantDto dto, List<Alert>? alerts)
+        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordInfantDto dto)
         {
             return new GrowthRecord
             {
@@ -22,8 +22,6 @@ namespace BabyHaven.Services.Mappers
                 HeadCircumference = dto.HeadCircumference,
                 ImmunizationStatus = dto.ImmunizationStatus,
                 Notes = dto.Notes,
-                OxygenSaturation = dto.OxygenSaturation,  // Thêm OxygenSaturation vào GrowthRecord
-                Alerts = alerts
             };
         }
 

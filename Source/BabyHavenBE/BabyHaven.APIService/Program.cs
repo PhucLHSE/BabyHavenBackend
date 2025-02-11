@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using OpenAI;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
