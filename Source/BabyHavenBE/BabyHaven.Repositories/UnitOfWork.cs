@@ -25,10 +25,19 @@ namespace BabyHaven.Repositories
         private GrowthRecordRepository growthRecordRepository;
         private DoctorRepository doctorRepository;
         private DoctorSpecializationRepository doctorSpecializationRepository;
+        private AlertRepository alertRepository;
 
         public UnitOfWork() 
         {
             context ??= new SWP391_ChildGrowthTrackingSystemContext();
+        }
+
+        public AlertRepository AlertRepository
+        {
+            get
+            {
+                return alertRepository ??= new AlertRepository(context);
+            }
         }
 
         public FeatureRepository FeatureRepository

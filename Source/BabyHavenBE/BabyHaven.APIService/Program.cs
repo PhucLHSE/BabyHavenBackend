@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using OpenAI;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IChildrenService, ChildrenService>();
 builder.Services.AddScoped<IGrowthAnalysisService, GrowthRecordAnalysisService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IDoctorSpecializationService, DoctorSpecializationService>();
+builder.Services.AddScoped<IAlertService, AlertService>();
+
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();

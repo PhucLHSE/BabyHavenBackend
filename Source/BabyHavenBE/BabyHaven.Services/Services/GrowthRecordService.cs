@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BabyHaven.Common;
 using BabyHaven.Common.DTOs.GrowthRecordDTOs;
 using BabyHaven.Repositories;
+using BabyHaven.Repositories.Models;
 using BabyHaven.Repositories.Repositories;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -46,13 +47,14 @@ namespace BabyHaven.Services.Services
 
                 await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
 
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
+                return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord.MapToGrowthRecordViewAll());
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_CREATE_MSG}: {ex.Message}");
+                return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_CREATE_MSG}: {ex.InnerException?.ToString()}");
             }
         }
+
 
         public async Task<IServiceResult> CreateGrowthRecordTeenager(GrowthRecordTeenagerDto dto)
         {

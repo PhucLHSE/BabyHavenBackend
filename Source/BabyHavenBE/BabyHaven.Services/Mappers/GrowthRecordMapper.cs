@@ -83,7 +83,7 @@ namespace BabyHaven.Services.Mappers
         }
 
         //View All
-        public static GrowthRecordViewAllDto MapToGrowthRecordEntity(this GrowthRecord model)
+        public static GrowthRecordViewAllDto MapToGrowthRecordViewAll(this GrowthRecord model)
         {
             return new GrowthRecordViewAllDto
             {
@@ -105,7 +105,7 @@ namespace BabyHaven.Services.Mappers
                 BloodPressure = model.BloodPressure,
                 ImmunizationStatus = model.ImmunizationStatus,
                 NutritionalStatus = model.NutritionalStatus,
-                Notes = model.Notes
+                Notes = model.Notes,
             };
         }
     }

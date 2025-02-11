@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.DiseaseDTOs;
+using BabyHaven.Common.Enum.AlertEnums;
 using BabyHaven.Repositories.Models;
 
 namespace BabyHaven.Services.Mappers
@@ -16,14 +17,14 @@ namespace BabyHaven.Services.Mappers
             {
                 DiseaseName = model.DiseaseName,
                 Description = model.Description,
-                DiseaseType = model.DiseaseType,
+                DiseaseType = model.DiseaseType ?? "Other",
                 LowerBoundFemale = model.LowerBoundFemale,
                 LowerBoundMale = model.LowerBoundMale,
                 UpperBoundFemale = model.UpperBoundFemale,
                 UpperBoundMale = model.UpperBoundMale,
                 MaxAge = model.MaxAge,
                 MinAge = model.MinAge,
-                Severity = model.Severity,
+                Severity = Enum.TryParse(model.Severity, out SeverityLevelEnum severity) ? severity : SeverityLevelEnum.Mild,
                 Symptoms = model.Symptoms,
                 Treatment = model.Treatment,
                 Prevention = model.Prevention,
@@ -38,7 +39,7 @@ namespace BabyHaven.Services.Mappers
                 DiseaseId = model.DiseaseId,
                 DiseaseName = model.DiseaseName,
                 Description = model.Description,
-                DiseaseType = model.DiseaseType,
+                DiseaseType = model.DiseaseType ?? "Other",
                 IsActive = model.IsActive,
                 LowerBoundFemale = model.LowerBoundFemale,
                 LowerBoundMale = model.LowerBoundMale,
@@ -46,7 +47,7 @@ namespace BabyHaven.Services.Mappers
                 UpperBoundMale = model.UpperBoundMale,
                 MaxAge = model.MaxAge,
                 MinAge = model.MinAge,
-                Severity = model.Severity,
+                Severity = Enum.TryParse(model.Severity, out SeverityLevelEnum severity) ? severity : SeverityLevelEnum.Mild,
                 Symptoms = model.Symptoms,
                 Treatment = model.Treatment,
                 Prevention = model.Prevention,
@@ -70,7 +71,7 @@ namespace BabyHaven.Services.Mappers
                 UpperBoundMale = dto.UpperBoundMale,
                 MaxAge = dto.MaxAge,
                 MinAge = dto.MinAge,
-                Severity = dto.Severity,
+                Severity = dto.Severity.ToString(),
                 Symptoms = dto.Symptoms,
                 Treatment = dto.Treatment,
                 Prevention = dto.Prevention,
@@ -92,7 +93,7 @@ namespace BabyHaven.Services.Mappers
                 UpperBoundMale = dto.UpperBoundMale,
                 MaxAge = dto.MaxAge,
                 MinAge = dto.MinAge,
-                Severity = dto.Severity,
+                Severity = dto.Severity.ToString(),
                 Symptoms = dto.Symptoms,
                 Treatment = dto.Treatment,
                 Prevention = dto.Prevention,

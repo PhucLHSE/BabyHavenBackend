@@ -20,15 +20,41 @@ namespace BabyHaven.Repositories.Repositories
         public GrowthRecordRepository(SWP391_ChildGrowthTrackingSystemContext context)
             => _context = context;
 
-        public async Task<IEnumerable<GrowthRecord>> GetAllGrowthRecordsByChild(Guid childId)
+        //public async Task<IEnumerable<GrowthRecord>> GetAllGrowthRecordsByChild(Guid childId)
+        //{
+        //    if (childId == Guid.Empty) throw new ArgumentException("Invalid child ID", nameof(childId));
+
+        //    return await _context.GrowthRecords
+        //        .Include(gr => gr.Child)
+        //        .Include(gr => gr.RecordedByNavigation)
+        //        .Where(gr => gr.ChildId == childId)
+        //        .ToListAsync();
+        //}
+        public async Task<List<GrowthRecord>> GetAllGrowthRecordsByChild(Guid childId)
         {
             if (childId == Guid.Empty) throw new ArgumentException("Invalid child ID", nameof(childId));
 
             return await _context.GrowthRecords
+                .AsNoTracking()
+                .Where(gr => gr.ChildId == childId)
+                .OrderByDescending(gr => gr.CreatedAt) //Lấy mới nhất trước
+                .ToListAsync();
+        }
+
+        public async Task<GrowthRecord> GetLatestGrowthRecordByChildAsync(Guid childId)
+        {
+            if (childId == Guid.Empty)
+            {
+                throw new ArgumentException("Invalid child ID", nameof(childId));
+            }
+
+            return await _context.GrowthRecords
                 .Include(gr => gr.Child)
                 .Include(gr => gr.RecordedByNavigation)
+                .AsNoTracking()
                 .Where(gr => gr.ChildId == childId)
-                .ToListAsync();
+                .OrderByDescending(gr => gr.CreatedAt)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<GrowthRecord> GetGrowthRecordById(int recordId, Guid childId)
@@ -54,15 +80,27 @@ namespace BabyHaven.Repositories.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<GrowthRecord>> GetRecordsByDateRangeAsync(Guid childId, DateTime startDate, DateTime endDate)
+        //public async Task<IEnumerable<GrowthRecord>> GetRecordsByDateRangeAsync(Guid childId, DateTime startDate, DateTime endDate)
+        //{
+        //    if (childId == Guid.Empty) throw new ArgumentException("Invalid child ID", nameof(childId));
+        //    if (startDate > endDate) throw new ArgumentException("Start date must be earlier than end date", nameof(startDate));
+
+        //    return await _context.GrowthRecords
+        //        .Include(gr => gr.Child)
+        //        .Include(gr => gr.RecordedByNavigation)
+        //        .Where(gr => gr.ChildId == childId && gr.CreatedAt.HasValue && gr.CreatedAt.Value.Date >= startDate.Date && gr.CreatedAt.Value.Date <= endDate.Date)
+        //        .OrderByDescending(gr => gr.CreatedAt)
+        //        .ToListAsync();
+        //}
+
+        public async Task<List<GrowthRecord>> GetRecordsByDateRangeAsync(Guid childId, DateTime startDate, DateTime endDate)
         {
             if (childId == Guid.Empty) throw new ArgumentException("Invalid child ID", nameof(childId));
             if (startDate > endDate) throw new ArgumentException("Start date must be earlier than end date", nameof(startDate));
 
             return await _context.GrowthRecords
-                .Include(gr => gr.Child)
-                .Include(gr => gr.RecordedByNavigation)
-                .Where(gr => gr.ChildId == childId && gr.CreatedAt.HasValue && gr.CreatedAt.Value.Date >= startDate.Date && gr.CreatedAt.Value.Date <= endDate.Date)
+                .AsNoTracking()
+                .Where(gr => gr.ChildId == childId && gr.CreatedAt >= startDate && gr.CreatedAt <= endDate)
                 .OrderByDescending(gr => gr.CreatedAt)
                 .ToListAsync();
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BabyHaven.Common.Enum.AlertEnums;
 
 namespace BabyHaven.Common.DTOs.DiseaseDTOs
 {
@@ -23,9 +24,10 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
 
         public int MaxAge { get; set; }
 
-        public string Severity { get; set; } = string.Empty;
+        [JsonConverter(typeof(JsonStringEnumConverter))] // Chuyển Enum thành string khi trả về API
+        public SeverityLevelEnum Severity { get; set; }
 
-        public string DiseaseType { get; set; } = string.Empty;
+        public string DiseaseType { get; set; } = string.Empty; 
 
         public string Symptoms { get; set; } = string.Empty;
 
@@ -36,6 +38,5 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
         public string? Description { get; set; }
 
         public string? Notes { get; set; }
-
     }
 }
