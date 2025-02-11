@@ -14,5 +14,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetById(int packageId, Guid promotionId);
         Task<IServiceResult> Create(PackagePromotionCreateDto packagePromotionCreateDto);
         Task<IServiceResult> Update(PackagePromotionUpdateDto packagePromotionUpdateDto);
+        Task<IServiceResult> DeleteById(int packageId, Guid promotionId);
     }
 }

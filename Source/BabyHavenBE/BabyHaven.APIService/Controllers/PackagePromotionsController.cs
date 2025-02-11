@@ -57,5 +57,17 @@ namespace BabyHaven.APIService.Controllers
 
             return await _packagePromotionsService.Update(packagePromotionUpdateDto);
         }
+
+        // DELETE api/<PackagePromotionsController>/5/3
+        [HttpDelete("{packageId}/{promotionId}")]
+        public async Task<IServiceResult> Delete(int packageId, Guid promotionId)
+        {
+            return await _packagePromotionsService.DeleteById(packageId, promotionId);
+        }
+
+        private bool PackagePromotionExists(int packageId, Guid promotionId)
+        {
+            return _packagePromotionsService.GetById(packageId, promotionId) != null;
+        }
     }
 }
