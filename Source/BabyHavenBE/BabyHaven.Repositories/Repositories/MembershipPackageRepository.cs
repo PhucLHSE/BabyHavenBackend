@@ -29,7 +29,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<Dictionary<string, int>> GetAllPackageNameToIdMappingAsync()
         {
             return await _context.MembershipPackages
-                .ToDictionaryAsync(p => p.PackageName, p => p.PackageId);
+                .ToDictionaryAsync(mp => mp.PackageName, p => p.PackageId);
         }
     }
 }
