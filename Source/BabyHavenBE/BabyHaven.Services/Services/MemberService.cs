@@ -60,5 +60,45 @@ namespace BabyHaven.Services.Services
                     memberDto);
             }
         }
+
+        public async Task<IServiceResult> Update(MemberUpdateDto memberDto)
+        {
+            try
+            {
+                // Check if the member exists in the database
+                var member = await _unitOfWork.MemberRepository
+                    .GetByIdMemberAsync(memberDto.MemberId);
+
+                if (member == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        "Member not found.");
+                }
+
+                //Map DTO to Entity
+                memberDto.MapToMemberUpdateDto(member);
+
+                // Save data to database
+                var result = await _unitOfWork.MemberRepository
+                    .UpdateAsync(member);
+
+                if (result > 0)
+                {
+                    // Map the saved entity to a response DTO
+                    var responseDto = member.MapToMemberViewDetailsDto();
+
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                        responseDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }
