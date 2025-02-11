@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.PackagePromotionDTOs;
+using BabyHaven.Common.DTOs.PackageFeatureDTOs;
 
 namespace BabyHaven.Services.Services
 {
@@ -120,6 +121,68 @@ namespace BabyHaven.Services.Services
                 else
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> Update(PackagePromotionUpdateDto packagePromotionDto)
+        {
+            try
+            {
+                // Retrieve mappings: PackageName -> PackageId and PromotionCode -> PromotionId
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
+                    .GetAllPackageNameToIdMappingAsync();
+
+                var promotionCodeToIdMapping = await _unitOfWork.PromotionRepository
+                    .GetAllPromotionCodeToIdMappingAsync();
+
+                // Check existence and retrieve PackageId from PackageName
+                if (!packageNameToIdMapping
+                    .TryGetValue(packagePromotionDto.PackageName, out var packageId))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        $"PackageName '{packagePromotionDto.PackageName}' does not exist.");
+                }
+
+                // Check existence and retrieve PromotionId from PromotionCode
+                if (!promotionCodeToIdMapping
+                    .TryGetValue(packagePromotionDto.PromotionCode, out var promotionId))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        $"PromotionCode '{packagePromotionDto.PromotionCode}' does not exist.");
+                }
+
+                //  Check if the PackagePromotion already exists in the database
+                var existingPackagePromotion = await _unitOfWork.PackagePromotionRepository.
+                    GetByIdPackagePromotionAsync(packageId, promotionId);
+
+                if (existingPackagePromotion == null)
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        "The specified PackagePromotion does not exist.");
+
+                // Map the update data
+                existingPackagePromotion.MapToUpdatedPackagePromotion(packagePromotionDto);
+
+                // Update time information
+                existingPackagePromotion.UpdatedAt = DateTime.Now;
+
+                // Save the new entity to the database
+                var result = await _unitOfWork.PackagePromotionRepository
+                    .UpdateAsync(existingPackagePromotion);
+
+                if (result > 0)
+                {
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                        packagePromotionDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG,
+                        packagePromotionDto);
                 }
             }
             catch (Exception ex)

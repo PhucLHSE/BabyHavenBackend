@@ -22,6 +22,7 @@ namespace BabyHaven.Common.DTOs.PackageFeatureDTOs
         public string FeatureName { get; set; } = string.Empty;
 
         // PackageFeature Status
+        [Required(ErrorMessage = "Status is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public PackageFeatureStatus Status { get; set; } = PackageFeatureStatus.Inactive;
     }

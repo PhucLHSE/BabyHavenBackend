@@ -4,6 +4,7 @@ using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.PackagePromotionDTOs;
+using BabyHaven.Common.DTOs.PackageFeatureDTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,6 +44,18 @@ namespace BabyHaven.APIService.Controllers
             }
 
             return await _packagePromotionsService.Create(packagePromotionCreateDto);
+        }
+
+        // PUT api/<PackagePromotionsController>/5/3
+        [HttpPut("{packageId}/{promotionId}")]
+        public async Task<IServiceResult> Put(PackagePromotionUpdateDto packagePromotionUpdateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+            }
+
+            return await _packagePromotionsService.Update(packagePromotionUpdateDto);
         }
     }
 }
