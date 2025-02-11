@@ -25,5 +25,24 @@ namespace BabyHaven.Services.Mappers
                           : MemberStatus.Inactive,
             };
         }
+
+        // Mapper MemberViewDetailsDto
+        public static MemberViewDetailsDto MapToMemberViewDetailsDto(this Member model)
+        {
+            return new MemberViewDetailsDto
+            {
+                MemberName = model.User?.Name ?? "Unknown",
+                EmergencyContact = model.EmergencyContact,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<MemberStatus>(model.Status, true, out var status)
+                          ? status
+                          : MemberStatus.Inactive,
+
+                JoinDate = model.JoinDate,
+                LeaveDate = model.LeaveDate,
+                Notes = model.Notes
+            };
+        }
     }
 }
