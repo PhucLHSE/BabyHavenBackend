@@ -12,6 +12,7 @@ namespace BabyHaven.Repositories
     public class UnitOfWork
     {
         private SWP391_ChildGrowthTrackingSystemContext context;
+
         private FeatureRepository featureRepository;
         private MembershipPackageRepository membershipPackageRepository;
         private PackageFeatureRepository packageFeatureRepository;
@@ -21,6 +22,7 @@ namespace BabyHaven.Repositories
         private RoleRepository roleRepository;
         private UserAccountRepository userAccountRepository;
         private MemberRepository memberRepository;
+        private MemberMembershipRepository memberMembershipRepository;
         private SpecializationRepository specializationRepository;
         private ChildrenRepository childrenRepository;
         private GrowthRecordRepository growthRecordRepository;
@@ -128,6 +130,14 @@ namespace BabyHaven.Repositories
             get
             {
                 return memberRepository ??= new MemberRepository(context);
+            }
+        }
+
+        public MemberMembershipRepository MemberMembershipRepository
+        {
+            get
+            {
+                return memberMembershipRepository ??= new MemberMembershipRepository(context);
             }
         }
 
