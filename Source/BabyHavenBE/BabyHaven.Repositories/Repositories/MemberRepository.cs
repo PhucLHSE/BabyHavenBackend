@@ -23,7 +23,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<List<Member>> GetAllMemberAsync()
         {
             var members = await _context.Members
-                .Include(pf => pf.User)
+                .Include(m => m.User)
                 .ToListAsync();
 
             return members;
