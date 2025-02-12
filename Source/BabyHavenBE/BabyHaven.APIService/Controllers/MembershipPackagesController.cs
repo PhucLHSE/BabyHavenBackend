@@ -62,5 +62,10 @@ namespace BabyHaven.APIService.Controllers
         {
             return await _membershipPackageService.DeleteById(id);
         }
+
+        private bool MembershipPackageExists(int id)
+        {
+            return _membershipPackageService.GetById(id) != null;
+        }
     }
 }

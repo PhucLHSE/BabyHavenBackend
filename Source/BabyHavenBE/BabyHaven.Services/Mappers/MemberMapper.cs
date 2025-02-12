@@ -68,5 +68,24 @@ namespace BabyHaven.Services.Mappers
             if (!string.IsNullOrWhiteSpace(updateDto.Notes))
                 member.Notes = updateDto.Notes;
         }
+
+        // Mapper MemberDeleteDto
+        public static MemberDeleteDto MapToMemberDeleteDto(this Member model)
+        {
+            return new MemberDeleteDto
+            {
+                MemberName = model.User?.Name ?? "Unknown",
+                EmergencyContact = model.EmergencyContact,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<MemberStatus>(model.Status, true, out var status)
+                          ? status
+                          : MemberStatus.Inactive,
+
+                JoinDate = model.JoinDate,
+                LeaveDate = model.LeaveDate,
+                Notes = model.Notes
+            };
+        }
     }
 }
