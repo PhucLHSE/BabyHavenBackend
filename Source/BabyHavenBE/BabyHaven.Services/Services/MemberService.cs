@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.MemberDTOs;
 using BabyHaven.Services.Mappers;
+using BabyHaven.Common.DTOs.PromotionDTOs;
 
 namespace BabyHaven.Services.Services
 {
@@ -93,6 +94,43 @@ namespace BabyHaven.Services.Services
                 else
                 {
                     return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> DeleteById(Guid MemberId)
+        {
+            try
+            {
+                var member = await _unitOfWork.MemberRepository
+                    .GetByIdMemberAsync(MemberId);
+
+                if (member == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                        new MemberDeleteDto());
+                }
+                else
+                {
+                    var deleteMemberDto = member.MapToMemberDeleteDto();
+
+                    var result = await _unitOfWork.MemberRepository
+                        .RemoveAsync(member);
+
+                    if (result)
+                    {
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                            deleteMemberDto);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                            deleteMemberDto);
+                    }
                 }
             }
             catch (Exception ex)
