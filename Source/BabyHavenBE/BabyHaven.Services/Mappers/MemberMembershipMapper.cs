@@ -29,5 +29,25 @@ namespace BabyHaven.Services.Mappers
                 IsActive = model.IsActive
             };
         }
+
+        // Mapper MemberMembershipViewDetailsDto
+        public static MemberMembershipViewDetailsDto MapToMemberMembershipViewDetailsDto(this MemberMembership model)
+        {
+            return new MemberMembershipViewDetailsDto
+            {
+                MemberName = model.Member?.User?.Name ?? "Unknown",
+                PackageName = model.Package?.PackageName ?? "Unknown",
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<MemberMembershipStatus>(model.Status, true, out var status)
+                          ? status
+                          : MemberMembershipStatus.Inactive,
+
+                IsActive = model.IsActive,
+                Description = model.Description
+            };
+        }
     }
 }
