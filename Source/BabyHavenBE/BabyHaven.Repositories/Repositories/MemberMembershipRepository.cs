@@ -30,5 +30,14 @@ namespace BabyHaven.Repositories.Repositories
 
             return memberMemberships;
         }
+
+        public async Task<MemberMembership?> GetByIdMemberMembershipAsync(Guid memberMembershipId)
+        {
+            return await _context.MemberMemberships
+                .Include(mm => mm.Member)
+                   .ThenInclude(m => m.User) // Include User from Member
+                .Include(mm => mm.Package)
+                .FirstOrDefaultAsync(mm => mm.MemberMembershipId == memberMembershipId);
+        }
     }
 }
