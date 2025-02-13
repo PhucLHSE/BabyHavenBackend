@@ -107,5 +107,27 @@ namespace BabyHaven.Services.Mappers
                 throw new ArgumentException("EndDate must be greater than StartDate.");
             }
         }
+
+        // Mapper MemberMembershipDeleteDto
+        public static MemberMembershipDeleteDto MapToMemberMembershipDeleteDto(this MemberMembership model)
+        {
+            return new MemberMembershipDeleteDto
+            {
+                MemberName = model.Member?.User?.Name ?? "Unknown",
+                PackageName = model.Package?.PackageName ?? "Unknown",
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<MemberMembershipStatus>(model.Status, true, out var status)
+                          ? status
+                          : MemberMembershipStatus.Inactive,
+
+                IsActive = model.IsActive,
+                Description = model.Description,
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt
+            };
+        }
     }
 }

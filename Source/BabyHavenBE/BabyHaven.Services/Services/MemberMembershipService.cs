@@ -227,5 +227,42 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
+
+        public async Task<IServiceResult> DeleteById(Guid MemberMembershipId)
+        {
+            try
+            {
+                var memberMembership = await _unitOfWork.MemberMembershipRepository
+                    .GetByIdMemberMembershipAsync(MemberMembershipId);
+
+                if (memberMembership == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                        new MemberMembershipDeleteDto());
+                }
+                else
+                {
+                    var deleteMemberMembershipDto = memberMembership.MapToMemberMembershipDeleteDto();
+
+                    var result = await _unitOfWork.MemberMembershipRepository
+                        .RemoveAsync(memberMembership);
+
+                    if (result)
+                    {
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                            deleteMemberMembershipDto);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                            deleteMemberMembershipDto);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }
