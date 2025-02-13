@@ -1,4 +1,5 @@
-﻿using BabyHaven.Repositories.Base;
+﻿using BabyHaven.Common.Enum.MemberMembershipEnums;
+using BabyHaven.Repositories.Base;
 using BabyHaven.Repositories.DBContext;
 using BabyHaven.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,15 @@ namespace BabyHaven.Repositories.Repositories
                    .ThenInclude(m => m.User) // Include User from Member
                 .Include(mm => mm.Package)
                 .FirstOrDefaultAsync(mm => mm.MemberMembershipId == memberMembershipId);
+        }
+
+        public async Task<bool> HasActiveMembershipAsync(Guid memberId, int packageId)
+        {
+            return await _context.MemberMemberships
+                .AnyAsync(mm => mm.MemberId == memberId
+                             && mm.PackageId == packageId
+                             && mm.Status == MemberMembershipStatus.Active.ToString()
+                             && mm.IsActive == true);
         }
     }
 }
