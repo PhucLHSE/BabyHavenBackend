@@ -56,5 +56,17 @@ namespace BabyHaven.APIService.Controllers
 
             return await _membershipService.Update(memberMembershipUpdateDto);
         }
+
+        // DELETE api/<MemberMembershipsController>/5/3
+        [HttpDelete("{id}")]
+        public async Task<IServiceResult> Delete(Guid id)
+        {
+            return await _membershipService.DeleteById(id);
+        }
+
+        private bool MemberMembershipExists(Guid id)
+        {
+            return _membershipService.GetById(id) != null;
+        }
     }
 }
