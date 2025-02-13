@@ -46,7 +46,11 @@ namespace BabyHaven.Services.Mappers
                           : MemberMembershipStatus.Inactive,
 
                 IsActive = model.IsActive,
-                Description = model.Description
+                Description = model.Description,
+
+                // Audit Information
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt
             };
         }
 
@@ -125,6 +129,8 @@ namespace BabyHaven.Services.Mappers
 
                 IsActive = model.IsActive,
                 Description = model.Description,
+
+                // Audit Information
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt
             };

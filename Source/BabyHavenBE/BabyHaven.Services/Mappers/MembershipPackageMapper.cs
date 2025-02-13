@@ -52,6 +52,7 @@ namespace BabyHaven.Repositories.Mappers
                           ? status
                           : MembershipPackageStatus.Inactive,
 
+                // Audit Information
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt
             };
@@ -124,6 +125,7 @@ namespace BabyHaven.Repositories.Mappers
                           ? status
                           : MembershipPackageStatus.Inactive,
 
+                // Audit Information
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt
             };
