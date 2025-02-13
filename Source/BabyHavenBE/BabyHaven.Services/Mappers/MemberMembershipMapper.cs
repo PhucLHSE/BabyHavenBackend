@@ -73,5 +73,39 @@ namespace BabyHaven.Services.Mappers
                 CreatedAt = DateTime.UtcNow
             };
         }
+
+        // Mapper MemberMembershipUpdateDto
+        public static void MapToMemberMembershipUpdateDto(this MemberMembership memberMembership,MemberMembershipUpdateDto updateDto)
+        {
+            // Update basic properties with checks
+            if (updateDto.MemberMembershipId != Guid.Empty)
+                memberMembership.MemberMembershipId = updateDto.MemberMembershipId;
+
+            if (updateDto.StartDate != default)
+                memberMembership.StartDate = updateDto.StartDate;
+
+            if (updateDto.EndDate != default)
+                memberMembership.EndDate = updateDto.EndDate;
+
+            if (updateDto.IsActive != memberMembership.IsActive)
+                memberMembership.IsActive = updateDto.IsActive;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.Description))
+                memberMembership.Description = updateDto.Description;
+
+
+            // Validate and convert enum to string
+            if (Enum.IsDefined(typeof(MemberMembershipStatus), updateDto.Status))
+                memberMembership.Status = updateDto.Status.ToString();
+            else
+                throw new ArgumentException("Invalid status value.");
+
+
+            // Validate date range
+            if (updateDto.EndDate <= updateDto.StartDate)
+            {
+                throw new ArgumentException("EndDate must be greater than StartDate.");
+            }
+        }
     }
 }
