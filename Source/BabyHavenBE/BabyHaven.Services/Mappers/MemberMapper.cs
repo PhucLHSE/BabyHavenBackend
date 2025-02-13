@@ -57,6 +57,8 @@ namespace BabyHaven.Services.Mappers
 
             if (Enum.IsDefined(typeof(MemberStatus), updateDto.Status))
                 member.Status = updateDto.Status.ToString();
+            else
+                throw new ArgumentException("Invalid status value.");
 
             // Do not update JoinDate to preserve the original membership start date
             //if (updateDto.JoinDate != default)
