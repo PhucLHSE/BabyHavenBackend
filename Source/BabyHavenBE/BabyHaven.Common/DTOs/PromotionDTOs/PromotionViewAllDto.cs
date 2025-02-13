@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BabyHaven.Common.DTOs.PromotionDTOs
@@ -17,6 +18,7 @@ namespace BabyHaven.Common.DTOs.PromotionDTOs
 
         public DateOnly EndDate { get; set; }
 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public PromotionStatus Status { get; set; } = PromotionStatus.Inactive;
     }
 }
