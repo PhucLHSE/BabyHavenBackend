@@ -18,6 +18,7 @@ namespace BabyHaven.Repositories
         private PackageFeatureRepository packageFeatureRepository;
         private PromotionRepository promotionRepository;
         private PackagePromotionRepository packagePromotionRepository;
+        private TransactionRepository transactionRepository;
         private DiseaseRepository diseaseRepository;
         private RoleRepository roleRepository;
         private UserAccountRepository userAccountRepository;
@@ -98,6 +99,14 @@ namespace BabyHaven.Repositories
             get
             {
                 return packagePromotionRepository ??= new PackagePromotionRepository(context);
+            }
+        }
+
+        public TransactionRepository TransactionRepository
+        {
+            get
+            {
+                return transactionRepository ??= new TransactionRepository(context);
             }
         }
 
