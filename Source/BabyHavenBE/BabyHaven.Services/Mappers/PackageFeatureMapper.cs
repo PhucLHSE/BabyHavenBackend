@@ -60,7 +60,7 @@ namespace BabyHaven.Services.Mappers
         }
 
         //Mapper PackageFeatureCreateDto
-        public static PackageFeature MapToPackageFeature(this PackageFeatureCreateDto dto, int packageId, int featureId)
+        public static PackageFeature MapToPackageFeatureCreateDto(this PackageFeatureCreateDto dto, int packageId, int featureId)
         {
             return new PackageFeature
             {

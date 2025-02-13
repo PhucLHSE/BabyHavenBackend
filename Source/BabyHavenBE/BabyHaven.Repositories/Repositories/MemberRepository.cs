@@ -35,5 +35,13 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.MemberId == memberId);
         }
+
+        public async Task<Dictionary<string, Guid>> GetAllMemberNameToIdMappingAsync()
+        {
+            return await _context.Members
+                .Include(m => m.User) // Đảm bảo load dữ liệu User
+                .Where(m => m.User != null) // Lọc những bản ghi không có User
+                .ToDictionaryAsync(m => m.User.Name, m => m.MemberId);
+        }
     }
 }

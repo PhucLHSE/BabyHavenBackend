@@ -100,7 +100,7 @@ namespace BabyHaven.Services.Services
                 }
 
                 // Map the DTO to an entity object
-                var newPackagePromotion = packagePromotionDto.MapToPackagePromotion(packageId, promotionId);
+                var newPackagePromotion = packagePromotionDto.MapToPackagePromotionCreateDto(packageId, promotionId);
 
                 // Save the new entity to the database
                 var result = await _unitOfWork.PackagePromotionRepository

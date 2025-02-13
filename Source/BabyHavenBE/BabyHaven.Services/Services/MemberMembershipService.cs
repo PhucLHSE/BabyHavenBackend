@@ -60,5 +60,83 @@ namespace BabyHaven.Services.Services
                     memberMembershipDto);
             }
         }
+
+        public async Task<IServiceResult> Create(MemberMembershipCreateDto memberMembershipDto)
+        {
+            try
+            {
+                // Retrieve mappings: MemberName -> MemberId and PackageName -> PackageId
+                var memberNameToIdMapping = await _unitOfWork.MemberRepository
+                    .GetAllMemberNameToIdMappingAsync();
+
+                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
+                    .GetAllPackageNameToIdMappingAsync();
+
+                // Check existence and retrieve MemberId from MemberName
+                if (!memberNameToIdMapping
+                    .TryGetValue(memberMembershipDto.MemberName, out var memberId))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        $"MemberName '{memberMembershipDto.MemberName}' does not exist.");
+                }
+
+                // Check existence and retrieve PackageId from PackageName
+                if (!packageNameToIdMapping
+                    .TryGetValue(memberMembershipDto.PackageName, out var packageId))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        $"PackageName '{memberMembershipDto.PackageName}' does not exist.");
+                }
+
+                // Check if active membership already exists
+                if (await _unitOfWork.MemberMembershipRepository.HasActiveMembershipAsync(memberId, packageId))
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "An active membership for this package already exists.");
+                }
+
+                // Generate unique MemberMembership ID
+                var memberMembershipId = Guid.NewGuid();
+
+                // Map DTO to entity with IDs
+                var newMemberMembership = memberMembershipDto.MapToMemberMembershipCreateDto(memberMembershipId, memberId, packageId);
+
+                // Save the new entity to the database
+                var result = await _unitOfWork.MemberMembershipRepository
+                    .CreateAsync(newMemberMembership);
+
+                if (result > 0)
+                {
+                    // Retrieve full entity with includes for Member and Package
+                    var memberMembership = await _unitOfWork.MemberMembershipRepository.GetByIdMemberMembershipAsync(newMemberMembership.MemberMembershipId);
+
+                    if (memberMembership?.Member?.User == null)
+                    {
+                        return new ServiceResult(Const.FAIL_CREATE_CODE, "Member or User information is missing.");
+                    }
+
+                    // Retrieve names from navigation properties
+                    var memberName = memberMembership.Member.User.Name;
+                    var packageName = await _unitOfWork.MembershipPackageRepository
+                        .GetByIdAsync(newMemberMembership.PackageId);
+
+                    // Map retrieved details to response DTO
+                    var responseDto = memberMembership.MapToMemberMembershipViewDetailsDto();
+                    responseDto.MemberName = memberName;
+                    responseDto.PackageName = packageName?.PackageName ?? "Unknown Package";
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                        responseDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }

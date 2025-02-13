@@ -99,7 +99,7 @@ namespace BabyHaven.Services.Services
                 }
 
                 // Map the DTO to an entity object
-                var newPackageFeature = packageFeatureDto.MapToPackageFeature(packageId, featureId);
+                var newPackageFeature = packageFeatureDto.MapToPackageFeatureCreateDto(packageId, featureId);
 
                 // Save the new entity to the database
                 var result = await _unitOfWork.PackageFeatureRepository

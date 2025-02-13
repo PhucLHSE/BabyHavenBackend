@@ -80,7 +80,7 @@ namespace BabyHaven.Services.Mappers
         }
 
         //Mapper PackagePromotionCreateDto
-        public static PackagePromotion MapToPackagePromotion(this PackagePromotionCreateDto dto, int packageId, Guid promotionId)
+        public static PackagePromotion MapToPackagePromotionCreateDto(this PackagePromotionCreateDto dto, int packageId, Guid promotionId)
         {
             return new PackagePromotion
             {
