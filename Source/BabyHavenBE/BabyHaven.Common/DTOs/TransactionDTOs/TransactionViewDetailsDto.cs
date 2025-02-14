@@ -20,6 +20,8 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
 
         public string TransactionType { get; set; } = string.Empty;
 
+        public string PaymentMethod { get; set; } = string.Empty;
+
         public DateTime TransactionDate { get; set; }
 
         public DateTime? PaymentDate { get; set; }

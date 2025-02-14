@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace BabyHaven.Services.Mappers
 {
@@ -23,6 +24,7 @@ namespace BabyHaven.Services.Mappers
                 Amount = model.Amount,
                 Currency = model.Currency,
                 TransactionType = model.TransactionType,
+                PaymentMethod = model.PaymentMethod,
                 TransactionDate = model.TransactionDate,
 
                 // Convert Status from string to enum
@@ -43,6 +45,7 @@ namespace BabyHaven.Services.Mappers
                 Amount = model.Amount,
                 Currency = model.Currency,
                 TransactionType = model.TransactionType,
+                PaymentMethod = model.PaymentMethod,
                 TransactionDate = model.TransactionDate,
                 PaymentDate = model.PaymentDate,
                 GatewayTransactionId = model.GatewayTransactionId,
@@ -52,6 +55,25 @@ namespace BabyHaven.Services.Mappers
                 PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
                           ? status
                           : TransactionStatus.Pending
+            };
+        }
+
+        // Mapper TransactionCreateDto
+        public static Transaction MapToTransactionCreateDto(this TransactionCreateDto dto)
+        {
+            return new Transaction
+            {
+                UserId = dto.UserId,
+                MemberMembershipId = dto.MemberMembershipId,
+
+                Amount = dto.Amount,
+                Currency = dto.Currency,
+                TransactionType = dto.TransactionType,
+                PaymentMethod = dto.PaymentMethod,
+                TransactionDate = DateTime.UtcNow,
+                Description = dto.Description,
+
+                PaymentStatus = TransactionStatus.Pending.ToString()
             };
         }
     }
