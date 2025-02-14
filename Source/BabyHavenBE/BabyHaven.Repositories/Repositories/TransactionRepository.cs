@@ -30,5 +30,14 @@ namespace BabyHaven.Repositories.Repositories
 
             return transactions;
         }
+
+        public async Task<Transaction?> GetByIdTransactionAsync(Guid transactionId)
+        {
+            return await _context.Transactions
+                .Include(t => t.User)
+                .Include(t => t.MemberMembership)
+                    .ThenInclude(t => t.Package)   // Include Package from MemberMembership
+                .FirstOrDefaultAsync(t => t.TransactionId == transactionId);
+        }
     }
 }
