@@ -10,5 +10,6 @@ namespace BabyHaven.Services.IServices
     public interface ITransactionService
     {
         Task<IServiceResult> GetAll();
+        Task<IServiceResult> GetById(Guid TransactionId);
     }
 }

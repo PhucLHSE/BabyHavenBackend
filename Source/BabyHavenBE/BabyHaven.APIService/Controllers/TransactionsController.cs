@@ -21,5 +21,12 @@ namespace BabyHaven.APIService.Controllers
         {
             return await _transactionService.GetAll();
         }
+
+        // GET api/<TransactionsController>/5
+        [HttpGet("{id}")]
+        public async Task<IServiceResult> Get(Guid id)
+        {
+            return await _transactionService.GetById(id);
+        }
     }
 }

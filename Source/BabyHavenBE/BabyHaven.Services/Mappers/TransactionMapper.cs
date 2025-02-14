@@ -22,13 +22,36 @@ namespace BabyHaven.Services.Mappers
 
                 Amount = model.Amount,
                 Currency = model.Currency,
-                TransactionDate = model.TransactionDate,
                 TransactionType = model.TransactionType,
+                TransactionDate = model.TransactionDate,
 
                 // Convert Status from string to enum
                 PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
                           ? status
-                          : TransactionStatus.Pending,
+                          : TransactionStatus.Pending
+            };
+        }
+
+        // Mapper TransactionViewDetailsDto
+        public static TransactionViewDetailsDto MapToTransactionViewDetailsDto(this Transaction model)
+        {
+            return new TransactionViewDetailsDto
+            {
+                FullName = model.User?.Name ?? "Unknown",
+                PackageName = model.MemberMembership?.Package?.PackageName ?? "Unknown",
+
+                Amount = model.Amount,
+                Currency = model.Currency,
+                TransactionType = model.TransactionType,
+                TransactionDate = model.TransactionDate,
+                PaymentDate = model.PaymentDate,
+                GatewayTransactionId = model.GatewayTransactionId,
+                Description = model.Description,
+
+                // Convert Status from string to enum
+                PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
+                          ? status
+                          : TransactionStatus.Pending
             };
         }
     }

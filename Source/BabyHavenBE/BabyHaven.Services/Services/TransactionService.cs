@@ -40,5 +40,24 @@ namespace BabyHaven.Services.Services
                     transactionDtos);
             }
         }
+
+        public async Task<IServiceResult> GetById(Guid TransactionId)
+        {
+            var transaction = await _unitOfWork.TransactionRepository
+                .GetByIdTransactionAsync(TransactionId);
+
+            if (transaction == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new TransactionViewDetailsDto());
+            }
+            else
+            {
+                var transactionDto = transaction.MapToTransactionViewDetailsDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    transactionDto);
+            }
+        }
     }
 }
