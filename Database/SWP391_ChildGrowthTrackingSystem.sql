@@ -3,9 +3,9 @@ BEGIN
     DROP DATABASE SWP391_ChildGrowthTrackingSystem;
 END
 
-CREATE DATABASE SWP391_ChildGrowthTrackingSystem2;
+CREATE DATABASE SWP391_ChildGrowthTrackingSystem;
 
-USE SWP391_ChildGrowthTrackingSystem2;
+USE SWP391_ChildGrowthTrackingSystem;
 
 -- Table Roles
 CREATE TABLE Roles (
