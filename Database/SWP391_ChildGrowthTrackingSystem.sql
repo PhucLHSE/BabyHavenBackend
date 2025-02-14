@@ -3,9 +3,9 @@ BEGIN
     DROP DATABASE SWP391_ChildGrowthTrackingSystem;
 END
 
-CREATE DATABASE SWP391_ChildGrowthTrackingSystem;
+CREATE DATABASE SWP391_ChildGrowthTrackingSystem2;
 
-USE SWP391_ChildGrowthTrackingSystem;
+USE SWP391_ChildGrowthTrackingSystem2;
 
 -- Table Roles
 CREATE TABLE Roles (
@@ -409,6 +409,16 @@ VALUES
 
 GO
 
+-- Insert UserAccounts
+INSERT INTO UserAccounts (Username, Email, PhoneNumber, Name, Gender, DateOfBirth, Address, Password, RegistrationDate, RoleID)
+VALUES
+('admin_user', 'admin@example.com', '0901234567', 'Admin User', 'Male', '1985-05-15', '123 Admin St.', 'password123', GETDATE(), 3),  -- Admin
+('member_user_1', 'member1@example.com', '0902345678', 'Member User 1', 'Female', '1990-01-01', '123 Member St.', 'password123', GETDATE(), 1),  -- Member 1
+('member_user_2', 'member2@example.com', '0903456789', 'Member User 2', 'Male', '1992-06-10', '456 Member St.', 'password123', GETDATE(), 1),  -- Member 2
+('member_user_3', 'member3@example.com', '0904567890', 'Member User 3', 'Female', '1995-10-20', '789 Member St.', 'password123', GETDATE(), 1);  -- Member 3
+
+GO
+
 -- Insert Membership Packages
 INSERT INTO MembershipPackages (PackageName, Description, Price, Currency, DurationMonths, MaxChildrenAllowed, Status)
 VALUES
@@ -514,36 +524,12 @@ VALUES
 
 GO
 
--- Insert UserAccounts
-INSERT INTO UserAccounts (Username, Email, PhoneNumber, Name, Gender, DateOfBirth, Address, Password, RegistrationDate, RoleID)
-VALUES
-('admin_user', 'admin@example.com', '0901234567', 'Admin User', 'Male', '1985-05-15', '123 Admin St.', 'password123', GETDATE(), 3),  -- Admin
-('member_user_1', 'member1@example.com', '0902345678', 'Member User 1', 'Female', '1990-01-01', '123 Member St.', 'password123', GETDATE(), 1),  -- Member 1
-('member_user_2', 'member2@example.com', '0903456789', 'Member User 2', 'Male', '1992-06-10', '456 Member St.', 'password123', GETDATE(), 1),  -- Member 2
-('member_user_3', 'member3@example.com', '0904567890', 'Member User 3', 'Female', '1995-10-20', '789 Member St.', 'password123', GETDATE(), 1);  -- Member 3
-
-GO
-
 -- Insert Members
 INSERT INTO Members (UserID, EmergencyContact, JoinDate, Status)
 VALUES
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1'), '123-456-789', GETDATE(), 'Active'),  -- Member 1
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2'), '234-567-890', GETDATE(), 'Active'),  -- Member 2
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), '345-678-901', GETDATE(), 'Active');  -- Member 3
-
-GO
-
--- Insert Children
-INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, RelationshipToMember, Status)
-VALUES
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')), 
-'Child 1', '2022-01-01', 'Female', 3.2, 50, 'O', NULL, 'Daughter', 'Active'),  -- Member 1
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), 
-'Child 2', '2021-06-15', 'Male', 3.5, 52, 'A', NULL, 'Son', 'Active'),  -- Member 2
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
-'Child 3', '2020-12-10', 'Female', 3.0, 48, 'B', NULL, 'Daughter', 'Active'),  -- Member 3
-((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
-'Child 4', '2019-11-25', 'Male', 3.4, 49, 'AB', NULL, 'Son', 'Active');  -- Member 3
 
 GO
 
@@ -577,6 +563,20 @@ AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'S
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), 
 (SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
 AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 1279000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success');
+
+GO
+
+-- Insert Children
+INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, RelationshipToMember, Status)
+VALUES
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')), 
+'Child 1', '2022-01-01', 'Female', 3.2, 50, 'O', NULL, 'Daughter', 'Active'),  -- Member 1
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')), 
+'Child 2', '2021-06-15', 'Male', 3.5, 52, 'A', NULL, 'Son', 'Active'),  -- Member 2
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
+'Child 3', '2020-12-10', 'Female', 3.0, 48, 'B', NULL, 'Daughter', 'Active'),  -- Member 3
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')), 
+'Child 4', '2019-11-25', 'Male', 3.4, 49, 'AB', NULL, 'Son', 'Active');  -- Member 3
 
 GO
 
