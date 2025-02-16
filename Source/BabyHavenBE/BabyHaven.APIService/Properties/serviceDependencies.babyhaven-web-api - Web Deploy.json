@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "connectionInfo": "App registration: babyhaven-web-api, Tenant: Đại học FPT- FPT University (fptuniversity.onmicrosoft.com - Microsoft Entra ID)",
+      "secretStore": "AzureAppSettings",
+      "type": "identityapp.secretStore",
+      "connectionId": "AzureAD:ClientSecret"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.Web/sites/babyhaven-web-api/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsNetworkConnection_984587DDAD",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/babyhaven-web-server/databases/babyhaven-database",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:NetworkConnection",
+      "dynamicId": null
+    }
+  }
+}

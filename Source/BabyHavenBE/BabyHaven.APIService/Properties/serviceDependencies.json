@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "type": "identityapp",
+      "connectionId": "AzureAD:ClientSecret"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:NetworkConnection",
+      "dynamicId": null
+    }
+  }
+}
