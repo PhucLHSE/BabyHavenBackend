@@ -1,4 +1,4 @@
-﻿using BabyHaven.Common.Enum.Converters;
+using BabyHaven.Common.Enum.Converters;
 using Azure;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Repositories;
@@ -14,6 +14,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Memory;
 using VNPAY.NET;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
