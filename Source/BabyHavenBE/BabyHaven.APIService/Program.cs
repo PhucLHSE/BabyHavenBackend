@@ -13,6 +13,7 @@ using OpenAI;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Memory;
+using VNPAY.NET;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,10 +39,15 @@ builder.Services.AddScoped<IDoctorSpecializationService, DoctorSpecializationSer
 builder.Services.AddScoped<IAlertService, AlertService>();
 builder.Services.AddScoped<IMilestoneService, MilestoneService>();
 builder.Services.AddScoped<IChildMilestoneService, ChildMilestoneService>();
+builder.Services.AddScoped<IVNPayService, VNPayService>();
+
+
+builder.Services.AddSingleton<IVnpay, Vnpay>();
 
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();
+
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

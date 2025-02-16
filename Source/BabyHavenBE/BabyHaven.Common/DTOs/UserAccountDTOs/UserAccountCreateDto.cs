@@ -1,4 +1,5 @@
-﻿using BabyHaven.Common.Enum.UserAccountEnums;
+﻿using BabyHaven.Common.Enum.Converters;
+using BabyHaven.Common.Enum.UserAccountEnums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,7 +37,7 @@ namespace BabyHaven.Common.DTOs.UserAccountDTOs
         public string Gender { get; set; } = string.Empty;
 
 
-        //[JsonConverter(typeof(DateOnlyJsonConverter))]
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly DateOfBirth { get; set; }
 
 

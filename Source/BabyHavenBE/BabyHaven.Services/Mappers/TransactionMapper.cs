@@ -76,5 +76,14 @@ namespace BabyHaven.Services.Mappers
                 PaymentStatus = TransactionStatus.Pending.ToString()
             };
         }
+
+        public static void UpdateTransactionFromVNPayResponse(this Transaction transaction, dynamic vnpayResponse)
+        {
+            transaction.PaymentStatus = vnpayResponse.isSuccess ? TransactionStatus.Completed.ToString() : TransactionStatus.Failed.ToString();
+            transaction.PaymentDate = vnpayResponse.isSuccess ? DateTime.UtcNow : null;
+            transaction.GatewayTransactionId = vnpayResponse.vnpayTransactionId.ToString();
+            transaction.PaymentMethod = vnpayResponse.paymentMethod ?? transaction.PaymentMethod;
+            transaction.Description = vnpayResponse.description ?? transaction.Description;
+        }
     }
 }
