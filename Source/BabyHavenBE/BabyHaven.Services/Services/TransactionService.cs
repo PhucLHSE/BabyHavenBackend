@@ -122,5 +122,42 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
+
+        public async Task<IServiceResult> DeleteById(Guid TransactionId)
+        {
+            try
+            {
+                var transaction = await _unitOfWork.TransactionRepository
+                    .GetByIdTransactionAsync(TransactionId);
+
+                if (transaction == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                        new TransactionDeleteDto());
+                }
+                else
+                {
+                    var deleteTransactionDto = transaction.MapToTransactionDeleteDto();
+
+                    var result = await _unitOfWork.TransactionRepository
+                        .RemoveAsync(transaction);
+
+                    if (result)
+                    {
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                            deleteTransactionDto);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                            deleteTransactionDto);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
     }
 }

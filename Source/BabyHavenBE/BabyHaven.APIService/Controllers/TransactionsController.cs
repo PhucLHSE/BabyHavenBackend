@@ -44,5 +44,17 @@ namespace BabyHaven.APIService.Controllers
 
             return await _transactionService.Create(transactionCreateDto);
         }
+
+        // DELETE api/<TransactionsController>/5
+        [HttpDelete("{id}")]
+        public async Task<IServiceResult> Delete(Guid id)
+        {
+            return await _transactionService.DeleteById(id);
+        }
+
+        private bool TransactionExists(Guid id)
+        {
+            return _transactionService.GetById(id) != null;
+        }
     }
 }

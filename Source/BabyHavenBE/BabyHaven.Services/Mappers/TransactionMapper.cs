@@ -76,5 +76,29 @@ namespace BabyHaven.Services.Mappers
                 PaymentStatus = TransactionStatus.Pending.ToString()
             };
         }
+
+        // Mapper TransactionDeleteDto
+        public static TransactionDeleteDto MapToTransactionDeleteDto(this Transaction model)
+        {
+            return new TransactionDeleteDto
+            {
+                FullName = model.User?.Name ?? "Unknown",
+                PackageName = model.MemberMembership?.Package?.PackageName ?? "Unknown",
+
+                Amount = model.Amount,
+                Currency = model.Currency,
+                TransactionType = model.TransactionType,
+                PaymentMethod = model.PaymentMethod,
+                TransactionDate = model.TransactionDate,
+                PaymentDate = model.PaymentDate,
+                GatewayTransactionId = model.GatewayTransactionId,
+                Description = model.Description,
+
+                // Convert Status from string to enum
+                PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
+                          ? status
+                          : TransactionStatus.Pending
+            };
+        }
     }
 }
