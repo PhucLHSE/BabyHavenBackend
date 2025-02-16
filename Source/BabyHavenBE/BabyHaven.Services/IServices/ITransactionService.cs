@@ -13,5 +13,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetAll();
         Task<IServiceResult> GetById(Guid TransactionId);
         Task<IServiceResult> Create(TransactionCreateDto transactionCreateDto);
+        Task<IServiceResult> DeleteById(Guid TransactionId);
     }
 }
