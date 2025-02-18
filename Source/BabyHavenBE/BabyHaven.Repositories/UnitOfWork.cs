@@ -32,6 +32,7 @@ namespace BabyHaven.Repositories
         private AlertRepository alertRepository;
         private MilestoneRepository milestoneRepository;
         private ChildMilestoneRepository childMilestoneRepository;
+        private BlogCategoryRepository blogCategoryRepository;
 
         public UnitOfWork() 
         {
@@ -185,6 +186,13 @@ namespace BabyHaven.Repositories
             get
             {
                 return doctorSpecializationRepository ??= new DoctorSpecializationRepository(context);
+            }
+        }
+        public BlogCategoryRepository BlogCategoryRepository
+        {
+            get
+            {
+                return blogCategoryRepository ??= new BlogCategoryRepository(context);
             }
         }
     }

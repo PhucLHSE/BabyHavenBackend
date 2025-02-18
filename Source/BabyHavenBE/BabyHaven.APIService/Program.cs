@@ -38,6 +38,7 @@ builder.Services.AddScoped<IDoctorSpecializationService, DoctorSpecializationSer
 builder.Services.AddScoped<IAlertService, AlertService>();
 builder.Services.AddScoped<IMilestoneService, MilestoneService>();
 builder.Services.AddScoped<IChildMilestoneService, ChildMilestoneService>();
+builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
 
 
 // Đăng ký UnitOfWork và Repository
