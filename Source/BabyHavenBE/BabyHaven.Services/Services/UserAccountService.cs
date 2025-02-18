@@ -173,6 +173,53 @@ namespace BabyHaven.Services.Services
             await _unitOfWork.UserAccountRepository.CreateAsync(userAccount);
             return true;
         }
+        public async Task<IServiceResult> Create(UserAccountCreateDto userDto)
+        {
+            try
+            {
+                // Check if the user exists in the database
+                var user = await _unitOfWork.UserAccountRepository
+                    .GetByEmailAsync(userDto.Email);
+
+                if (user != null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "Email already exists.");
+                }
+
+                // Map DTO to Entity
+                var newUserAccount = userDto.MapToUserAccount();
+
+                // Ensure valid DateTime for CreatedAt and UpdatedAt
+                newUserAccount.CreatedAt = newUserAccount.CreatedAt < new DateTime(1753, 1, 1)
+                    ? DateTime.UtcNow : newUserAccount.CreatedAt;
+
+                newUserAccount.UpdatedAt = newUserAccount.UpdatedAt < new DateTime(1753, 1, 1)
+                    ? DateTime.UtcNow : newUserAccount.UpdatedAt;
+
+                // Save data to database
+                var result = await _unitOfWork.UserAccountRepository
+                    .CreateAsync(newUserAccount);
+
+                if (result > 0)
+                {
+                    // Map the saved entity to a response DTO
+                    var responseDto = newUserAccount.MapToUserAccountViewDetailsDto();
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                        responseDto);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
 
     }
 }
