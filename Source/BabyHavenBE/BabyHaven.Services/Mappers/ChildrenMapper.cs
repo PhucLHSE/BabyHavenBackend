@@ -65,7 +65,7 @@ namespace BabyHaven.Services.Mappers
                 ChildId = child.ChildId,
                 Name = child.Name,
                 DateOfBirth = child.DateOfBirth,
-                Age = child.CalculateAge(),
+                Age = CalculateAge(child.DateOfBirth),
                 Gender = child.Gender,
                 BirthWeight = child.BirthWeight,
                 BirthHeight = child.BirthHeight,
@@ -77,6 +77,24 @@ namespace BabyHaven.Services.Mappers
                 CreatedAt = child.CreatedAt,
                 UpdatedAt = child.UpdatedAt
             };
+        }
+
+        private static int CalculateAge(DateOnly dateOfBirth)
+        {
+            if (dateOfBirth == default)
+            {
+                return 0;
+            }
+
+            var today = DateOnly.FromDateTime(DateTime.Today);
+            var age = today.Year - dateOfBirth.Year;
+
+            if (today < dateOfBirth.AddYears(age))
+            {
+                age--;
+            }
+
+            return age;
         }
     }
 }

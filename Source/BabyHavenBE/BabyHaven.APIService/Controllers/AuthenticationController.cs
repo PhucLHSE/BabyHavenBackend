@@ -77,21 +77,20 @@ namespace BabyHaven.APIService.Controllers
             // Map request to a UserAccount model
             var userAccount = new UserAccount
             {
-                UserId = Guid.NewGuid(),
                 Username = request.Username,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 Name = request.Name,
                 Gender = request.Gender,
-                DateOfBirth = request.DateOfBirth,
-                Address = request.Address,
+                DateOfBirth = DateOnly.Parse(request.DateOfBirth),
+                Address = string.Empty,
                 Password = request.Password, // Ideally, you should hash the password
                 RegistrationDate = DateTime.UtcNow,
                 Status = "Active",
-                RoleId = request.RoleId,
                 IsVerified = false,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = DateTime.UtcNow,
+                RoleId = 1
             };
 
             // Save to the database
@@ -111,10 +110,8 @@ namespace BabyHaven.APIService.Controllers
             string PhoneNumber,
             string Name,
             string Gender,
-            DateOnly DateOfBirth,
-            string Address,
-            string Password,
-            int RoleId
+            string DateOfBirth,
+            string Password
         );
 
     }
