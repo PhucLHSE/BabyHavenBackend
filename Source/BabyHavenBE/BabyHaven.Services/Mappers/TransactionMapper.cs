@@ -79,6 +79,30 @@ namespace BabyHaven.Services.Mappers
             };
         }
 
+        // Mapper TransactionDeleteDto
+        public static TransactionDeleteDto MapToTransactionDeleteDto(this Transaction model)
+        {
+            return new TransactionDeleteDto
+            {
+                FullName = model.User?.Name ?? "Unknown",
+                PackageName = model.MemberMembership?.Package?.PackageName ?? "Unknown",
+
+                Amount = model.Amount,
+                Currency = model.Currency,
+                TransactionType = model.TransactionType,
+                PaymentMethod = model.PaymentMethod,
+                TransactionDate = model.TransactionDate,
+                PaymentDate = model.PaymentDate,
+                GatewayTransactionId = model.GatewayTransactionId,
+                Description = model.Description,
+
+                // Convert Status from string to enum
+                PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
+                          ? status
+                          : TransactionStatus.Pending
+            };
+        }
+      
         public static void UpdateTransactionFromVNPayResponse(this Transaction transaction, PaymentResult vnpayResponse)
         {
             transaction.PaymentStatus = vnpayResponse.IsSuccess ? Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString() : Common.Enum.TransactionEnums.TransactionStatus.Failed.ToString();

@@ -42,9 +42,9 @@ builder.Services.AddScoped<IAlertService, AlertService>();
 builder.Services.AddScoped<IMilestoneService, MilestoneService>();
 builder.Services.AddScoped<IChildMilestoneService, ChildMilestoneService>();
 builder.Services.AddScoped<IVNPayService, VNPayService>();
-
-
 builder.Services.AddSingleton<IVnpay, Vnpay>();
+builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
+
 
 
 // Đăng ký UnitOfWork và Repository

@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.TransactionDTOs;
 using BabyHaven.Services.IServices;
-using BabyHaven.Common.DTOs.PromotionDTOs;
 namespace BabyHaven.Services.Services
 {
     public class TransactionService : ITransactionService
@@ -74,25 +73,6 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    //// Retrieve full entity with includes for Member and Package
-                    //var memberMembership = await _unitOfWork.MemberMembershipRepository
-                    //    .GetByIdMemberMembershipAsync(newMemberMembership.MemberMembershipId);
-
-                    //if (memberMembership?.Member?.User == null)
-                    //{
-                    //    return new ServiceResult(Const.FAIL_CREATE_CODE, "Member or User information is missing.");
-                    //}
-
-                    //// Retrieve names from navigation properties
-                    //var memberName = memberMembership.Member.User.Name;
-                    //var packageName = await _unitOfWork.MembershipPackageRepository
-                    //    .GetByIdAsync(newMemberMembership.PackageId);
-
-                    //// Map retrieved details to response DTO
-                    //var responseDto = memberMembership.MapToMemberMembershipViewDetailsDto();
-                    //responseDto.MemberName = memberName;
-                    //responseDto.PackageName = packageName?.PackageName ?? "Unknown Package";
-
                     // Retrieve user details from UserAccountRepository
                     var user = await _unitOfWork.UserAccountRepository
                         .GetByIdAsync(newTransaction.UserId);
@@ -115,6 +95,43 @@ namespace BabyHaven.Services.Services
                 else
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> DeleteById(Guid TransactionId)
+        {
+            try
+            {
+                var transaction = await _unitOfWork.TransactionRepository
+                    .GetByIdTransactionAsync(TransactionId);
+
+                if (transaction == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                        new TransactionDeleteDto());
+                }
+                else
+                {
+                    var deleteTransactionDto = transaction.MapToTransactionDeleteDto();
+
+                    var result = await _unitOfWork.TransactionRepository
+                        .RemoveAsync(transaction);
+
+                    if (result)
+                    {
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                            deleteTransactionDto);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                            deleteTransactionDto);
+                    }
                 }
             }
             catch (Exception ex)
