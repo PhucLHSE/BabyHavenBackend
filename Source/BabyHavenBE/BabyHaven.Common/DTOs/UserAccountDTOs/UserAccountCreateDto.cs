@@ -37,8 +37,7 @@ namespace BabyHaven.Common.DTOs.UserAccountDTOs
         public string Gender { get; set; } = string.Empty;
 
 
-        [JsonConverter(typeof(DateOnlyJsonConverter))]
-        public DateOnly DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; } = string.Empty;
 
 
         [Required(ErrorMessage = "Address is required.")]

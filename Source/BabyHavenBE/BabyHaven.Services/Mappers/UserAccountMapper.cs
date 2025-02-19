@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.UserAccountDTOs;
 using BabyHaven.Common.Enum.FeatureEnums;
 using BabyHaven.Common.Enum.UserAccountEnums;
 using BabyHaven.Repositories.Models;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using NanoidDotNet;
 using System;
 using System.Collections.Generic;
@@ -71,14 +72,36 @@ namespace BabyHaven.Services.Mappers
         //Mapper UserAccountCreateDto
         public static UserAccount MapToUserAccount(this UserAccountCreateDto dto)
         {
+            //DateOnly? dateOfBirth = null;
+            //if (!string.IsNullOrWhiteSpace(dto.DateOfBirth))
+            //{
+            //    if (DateOnly.Parse(dto.DateOfBirth))
+            //    {
+            //        if (parsedDate >= DateOnly.MinValue && parsedDate <= DateOnly.MaxValue)
+            //        {
+            //            dateOfBirth = parsedDate;
+            //        }
+            //        else
+            //        {
+            //            throw new ArgumentOutOfRangeException(nameof(dto.DateOfBirth), "DateOfBirth must be between 1/1/1753 and 12/31/9999.");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        throw new FormatException("DateOfBirth is not in a valid format.");
+            //    }
+            //}
+
             return new UserAccount
             {
                 Username = dto.Username,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
                 Name = dto.Name,
+                LastLogin = DateTime.UtcNow,
+                RegistrationDate = DateTime.UtcNow,
                 Gender = dto.Gender,
-                DateOfBirth = dto.DateOfBirth,
+                DateOfBirth = DateOnly.Parse(dto.DateOfBirth),
                 Address = dto.Address,
                 Password = dto.Password,
                 RoleId = dto.RoleId,
