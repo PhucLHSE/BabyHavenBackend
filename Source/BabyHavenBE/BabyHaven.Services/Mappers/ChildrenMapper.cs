@@ -47,7 +47,7 @@ namespace BabyHaven.Services.Mappers
             {
                 Name = child.Name,
                 DateOfBirth = child.DateOfBirth,
-                Age = child.CalculateAge(),
+                Age = CalculateAge(child.DateOfBirth),
                 BirthHeight = child.BirthHeight,
                 BirthWeight = child.BirthWeight,
                 Gender = child.Gender,
