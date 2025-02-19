@@ -8,7 +8,7 @@ namespace BabyHaven.Services.IServices
 {
     public interface IVNPayService
     {
-        Task<IServiceResult> CreatePaymentUrl(Guid transactionId, string ipAddress);
+        Task<IServiceResult> CreatePaymentUrl(long gatewayTransactionId, string ipAddress);
         Task<IServiceResult> ValidateResponse(IQueryCollection parans);
     }
 }

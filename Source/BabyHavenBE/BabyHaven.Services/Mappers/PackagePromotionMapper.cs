@@ -1,4 +1,4 @@
-﻿using BabyHaven.Common.DTOs.PackagePromotionDTOs;
+﻿using BabyHaven.Common.DTOs.VNPayDTOS.PackagePromotionDTOs;
 using BabyHaven.Common.Enum.MembershipPackageEnums;
 using BabyHaven.Common.Enum.PackageFeatureEnums;
 using BabyHaven.Common.Enum.PromotionEnums;

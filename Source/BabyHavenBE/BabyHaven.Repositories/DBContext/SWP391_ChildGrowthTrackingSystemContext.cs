@@ -804,8 +804,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.GatewayTransactionId)
-                .HasMaxLength(255)
-                .IsUnicode(false)
+            .HasColumnType("bigint")
                 .HasColumnName("GatewayTransactionID");
             entity.Property(e => e.MemberMembershipId).HasColumnName("MemberMembershipID");
             entity.Property(e => e.PaymentDate).HasColumnType("datetime");

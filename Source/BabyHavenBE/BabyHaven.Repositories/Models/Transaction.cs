@@ -25,7 +25,7 @@ public partial class Transaction
 
     public DateTime? PaymentDate { get; set; }
 
-    public string GatewayTransactionId { get; set; }
+    public long GatewayTransactionId { get; set; }
 
     public string PaymentStatus { get; set; }
 

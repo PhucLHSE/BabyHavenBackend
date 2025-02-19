@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace BabyHaven.Common.DTOs.PackagePromotionDTOs
+namespace BabyHaven.Common.DTOs.VNPayDTOS.PackagePromotionDTOs
 {
-    public class PackagePromotionViewDetailsDto
+    public class PackagePromotionDeleteDto
     {
         // Package Information
         public string PackageName { get; set; } = string.Empty;
@@ -28,9 +28,6 @@ namespace BabyHaven.Common.DTOs.PackagePromotionDTOs
 
         public string SupportLevel { get; set; } = string.Empty;
 
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public MembershipPackageStatus PackageStatus { get; set; } = MembershipPackageStatus.Inactive;
-
 
         // Promotion Information
         public string PromotionCode { get; set; } = string.Empty;
@@ -48,9 +45,6 @@ namespace BabyHaven.Common.DTOs.PackagePromotionDTOs
         public DateOnly StartDate { get; set; }
 
         public DateOnly EndDate { get; set; }
-
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public PromotionStatus PromotionStatus { get; set; } = PromotionStatus.Inactive;
 
 
         // PackagePromotion Details

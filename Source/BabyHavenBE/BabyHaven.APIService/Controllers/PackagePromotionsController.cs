@@ -3,8 +3,8 @@ using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
-using BabyHaven.Common.DTOs.PackagePromotionDTOs;
 using BabyHaven.Common.DTOs.PackageFeatureDTOs;
+using BabyHaven.Common.DTOs.VNPayDTOS.PackagePromotionDTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

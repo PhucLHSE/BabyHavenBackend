@@ -25,10 +25,10 @@ namespace BabyHaven.API.Controllers
         }
 
         [HttpGet("create-payment")]
-        public async Task<IActionResult> CreatePaymentUrl(Guid transactionId)
+        public async Task<IActionResult> CreatePaymentUrl(long gatewayTransactionId)
         {
             string ipAddress = NetworkHelper.GetIpAddress(HttpContext);
-            var result = await _vnPayService.CreatePaymentUrl(transactionId, ipAddress);
+            var result = await _vnPayService.CreatePaymentUrl(gatewayTransactionId, ipAddress);
             return StatusCode(result.Status, new { message = result.Message, data = result.Data });
         }
 

@@ -3,13 +3,7 @@ using BabyHaven.Repositories;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Mappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BabyHaven.Common.DTOs.PackagePromotionDTOs;
-using BabyHaven.Common.DTOs.PackageFeatureDTOs;
+using BabyHaven.Common.DTOs.VNPayDTOS.PackagePromotionDTOs;
 
 namespace BabyHaven.Services.Services
 {
