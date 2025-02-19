@@ -97,9 +97,9 @@ namespace BabyHaven.Services.Mappers
                 Description = model.Description,
 
                 // Convert Status from string to enum
-                PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
+                PaymentStatus = Enum.TryParse<Common.Enum.TransactionEnums.TransactionStatus>(model.PaymentStatus, true, out var status)
                           ? status
-                          : TransactionStatus.Pending
+                          : Common.Enum.TransactionEnums.TransactionStatus.Pending
             };
         }
       
