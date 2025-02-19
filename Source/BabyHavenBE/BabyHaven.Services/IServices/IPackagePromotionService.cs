@@ -1,4 +1,4 @@
-﻿using BabyHaven.Common.DTOs.PackagePromotionDTOs;
+﻿using BabyHaven.Common.DTOs.VNPayDTOS.PackagePromotionDTOs;
 using BabyHaven.Services.Base;
 using System;
 using System.Collections.Generic;

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using VNPAY.NET.Models;
 
 namespace BabyHaven.Services.Mappers
 {
@@ -28,9 +29,9 @@ namespace BabyHaven.Services.Mappers
                 TransactionDate = model.TransactionDate,
 
                 // Convert Status from string to enum
-                PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
+                PaymentStatus = Enum.TryParse<Common.Enum.TransactionEnums.TransactionStatus>(model.PaymentStatus, true, out var status)
                           ? status
-                          : TransactionStatus.Pending
+                          : Common.Enum.TransactionEnums.TransactionStatus.Pending
             };
         }
 
@@ -52,9 +53,9 @@ namespace BabyHaven.Services.Mappers
                 Description = model.Description,
 
                 // Convert Status from string to enum
-                PaymentStatus = Enum.TryParse<TransactionStatus>(model.PaymentStatus, true, out var status)
+                PaymentStatus = Enum.TryParse<Common.Enum.TransactionEnums.TransactionStatus>(model.PaymentStatus, true, out var status)
                           ? status
-                          : TransactionStatus.Pending
+                          : Common.Enum.TransactionEnums.TransactionStatus.Pending
             };
         }
 
@@ -72,8 +73,9 @@ namespace BabyHaven.Services.Mappers
                 PaymentMethod = dto.PaymentMethod,
                 TransactionDate = DateTime.UtcNow,
                 Description = dto.Description,
+                GatewayTransactionId = DateTime.UtcNow.Ticks,
 
-                PaymentStatus = TransactionStatus.Pending.ToString()
+                PaymentStatus = Common.Enum.TransactionEnums.TransactionStatus.Pending.ToString()
             };
         }
 
@@ -99,6 +101,14 @@ namespace BabyHaven.Services.Mappers
                           ? status
                           : TransactionStatus.Pending
             };
+        }
+      
+        public static void UpdateTransactionFromVNPayResponse(this Transaction transaction, PaymentResult vnpayResponse)
+        {
+            transaction.PaymentStatus = vnpayResponse.IsSuccess ? Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString() : Common.Enum.TransactionEnums.TransactionStatus.Failed.ToString();
+            transaction.PaymentDate = vnpayResponse.Timestamp;
+            transaction.PaymentMethod = vnpayResponse.PaymentMethod ?? transaction.PaymentMethod;
+            transaction.Description = vnpayResponse.Description ?? transaction.Description;
         }
     }
 }

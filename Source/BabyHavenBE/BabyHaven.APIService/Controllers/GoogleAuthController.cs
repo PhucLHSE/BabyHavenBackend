@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Mappers;
+using BabyHaven.Services.Base;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -46,12 +47,12 @@ namespace BabyHaven.APIService.Controllers
 
         // 2. Xử lý phản hồi từ Google sau khi xác thực thành công
         [HttpGet("signin-google-response")]
-        public async Task<IActionResult> GoogleResponse()
+        public async Task<IServiceResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             if (!result.Succeeded)
-                return BadRequest("Google authentication failed!");
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Google authentication failed");
 
             var claims = result.Principal.Identities.FirstOrDefault()?.Claims.Select(claim => new
             {
@@ -71,19 +72,19 @@ namespace BabyHaven.APIService.Controllers
 
             if (serviceResult.Status != Const.SUCCESS_LOGIN_CODE)
             {
-                return Unauthorized(serviceResult);
+                return serviceResult;
             }
 
             var user = serviceResult.Data as UserAccount;
             if (user == null)
             {
-                return Unauthorized();
+                return new ServiceResult(401, "Unauthorized");
             }
             
             var token = _jwtTokenService.GenerateJSONWebToken(user);
             var userDto = user.MapToUserAccountViewAllDto();
-            
-            return Ok(new { token, userDto });
+
+            return new ServiceResult(Const.SUCCESS_LOGIN_CODE, "Login Successfully", token);
         }
 
         [HttpGet("google-signout")]
@@ -101,5 +102,7 @@ namespace BabyHaven.APIService.Controllers
                 RedirectUri = "/" // Chuyển hướng về trang chủ sau khi đăng xuất
             }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
+
+        
     }
 }

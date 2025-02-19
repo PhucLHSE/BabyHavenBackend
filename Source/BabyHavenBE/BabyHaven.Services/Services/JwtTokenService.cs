@@ -27,6 +27,7 @@ public class JwtTokenService : IJwtTokenService
             new Claim[]
             {
                 new(ClaimTypes.Name, userAccount.Email),
+                new(ClaimTypes.NameIdentifier, userAccount.UserId.ToString()),
                 new(ClaimTypes.Role, userAccount.RoleId.ToString()),
             },
             expires: DateTime.UtcNow.AddMinutes(120),

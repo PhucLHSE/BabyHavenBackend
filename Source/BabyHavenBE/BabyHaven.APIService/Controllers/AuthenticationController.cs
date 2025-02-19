@@ -1,4 +1,6 @@
-﻿using BabyHaven.Repositories.Models;
+﻿using BabyHaven.Common;
+using BabyHaven.Repositories.Models;
+using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -26,16 +28,16 @@ namespace BabyHaven.APIService.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginReqeust request)
+        public async Task<IServiceResult> Login([FromBody] LoginReqeust request)
         {
             var user = await _userAccountsService.Authenticate(request.Email, request.Password);
 
             if (user == null)
-                return Unauthorized();
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Unauthorized");
 
             var token = _jwtTokenService.GenerateJSONWebToken(user);
 
-            return Ok(token);
+            return new ServiceResult(Const.SUCCESS_READ_CODE, "Login successful", token);
         }
 
         //private string GenerateJSONWebToken(UserAccount userAccount)

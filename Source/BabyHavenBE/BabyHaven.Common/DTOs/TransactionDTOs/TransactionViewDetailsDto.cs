@@ -26,7 +26,7 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
 
         public DateTime? PaymentDate { get; set; }
 
-        public string GatewayTransactionId { get; set; } = string.Empty;
+        public long GatewayTransactionId { get; set; }
 
         public string Description { get; set; } = string.Empty;
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BabyHaven.Common.DTOs.PackagePromotionDTOs
+namespace BabyHaven.Common.DTOs.VNPayDTOS.PackagePromotionDTOs
 {
     public class PackagePromotionUpdateDto
     {

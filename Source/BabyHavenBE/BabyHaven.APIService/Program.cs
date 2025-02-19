@@ -1,4 +1,4 @@
-﻿using BabyHaven.Common.Enum.Converters;
+using BabyHaven.Common.Enum.Converters;
 using Azure;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Repositories;
@@ -13,6 +13,9 @@ using OpenAI;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Memory;
+using VNPAY.NET;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,11 +41,15 @@ builder.Services.AddScoped<IDoctorSpecializationService, DoctorSpecializationSer
 builder.Services.AddScoped<IAlertService, AlertService>();
 builder.Services.AddScoped<IMilestoneService, MilestoneService>();
 builder.Services.AddScoped<IChildMilestoneService, ChildMilestoneService>();
+builder.Services.AddScoped<IVNPayService, VNPayService>();
+builder.Services.AddSingleton<IVnpay, Vnpay>();
 builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
+
 
 
 // Đăng ký UnitOfWork và Repository
 builder.Services.AddScoped<UnitOfWork>();
+
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
