@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Common.Enum.BlogEnums
 {
-    internal class BlogStatus
+    public enum BlogStatus
     {
+        Pending,
+        Approved,
+        Rejected
     }
 }
