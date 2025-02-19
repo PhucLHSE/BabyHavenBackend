@@ -26,9 +26,10 @@ public class JwtTokenService : IJwtTokenService
             _config["Jwt:Audience"],
             new Claim[]
             {
-                new(ClaimTypes.Name, userAccount.Email),
+                new(ClaimTypes.Name, userAccount.Name),
                 new(ClaimTypes.NameIdentifier, userAccount.UserId.ToString()),
                 new(ClaimTypes.Role, userAccount.RoleId.ToString()),
+                new(ClaimTypes.Email, userAccount.Email)
             },
             expires: DateTime.UtcNow.AddMinutes(120),
             signingCredentials: credentials

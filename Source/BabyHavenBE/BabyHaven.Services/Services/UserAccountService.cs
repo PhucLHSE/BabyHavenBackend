@@ -190,16 +190,17 @@ namespace BabyHaven.Services.Services
                 // Map DTO to Entity
                 var newUserAccount = userDto.MapToUserAccount();
 
-                // Ensure valid DateTime for CreatedAt and UpdatedAt
-                newUserAccount.CreatedAt = newUserAccount.CreatedAt < new DateTime(1753, 1, 1)
-                    ? DateTime.UtcNow : newUserAccount.CreatedAt;
-
-                newUserAccount.UpdatedAt = newUserAccount.UpdatedAt < new DateTime(1753, 1, 1)
-                    ? DateTime.UtcNow : newUserAccount.UpdatedAt;
-
+                var result = 0;
                 // Save data to database
-                var result = await _unitOfWork.UserAccountRepository
-                    .CreateAsync(newUserAccount);
+                try
+                {
+                    result = await _unitOfWork.UserAccountRepository
+                                        .CreateAsync(newUserAccount);
+                } catch (Exception ex)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, ex.InnerException.ToString());
+                }
+                
 
                 if (result > 0)
                 {

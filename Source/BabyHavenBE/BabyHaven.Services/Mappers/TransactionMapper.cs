@@ -68,9 +68,9 @@ namespace BabyHaven.Services.Mappers
                 MemberMembershipId = dto.MemberMembershipId,
 
                 Amount = dto.Amount,
-                Currency = dto.Currency,
-                TransactionType = dto.TransactionType,
-                PaymentMethod = dto.PaymentMethod,
+                Currency = "",
+                TransactionType = "",
+                PaymentMethod = "",
                 TransactionDate = DateTime.UtcNow,
                 Description = dto.Description,
                 GatewayTransactionId = DateTime.UtcNow.Ticks,
@@ -109,6 +109,8 @@ namespace BabyHaven.Services.Mappers
             transaction.PaymentDate = vnpayResponse.Timestamp;
             transaction.PaymentMethod = vnpayResponse.PaymentMethod ?? transaction.PaymentMethod;
             transaction.Description = vnpayResponse.Description ?? transaction.Description;
+            transaction.Currency = "VND";
+            transaction.TransactionType = "VNpay";
         }
     }
 }
