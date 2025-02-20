@@ -54,7 +54,7 @@ namespace BabyHaven.Services.Services
 
                 var request = new PaymentRequest
                 {
-                    PaymentId = transaction.GatewayTransactionId, // Use hash code to generate long value
+                    PaymentId = transaction.GatewayTransactionId,
                     Money = Convert.ToDouble(membership.Package.Price),
                     Description = membership.Package.Description,
                     IpAddress = ipAddress,
@@ -95,7 +95,7 @@ namespace BabyHaven.Services.Services
 
                 var request = new PaymentRequest
                 {
-                    PaymentId = transaction.GatewayTransactionId, // Use hash code to generate long value
+                    PaymentId = transaction.GatewayTransactionId,
                     Money = Convert.ToDouble(membership.Package.Price),
                     Description = membership.Package.Description,
                     IpAddress = ipAddress,
