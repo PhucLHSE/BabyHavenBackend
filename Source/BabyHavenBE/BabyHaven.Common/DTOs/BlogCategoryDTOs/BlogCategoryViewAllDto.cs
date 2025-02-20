@@ -13,5 +13,7 @@ namespace BabyHaven.Common.DTOs.BlogCategoryDTOs
         public bool IsActive { get; set; }
 
         public int? ParentCategoryId { get; set; }
+
+          
     }
 }

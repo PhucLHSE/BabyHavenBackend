@@ -23,11 +23,18 @@ namespace BabyHaven.Services.Services
             _unitOfWork = unitOfWor ?? throw new ArgumentNullException(nameof(unitOfWor));
         }
 
-        public async Task<IServiceResult> CreateGrowthRecordChild(GrowthRecordChildDto dto)
+        private async Task<IServiceResult> CreateGrowthRecordAsync<TDto>(TDto dto) where TDto : class
         {
             try
             {
-                var growthRecord = dto.MapToGrowthRecordEntity();
+                GrowthRecord growthRecord = dto switch
+                {
+                    GrowthRecordChildDto childDto => childDto.MapToGrowthRecordEntity(),
+                    GrowthRecordInfantDto infantDto => infantDto.MapToGrowthRecordEntity(),
+                    GrowthRecordTeenagerDto teenagerDto => teenagerDto.MapToGrowthRecordEntity(),
+                    GrowthRecordToddlerDto toddlerDto => toddlerDto.MapToGrowthRecordEntity(),
+                    _ => throw new InvalidOperationException("Unsupported DTO type")
+                };
 
                 await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
 
@@ -39,53 +46,24 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> CreateGrowthRecordInfant(GrowthRecordInfantDto dto)
+        public Task<IServiceResult> CreateGrowthRecordChild(GrowthRecordChildDto dto)
         {
-            try
-            {
-                var growthRecord = dto.MapToGrowthRecordEntity();
-
-                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
-
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord.MapToGrowthRecordViewAll());
-            }
-            catch (Exception ex)
-            {
-                return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_CREATE_MSG}: {ex.InnerException?.ToString()}");
-            }
+            return CreateGrowthRecordAsync(dto);
         }
 
-
-        public async Task<IServiceResult> CreateGrowthRecordTeenager(GrowthRecordTeenagerDto dto)
+        public Task<IServiceResult> CreateGrowthRecordInfant(GrowthRecordInfantDto dto)
         {
-            try
-            {
-                var growthRecord = dto.MapToGrowthRecordEntity();
-
-                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
-
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
-            }
-            catch (Exception ex)
-            {
-                return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_CREATE_MSG}: {ex.Message}");
-            }
+            return CreateGrowthRecordAsync(dto);
         }
 
-        public async Task<IServiceResult> CreateGrowthRecordToddler(GrowthRecordToddlerDto dto)
+        public Task<IServiceResult> CreateGrowthRecordTeenager(GrowthRecordTeenagerDto dto)
         {
-            try
-            {
-                var growthRecord = dto.MapToGrowthRecordEntity();
+            return CreateGrowthRecordAsync(dto);
+        }
 
-                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
-
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
-            }
-            catch (Exception ex)
-            {
-                return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_CREATE_MSG}: {ex.Message}");
-            }
+        public Task<IServiceResult> CreateGrowthRecordToddler(GrowthRecordToddlerDto dto)
+        {
+            return CreateGrowthRecordAsync(dto);
         }
 
         public async Task<IServiceResult> DeleteGrowthRecord(int recordId)

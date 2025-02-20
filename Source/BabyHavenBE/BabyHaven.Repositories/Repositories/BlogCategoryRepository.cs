@@ -19,5 +19,18 @@ namespace BabyHaven.Repositories.Repositories
             return await _context.BlogCategories
                 .FirstOrDefaultAsync(bc => bc.CategoryName == categoryName);
         }
+
+        public async Task<BlogCategory?> GetByParentCategoryId(int? parentCategoryId)
+        {
+            return await _context.BlogCategories
+                .FirstOrDefaultAsync(bc => bc.ParentCategoryId == parentCategoryId);
+        }
+
+        public async Task<List<BlogCategory?>> GetListByParentCategoryId(int? parentCategoryId)
+        {
+            return await _context.BlogCategories
+                .Where(bc => bc.ParentCategoryId == parentCategoryId)
+                .ToListAsync();
+        }
     }
 }

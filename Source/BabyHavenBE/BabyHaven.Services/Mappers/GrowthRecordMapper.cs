@@ -79,6 +79,7 @@ namespace BabyHaven.Services.Mappers
                 NeurologicalReflexes = dto.NeurologicalReflexes,
                 DevelopmentalMilestones = dto.DevelopmentalMilestones,
                 Notes = dto.Notes,
+                Vision = dto.Vision
             };
         }
 

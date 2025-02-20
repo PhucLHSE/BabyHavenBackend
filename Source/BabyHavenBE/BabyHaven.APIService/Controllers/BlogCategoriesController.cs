@@ -12,29 +12,35 @@ namespace BabyHaven.APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogCategorysController : ControllerBase
+    public class BlogCategoriesController : ControllerBase
     {
         private readonly IBlogCategoryService _blogCategoryService;
 
-        public BlogCategorysController(IBlogCategoryService blogCategoryService)
+        public BlogCategoriesController(IBlogCategoryService blogCategoryService)
             => _blogCategoryService = blogCategoryService;
 
 
-        // GET: api/<BlogCategorysController>
+        // GET: api/<BlogCategoriesController>
         [HttpGet]
         public async Task<IServiceResult> Get()
         {
             return await _blogCategoryService.GetAll();
         }
 
-        // GET api/<BlogCategorysController>/5
+        // GET api/<BlogCategoriesController>/5
         [HttpGet("{id}")]
         public async Task<IServiceResult> Get(int id)
         {
             return await _blogCategoryService.GetById(id);
         }
 
-        // POST api/<BlogCategorysController>
+        [HttpGet("parent-categories/{id}")]
+        public async Task<IServiceResult> GetChildCategory(int id)
+        {
+            return await _blogCategoryService.GetChildCategories(id);
+        }
+
+        // POST api/<BlogCategoriesController>
         [HttpPost]
         public async Task<IServiceResult> Post(BlogCategoryCreateDto categoryDto)
         {
@@ -46,7 +52,7 @@ namespace BabyHaven.APIService.Controllers
             return await _blogCategoryService.Create(categoryDto);
         }
 
-        // PUT api/<BlogCategorysController>/5
+        // PUT api/<BlogCategoriesController>/5
         [HttpPut("{id}")]
         public async Task<IServiceResult> Put(BlogCategoryUpdateDto categoryDto)
         {
@@ -58,16 +64,11 @@ namespace BabyHaven.APIService.Controllers
             return await _blogCategoryService.Update(categoryDto);
         }
 
-        // DELETE api/<BlogCategorysController>/5
+        // DELETE api/<BlogCategoriesController>/5
         [HttpDelete("{id}")]
         public async Task<IServiceResult> Delete(int id)
         {
             return await _blogCategoryService.DeleteById(id);
-        }
-
-        private bool BlogCategoryExists(int id)
-        {
-            return _blogCategoryService.GetById(id) != null;
         }
     }
 }
