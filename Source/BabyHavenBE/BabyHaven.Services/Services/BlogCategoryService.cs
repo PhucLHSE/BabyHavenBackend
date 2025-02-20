@@ -58,24 +58,48 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetChildCategories(int CategoryId)
+        {
+            var blogCategory = await _unitOfWork.BlogCategoryRepository.GetListByParentCategoryId(CategoryId);
+
+            if (blogCategory == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new BlogCategoryViewDetailsDto());
+            }
+            else
+            {
+                foreach(BlogCategory category in blogCategory) 
+                {
+                    category.MapToBlogCategoryViewDetailsDto();
+                }
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    blogCategory);
+            }
+        }
+
         public async Task<IServiceResult> Create(BlogCategoryCreateDto categoryDto)
         {
             try
             {
                 // Check if the blogcategory exists in the database
                 var blogCategory = await _unitOfWork.BlogCategoryRepository.GetByCategoryNameAsync(categoryDto.CategoryName);
+                var blogParentCategory = await _unitOfWork.BlogCategoryRepository.GetByParentCategoryId(categoryDto.ParentCategoryId);
 
                 if (blogCategory != null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "BlogCategory with the same name already exists.");
                 }
 
-                // Map DTO to Entity
-                var newBlogCategory = categoryDto.MapToBlogCategoryCreateDto();
+                if (blogParentCategory == null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Blog Parent Category not found");
+                }
 
-                // Add creation and update time information
-                newBlogCategory.CreatedAt = DateTime.UtcNow;
-                newBlogCategory.UpdatedAt = DateTime.UtcNow;
+                // Map DTO to Entity
+                var newBlogCategory = categoryDto.MapToEntity(blogParentCategory);
+
 
                 // Save data to database
                 var result = await _unitOfWork.BlogCategoryRepository.CreateAsync(newBlogCategory);

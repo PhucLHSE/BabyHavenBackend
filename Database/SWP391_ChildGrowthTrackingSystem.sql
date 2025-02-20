@@ -624,3 +624,53 @@ VALUES
      'Avoid smoking exposure, control allergens at home',
      'A chronic respiratory condition where the airways become inflamed and narrow.',
      'Can be triggered by allergens, pollution, or respiratory infections.', 1);
+
+--Parent Blogcategories
+INSERT INTO BlogCategories(CategoryName, Description, IsActive)
+VALUES
+    ('Getting Pregnant', 'Information and resources for people trying to get pregnant.', 1),
+    ('Baby', 'Information for parents of newborns and infants.', 1),
+    ('Toddler', 'Content related to toddlers and early childhood development.', 1),
+    ('Child', 'Content for parents of young children and school-aged children.', 1),
+    ('Teenager', 'Information and advice for parents of teenagers.', 1);
+
+-- Chèn các thể loại con cho các thể loại cha
+-- Các thể loại con được chèn vào với ParentCategoryID trỏ đến CategoryID của thể loại cha
+
+-- Thể loại con của 'Getting Pregnant'
+INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
+VALUES
+    ('Ovulation', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
+    ('Fertility', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
+    ('Pregnancy Tests', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1);
+
+-- Thể loại con của 'Baby'
+INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
+VALUES
+    ('Breastfeeding', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
+    ('Sleep Tips', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
+    ('Newborn Care', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1);
+
+-- Thể loại con của 'Toddler'
+INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
+VALUES
+    ('Potty Training', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
+    ('Nutrition', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
+    ('Preschool', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1);
+
+-- Thể loại con của 'Child'
+INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
+VALUES
+    ('Education', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
+    ('Health Tips', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
+    ('Outdoor Activities', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1);
+
+-- Thể loại con của 'Teenager'
+INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
+VALUES
+    ('Teen Mental Health', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
+    ('Social Media', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
+    ('Teen Education', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1);
+
+
+
