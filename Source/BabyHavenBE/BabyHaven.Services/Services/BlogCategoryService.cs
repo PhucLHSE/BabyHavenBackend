@@ -64,15 +64,14 @@ namespace BabyHaven.Services.Services
 
             if (blogCategory == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
                     new BlogCategoryViewDetailsDto());
             }
             else
             {
-                foreach(BlogCategory category in blogCategory) 
-                {
-                    category.MapToBlogCategoryViewDetailsDto();
-                }
+                var cateDtos = blogCategory
+                    .Select(bc => bc.MapToBlogCategoryViewAllDto())
+                    .ToList();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     blogCategory);
