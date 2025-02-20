@@ -65,7 +65,6 @@ namespace BabyHaven.Services.Services
             if (blogCategory == null)
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
-                    new BlogCategoryViewDetailsDto());
             }
             else
             {
