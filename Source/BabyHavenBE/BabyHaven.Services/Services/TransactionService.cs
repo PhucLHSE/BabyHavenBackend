@@ -80,9 +80,18 @@ namespace BabyHaven.Services.Services
                     var memberMembership = await _unitOfWork.MemberMembershipRepository
                         .GetByIdMemberMembershipAsync(newTransaction.MemberMembershipId);
 
+                    if(memberMembership == null)
+                    {
+                        return new ServiceResult(Const.FAIL_READ_CODE, "Membership plan not found");
+                    }
+
                     // Assign retrieved user details to navigation properties
                     newTransaction.User = user;
                     newTransaction.MemberMembership = memberMembership;
+                    newTransaction.Amount = memberMembership.Package.Price;
+                    newTransaction.Description = memberMembership.Package.Description;
+
+                    await _unitOfWork.TransactionRepository .UpdateAsync(newTransaction);
 
                     // Map the saved entity to a response DTO
                     var responseDto = newTransaction.MapToTransactionViewDetailsDto();

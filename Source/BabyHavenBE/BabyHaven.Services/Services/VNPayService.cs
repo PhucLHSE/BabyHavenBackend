@@ -45,11 +45,18 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_READ_CODE, "Transaction not found");
                 }
 
+                var membership = await _unitOfWork.MemberMembershipRepository.GetByIdMemberMembershipAsync(transaction.MemberMembershipId);
+
+                if (membership == null)
+                {
+                    return new ServiceResult(Const.FAIL_READ_CODE, "Membership not found");
+                }
+
                 var request = new PaymentRequest
                 {
                     PaymentId = transaction.GatewayTransactionId, // Use hash code to generate long value
-                    Money = Convert.ToDouble(transaction.Amount),
-                    Description = transaction.Description,
+                    Money = Convert.ToDouble(membership.Package.Price),
+                    Description = membership.Package.Description,
                     IpAddress = ipAddress,
                     BankCode = BankCode.ANY, // Cho phép chọn bất kỳ ngân hàng nào
                     CreatedDate = DateTime.UtcNow,
@@ -73,18 +80,24 @@ namespace BabyHaven.Services.Services
             try
             {
                 var transaction = await _unitOfWork.TransactionRepository.GetByGatewayTransactionIdAsync(gatewayTransactionId);
-                var membership = await _unitOfWork.MemberMembershipRepository.GetByIdAsync(memberMembershipId);
+                var membership = await _unitOfWork.MemberMembershipRepository.GetByIdMemberMembershipAsync(memberMembershipId);
+
 
                 if (transaction == null)
                 {
                     return new ServiceResult(Const.FAIL_READ_CODE, "Transaction not found");
                 }
 
+                if (membership == null)
+                {
+                    return new ServiceResult(Const.FAIL_READ_CODE, "Membership plan not found");
+                }
+
                 var request = new PaymentRequest
                 {
                     PaymentId = transaction.GatewayTransactionId, // Use hash code to generate long value
-                    Money = Convert.ToDouble(transaction.Amount),
-                    Description = transaction.Description,
+                    Money = Convert.ToDouble(membership.Package.Price),
+                    Description = membership.Package.Description,
                     IpAddress = ipAddress,
                     BankCode = BankCode.ANY, // Cho phép chọn bất kỳ ngân hàng nào
                     CreatedDate = DateTime.UtcNow,
