@@ -67,12 +67,10 @@ namespace BabyHaven.Services.Mappers
                 UserId = dto.UserId,
                 MemberMembershipId = dto.MemberMembershipId,
 
-                Amount = dto.Amount,
                 Currency = "",
                 TransactionType = "",
                 PaymentMethod = "",
                 TransactionDate = DateTime.UtcNow,
-                Description = dto.Description,
                 GatewayTransactionId = DateTime.UtcNow.Ticks,
 
                 PaymentStatus = Common.Enum.TransactionEnums.TransactionStatus.Pending.ToString()
@@ -108,7 +106,6 @@ namespace BabyHaven.Services.Mappers
             transaction.PaymentStatus = vnpayResponse.IsSuccess ? Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString() : Common.Enum.TransactionEnums.TransactionStatus.Failed.ToString();
             transaction.PaymentDate = vnpayResponse.Timestamp;
             transaction.PaymentMethod = vnpayResponse.PaymentMethod ?? transaction.PaymentMethod;
-            transaction.Description = vnpayResponse.Description ?? transaction.Description;
             transaction.Currency = "VND";
             transaction.TransactionType = "VNpay";
         }

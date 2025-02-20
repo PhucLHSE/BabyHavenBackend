@@ -16,10 +16,10 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
         [Required(ErrorMessage = "MemberMembershipId is required.")]
         public Guid MemberMembershipId { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Amount must be a positive value.")]
-        public decimal Amount { get; set; }
+        //[Range(0, double.MaxValue, ErrorMessage = "Amount must be a positive value.")]
+        //public decimal Amount { get; set; }
 
-        [MaxLength(255, ErrorMessage = "Description cannot exceed 255 characters.")]
-        public string? Description { get; set; } = string.Empty;
+        //[MaxLength(255, ErrorMessage = "Description cannot exceed 255 characters.")]
+        //public string? Description { get; set; } = string.Empty;
     }
 }
