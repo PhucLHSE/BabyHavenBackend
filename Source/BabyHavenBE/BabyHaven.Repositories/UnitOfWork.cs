@@ -34,6 +34,7 @@ namespace BabyHaven.Repositories
         private ChildMilestoneRepository childMilestoneRepository;
         private BlogCategoryRepository blogCategoryRepository;
         private BlogRepository blogRepository;
+        private ConsultationRequestRepository consultationRequestRepository;
 
         public UnitOfWork() 
         {
@@ -203,5 +204,13 @@ namespace BabyHaven.Repositories
                 return blogRepository ??= new BlogRepository(context);
             }
         }
+
+        public ConsultationRequestRepository ConsultationRequestRepository
+        {
+            get
+            {
+                return consultationRequestRepository ??= new ConsultationRequestRepository(context);
+            }
+        }   
     }
 }
