@@ -44,6 +44,7 @@ builder.Services.AddScoped<IChildMilestoneService, ChildMilestoneService>();
 builder.Services.AddScoped<IVNPayService, VNPayService>();
 builder.Services.AddSingleton<IVnpay, Vnpay>();
 builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
+builder.Services.AddScoped<IConsultationRequestService, ConsultationRequestService>();
 
 
 
