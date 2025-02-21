@@ -20,6 +20,7 @@ public class JwtTokenService : IJwtTokenService
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var profilePicture = Convert.ToBase64String(userAccount.ProfilePicture);
 
         var token = new JwtSecurityToken(
             _config["Jwt:Issuer"],
@@ -29,7 +30,8 @@ public class JwtTokenService : IJwtTokenService
                 new(ClaimTypes.Name, userAccount.Name),
                 new(ClaimTypes.NameIdentifier, userAccount.UserId.ToString()),
                 new(ClaimTypes.Role, userAccount.RoleId.ToString()),
-                new(ClaimTypes.Email, userAccount.Email)
+                new(ClaimTypes.Email, userAccount.Email),
+                new("ProfileImage", profilePicture)
             },
             expires: DateTime.UtcNow.AddMinutes(120),
             signingCredentials: credentials
