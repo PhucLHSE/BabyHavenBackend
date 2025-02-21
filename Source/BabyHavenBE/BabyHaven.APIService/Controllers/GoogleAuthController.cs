@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Mappers;
 using BabyHaven.Services.Base;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -47,12 +48,12 @@ namespace BabyHaven.APIService.Controllers
 
         // 2. Xử lý phản hồi từ Google sau khi xác thực thành công
         [HttpGet("signin-google-response")]
-        public async Task<IServiceResult> GoogleResponse()
+        public async Task<IActionResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             if (!result.Succeeded)
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Google authentication failed");
+                return Unauthorized("Google authentication failed");
 
             var claims = result.Principal.Identities.FirstOrDefault()?.Claims.Select(claim => new
             {
@@ -72,20 +73,22 @@ namespace BabyHaven.APIService.Controllers
 
             if (serviceResult.Status != Const.SUCCESS_LOGIN_CODE)
             {
-                return serviceResult;
+                return new BadRequestResult();
             }
 
-            var user = serviceResult.Data as UserAccount;
-            if (user == null)
+            if (serviceResult.Data is not UserAccount user)
             {
-                return new ServiceResult(401, "Unauthorized");
+                return new UnauthorizedResult();
             }
-            
-            var token = _jwtTokenService.GenerateJSONWebToken(user);
-            var userDto = user.MapToUserAccountViewAllDto();
 
-            return new ServiceResult(Const.SUCCESS_LOGIN_CODE, "Login Successfully", token);
+            // Tạo JWT token
+            var token = _jwtTokenService.GenerateJSONWebToken(user);
+
+            // Chuyển hướng về frontend với token trong query string
+            return Redirect($"http://localhost:5173/google-callback?token={token}");
         }
+
+
 
         [HttpGet("google-signout")]
         public async Task<IActionResult> GoogleSignOut()
