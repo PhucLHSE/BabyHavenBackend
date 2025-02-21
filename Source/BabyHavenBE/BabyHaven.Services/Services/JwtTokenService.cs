@@ -20,7 +20,7 @@ public class JwtTokenService : IJwtTokenService
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        var profilePicture = Convert.ToBase64String(userAccount.ProfilePicture);
+        var profilePicture = Convert.ToBase64String(userAccount.ProfilePicture ?? new byte[0]);
 
         var token = new JwtSecurityToken(
             _config["Jwt:Issuer"],
