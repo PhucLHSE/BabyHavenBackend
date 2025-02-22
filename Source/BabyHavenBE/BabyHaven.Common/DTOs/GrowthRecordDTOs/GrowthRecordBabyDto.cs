@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
 {
-    public class GrowthRecordToddlerDto
+    public class GrowthRecordBabyDto
     {
-        [Range(40, 80, ErrorMessage = "Chest Circumference must be between 40cm and 80cm.")]
-        public float? ChestCircumference { get; set; }
-
-        [MaxLength(50, ErrorMessage = "NutritionalStatus cannot exceed 50 characters.")]
-        public string? NutritionalStatus { get; set; }
+        [Range(30, 60, ErrorMessage = "Head Circumference must be between 30cm and 60cm.")]
+        public float? HeadCircumference { get; set; }
 
         [MaxLength(2000, ErrorMessage = "ImmunizationStatus cannot exceed 2000 characters.")]
         public string? ImmunizationStatus { get; set; }

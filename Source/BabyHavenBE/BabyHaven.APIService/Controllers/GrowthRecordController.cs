@@ -16,11 +16,10 @@ namespace BabyHaven.APIService.Controllers
             _growthRecordService = growthRecordService ?? throw new ArgumentNullException(nameof(growthRecordService));
         }
 
-        [HttpPost("child")]
-        public async Task<IActionResult> CreateGrowthRecordChild([FromBody] GrowthRecordChildDto dto)
+        [HttpPost]
+        public async Task<IActionResult> CreateGrowthRecord([FromBody] GrowthRecordRequiredDto dto)
         {
-            var result = await _growthRecordService.CreateGrowthRecordChild(dto);
-            
+            var result = await _growthRecordService.CreateGrowthRecordRequired(dto);
             if (result.Status == Const.SUCCESS_CREATE_CODE)
             {
                 return Ok(result);
@@ -28,33 +27,11 @@ namespace BabyHaven.APIService.Controllers
             return StatusCode(result.Status, result);
         }
 
-        [HttpPost("infant")]
-        public async Task<IActionResult> CreateGrowthRecordInfant([FromBody] GrowthRecordInfantDto dto)
+        [HttpPut]
+        public async Task<IActionResult> Update(GrowthRecordUpdateDto dto)
         {
-            var result = await _growthRecordService.CreateGrowthRecordInfant(dto);
-            if (result.Status == Const.SUCCESS_CREATE_CODE)
-            {
-                return Ok(result);
-            }
-            return StatusCode(result.Status, result);
-        }
-
-        [HttpPost("teenager")]
-        public async Task<IActionResult> CreateGrowthRecordTeenager([FromBody] GrowthRecordTeenagerDto dto)
-        {
-            var result = await _growthRecordService.CreateGrowthRecordTeenager(dto);
-            if (result.Status == Const.SUCCESS_CREATE_CODE)
-            {
-                return Ok(result);
-            }
-            return StatusCode(result.Status, result);
-        }
-
-        [HttpPost("toddler")]
-        public async Task<IActionResult> CreateGrowthRecordToddler([FromBody] GrowthRecordToddlerDto dto)
-        {
-            var result = await _growthRecordService.CreateGrowthRecordToddler(dto);
-            if (result.Status == Const.SUCCESS_CREATE_CODE)
+            var result = await _growthRecordService.UpdateGrowthRecord(dto);
+            if (result.Status == Const.SUCCESS_UPDATE_CODE)
             {
                 return Ok(result);
             }

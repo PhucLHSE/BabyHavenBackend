@@ -23,47 +23,40 @@ namespace BabyHaven.Services.Services
             _unitOfWork = unitOfWor ?? throw new ArgumentNullException(nameof(unitOfWor));
         }
 
-        private async Task<IServiceResult> CreateGrowthRecordAsync<TDto>(TDto dto) where TDto : class
+        public async Task<IServiceResult> CreateGrowthRecordRequired(GrowthRecordRequiredDto dto)
         {
             try
             {
-                GrowthRecord growthRecord = dto switch
+                if (dto == null)
                 {
-                    GrowthRecordChildDto childDto => childDto.MapToGrowthRecordEntity(),
-                    GrowthRecordInfantDto infantDto => infantDto.MapToGrowthRecordEntity(),
-                    GrowthRecordTeenagerDto teenagerDto => teenagerDto.MapToGrowthRecordEntity(),
-                    GrowthRecordToddlerDto toddlerDto => toddlerDto.MapToGrowthRecordEntity(),
-                    _ => throw new InvalidOperationException("Unsupported DTO type")
-                };
+                    return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG);
+                }
 
-                await _unitOfWork.GrowthRecordRepository.CreateAsync(growthRecord);
-
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, growthRecord);
+                var record = await _unitOfWork.GrowthRecordRepository.CreateAsync(dto.MapToGrowthRecordEntity());
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = record };
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_CREATE_MSG}: {ex.Message}");
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.InnerException?.Message);
             }
         }
 
-        public Task<IServiceResult> CreateGrowthRecordChild(GrowthRecordChildDto dto)
+        public async Task<IServiceResult> CreateGrowthRecord(GrowthRecordCreateDto dto)
         {
-            return CreateGrowthRecordAsync(dto);
-        }
+            try
+            {
+                if (dto == null)
+                {
+                    return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG);
+                }
 
-        public Task<IServiceResult> CreateGrowthRecordInfant(GrowthRecordInfantDto dto)
-        {
-            return CreateGrowthRecordAsync(dto);
-        }
-
-        public Task<IServiceResult> CreateGrowthRecordTeenager(GrowthRecordTeenagerDto dto)
-        {
-            return CreateGrowthRecordAsync(dto);
-        }
-
-        public Task<IServiceResult> CreateGrowthRecordToddler(GrowthRecordToddlerDto dto)
-        {
-            return CreateGrowthRecordAsync(dto);
+                var record = await _unitOfWork.GrowthRecordRepository.CreateAsync(dto.MapToGrowthRecordEntity());
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = record };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.InnerException.Message);
+            }
         }
 
         public async Task<IServiceResult> DeleteGrowthRecord(int recordId)
@@ -85,6 +78,8 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_DELETE_MSG}: {ex.Message}");
             }
         }
+
+
 
         public async Task<IServiceResult> GetAllGrowthRecordsByChild(Guid childId)
         {
@@ -127,6 +122,29 @@ namespace BabyHaven.Services.Services
             catch (Exception ex)
             {
                 return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_READ_MSG}: {ex.Message}");
+            }
+        }
+
+        public async Task<IServiceResult> UpdateGrowthRecord(GrowthRecordUpdateDto dto)
+        {
+            try
+            {
+                var growthRecord = await _unitOfWork.GrowthRecordRepository.GetGrowthRecordById(dto.RecordId, dto.ChildId);
+                if (growthRecord == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Record not found");
+                }
+
+                // Map the updated properties from the DTO to the entity
+                growthRecord.MapToUpdatedGrowthRecord(dto);
+
+                await _unitOfWork.GrowthRecordRepository.UpdateAsync(growthRecord);
+
+                return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, growthRecord);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_UPDATE_MSG}: {ex.Message}");
             }
         }
     }
