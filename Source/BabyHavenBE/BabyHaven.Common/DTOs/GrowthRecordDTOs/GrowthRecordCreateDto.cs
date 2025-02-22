@@ -91,5 +91,7 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
 
         [StringLength(2000, ErrorMessage = "Notes cannot be longer than 2000 characters.")]
         public string Notes { get; set; } = string.Empty;
+
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -37,7 +37,8 @@ namespace BabyHaven.Services.Mappers
                 OxygenSaturation = dto.OxygenSaturation,
                 SleepDuration = dto.SleepDuration,
                 FerritinLevel = dto.FerritinLevel,
-                HeadCircumference = dto.HeadCircumference
+                HeadCircumference = dto.HeadCircumference,
+                CreatedAt = dto.CreatedAt
             };
         }
         // Required

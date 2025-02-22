@@ -17,9 +17,9 @@ namespace BabyHaven.APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGrowthRecord([FromBody] GrowthRecordRequiredDto dto)
+        public async Task<IActionResult> CreateGrowthRecord([FromBody] GrowthRecordCreateDto dto)
         {
-            var result = await _growthRecordService.CreateGrowthRecordRequired(dto);
+            var result = await _growthRecordService.CreateGrowthRecord(dto);
             if (result.Status == Const.SUCCESS_CREATE_CODE)
             {
                 return Ok(result);
