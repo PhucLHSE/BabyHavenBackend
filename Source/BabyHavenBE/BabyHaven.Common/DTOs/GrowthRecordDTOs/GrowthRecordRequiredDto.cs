@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
 {
-    public class GrowthRecordInfantDto
+    public class GrowthRecordRequiredDto
     {
         [Required(ErrorMessage = "ChildID is required.")]
         public Guid ChildID { get; set; }
@@ -16,23 +16,19 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         public Guid RecordedBy { get; set; }
 
         [Required(ErrorMessage = "Weight is required.")]
-        [Range(0.5, 20, ErrorMessage = "Weight must be between 0.5kg and 20kg.")]
+        [Range(5, 30, ErrorMessage = "Weight must be between 5kg and 30kg.")]
         public float Weight { get; set; }
 
         [Required(ErrorMessage = "Height is required.")]
-        [Range(20, 100, ErrorMessage = "Height must be between 20cm and 100cm.")]
+        [Range(50, 120, ErrorMessage = "Height must be between 50cm and 120cm.")]
         public float Height { get; set; }
-
-        [Range(30, 60, ErrorMessage = "Head Circumference must be between 30cm and 60cm.")]
-        public float? HeadCircumference { get; set; }
-
-        [MaxLength(2000, ErrorMessage = "ImmunizationStatus cannot exceed 2000 characters.")]
-        public string? ImmunizationStatus { get; set; }
 
         [MaxLength(255, ErrorMessage = "DevelopmentalMilestones cannot exceed 255 characters.")]
         public string? DevelopmentalMilestones { get; set; }
 
-        [MaxLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
+        [StringLength(2000, ErrorMessage = "Notes cannot be longer than 2000 characters.")]
         public string? Notes { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }
