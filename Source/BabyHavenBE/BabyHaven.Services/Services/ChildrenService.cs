@@ -29,7 +29,12 @@ namespace BabyHaven.Services.Services
                 if (dto == null)
                     return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
 
-                var child = dto.ToChild();
+                var member = await _unitOfWork.MemberRepository.GetMemberByUserId(dto.UserId);
+
+                if (member == null)
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
+
+                var child = dto.ToChild(member.MemberId);
 
                 await _unitOfWork.ChildrenRepository.CreateAsync(child);
 
