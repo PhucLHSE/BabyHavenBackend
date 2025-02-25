@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Repositories.Repositories
 {
-    public class BlogRepository:GenericRepository<Blog>
+    public class BlogRepository : GenericRepository<Blog>
     {
         public BlogRepository() { }
         public BlogRepository(SWP391_ChildGrowthTrackingSystemContext context) => _context = context;
+
         public async Task<List<Blog>> GetAllBlogAsync()
         {
             var blogs = await _context.Blogs
@@ -23,19 +24,34 @@ namespace BabyHaven.Repositories.Repositories
 
             return blogs;
         }
+
         public async Task<Blog> GetByIdBlogAsync(int BlogId)
         {
             return await _context.Blogs
-                        .Include(b => b.Author)
-                        .Include(b => b.Category)
+                .Include(b => b.Author)
+                .Include(b => b.Category)
                 .FirstOrDefaultAsync(b => b.BlogId == BlogId);
         }
+
         public async Task<Blog> GetByIdBlogAsync(Guid AuthorId, int CategoryId)
         {
             return await _context.Blogs
                 .Include(b => b.Author)
                 .Include(b => b.Category)
                 .FirstOrDefaultAsync(b => b.AuthorId == AuthorId && b.CategoryId == CategoryId);
+        }
+
+        public async Task<List<Blog>> GetAllBlogByParentCategoryId(int parentCategoryId)
+        {
+            var categoryIds = await _context.BlogCategories
+                .Where(c => c.ParentCategoryId == parentCategoryId)
+                .Select(c => c.CategoryId)
+                .ToListAsync();
+
+            return await _context.Blogs
+                .Include(b => b.Category)
+                .Where(b => categoryIds.Contains(b.CategoryId))
+                .ToListAsync();
         }
     }
 }

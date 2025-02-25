@@ -45,6 +45,25 @@ namespace BabyHaven.Services.Mappers
             };
         }
 
+        public static MemberAPIResponseDto MapToMemberAPIResonseDto(this Member model)
+        {
+            return new MemberAPIResponseDto
+            {
+                MemberId = model.MemberId,
+                MemberName = model.User?.Name ?? "Unknown",
+                EmergencyContact = model.EmergencyContact,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<MemberStatus>(model.Status, true, out var status)
+                          ? status
+                          : MemberStatus.Inactive,
+
+                JoinDate = model.JoinDate,
+                LeaveDate = model.LeaveDate,
+                Notes = model.Notes
+            };
+        }
+
         // Mapper MemberUpdateDto
         public static void MapToMemberUpdateDto(this MemberUpdateDto updateDto, Member member)
         {

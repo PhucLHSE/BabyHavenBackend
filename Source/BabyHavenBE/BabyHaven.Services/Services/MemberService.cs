@@ -74,7 +74,7 @@ namespace BabyHaven.Services.Services
             }
             else
             {
-                var memberDto = member.MapToMemberViewDetailsDto();
+                var memberDto = member.MapToMemberAPIResonseDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     memberDto);

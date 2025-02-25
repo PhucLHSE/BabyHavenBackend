@@ -168,8 +168,26 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     blogDto);
             }
+        }
 
-            return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, blog);
+        public async Task<IServiceResult> GetAllByCategoryId(int categoryId)
+        {
+            var blogs = await _unitOfWork.BlogRepository.GetAllBlogByParentCategoryId(categoryId);
+
+            if (blogs == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new BlogViewDetailsDto());
+            }
+            else
+            {
+                var blogDtos = blogs
+                    .Select(blog => blog.MapToBlogViewAllDto())
+                    .ToList();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    blogDtos);
+            }
         }
 
         public async Task<IServiceResult> Update(BlogUpdateDto blogUpdateDto)
