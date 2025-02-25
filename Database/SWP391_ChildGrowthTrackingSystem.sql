@@ -672,5 +672,44 @@ VALUES
     ('Social Media', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
     ('Teen Education', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1);
 
+INSERT INTO ConsultationRequests (MemberID, ChildID, RequestDate, Description, Status, Urgency, Attachments, Category)
+VALUES
+-- Member 1 requests consultation about child's nutrition
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 1'), 
+ GETDATE(), 
+ N'My child is underweight compared to the standard. I need advice on a proper diet.', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'Nutrition'),
 
+-- Member 2 requests consultation about child's development
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 2'), 
+ GETDATE(), 
+ N'My child is slower in walking compared to others of the same age. Should I be concerned?', 
+ 'Pending', 
+ 'Medium', 
+ NULL, 
+ 'Development'),
 
+-- Member 3 requests general health consultation for their daughter
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 3'), 
+ GETDATE(), 
+ N'My child has been coughing a lot recently. Should I take her to a doctor?', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'General Health'),
+
+-- Member 3 requests vaccination consultation for their son
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 4'), 
+ GETDATE(), 
+ N'My child is 5 years old but has not completed all vaccinations. I need advice on the vaccination schedule.', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'Vaccination');
