@@ -15,7 +15,7 @@ namespace BabyHaven.Services.Mappers
             return new Child
             {
                 Name = dto.Name,
-                DateOfBirth = dto.DateOfBirth,
+                DateOfBirth = DateOnly.Parse(dto.DateOfBirth),
                 MemberId = dto.MemberId,
                 Gender = dto.Gender,
                 BirthWeight = dto.BirthWeight,

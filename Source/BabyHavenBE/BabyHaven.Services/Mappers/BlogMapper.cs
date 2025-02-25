@@ -1,6 +1,5 @@
-﻿using BabyHaven.Common.DTOs.BlogDTOs;
+using BabyHaven.Common.DTOs.BlogDTOs;
 using BabyHaven.Common.Enum.BlogEnums;
-using BabyHaven.Common.Enum.DoctorSpecializationEnums;
 using BabyHaven.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace BabyHaven.Services.Mappers
 {
@@ -156,4 +156,5 @@ namespace BabyHaven.Services.Mappers
             };
         }
         }
+
 }

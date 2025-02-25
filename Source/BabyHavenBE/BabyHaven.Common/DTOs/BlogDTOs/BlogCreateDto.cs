@@ -33,13 +33,6 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 
         public string ImageBlog { get; set; } = string.Empty;
 
-
-        // Blog Status
-        [Required(ErrorMessage = "Status is required.")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public BlogStatus Status { get; set; } = BlogStatus.Approved;
-
-
         [Required(ErrorMessage = "Tags is required.")]
         [MaxLength(255, ErrorMessage = "Tags cannot exceed 255 characters.")]
         public string Tags { get; set; } = string.Empty;

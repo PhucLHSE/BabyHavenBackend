@@ -9,20 +9,6 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
 {
     public class GrowthRecordChildDto
     {
-        [Required(ErrorMessage = "ChildID is required.")]
-        public Guid ChildID { get; set; }
-
-        [Required(ErrorMessage = "RecordedBy is required.")]
-        public Guid RecordedBy { get; set; }
-
-        [Required(ErrorMessage = "Weight is required.")]
-        [Range(15, 60, ErrorMessage = "Weight must be between 15kg and 60kg.")]
-        public float Weight { get; set; }
-
-        [Required(ErrorMessage = "Height is required.")]
-        [Range(80, 160, ErrorMessage = "Height must be between 80cm and 160cm.")]
-        public float Height { get; set; }
-
         [Range(5, 50, ErrorMessage = "Muscle Mass must be between 5kg and 50kg.")]
         public float? MuscleMass { get; set; }
 
@@ -56,10 +42,22 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         [Range(40, 90, ErrorMessage = "Chest Circumference must be between 40 and 90 cm.")]
         public double? ChestCircumference { get; set; }
 
-        [MaxLength(255, ErrorMessage = "DevelopmentalMilestones cannot exceed 255 characters.")]
-        public string? DevelopmentalMilestones { get; set; }
+        [MaxLength(2000, ErrorMessage = "ImmunizationStatus cannot exceed 2000 characters.")]
+        public string? ImmunizationStatus { get; set; }
 
-        [MaxLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
-        public string? Notes { get; set; }
+        [MaxLength(50, ErrorMessage = "Mental Health Status cannot exceed 50 characters.")]
+        public string? MentalHealthStatus { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Growth Hormone Level must be a positive number.")]
+        public double? GrowthHormoneLevel { get; set; }
+
+        [MaxLength(50, ErrorMessage = "Attention Span cannot exceed 50 characters.")]
+        public string? AttentionSpan { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Body Temperature must be a positive number.")]
+        public double? BodyTemperature { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Oxygen Saturation must be a positive number.")]
+        public double? OxygenSaturation { get; set; }
     }
 }

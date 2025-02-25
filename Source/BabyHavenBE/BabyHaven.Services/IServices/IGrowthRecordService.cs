@@ -10,10 +10,9 @@ namespace BabyHaven.Services.IServices
 {
     public interface IGrowthRecordService
     {
-        Task<IServiceResult> CreateGrowthRecordInfant(GrowthRecordInfantDto dto);
-        Task<IServiceResult> CreateGrowthRecordToddler(GrowthRecordToddlerDto dto);
-        Task<IServiceResult> CreateGrowthRecordChild(GrowthRecordChildDto dto);
-        Task<IServiceResult> CreateGrowthRecordTeenager(GrowthRecordTeenagerDto dto);
+        Task<IServiceResult> CreateGrowthRecordRequired(GrowthRecordRequiredDto dto);
+        Task<IServiceResult> CreateGrowthRecord(GrowthRecordCreateDto dto);
+        Task<IServiceResult> UpdateGrowthRecord(GrowthRecordUpdateDto dto);
         Task<IServiceResult> DeleteGrowthRecord(int recordId);
         Task<IServiceResult> GetGrowthRecordById(int recordId, Guid childId);
         Task<IServiceResult> GetAllGrowthRecordsByChild(Guid childId);

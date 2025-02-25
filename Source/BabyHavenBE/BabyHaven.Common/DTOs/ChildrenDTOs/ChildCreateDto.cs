@@ -19,8 +19,7 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
         public Guid MemberId { get; set; }
 
         [Required(ErrorMessage = "Date of Birth is required.")]
-        [JsonConverter(typeof(DateOnlyJsonConverter))]
-        public DateOnly DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender is required.")]
         [RegularExpression("^(Male|Female)$", ErrorMessage = "Gender must be Male or Female.")]

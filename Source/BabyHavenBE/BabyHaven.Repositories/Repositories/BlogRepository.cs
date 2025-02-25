@@ -25,21 +25,17 @@ namespace BabyHaven.Repositories.Repositories
         }
         public async Task<Blog> GetByIdBlogAsync(int BlogId)
         {
-            var blog = await _context.Blogs
+            return await _context.Blogs
                         .Include(b => b.Author)
                         .Include(b => b.Category)
                 .FirstOrDefaultAsync(b => b.BlogId == BlogId);
-
-            return blog;
         }
         public async Task<Blog> GetByIdBlogAsync(Guid AuthorId, int CategoryId)
         {
-            var blog = await _context.Blogs
+            return await _context.Blogs
                 .Include(b => b.Author)
                 .Include(b => b.Category)
                 .FirstOrDefaultAsync(b => b.AuthorId == AuthorId && b.CategoryId == CategoryId);
-
-            return blog;
         }
     }
 }
