@@ -105,7 +105,7 @@ CREATE TABLE GrowthRecords (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian tạo bản ghi
     UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian cập nhật bản ghi
     FOREIGN KEY (ChildID) REFERENCES Children(ChildID), -- Liên kết với bảng Children
-    FOREIGN KEY (RecordedBy) REFERENCES UserAccounts(UserID) -- Liên kết với bảng UserAccounts
+    FOREIGN KEY (RecordedBy) REFERENCES Members(MemberID) -- Liên kết với bảng UserAccounts
 );
 
 -- Table Promotions
@@ -207,7 +207,7 @@ CREATE TABLE Transactions (
     PaymentMethod NVARCHAR(50) NOT NULL,            -- Cổng thanh toán (VnPay, MoMo, Internet Banking)
     TransactionDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Thời điểm giao dịch (ngày người dùng bắt đầu giao dịch)
     PaymentDate DATETIME,                           -- Thời điểm thanh toán (ngày thanh toán được xử lý thành công, cập nhật khi Status = 'Success')
-    GatewayTransactionID bigint,              -- Mã giao dịch từ cổng thanh toán (ví dụ: mã giao dịch VnPay, MoMo)
+    GatewayTransactionID bigint,                    -- Mã giao dịch từ cổng thanh toán (ví dụ: mã giao dịch VnPay, MoMo)
     PaymentStatus NVARCHAR(50) NOT NULL DEFAULT 'Active',-- Trạng thái thanh toán (Pending, Success, Failed, Cancelled, Refunded)
     Description VARCHAR(255),                       -- Mô tả giao dịch
     FOREIGN KEY (UserID) REFERENCES UserAccounts(UserID),
@@ -361,10 +361,10 @@ CREATE TABLE ChildMilestones (
     Notes NVARCHAR(2000),                        -- Ghi chú
     Guidelines NVARCHAR(2000),                   -- Hướng dẫn
     Importance NVARCHAR(50) NOT NULL DEFAULT 'Medium', -- Độ quan trọng
-    Category NVARCHAR(100),                     -- Nhóm mốc
+    Category NVARCHAR(100),                      -- Nhóm mốc
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày tạo
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày cập nhật
-    PRIMARY KEY (ChildID, MilestoneID),         -- Khoá chính kết hợp
+    PRIMARY KEY (ChildID, MilestoneID),          -- Khoá chính kết hợp
     FOREIGN KEY (ChildID) REFERENCES Children(ChildID), -- Liên kết đến bảng Children
     FOREIGN KEY (MilestoneID) REFERENCES Milestones(MilestoneID) -- Liên kết đến bảng Milestones
 );
@@ -625,7 +625,9 @@ VALUES
      'A chronic respiratory condition where the airways become inflamed and narrow.',
      'Can be triggered by allergens, pollution, or respiratory infections.', 1);
 
---Parent Blogcategories
+GO
+
+-- Insert subcategories for parent categories
 INSERT INTO BlogCategories(CategoryName, Description, IsActive)
 VALUES
     ('Getting Pregnant', 'Information and resources for people trying to get pregnant.', 1),
@@ -634,50 +636,53 @@ VALUES
     ('Child', 'Content for parents of young children and school-aged children.', 1),
     ('Teenager', 'Information and advice for parents of teenagers.', 1);
 
--- Chèn các thể loại con cho các thể loại cha
--- Các thể loại con được chèn vào với ParentCategoryID trỏ đến CategoryID của thể loại cha
+GO
 
--- Thể loại con của 'Getting Pregnant'
+--Subcategories are inserted with ParentCategoryID pointing to the CategoryID of the parent category
+-- Subcategories of 'Getting Pregnant'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Ovulation', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
     ('Fertility', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
     ('Pregnancy Tests', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1);
 
--- Thể loại con của 'Baby'
+-- Subcategories of 'Baby'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Breastfeeding', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
     ('Sleep Tips', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
     ('Newborn Care', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1);
 
--- Thể loại con của 'Toddler'
+-- Subcategories of 'Toddler'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Potty Training', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
     ('Nutrition', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
     ('Preschool', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1);
 
--- Thể loại con của 'Child'
+-- Subcategories of 'Child'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Education', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
     ('Health Tips', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
     ('Outdoor Activities', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1);
 
--- Thể loại con của 'Teenager'
+-- Subcategories of 'Teenager'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Teen Mental Health', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
     ('Social Media', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
     ('Teen Education', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1);
 
+GO
+
+-- Insert ConsultationRequests
 INSERT INTO ConsultationRequests (MemberID, ChildID, RequestDate, Description, Status, Urgency, Attachments, Category)
 VALUES
 -- Member 1 requests consultation about child's nutrition
 ((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')),
- (SELECT ChildID FROM Children WHERE Name = 'Child 1'), 
- GETDATE(), 
+ (SELECT ChildID FROM Children WHERE Name = 'Child 1'),
+ GETDATE(),
  N'My child is underweight compared to the standard. I need advice on a proper diet.', 
  'Pending', 
  'High', 
