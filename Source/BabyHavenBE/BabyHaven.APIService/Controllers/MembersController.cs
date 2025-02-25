@@ -32,6 +32,13 @@ namespace BabyHaven.APIService.Controllers
             return await _memberService.GetById(id);
         }
 
+        // GET: api/<MembersController>
+        [HttpGet("member/{id}")]
+        public async Task<IServiceResult> GetByUserId(Guid id)
+        {
+            return await _memberService.GetByUserId(id);
+        }
+
         // PUT api/<MembersController>/5
         [HttpPut("{id}")]
         public async Task<IServiceResult> Put(MemberUpdateDto memberUpdateDto)

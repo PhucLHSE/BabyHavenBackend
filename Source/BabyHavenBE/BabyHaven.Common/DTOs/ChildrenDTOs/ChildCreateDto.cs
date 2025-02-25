@@ -16,7 +16,7 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Member ID is required.")]
-        public Guid UserId { get; set; }
+        public Guid MemberId { get; set; }
 
         [Required(ErrorMessage = "Date of Birth is required.")]
         public string DateOfBirth { get; set; }
