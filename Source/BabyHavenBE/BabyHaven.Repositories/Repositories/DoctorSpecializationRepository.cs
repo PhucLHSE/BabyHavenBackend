@@ -25,21 +25,17 @@ namespace BabyHaven.Repositories.Repositories
         }
         public async Task<DoctorSpecialization> GetByIdDoctorSpecializationAsync(int DoctorSpecializationId)
         {
-            var doctorSpecialization = await _context.DoctorSpecializations
+            return await _context.DoctorSpecializations
                         .Include(ds => ds.Doctor)
                         .Include(ds => ds.Specialization)
                 .FirstOrDefaultAsync(ds => ds.DoctorSpecializationId == DoctorSpecializationId);
-
-            return doctorSpecialization;
         }
         public async Task<DoctorSpecialization> GetByIdDoctorSpecializationAsync(int doctorId, int specializationId)
         {
-            var doctorSpecialization = await _context.DoctorSpecializations
+            return  await _context.DoctorSpecializations
                 .Include(ds => ds.Doctor)
                 .Include(ds => ds.Specialization)
                 .FirstOrDefaultAsync(ds => ds.DoctorId == doctorId && ds.SpecializationId == specializationId);
-
-            return doctorSpecialization;
         }
     }
 }

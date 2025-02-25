@@ -22,11 +22,11 @@ namespace BabyHaven.APIService.Controllers
             return await _blogService.GetAll();
         }
 
-        // GET api/<BlogController>/5
-        [HttpGet("{id:int}")]
-        public async Task<IServiceResult> Get(int id)
+        // GET api/<BlogController>/5/3
+        [HttpGet("{blogId}")]
+        public async Task<IServiceResult> Get(int BlogId)
         {
-            return await _blogService.GetById(id);
+            return await _blogService.GetById(BlogId);
         }
 
         // POST api/<BlogController>
@@ -42,32 +42,27 @@ namespace BabyHaven.APIService.Controllers
         }
 
         // PUT api/<BlogController>/5
-        [HttpPut("{id:int}")]
-        public async Task<IServiceResult> Put(int id, BlogUpdateDto blogUpdateDto)
+        [HttpPut("{blogId}")]
+        public async Task<IServiceResult> Put(BlogUpdateDto blogUpdateDto)
         {
             if (!ModelState.IsValid)
             {
                 return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
             }
 
-            if (id != blogUpdateDto.BlogId)
-            {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Blog ID mismatch");
-            }
-
             return await _blogService.Update(blogUpdateDto);
         }
 
         // DELETE api/<BlogController>/5
-        [HttpDelete("{id:int}")]
-        public async Task<IServiceResult> Delete(int id)
+        [HttpDelete("{blogId}")]
+        public async Task<IServiceResult> Delete(int BlogId)
         {
-            return await _blogService.DeleteById(id);
+            return await _blogService.DeleteById(BlogId);
         }
 
-        private bool BlogExists(int id)
+        private bool BlogExists(int BlogId)
         {
-            return _blogService.GetById(id) != null;
+            return _blogService.GetById(BlogId) != null;
         }
     }
 }

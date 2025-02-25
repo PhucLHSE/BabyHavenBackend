@@ -32,5 +32,10 @@ namespace BabyHaven.Repositories.Repositories
                 .Where(bc => bc.ParentCategoryId == parentCategoryId)
                 .ToListAsync();
         }
+        public async Task<Dictionary<string, int>> GetAllCategoryNameToIdMappingAsync()
+        {
+            return await _context.BlogCategories
+                .ToDictionaryAsync(bc => bc.CategoryName, bc => bc.CategoryId);
+        }
     }
 }
