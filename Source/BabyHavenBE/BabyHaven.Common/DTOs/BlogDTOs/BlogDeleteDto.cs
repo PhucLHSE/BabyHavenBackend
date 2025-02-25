@@ -10,16 +10,10 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 {
     public class BlogDeleteDto
     {
+        //Blog details
         public string Title { get; set; } = string.Empty;
 
         public string Content { get; set; } = string.Empty;
-
-
-        public string AuthorName { get; set; } = string.Empty;
-
-
-        public string CategoryName { get; set; } = string.Empty;
-
 
         public string ImageBlog { get; set; } = string.Empty;
 
@@ -30,6 +24,7 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 
         public string RejectionReason { get; set; } = string.Empty;
 
+
         public string Tags { get; set; } = string.Empty;
 
 
@@ -39,5 +34,37 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
+
+
+        //UserAccount details
+        public string Username { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        public string Name { get; set; } = string.Empty;
+
+        public string Gender { get; set; } = string.Empty;
+
+        public DateOnly? DateOfBirth { get; set; }
+
+        public string Address { get; set; } = string.Empty;
+
+        public string Password { get; set; } = string.Empty;
+
+        public byte[] ProfilePicture { get; set; }
+
+        public string VerificationCode { get; set; } = string.Empty;
+
+
+        //Blog Category details
+        public string CategoryName { get; set; } = string.Empty;
+
+        public string Description { get; set; } = string.Empty;
+
+        public bool IsActive { get; set; }
+
+        public int? ParentCategoryId { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BabyHaven.Common;
-using BabyHaven.Common.DTOs.DoctorDTOs;
 using BabyHaven.Common.DTOs.DoctorSpecializationDTOs;
 using BabyHaven.Repositories;
 using BabyHaven.Services.Base;
@@ -48,7 +47,7 @@ namespace BabyHaven.Services.Services
             if (doctorSpecialization == null)
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
-                    new DoctorViewDetailsDto());
+                    new DoctorSpecializationViewDetailsDto());
             }
             else
             {
