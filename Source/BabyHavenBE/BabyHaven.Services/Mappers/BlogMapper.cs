@@ -84,10 +84,8 @@ namespace BabyHaven.Services.Mappers
                 Title = dto.Title,
                 Content = dto.Content,
                 ImageBlog = dto.ImageBlog,
-                Status = dto.Status.ToString(),
                 Tags = dto.Tags,
                 ReferenceSources = dto.ReferenceSources,
-                CreatedAt = DateTime.UtcNow
             };
         }
 
