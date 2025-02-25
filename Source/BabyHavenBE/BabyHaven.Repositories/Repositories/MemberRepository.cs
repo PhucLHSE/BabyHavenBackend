@@ -43,5 +43,12 @@ namespace BabyHaven.Repositories.Repositories
                 .Where(m => m.User != null) // Lọc những bản ghi không có User
                 .ToDictionaryAsync(m => m.User.Name, m => m.MemberId);
         }
+
+        public async Task<Member?> GetMemberByUserId(Guid userId)
+        {
+            return await _context.Members
+                .Include(m => m.User)
+                .FirstOrDefaultAsync(m => m.UserId == userId);
+        }
     }
 }

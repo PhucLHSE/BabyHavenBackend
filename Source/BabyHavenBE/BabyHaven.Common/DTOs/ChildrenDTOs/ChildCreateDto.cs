@@ -16,7 +16,7 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Member ID is required.")]
-        public Guid MemberId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required(ErrorMessage = "Date of Birth is required.")]
         public string DateOfBirth { get; set; }
@@ -41,9 +41,5 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
 
         [StringLength(2000, ErrorMessage = "Notes can't be longer than 2000 characters.")]
         public string Notes { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Relationship to Member is required.")]
-        [StringLength(100, ErrorMessage = "Relationship to Member can't be longer than 100 characters.")]
-        public string RelationshipToMember { get; set; } = string.Empty;
     }
 }
