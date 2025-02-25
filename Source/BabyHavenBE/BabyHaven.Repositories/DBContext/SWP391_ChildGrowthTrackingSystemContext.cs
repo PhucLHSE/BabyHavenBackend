@@ -77,6 +77,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
         string connectionString = config.GetConnectionString(connectionStringName);
         return connectionString;
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"))
         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -89,7 +90,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
     {
         modelBuilder.Entity<Alert>(entity =>
         {
-            entity.HasKey(e => e.AlertId).HasName("PK__Alerts__EBB16AED87497E8A");
+            entity.HasKey(e => e.AlertId).HasName("PK__Alerts__EBB16AED1127DD9D");
 
             entity.Property(e => e.AlertId).HasColumnName("AlertID");
             entity.Property(e => e.AlertDate)
@@ -115,7 +116,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50FD28C509");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50778F1D08");
 
             entity.Property(e => e.BlogId).HasColumnName("BlogID");
             entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
@@ -159,7 +160,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<BlogCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__BlogCate__19093A2BAE0279E5");
+            entity.HasKey(e => e.CategoryId).HasName("PK__BlogCate__19093A2BD576EAD2");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName)
@@ -183,7 +184,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Child>(entity =>
         {
-            entity.HasKey(e => e.ChildId).HasName("PK__Children__BEFA0736E95AD349");
+            entity.HasKey(e => e.ChildId).HasName("PK__Children__BEFA0736469DB8F1");
 
             entity.Property(e => e.ChildId)
                 .HasDefaultValueSql("(newid())")
@@ -224,7 +225,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<ChildMilestone>(entity =>
         {
-            entity.HasKey(e => new { e.ChildId, e.MilestoneId }).HasName("PK__ChildMil__2E664F332E6DD762");
+            entity.HasKey(e => new { e.ChildId, e.MilestoneId }).HasName("PK__ChildMil__2E664F3327DF2520");
 
             entity.Property(e => e.ChildId).HasColumnName("ChildID");
             entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
@@ -259,7 +260,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<ConsultationRequest>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Consulta__33A8519ACC08EFB8");
+            entity.HasKey(e => e.RequestId).HasName("PK__Consulta__33A8519A7822C54C");
 
             entity.Property(e => e.RequestId).HasColumnName("RequestID");
             entity.Property(e => e.Attachments)
@@ -297,7 +298,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<ConsultationResponse>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Consulta__1AAA640CC4CCBC6F");
+            entity.HasKey(e => e.ResponseId).HasName("PK__Consulta__1AAA640C5F915052");
 
             entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
             entity.Property(e => e.Attachments)
@@ -335,7 +336,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Disease>(entity =>
         {
-            entity.HasKey(e => e.DiseaseId).HasName("PK__Diseases__69B533A9CE76F994");
+            entity.HasKey(e => e.DiseaseId).HasName("PK__Diseases__69B533A91B7C0CB9");
 
             entity.Property(e => e.DiseaseId).HasColumnName("DiseaseID");
             entity.Property(e => e.CreatedAt)
@@ -366,11 +367,11 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Doctor>(entity =>
         {
-            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDFF7E02A95");
+            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDFA951F49D");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E38029A96D9").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E3864AFD669").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D1053411BCCCF8").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D1053472375393").IsUnique();
 
             entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
             entity.Property(e => e.Biography).HasMaxLength(2000);
@@ -416,7 +417,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<DoctorSpecialization>(entity =>
         {
-            entity.HasKey(e => e.DoctorSpecializationId).HasName("PK__DoctorSp__14F6ED6DDE75D1A2");
+            entity.HasKey(e => e.DoctorSpecializationId).HasName("PK__DoctorSp__14F6ED6D025404B1");
 
             entity.Property(e => e.DoctorSpecializationId).HasColumnName("DoctorSpecializationID");
             entity.Property(e => e.CreatedAt)
@@ -445,7 +446,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Feature>(entity =>
         {
-            entity.HasKey(e => e.FeatureId).HasName("PK__Features__82230A29C597B4D1");
+            entity.HasKey(e => e.FeatureId).HasName("PK__Features__82230A2931092DD0");
 
             entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
             entity.Property(e => e.CreatedAt)
@@ -467,7 +468,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<GrowthRecord>(entity =>
         {
-            entity.HasKey(e => e.RecordId).HasName("PK__GrowthRe__FBDF78C99FBF43F3");
+            entity.HasKey(e => e.RecordId).HasName("PK__GrowthRe__FBDF78C9ADF45E42");
 
             entity.Property(e => e.RecordId).HasColumnName("RecordID");
             entity.Property(e => e.AttentionSpan).HasMaxLength(50);
@@ -506,9 +507,9 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemberId).HasName("PK__Members__0CF04B38C519505A");
+            entity.HasKey(e => e.MemberId).HasName("PK__Members__0CF04B38F7151546");
 
-            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCADEA2D663A").IsUnique();
+            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCAD84E37F50").IsUnique();
 
             entity.Property(e => e.MemberId)
                 .HasDefaultValueSql("(newid())")
@@ -534,7 +535,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<MemberMembership>(entity =>
         {
-            entity.HasKey(e => e.MemberMembershipId).HasName("PK__MemberMe__5EAB967FB495E0C2");
+            entity.HasKey(e => e.MemberMembershipId).HasName("PK__MemberMe__5EAB967FE66541A8");
 
             entity.Property(e => e.MemberMembershipId)
                 .HasDefaultValueSql("(newid())")
@@ -569,7 +570,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<MembershipPackage>(entity =>
         {
-            entity.HasKey(e => e.PackageId).HasName("PK__Membersh__322035EC4086B0FA");
+            entity.HasKey(e => e.PackageId).HasName("PK__Membersh__322035EC4A1A838F");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.CreatedAt)
@@ -596,7 +597,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Milestone>(entity =>
         {
-            entity.HasKey(e => e.MilestoneId).HasName("PK__Mileston__09C4805858B17217");
+            entity.HasKey(e => e.MilestoneId).HasName("PK__Mileston__09C4805861CFC778");
 
             entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
             entity.Property(e => e.Category).HasMaxLength(100);
@@ -618,7 +619,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<PackageFeature>(entity =>
         {
-            entity.HasKey(e => new { e.PackageId, e.FeatureId }).HasName("PK__PackageF__BA02054EDDEFA745");
+            entity.HasKey(e => new { e.PackageId, e.FeatureId }).HasName("PK__PackageF__BA02054E7FBBD677");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
@@ -646,7 +647,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<PackagePromotion>(entity =>
         {
-            entity.HasKey(e => new { e.PackageId, e.PromotionId }).HasName("PK__PackageP__D70C771E10545257");
+            entity.HasKey(e => new { e.PackageId, e.PromotionId }).HasName("PK__PackageP__D70C771EA817D72D");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.PromotionId).HasColumnName("PromotionID");
@@ -671,7 +672,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2FD54A266A");
+            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2F716E1B6A");
 
             entity.Property(e => e.PromotionId)
                 .HasDefaultValueSql("(newid())")
@@ -714,7 +715,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<RatingFeedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__RatingFe__6A4BEDD6E01B6BB2");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__RatingFe__6A4BEDD6078EB5FD");
 
             entity.Property(e => e.Comment).HasMaxLength(2000);
             entity.Property(e => e.CreatedAt)
@@ -747,7 +748,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A6DA7BCCF");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A124EED4B");
 
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.CreatedAt)
@@ -769,7 +770,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Specialization>(entity =>
         {
-            entity.HasKey(e => e.SpecializationId).HasName("PK__Speciali__5809D84F39ADB034");
+            entity.HasKey(e => e.SpecializationId).HasName("PK__Speciali__5809D84F7E0C18B4");
 
             entity.Property(e => e.SpecializationId).HasColumnName("SpecializationID");
             entity.Property(e => e.CreatedAt)
@@ -791,7 +792,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__55433A4B12253DA5");
+            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__55433A4BAEE35BE3");
 
             entity.Property(e => e.TransactionId)
                 .HasDefaultValueSql("(newid())")
@@ -803,9 +804,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.GatewayTransactionId)
-            .HasColumnType("bigint")
-                .HasColumnName("GatewayTransactionID");
+            entity.Property(e => e.GatewayTransactionId).HasColumnName("GatewayTransactionID");
             entity.Property(e => e.MemberMembershipId).HasColumnName("MemberMembershipID");
             entity.Property(e => e.PaymentDate).HasColumnType("datetime");
             entity.Property(e => e.PaymentMethod)
@@ -836,13 +835,13 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCACB8F518B4");
+            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCACDA2BFAB5");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E43F526449").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E4939B5B41").IsUnique();
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E38A12C8A3E").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E3879E86477").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D10534B2E02647").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D105346D39BD67").IsUnique();
 
             entity.Property(e => e.UserId)
                 .HasDefaultValueSql("(newid())")
