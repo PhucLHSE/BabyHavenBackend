@@ -674,3 +674,114 @@ VALUES
 
 
 
+INSERT INTO Blogs (Title, Content, AuthorID, CategoryID, ImageBlog, Status, Tags, ReferenceSources, CreatedAt, UpdatedAt)
+VALUES
+-- Category: Getting Pregnant -> Ovulation
+('Understanding Ovulation: How to Track Your Fertile Days',
+N'Ovulation plays a crucial role in conception. In this article, we explore the common signs of ovulation, such as changes in cervical mucus, basal body temperature, and ovulation predictor kits, to help women track their fertile days effectively.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Ovulation'),
+'https://example.com/images/ovulation-tracking.jpg',
+'Approved',
+'ovulation, fertility tracking, pregnancy tips',
+'https://www.mayoclinic.org, https://www.webmd.com',
+GETDATE(), GETDATE()),
+
+-- Category: Getting Pregnant -> Pregnancy Tests
+('Home Pregnancy Tests: How Accurate Are They?',
+N'Home pregnancy tests provide a quick way to check for pregnancy. This article explains how they work, their accuracy levels, and the best time to take a test for reliable results.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Pregnancy Tests'),
+'https://example.com/images/pregnancy-test.jpg',
+'Approved',
+'pregnancy tests, home tests, pregnancy confirmation',
+'https://www.healthline.com, https://www.nhs.uk',
+GETDATE(), GETDATE()),
+
+-- Category: Baby -> Breastfeeding
+('Breastfeeding vs. Formula: Which Is Best for Your Baby?',
+N'Breastfeeding provides essential nutrients and antibodies, but formula feeding can also be a practical option for many parents. This article compares both feeding methods, highlighting their benefits and challenges.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Breastfeeding'),
+'https://example.com/images/breastfeeding-vs-formula.jpg',
+'Approved',
+'breastfeeding, formula feeding, infant nutrition',
+'https://www.who.int, https://www.cdc.gov',
+GETDATE(), GETDATE()),
+
+-- Category: Baby -> Sleep Tips
+('How to Establish a Healthy Sleep Routine for Your Baby',
+N'Good sleep is vital for a baby’s growth and brain development. Learn expert tips on setting a consistent bedtime, recognizing sleep cues, and avoiding sleep disruptions.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Sleep Tips'),
+'https://example.com/images/baby-sleep-routine.jpg',
+'Approved',
+'baby sleep, infant sleep, bedtime routine',
+'https://www.sleepfoundation.org, https://www.aap.org',
+GETDATE(), GETDATE()),
+
+-- Category: Toddler -> Nutrition
+('Essential Nutrients for Toddlers: What to Include in Their Diet',
+N'Toddlers need a well-balanced diet to support their rapid growth. This article covers key nutrients such as protein, iron, calcium, and omega-3 fatty acids and provides a sample meal plan.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Nutrition'),
+'https://example.com/images/toddler-nutrition.jpg',
+'Approved',
+'toddler nutrition, balanced diet, healthy eating',
+'https://www.nhs.uk, https://www.aap.org',
+GETDATE(), GETDATE()),
+
+-- Category: Toddler -> Preschool
+('Preparing Your Toddler for Preschool: A Parent’s Guide',
+N'Starting preschool is a big milestone! This article provides practical tips on easing the transition, developing social skills, and establishing a daily routine for a smooth preschool experience.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Preschool'),
+'https://example.com/images/preschool-preparation.jpg',
+'Approved',
+'preschool readiness, toddler education, early learning',
+'https://www.education.com, https://www.parents.com',
+GETDATE(), GETDATE()),
+
+-- Category: Child -> Health Tips
+('Recognizing Common Nutritional Deficiencies in Children',
+N'A deficiency in essential vitamins and minerals can impact a child’s development. Learn how to identify signs of vitamin D, iron, and calcium deficiencies and the best ways to address them.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Health Tips'),
+'https://example.com/images/nutritional-deficiency.jpg',
+'Approved',
+'child health, nutrition, vitamin deficiency',
+'https://www.unicef.org, https://www.who.int',
+GETDATE(), GETDATE()),
+
+-- Category: Child -> Outdoor Activities
+('Why Outdoor Play is Crucial for a Child’s Development',
+N'Playing outdoors helps children develop motor skills, creativity, and social interactions. This article explores the benefits of outdoor activities and suggests fun ways to keep kids engaged.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Outdoor Activities'),
+'https://example.com/images/outdoor-play.jpg',
+'Approved',
+'outdoor activities, child development, active play',
+'https://www.nature.org, https://www.cdc.gov',
+GETDATE(), GETDATE()),
+
+-- Category: Teenager -> Teen Mental Health
+('How to Support Your Teen’s Mental Health During Stressful Times',
+N'Teenagers face many challenges, from academic pressure to social media influences. This article provides actionable tips for parents to help their teens manage stress and build resilience.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teen Mental Health'),
+'https://example.com/images/teen-stress.jpg',
+'Approved',
+'teen mental health, stress management, parenting tips',
+'https://www.psychologytoday.com, https://www.nimh.nih.gov',
+GETDATE(), GETDATE()),
+
+-- Category: Teenager -> Social Media
+('The Impact of Social Media on Teenagers: Risks and Benefits',
+N'Social media plays a major role in teens’ lives, influencing their self-esteem and mental well-being. This article discusses the positives and negatives of social media and how parents can help their teens navigate it safely.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Social Media'),
+'https://example.com/images/teen-social-media.jpg',
+'Approved',
+'teen social media, online safety, digital well-being',
+'https://www.commonsensemedia.org, https://www.who.int',
+GETDATE(), GETDATE());
