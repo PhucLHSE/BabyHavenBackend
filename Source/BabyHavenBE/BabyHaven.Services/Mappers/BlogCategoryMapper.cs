@@ -36,6 +36,20 @@ namespace BabyHaven.Services.Mappers
                 ParentCategoryId = model.ParentCategoryId
             };
         }
+
+        public static BlogCategoryAPIResponseDto MapToBlogCategoryAPIResponseDto(this BlogCategory model)
+        {
+            return new BlogCategoryAPIResponseDto
+            {
+                CategoryId = model.CategoryId,
+                CategoryName = model.CategoryName,
+                Description = model.Description,
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt,
+                IsActive = model.IsActive,
+                ParentCategoryId = model.ParentCategoryId
+            };
+        }
         //Mapper BlogCategoryUpdateDto
         public static void MapToBlogCategoryUpdateDto(this BlogCategoryUpdateDto updateDto, BlogCategory blogCategory)
         {

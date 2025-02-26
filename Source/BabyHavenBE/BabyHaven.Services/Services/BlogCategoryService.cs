@@ -32,7 +32,7 @@ namespace BabyHaven.Services.Services
             else
             {
                 var blogCategoryDtos = blogCategories
-                    .Select(blogCategories => blogCategories.MapToBlogCategoryViewAllDto())
+                    .Select(blogCategories => blogCategories.MapToBlogCategoryAPIResponseDto())
                     .ToList();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
