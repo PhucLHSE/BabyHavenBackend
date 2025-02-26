@@ -28,5 +28,14 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(cr => cr.Child)
                 .ToListAsync();
         }
+
+        public async Task<ConsultationRequest?> GetConsultationRequestByIdAsync(int requestId)
+        {
+            return await _context.ConsultationRequests
+                .Include(cr => cr.Member)
+                    .ThenInclude(m => m.User)
+                .Include(cr => cr.Child)
+                .FirstOrDefaultAsync(cr => cr.RequestId == requestId);
+        }
     }
 }
