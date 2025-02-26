@@ -22,5 +22,12 @@ namespace BabyHaven.APIService.Controllers
         {
             return await _consultationRequestService.GetAll();
         }
+
+        // GET api/<ConsultationRequestsController>/5
+        [HttpGet("{id}")]
+        public async Task<IServiceResult> Get(int id)
+        {
+            return await _consultationRequestService.GetById(id);
+        }
     }
 }

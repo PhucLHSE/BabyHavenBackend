@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.ConsultationRequestDTOs;
 using BabyHaven.Services.IServices;
+using BabyHaven.Common.DTOs.TransactionDTOs;
 
 namespace BabyHaven.Services.Services
 {
@@ -38,6 +39,25 @@ namespace BabyHaven.Services.Services
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     consultationRequestDtos);
+            }
+        }
+
+        public async Task<IServiceResult> GetById(int RequestId)
+        {
+            var consultantRequest = await _unitOfWork.ConsultationRequestRepository
+                .GetConsultationRequestByIdAsync(RequestId);
+
+            if (consultantRequest == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new TransactionViewDetailsDto());
+            }
+            else
+            {
+                var consultantRequestDto = consultantRequest.MapToConsultationRequestViewDetailsDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    consultantRequestDto);
             }
         }
     }

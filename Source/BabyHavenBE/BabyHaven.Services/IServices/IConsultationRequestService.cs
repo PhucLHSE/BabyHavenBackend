@@ -10,5 +10,6 @@ namespace BabyHaven.Services.IServices
     public interface IConsultationRequestService
     {
         Task<IServiceResult> GetAll();
+        Task<IServiceResult> GetById(int RequestId);
     }
 }
