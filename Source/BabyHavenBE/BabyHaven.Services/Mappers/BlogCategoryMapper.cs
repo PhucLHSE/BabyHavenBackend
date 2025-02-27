@@ -81,15 +81,14 @@ namespace BabyHaven.Services.Mappers
             };
         }
         //Mapper BlogCategoryCreateDto
-        public static BlogCategory MapToEntity(this BlogCategoryCreateDto dto, BlogCategory blogParentCategory)
+        public static BlogCategory MapToEntity(this BlogCategoryCreateDto dto)
         {
             return new BlogCategory
             {
                 CategoryName = dto.CategoryName,
                 Description = dto.Description,
                 IsActive = dto.IsActive,
-                ParentCategoryId = dto.ParentCategoryId,
-                ParentCategory = blogParentCategory
+                ParentCategoryId = dto.ParentCategoryId
             };
         }
     }

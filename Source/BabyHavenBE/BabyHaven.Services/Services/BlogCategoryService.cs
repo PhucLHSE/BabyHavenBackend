@@ -83,20 +83,20 @@ namespace BabyHaven.Services.Services
             {
                 // Check if the blogcategory exists in the database
                 var blogCategory = await _unitOfWork.BlogCategoryRepository.GetByCategoryNameAsync(categoryDto.CategoryName);
-                var blogParentCategory = await _unitOfWork.BlogCategoryRepository.GetByParentCategoryId(categoryDto.ParentCategoryId);
+                var blogParentId = await _unitOfWork.BlogCategoryRepository.GetByParentCategoryId(categoryDto.ParentCategoryId);
+
+                if (categoryDto.ParentCategoryId != null || blogParentId == null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Parent Category not found.");
+                }
 
                 if (blogCategory != null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "BlogCategory with the same name already exists.");
                 }
 
-                if (blogParentCategory == null)
-                {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Blog Parent Category not found");
-                }
-
                 // Map DTO to Entity
-                var newBlogCategory = categoryDto.MapToEntity(blogParentCategory);
+                var newBlogCategory = categoryDto.MapToEntity();
 
 
                 // Save data to database
