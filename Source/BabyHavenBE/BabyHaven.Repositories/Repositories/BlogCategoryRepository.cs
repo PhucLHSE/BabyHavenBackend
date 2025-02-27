@@ -23,7 +23,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<BlogCategory?> GetByParentCategoryId(int? parentCategoryId)
         {
             return await _context.BlogCategories
-                .FirstOrDefaultAsync(bc => bc.ParentCategoryId == parentCategoryId);
+                .FirstOrDefaultAsync(bc => bc.CategoryId == parentCategoryId);
         }
 
         public async Task<List<BlogCategory?>> GetListByParentCategoryId(int? parentCategoryId)
