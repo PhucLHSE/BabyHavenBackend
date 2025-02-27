@@ -25,8 +25,6 @@ public partial class Member
 
     public virtual ICollection<ConsultationRequest> ConsultationRequests { get; set; } = new List<ConsultationRequest>();
 
-    public virtual ICollection<GrowthRecord> GrowthRecords { get; set; } = new List<GrowthRecord>();
-
     public virtual ICollection<MemberMembership> MemberMemberships { get; set; } = new List<MemberMembership>();
 
     public virtual UserAccount User { get; set; }

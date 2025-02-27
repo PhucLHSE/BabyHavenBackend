@@ -73,5 +73,5 @@ public partial class GrowthRecord
 
     public virtual Child Child { get; set; }
 
-    public virtual Member RecordedByNavigation { get; set; }
+    public virtual UserAccount RecordedByNavigation { get; set; }
 }

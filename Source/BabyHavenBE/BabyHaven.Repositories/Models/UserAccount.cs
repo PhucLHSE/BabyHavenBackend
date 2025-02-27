@@ -47,6 +47,8 @@ public partial class UserAccount
 
     public virtual ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
 
+    public virtual ICollection<GrowthRecord> GrowthRecords { get; set; } = new List<GrowthRecord>();
+
     public virtual Member Member { get; set; }
 
     public virtual ICollection<Promotion> PromotionCreatedByNavigations { get; set; } = new List<Promotion>();
