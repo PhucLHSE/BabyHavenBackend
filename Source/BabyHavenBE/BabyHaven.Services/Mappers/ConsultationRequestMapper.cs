@@ -98,5 +98,27 @@ namespace BabyHaven.Services.Mappers
                     .ToList() ?? new List<ConsultationRequestViewAllDto>()
             };
         }
+
+        // Mapper for ConsultationRequestCreateDto
+        public static ConsultationRequest MapToConsultationRequest(this ConsultationRequestCreateDto dto, Guid memberId, Guid childId)
+        {
+            return new ConsultationRequest
+            {
+                MemberId = memberId,
+                ChildId = childId,
+
+                RequestDate = dto.RequestDate,
+                Status = dto.Status.ToString(),
+                Urgency = dto.Urgency.ToString(),
+                Category = dto.Category.ToString(),
+                Description = dto.Description,
+                Attachments = dto.Attachments != null && dto.Attachments.Count > 0
+                    ? JsonSerializer.Serialize(dto.Attachments)
+                    : string.Empty,
+
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+        }
     }
 }
