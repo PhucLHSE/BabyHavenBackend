@@ -39,8 +39,8 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<Dictionary<string, Guid>> GetAllMemberNameToIdMappingAsync()
         {
             return await _context.Members
-                .Include(m => m.User) // Đảm bảo load dữ liệu User
-                .Where(m => m.User != null) // Lọc những bản ghi không có User
+                .Include(m => m.User) // Ensure the User entity is loaded
+                .Where(m => m.User != null) // Filter out records without a User
                 .ToDictionaryAsync(m => m.User.Name, m => m.MemberId);
         }
 
