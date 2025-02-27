@@ -17,9 +17,9 @@ public partial class Child
 
     public string Gender { get; set; }
 
-    public double BirthWeight { get; set; }
+    public double? BirthWeight { get; set; }
 
-    public double BirthHeight { get; set; }
+    public double? BirthHeight { get; set; }
 
     public string BloodType { get; set; }
 
