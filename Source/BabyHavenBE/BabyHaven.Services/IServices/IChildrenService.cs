@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IChildrenService
     {
         Task<IServiceResult> CreateChild(ChildCreateDto dto);
+        Task<IServiceResult> CreateChildForNow(ChildCreateForNowDto dto);
         Task<IServiceResult> UpdateChildById(ChildUpdateDto dto);
         Task<IServiceResult> DeleteChildById(Guid childId);
         Task<IServiceResult> GetChildById(Guid childId);
