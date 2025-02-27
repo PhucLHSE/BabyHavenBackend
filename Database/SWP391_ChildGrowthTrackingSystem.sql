@@ -59,8 +59,8 @@ CREATE TABLE Children (
     Name VARCHAR(255) NOT NULL,                             -- Tên trẻ
     DateOfBirth DATE NOT NULL,                              -- Ngày sinh
     Gender NVARCHAR(20) NOT NULL,                           -- Giới tính (Female, Male, Other)
-    BirthWeight FLOAT NOT NULL,                             -- Cân nặng lúc sinh
-    BirthHeight FLOAT NOT NULL,                             -- Chiều cao lúc sinh
+    BirthWeight FLOAT,                                      -- Cân nặng lúc sinh
+    BirthHeight FLOAT,                                      -- Chiều cao lúc sinh
     BloodType VARCHAR(10),                                  -- Nhóm máu
     Allergies NVARCHAR(2000),                               -- Dị ứng (nếu có)
     Notes NVARCHAR(2000),                                   -- Ghi chú thêm
@@ -105,7 +105,7 @@ CREATE TABLE GrowthRecords (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian tạo bản ghi
     UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian cập nhật bản ghi
     FOREIGN KEY (ChildID) REFERENCES Children(ChildID), -- Liên kết với bảng Children
-    FOREIGN KEY (RecordedBy) REFERENCES UserAccounts(UserID) -- Liên kết với bảng UserAccounts
+    FOREIGN KEY (RecordedBy) REFERENCES Members(MemberID) -- Liên kết với bảng UserAccounts
 );
 
 -- Table Promotions
@@ -203,13 +203,13 @@ CREATE TABLE Transactions (
     MemberMembershipID UNIQUEIDENTIFIER NOT NULL,
     Amount DECIMAL(10, 2) NOT NULL,
     Currency NVARCHAR(50) NOT NULL,
-    TransactionType NVARCHAR(100) NOT NULL,         -- Loại giao dịch (ví dụ: Đăng ký, Mua thẻ, v.v.)
-    PaymentMethod NVARCHAR(50) NOT NULL,            -- Cổng thanh toán (VnPay, MoMo, Internet Banking)
+    TransactionType NVARCHAR(100) NOT NULL,                      -- Loại giao dịch (ví dụ: Đăng ký, Mua thẻ, v.v.)
+    PaymentMethod NVARCHAR(50) NOT NULL,                         -- Cổng thanh toán (VnPay, MoMo, Internet Banking)
     TransactionDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Thời điểm giao dịch (ngày người dùng bắt đầu giao dịch)
-    PaymentDate DATETIME,                           -- Thời điểm thanh toán (ngày thanh toán được xử lý thành công, cập nhật khi Status = 'Success')
-    GatewayTransactionID bigint,              -- Mã giao dịch từ cổng thanh toán (ví dụ: mã giao dịch VnPay, MoMo)
-    PaymentStatus NVARCHAR(50) NOT NULL DEFAULT 'Active',-- Trạng thái thanh toán (Pending, Success, Failed, Cancelled, Refunded)
-    Description VARCHAR(255),                       -- Mô tả giao dịch
+    PaymentDate DATETIME,                                        -- Thời điểm thanh toán (ngày thanh toán được xử lý thành công, cập nhật khi Status = 'Success')
+    GatewayTransactionID bigint NOT NULL,                        -- Mã giao dịch từ cổng thanh toán (ví dụ: mã giao dịch VnPay, MoMo)
+    PaymentStatus NVARCHAR(50) NOT NULL DEFAULT 'Active',        -- Trạng thái thanh toán (Pending, Success, Failed, Cancelled, Refunded)
+    Description VARCHAR(255),                                    -- Mô tả giao dịch
     FOREIGN KEY (UserID) REFERENCES UserAccounts(UserID),
     FOREIGN KEY (MemberMembershipID) REFERENCES MemberMemberships(MemberMembershipID)
 );
@@ -283,7 +283,7 @@ CREATE TABLE ConsultationResponses (
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian tạo phản hồi
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian cập nhật phản hồi
     FOREIGN KEY (RequestID) REFERENCES ConsultationRequests(RequestID), -- Liên kết với bảng ConsultationRequests
-    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)              -- Liên kết với bảng Doctors
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)               -- Liên kết với bảng Doctors
 );
 
 -- Table RatingFeedbacks
@@ -396,7 +396,7 @@ CREATE TABLE Blogs (
 	CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian tạo bài viết
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian cập nhật bài viết
     FOREIGN KEY (AuthorID) REFERENCES UserAccounts(UserID),    -- Liên kết với bảng UserAccounts (tác giả)
-    FOREIGN KEY (CategoryID) REFERENCES BlogCategories(CategoryID)  -- Liên kết với bảng BlogCategories
+    FOREIGN KEY (CategoryID) REFERENCES BlogCategories(CategoryID) -- Liên kết với bảng BlogCategories
 );
 
 -- Insert Database
@@ -554,15 +554,19 @@ VALUES
 GO
 
 -- Insert Transactions
-INSERT INTO Transactions (UserID, MemberMembershipID, Amount, Currency, TransactionType, PaymentMethod, TransactionDate, PaymentDate, PaymentStatus)
+INSERT INTO Transactions (UserID, MemberMembershipID, Amount, Currency, TransactionType, PaymentMethod, TransactionDate, PaymentDate, GatewayTransactionID, PaymentStatus)
 VALUES
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2'), 
-(SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')) 
-AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard')), 379000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success'),
+ (SELECT MemberMembershipID FROM MemberMemberships 
+  WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')) 
+  AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard')), 
+  379000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 123456789012345, 'Success'),
 
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), 
-(SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
-AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 1279000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success');
+ (SELECT MemberMembershipID FROM MemberMemberships 
+  WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
+  AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 
+  1279000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 987654321098765, 'Success');
 
 GO
 
@@ -634,46 +638,47 @@ VALUES
     ('Child', 'Content for parents of young children and school-aged children.', 1),
     ('Teenager', 'Information and advice for parents of teenagers.', 1);
 
--- Chèn các thể loại con cho các thể loại cha
--- Các thể loại con được chèn vào với ParentCategoryID trỏ đến CategoryID của thể loại cha
+-- Insert child categories for parent categories
+-- Child categories are inserted with the ParentCategoryID pointing to the CategoryID of the parent category
 
--- Thể loại con của 'Getting Pregnant'
+-- Sub-genre of 'Getting Pregnant'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Ovulation', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
     ('Fertility', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
     ('Pregnancy Tests', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1);
 
--- Thể loại con của 'Baby'
+-- Subgenre of 'Baby'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Breastfeeding', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
     ('Sleep Tips', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
     ('Newborn Care', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1);
 
--- Thể loại con của 'Toddler'
+-- Subgenre of 'Toddler'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Potty Training', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
     ('Nutrition', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
     ('Preschool', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1);
 
--- Thể loại con của 'Child'
+-- Subgenre of 'Child'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Education', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
     ('Health Tips', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
     ('Outdoor Activities', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1);
 
--- Thể loại con của 'Teenager'
+-- Subgenre of 'Teenager'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Teen Mental Health', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
     ('Social Media', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
     ('Teen Education', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1);
 
+GO
 
-
+-- Insert Blogs 
 INSERT INTO Blogs (Title, Content, AuthorID, CategoryID, ImageBlog, Status, Tags, ReferenceSources, CreatedAt, UpdatedAt)
 VALUES
 -- Category: Getting Pregnant -> Ovulation
@@ -785,3 +790,48 @@ N'Social media plays a major role in teens’ lives, influencing their self-este
 'teen social media, online safety, digital well-being',
 'https://www.commonsensemedia.org, https://www.who.int',
 GETDATE(), GETDATE());
+
+GO
+
+-- Insert ConsultationRequests
+INSERT INTO ConsultationRequests (MemberID, ChildID, RequestDate, Description, Status, Urgency, Attachments, Category)
+VALUES
+-- Member 1 requests consultation about child's nutrition
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 1'), 
+ GETDATE(), 
+ N'My child is underweight compared to the standard. I need advice on a proper diet.', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'Nutrition'),
+
+-- Member 2 requests consultation about child's development
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 2'), 
+ GETDATE(), 
+ N'My child is slower in walking compared to others of the same age. Should I be concerned?', 
+ 'Pending', 
+ 'Medium', 
+ NULL, 
+ 'Development'),
+
+-- Member 3 requests general health consultation for their daughter
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 3'), 
+ GETDATE(), 
+ N'My child has been coughing a lot recently. Should I take her to a doctor?', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'General Health'),
+
+-- Member 3 requests vaccination consultation for their son
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 4'), 
+ GETDATE(), 
+ N'My child is 5 years old but has not completed all vaccinations. I need advice on the vaccination schedule.', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'Vaccination');
