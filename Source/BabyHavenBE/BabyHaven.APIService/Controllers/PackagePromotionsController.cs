@@ -21,21 +21,21 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<PackagePromotionsController>
         [HttpGet]
-        public async Task<IServiceResult> Get()
+        public async Task<IServiceResult> GetAll()
         {
             return await _packagePromotionsService.GetAll();
         }
 
         // GET api/<PackagePromotionsController>/5/3
         [HttpGet("{packageId}/{promotionId}")]
-        public async Task<IServiceResult> Get(int packageId, Guid promotionId)
+        public async Task<IServiceResult> GetByIds(int packageId, Guid promotionId)
         {
             return await _packagePromotionsService.GetById(packageId, promotionId);
         }
 
         // POST api/<PackagePromotionsController>
         [HttpPost]
-        public async Task<IServiceResult> Post(PackagePromotionCreateDto packagePromotionCreateDto)
+        public async Task<IServiceResult> Create(PackagePromotionCreateDto packagePromotionCreateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<PackagePromotionsController>/5/3
         [HttpPut("{packageId}/{promotionId}")]
-        public async Task<IServiceResult> Put(PackagePromotionUpdateDto packagePromotionUpdateDto)
+        public async Task<IServiceResult> Update(PackagePromotionUpdateDto packagePromotionUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<PackagePromotionsController>/5/3
         [HttpDelete("{packageId}/{promotionId}")]
-        public async Task<IServiceResult> Delete(int packageId, Guid promotionId)
+        public async Task<IServiceResult> DeleteByIds(int packageId, Guid promotionId)
         {
             return await _packagePromotionsService.DeleteById(packageId, promotionId);
         }

@@ -21,21 +21,21 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<TransactionsController>
         [HttpGet]
-        public async Task<IServiceResult> Get()
+        public async Task<IServiceResult> GetAll()
         {
             return await _transactionService.GetAll();
         }
 
         // GET api/<TransactionsController>/5
         [HttpGet("{id}")]
-        public async Task<IServiceResult> Get(Guid id)
+        public async Task<IServiceResult> GetById(Guid id)
         {
             return await _transactionService.GetById(id);
         }
 
         // POST api/<TransactionsController>
         [HttpPost]
-        public async Task<IServiceResult> Post(TransactionCreateDto transactionCreateDto)
+        public async Task<IServiceResult> Create(TransactionCreateDto transactionCreateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<TransactionsController>/5
         [HttpDelete("{id}")]
-        public async Task<IServiceResult> Delete(Guid id)
+        public async Task<IServiceResult> DeleteById(Guid id)
         {
             return await _transactionService.DeleteById(id);
         }
