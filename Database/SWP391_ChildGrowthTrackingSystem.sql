@@ -59,8 +59,8 @@ CREATE TABLE Children (
     Name VARCHAR(255) NOT NULL,                             -- Tên trẻ
     DateOfBirth DATE NOT NULL,                              -- Ngày sinh
     Gender NVARCHAR(20) NOT NULL,                           -- Giới tính (Female, Male, Other)
-    BirthWeight FLOAT NOT NULL,                             -- Cân nặng lúc sinh
-    BirthHeight FLOAT NOT NULL,                             -- Chiều cao lúc sinh
+    BirthWeight FLOAT,                                      -- Cân nặng lúc sinh
+    BirthHeight FLOAT,                                      -- Chiều cao lúc sinh
     BloodType VARCHAR(10),                                  -- Nhóm máu
     Allergies NVARCHAR(2000),                               -- Dị ứng (nếu có)
     Notes NVARCHAR(2000),                                   -- Ghi chú thêm
@@ -105,7 +105,7 @@ CREATE TABLE GrowthRecords (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian tạo bản ghi
     UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian cập nhật bản ghi
     FOREIGN KEY (ChildID) REFERENCES Children(ChildID), -- Liên kết với bảng Children
-    FOREIGN KEY (RecordedBy) REFERENCES UserAccounts(UserID) -- Liên kết với bảng UserAccounts
+    FOREIGN KEY (RecordedBy) REFERENCES Members(MemberID) -- Liên kết với bảng UserAccounts
 );
 
 -- Table Promotions
@@ -203,13 +203,13 @@ CREATE TABLE Transactions (
     MemberMembershipID UNIQUEIDENTIFIER NOT NULL,
     Amount DECIMAL(10, 2) NOT NULL,
     Currency NVARCHAR(50) NOT NULL,
-    TransactionType NVARCHAR(100) NOT NULL,         -- Loại giao dịch (ví dụ: Đăng ký, Mua thẻ, v.v.)
-    PaymentMethod NVARCHAR(50) NOT NULL,            -- Cổng thanh toán (VnPay, MoMo, Internet Banking)
+    TransactionType NVARCHAR(100) NOT NULL,                      -- Loại giao dịch (ví dụ: Đăng ký, Mua thẻ, v.v.)
+    PaymentMethod NVARCHAR(50) NOT NULL,                         -- Cổng thanh toán (VnPay, MoMo, Internet Banking)
     TransactionDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Thời điểm giao dịch (ngày người dùng bắt đầu giao dịch)
-    PaymentDate DATETIME,                           -- Thời điểm thanh toán (ngày thanh toán được xử lý thành công, cập nhật khi Status = 'Success')
-    GatewayTransactionID bigint,              -- Mã giao dịch từ cổng thanh toán (ví dụ: mã giao dịch VnPay, MoMo)
-    PaymentStatus NVARCHAR(50) NOT NULL DEFAULT 'Active',-- Trạng thái thanh toán (Pending, Success, Failed, Cancelled, Refunded)
-    Description VARCHAR(255),                       -- Mô tả giao dịch
+    PaymentDate DATETIME,                                        -- Thời điểm thanh toán (ngày thanh toán được xử lý thành công, cập nhật khi Status = 'Success')
+    GatewayTransactionID bigint NOT NULL,                        -- Mã giao dịch từ cổng thanh toán (ví dụ: mã giao dịch VnPay, MoMo)
+    PaymentStatus NVARCHAR(50) NOT NULL DEFAULT 'Active',        -- Trạng thái thanh toán (Pending, Success, Failed, Cancelled, Refunded)
+    Description VARCHAR(255),                                    -- Mô tả giao dịch
     FOREIGN KEY (UserID) REFERENCES UserAccounts(UserID),
     FOREIGN KEY (MemberMembershipID) REFERENCES MemberMemberships(MemberMembershipID)
 );
@@ -283,7 +283,7 @@ CREATE TABLE ConsultationResponses (
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian tạo phản hồi
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian cập nhật phản hồi
     FOREIGN KEY (RequestID) REFERENCES ConsultationRequests(RequestID), -- Liên kết với bảng ConsultationRequests
-    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)              -- Liên kết với bảng Doctors
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)               -- Liên kết với bảng Doctors
 );
 
 -- Table RatingFeedbacks
@@ -396,7 +396,7 @@ CREATE TABLE Blogs (
 	CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian tạo bài viết
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian cập nhật bài viết
     FOREIGN KEY (AuthorID) REFERENCES UserAccounts(UserID),    -- Liên kết với bảng UserAccounts (tác giả)
-    FOREIGN KEY (CategoryID) REFERENCES BlogCategories(CategoryID)  -- Liên kết với bảng BlogCategories
+    FOREIGN KEY (CategoryID) REFERENCES BlogCategories(CategoryID) -- Liên kết với bảng BlogCategories
 );
 
 -- Insert Database
@@ -554,15 +554,19 @@ VALUES
 GO
 
 -- Insert Transactions
-INSERT INTO Transactions (UserID, MemberMembershipID, Amount, Currency, TransactionType, PaymentMethod, TransactionDate, PaymentDate, PaymentStatus)
+INSERT INTO Transactions (UserID, MemberMembershipID, Amount, Currency, TransactionType, PaymentMethod, TransactionDate, PaymentDate, GatewayTransactionID, PaymentStatus)
 VALUES
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2'), 
-(SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')) 
-AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard')), 379000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success'),
+ (SELECT MemberMembershipID FROM MemberMemberships 
+  WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')) 
+  AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Standard')), 
+  379000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 123456789012345, 'Success'),
 
 ((SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3'), 
-(SELECT MemberMembershipID FROM MemberMemberships WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
-AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 1279000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 'Success');
+ (SELECT MemberMembershipID FROM MemberMemberships 
+  WHERE MemberID = (SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')) 
+  AND PackageID = (SELECT PackageID FROM MembershipPackages WHERE PackageName = 'Premium')), 
+  1279000.00, 'VND', 'Purchase', 'VnPay', GETDATE(), GETDATE(), 987654321098765, 'Success');
 
 GO
 
@@ -634,43 +638,200 @@ VALUES
     ('Child', 'Content for parents of young children and school-aged children.', 1),
     ('Teenager', 'Information and advice for parents of teenagers.', 1);
 
--- Chèn các thể loại con cho các thể loại cha
--- Các thể loại con được chèn vào với ParentCategoryID trỏ đến CategoryID của thể loại cha
+-- Insert child categories for parent categories
+-- Child categories are inserted with the ParentCategoryID pointing to the CategoryID of the parent category
 
--- Thể loại con của 'Getting Pregnant'
+-- Sub-genre of 'Getting Pregnant'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Ovulation', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
     ('Fertility', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1),
     ('Pregnancy Tests', 'Subcategory under Getting Pregnant', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Getting Pregnant'), 1);
 
--- Thể loại con của 'Baby'
+-- Subgenre of 'Baby'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Breastfeeding', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
     ('Sleep Tips', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1),
     ('Newborn Care', 'Subcategory under Baby', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Baby'), 1);
 
--- Thể loại con của 'Toddler'
+-- Subgenre of 'Toddler'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Potty Training', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
     ('Nutrition', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1),
     ('Preschool', 'Subcategory under Toddler', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Toddler'), 1);
 
--- Thể loại con của 'Child'
+-- Subgenre of 'Child'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Education', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
     ('Health Tips', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1),
     ('Outdoor Activities', 'Subcategory under Child', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Child'), 1);
 
--- Thể loại con của 'Teenager'
+-- Subgenre of 'Teenager'
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
     ('Teen Mental Health', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
     ('Social Media', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1),
     ('Teen Education', 'Subcategory under Teenager', (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teenager'), 1);
 
+GO
 
+-- Insert Blogs 
+INSERT INTO Blogs (Title, Content, AuthorID, CategoryID, ImageBlog, Status, Tags, ReferenceSources, CreatedAt, UpdatedAt)
+VALUES
+-- Category: Getting Pregnant -> Ovulation
+('Understanding Ovulation: How to Track Your Fertile Days',
+N'Ovulation plays a crucial role in conception. In this article, we explore the common signs of ovulation, such as changes in cervical mucus, basal body temperature, and ovulation predictor kits, to help women track their fertile days effectively.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Ovulation'),
+'https://example.com/images/ovulation-tracking.jpg',
+'Approved',
+'ovulation, fertility tracking, pregnancy tips',
+'https://www.mayoclinic.org, https://www.webmd.com',
+GETDATE(), GETDATE()),
 
+-- Category: Getting Pregnant -> Pregnancy Tests
+('Home Pregnancy Tests: How Accurate Are They?',
+N'Home pregnancy tests provide a quick way to check for pregnancy. This article explains how they work, their accuracy levels, and the best time to take a test for reliable results.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Pregnancy Tests'),
+'https://example.com/images/pregnancy-test.jpg',
+'Approved',
+'pregnancy tests, home tests, pregnancy confirmation',
+'https://www.healthline.com, https://www.nhs.uk',
+GETDATE(), GETDATE()),
+
+-- Category: Baby -> Breastfeeding
+('Breastfeeding vs. Formula: Which Is Best for Your Baby?',
+N'Breastfeeding provides essential nutrients and antibodies, but formula feeding can also be a practical option for many parents. This article compares both feeding methods, highlighting their benefits and challenges.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Breastfeeding'),
+'https://example.com/images/breastfeeding-vs-formula.jpg',
+'Approved',
+'breastfeeding, formula feeding, infant nutrition',
+'https://www.who.int, https://www.cdc.gov',
+GETDATE(), GETDATE()),
+
+-- Category: Baby -> Sleep Tips
+('How to Establish a Healthy Sleep Routine for Your Baby',
+N'Good sleep is vital for a baby’s growth and brain development. Learn expert tips on setting a consistent bedtime, recognizing sleep cues, and avoiding sleep disruptions.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Sleep Tips'),
+'https://example.com/images/baby-sleep-routine.jpg',
+'Approved',
+'baby sleep, infant sleep, bedtime routine',
+'https://www.sleepfoundation.org, https://www.aap.org',
+GETDATE(), GETDATE()),
+
+-- Category: Toddler -> Nutrition
+('Essential Nutrients for Toddlers: What to Include in Their Diet',
+N'Toddlers need a well-balanced diet to support their rapid growth. This article covers key nutrients such as protein, iron, calcium, and omega-3 fatty acids and provides a sample meal plan.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Nutrition'),
+'https://example.com/images/toddler-nutrition.jpg',
+'Approved',
+'toddler nutrition, balanced diet, healthy eating',
+'https://www.nhs.uk, https://www.aap.org',
+GETDATE(), GETDATE()),
+
+-- Category: Toddler -> Preschool
+('Preparing Your Toddler for Preschool: A Parent’s Guide',
+N'Starting preschool is a big milestone! This article provides practical tips on easing the transition, developing social skills, and establishing a daily routine for a smooth preschool experience.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Preschool'),
+'https://example.com/images/preschool-preparation.jpg',
+'Approved',
+'preschool readiness, toddler education, early learning',
+'https://www.education.com, https://www.parents.com',
+GETDATE(), GETDATE()),
+
+-- Category: Child -> Health Tips
+('Recognizing Common Nutritional Deficiencies in Children',
+N'A deficiency in essential vitamins and minerals can impact a child’s development. Learn how to identify signs of vitamin D, iron, and calcium deficiencies and the best ways to address them.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Health Tips'),
+'https://example.com/images/nutritional-deficiency.jpg',
+'Approved',
+'child health, nutrition, vitamin deficiency',
+'https://www.unicef.org, https://www.who.int',
+GETDATE(), GETDATE()),
+
+-- Category: Child -> Outdoor Activities
+('Why Outdoor Play is Crucial for a Child’s Development',
+N'Playing outdoors helps children develop motor skills, creativity, and social interactions. This article explores the benefits of outdoor activities and suggests fun ways to keep kids engaged.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Outdoor Activities'),
+'https://example.com/images/outdoor-play.jpg',
+'Approved',
+'outdoor activities, child development, active play',
+'https://www.nature.org, https://www.cdc.gov',
+GETDATE(), GETDATE()),
+
+-- Category: Teenager -> Teen Mental Health
+('How to Support Your Teen’s Mental Health During Stressful Times',
+N'Teenagers face many challenges, from academic pressure to social media influences. This article provides actionable tips for parents to help their teens manage stress and build resilience.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teen Mental Health'),
+'https://example.com/images/teen-stress.jpg',
+'Approved',
+'teen mental health, stress management, parenting tips',
+'https://www.psychologytoday.com, https://www.nimh.nih.gov',
+GETDATE(), GETDATE()),
+
+-- Category: Teenager -> Social Media
+('The Impact of Social Media on Teenagers: Risks and Benefits',
+N'Social media plays a major role in teens’ lives, influencing their self-esteem and mental well-being. This article discusses the positives and negatives of social media and how parents can help their teens navigate it safely.',
+(SELECT UserID FROM UserAccounts WHERE Username = 'admin_user'),
+(SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Social Media'),
+'https://example.com/images/teen-social-media.jpg',
+'Approved',
+'teen social media, online safety, digital well-being',
+'https://www.commonsensemedia.org, https://www.who.int',
+GETDATE(), GETDATE());
+
+GO
+
+-- Insert ConsultationRequests
+INSERT INTO ConsultationRequests (MemberID, ChildID, RequestDate, Description, Status, Urgency, Attachments, Category)
+VALUES
+-- Member 1 requests consultation about child's nutrition
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_1')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 1'), 
+ GETDATE(), 
+ N'My child is underweight compared to the standard. I need advice on a proper diet.', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'Nutrition'),
+
+-- Member 2 requests consultation about child's development
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_2')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 2'), 
+ GETDATE(), 
+ N'My child is slower in walking compared to others of the same age. Should I be concerned?', 
+ 'Pending', 
+ 'Medium', 
+ NULL, 
+ 'Development'),
+
+-- Member 3 requests general health consultation for their daughter
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 3'), 
+ GETDATE(), 
+ N'My child has been coughing a lot recently. Should I take her to a doctor?', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'General Health'),
+
+-- Member 3 requests vaccination consultation for their son
+((SELECT MemberID FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'member_user_3')),
+ (SELECT ChildID FROM Children WHERE Name = 'Child 4'), 
+ GETDATE(), 
+ N'My child is 5 years old but has not completed all vaccinations. I need advice on the vaccination schedule.', 
+ 'Pending', 
+ 'High', 
+ NULL, 
+ 'Vaccination');

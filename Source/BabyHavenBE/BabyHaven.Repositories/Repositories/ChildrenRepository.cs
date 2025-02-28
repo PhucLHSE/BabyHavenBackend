@@ -25,5 +25,19 @@ namespace BabyHaven.Repositories.Repositories
                 .Where(c => c.MemberId == memberId)
                 .ToListAsync();
         }
+        // Combine with GrowthRecords table to update the latest data
+        public async Task<List<Child>> GetChildrenByMemberIdForNowAsync(Guid memberId)
+        {
+            return await _context.Children
+                .Include(gr => gr.GrowthRecords)
+                .Where(c => c.MemberId == memberId)
+                .ToListAsync();
+        }
+
+        public async Task<Dictionary<string, Guid>> GetAllChildNameToIdMappingAsync()
+        {
+            return await _context.Children
+                .ToDictionaryAsync(mp => mp.Name, p => p.ChildId);
+        }
     }
 }

@@ -15,9 +15,9 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
 
         public string Gender { get; set; } = string.Empty;
 
-        public double BirthWeight { get; set; }
+        public double? BirthWeight { get; set; }
 
-        public double BirthHeight { get; set; }
+        public double? BirthHeight { get; set; }
 
         public string BloodType { get; set; } = string.Empty;
 

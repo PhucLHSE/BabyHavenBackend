@@ -21,7 +21,7 @@ namespace BabyHaven.Services.Services
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
-
+        // when the baby is born 
         public async Task<IServiceResult> CreateChild(ChildCreateDto dto)
         {
             try
@@ -34,6 +34,31 @@ namespace BabyHaven.Services.Services
                 await _unitOfWork.ChildrenRepository.CreateAsync(child);
 
                 return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG};
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult { Status = Const.ERROR_EXCEPTION, Message = $"An error occurred while creating the child: {ex.InnerException?.Message}" };
+            }
+        }
+
+        //when the baby is developing now
+        public async Task<IServiceResult> CreateChildForNow(ChildCreateForNowDto dto)
+        {
+            try
+            {
+                if (dto == null)
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
+
+                var member = await _unitOfWork.MemberRepository.GetMemberByUserId(dto.UserId);
+
+                if (member == null)
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
+
+                var child = dto.ToChild(member.MemberId);
+
+                await _unitOfWork.ChildrenRepository.CreateAsync(child);
+
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG };
             }
             catch (Exception ex)
             {

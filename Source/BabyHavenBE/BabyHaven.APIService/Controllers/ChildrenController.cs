@@ -30,6 +30,19 @@ namespace BabyHaven.APIService.Controllers
 
             return await _childrenService.CreateChild(dto);
         }
+        /// <summary>
+        /// Creates a new child anytime.
+        /// </summary>
+        /// <param name="dto">The child creation DTO.</param>
+        /// <returns>The result of the creation operation.</returns>
+        [HttpPost("/ChildForNow")]
+        public async Task<IServiceResult> CreateChildForNow([FromBody] ChildCreateForNowDto dto)
+        {
+            if (!ModelState.IsValid)
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid model state." };
+
+            return await _childrenService.CreateChildForNow(dto);
+        }
 
         /// <summary>
         /// Deletes a child by ID.
