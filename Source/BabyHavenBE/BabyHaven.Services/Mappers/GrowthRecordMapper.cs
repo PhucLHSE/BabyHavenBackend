@@ -14,6 +14,8 @@ namespace BabyHaven.Services.Mappers
         {
             return new GrowthRecord
             {
+                ChildId = dto.ChildId,
+                RecordedBy = dto.RecordedBy,
                 Weight = dto.Weight,
                 Height = dto.Height,
                 ChestCircumference = dto.ChestCircumference,
@@ -38,7 +40,7 @@ namespace BabyHaven.Services.Mappers
                 SleepDuration = dto.SleepDuration,
                 FerritinLevel = dto.FerritinLevel,
                 HeadCircumference = dto.HeadCircumference,
-                CreatedAt = dto.CreatedAt
+                CreatedAt = DateTime.Parse(dto.CreatedAt)
             };
         }
         // Required

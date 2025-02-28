@@ -10,6 +10,12 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
     public class GrowthRecordCreateDto
     {
         [Required]
+        public Guid ChildId { get; set; }
+
+        [Required]
+        public Guid RecordedBy { get; set; }
+
+        [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Weight must be a positive number.")]
         public double Weight { get; set; }
 
@@ -82,6 +88,8 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
 
         [StringLength(2000, ErrorMessage = "Notes cannot be longer than 2000 characters.")]
         public string Notes { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
+
+        [Required]
+        public string CreatedAt { get; set; }
     }
 }
