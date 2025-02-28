@@ -26,7 +26,6 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         [Range(0, double.MaxValue, ErrorMessage = "Chest Circumference must be a positive number.")]
         public double? ChestCircumference { get; set; }
 
-        [Required]
         [StringLength(50, ErrorMessage = "Nutritional Status cannot be longer than 50 characters.")]
         public string NutritionalStatus { get; set; } = string.Empty;
 
@@ -39,7 +38,6 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         [Range(0, double.MaxValue, ErrorMessage = "Blood Sugar Level must be a positive number.")]
         public double? BloodSugarLevel { get; set; }
 
-        [Required]
         [StringLength(50, ErrorMessage = "Physical Activity Level cannot be longer than 50 characters.")]
         public string PhysicalActivityLevel { get; set; } = string.Empty;
 
@@ -58,40 +56,32 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         [Range(0, double.MaxValue, ErrorMessage = "Sleep Duration must be a positive number.")]
         public double? SleepDuration { get; set; }
 
-        [Required]
         [StringLength(50, ErrorMessage = "Vision cannot be longer than 50 characters.")]
         public string Vision { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(50, ErrorMessage = "Hearing cannot be longer than 50 characters.")]
         public string Hearing { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(2000, ErrorMessage = "Immunization Status cannot be longer than 2000 characters.")]
         public string ImmunizationStatus { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(50, ErrorMessage = "Mental Health Status cannot be longer than 50 characters.")]
         public string MentalHealthStatus { get; set; } = string.Empty;
 
         [Range(0, double.MaxValue, ErrorMessage = "Growth Hormone Level must be a positive number.")]
         public double? GrowthHormoneLevel { get; set; }
 
-        [Required]
         [StringLength(50, ErrorMessage = "Attention Span cannot be longer than 50 characters.")]
         public string AttentionSpan { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(255, ErrorMessage = "Neurological Reflexes cannot be longer than 255 characters.")]
         public string NeurologicalReflexes { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(255, ErrorMessage = "Developmental Milestones cannot be longer than 255 characters.")]
         public string DevelopmentalMilestones { get; set; } = string.Empty;
 
         [StringLength(2000, ErrorMessage = "Notes cannot be longer than 2000 characters.")]
         public string Notes { get; set; } = string.Empty;
-
         public DateTime CreatedAt { get; set; }
     }
 }
