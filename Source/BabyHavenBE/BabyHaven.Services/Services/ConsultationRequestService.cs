@@ -24,7 +24,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var consultationRequests = await _unitOfWork.ConsultationRequestRepository.GetAllConsultationRequestAsync();
+            var consultationRequests = await _unitOfWork.ConsultationRequestRepository
+                .GetAllConsultationRequestAsync();
 
             if (consultationRequests == null || !consultationRequests.Any())
             {
@@ -50,7 +51,7 @@ namespace BabyHaven.Services.Services
             if (consultationRequest == null)
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
-                    new TransactionViewDetailsDto());
+                    new ConsultationRequestViewDetailsDto());
             }
             else
             {
