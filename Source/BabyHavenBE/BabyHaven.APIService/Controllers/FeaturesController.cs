@@ -22,21 +22,21 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<FeaturesController>
         [HttpGet]
-        public async Task<IServiceResult> Get()
+        public async Task<IServiceResult> GetAll()
         {
             return await _featureService.GetAll();
         }
 
         // GET api/<FeaturesController>/5
         [HttpGet("{id}")]
-        public async Task<IServiceResult> Get(int id)
+        public async Task<IServiceResult> GetById(int id)
         {
             return await _featureService.GetById(id);
         }
 
         // POST api/<FeaturesController>
         [HttpPost]
-        public async Task<IServiceResult> Post(FeatureCreateDto featureCreateDto)
+        public async Task<IServiceResult> Create(FeatureCreateDto featureCreateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<FeaturesController>/5
         [HttpPut("{id}")]
-        public async Task<IServiceResult> Put(FeatureUpdateDto featureUpdateDto)
+        public async Task<IServiceResult> Update(FeatureUpdateDto featureUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<FeaturesController>/5
         [HttpDelete("{id}")]
-        public async Task<IServiceResult> Delete(int id)
+        public async Task<IServiceResult> DeleteById(int id)
         {
             return await _featureService.DeleteById(id);
         }

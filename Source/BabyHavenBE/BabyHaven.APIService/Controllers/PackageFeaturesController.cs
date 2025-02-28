@@ -22,21 +22,21 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<PackageFeaturesController>
         [HttpGet]
-        public async Task<IServiceResult> Get()
+        public async Task<IServiceResult> GetAll()
         {
             return await _packageFeatureService.GetAll();
         }
 
         // GET api/<PackageFeaturesController>/5/3
         [HttpGet("{packageId}/{featureId}")]
-        public async Task<IServiceResult> Get(int packageId, int featureId)
+        public async Task<IServiceResult> GetByIds(int packageId, int featureId)
         {
             return await _packageFeatureService.GetById(packageId, featureId);
         }
 
         // POST api/<PackageFeaturesController>
         [HttpPost]
-        public async Task<IServiceResult> Post(PackageFeatureCreateDto packageFeatureCreateDto)
+        public async Task<IServiceResult> Create(PackageFeatureCreateDto packageFeatureCreateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<PackageFeaturesController>/5/3
         [HttpPut("{packageId}/{featureId}")]
-        public async Task<IServiceResult> Put(PackageFeatureUpdateDto packageFeatureUpdateDto)
+        public async Task<IServiceResult> Update(PackageFeatureUpdateDto packageFeatureUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<FeaturesController>/5/3
         [HttpDelete("{packageId}/{featuredId}")]
-        public async Task<IServiceResult> Delete(int packageId, int featuredId)
+        public async Task<IServiceResult> DeleteByIds(int packageId, int featuredId)
         {
             return await _packageFeatureService.DeleteById(packageId, featuredId);
         }
