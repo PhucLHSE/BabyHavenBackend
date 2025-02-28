@@ -62,6 +62,25 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetByUserId(Guid UserId)
+        {
+            var member = await _unitOfWork.MemberRepository
+                .GetMemberByUserId(UserId);
+
+            if (member == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new MemberViewDetailsDto());
+            }
+            else
+            {
+                var memberDto = member.MapToMemberAPIResonseDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    memberDto);
+            }
+        }
+
         public async Task<IServiceResult> Update(MemberUpdateDto memberDto)
         {
             try
