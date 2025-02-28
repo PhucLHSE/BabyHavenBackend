@@ -44,20 +44,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int RequestId)
         {
-            var consultantRequest = await _unitOfWork.ConsultationRequestRepository
+            var consultationRequest = await _unitOfWork.ConsultationRequestRepository
                 .GetByIdConsultationRequestAsync(RequestId);
 
-            if (consultantRequest == null)
+            if (consultationRequest == null)
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
                     new TransactionViewDetailsDto());
             }
             else
             {
-                var consultantRequestDto = consultantRequest.MapToConsultationRequestViewDetailsDto();
+                var consultationRequestDto = consultationRequest.MapToConsultationRequestViewDetailsDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
-                    consultantRequestDto);
+                    consultationRequestDto);
             }
         }
 
@@ -116,6 +116,43 @@ namespace BabyHaven.Services.Services
                 else
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> DeleteById(int RequestId)
+        {
+            try
+            {
+                var consultationRequest = await _unitOfWork.ConsultationRequestRepository
+                    .GetByIdConsultationRequestAsync(RequestId);
+
+                if (consultationRequest == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                        new ConsultationRequestDeleteDto());
+                }
+                else
+                {
+                    var deleteConsultationRequestDto = consultationRequest.MapToConsultationRequestDeleteDto();
+
+                    var result = await _unitOfWork.ConsultationRequestRepository
+                        .RemoveAsync(consultationRequest);
+
+                    if (result)
+                    {
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                            deleteConsultationRequestDto);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                            deleteConsultationRequestDto);
+                    }
                 }
             }
             catch (Exception ex)
