@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BabyHaven.Repositories\BabyHaven.Repositories.csproj" />
     <ProjectReference Include="..\BabyHaven.Services\BabyHaven.Services.csproj" />
   </ItemGroup>
 
