@@ -33,7 +33,7 @@ namespace BabyHaven.Services.Mappers
                 DateOfBirth = DateOnly.Parse(dto.DateOfBirth),
                 MemberId = memberId,
                 Gender = dto.Gender,
-                BirthWeight = dto.BirthWeight ??,
+                BirthWeight = dto.BirthWeight,
                 BirthHeight = dto.BirthHeight,
                 BloodType = dto.BloodType,
                 Allergies = dto.Allergies,
