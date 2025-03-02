@@ -20,8 +20,6 @@ namespace BabyHaven.Services.Mappers
                 Gender = dto.Gender,
                 BirthWeight = dto.BirthWeight,
                 BirthHeight = dto.BirthHeight,
-                BloodType = dto.BloodType,
-                Allergies = dto.Allergies,
                 Notes = dto.Notes,
                 RelationshipToMember = "N/A"
             };

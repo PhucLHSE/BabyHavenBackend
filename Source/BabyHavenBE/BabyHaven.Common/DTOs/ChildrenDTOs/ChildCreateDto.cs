@@ -33,12 +33,6 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
         [Range(20.0, 60.0, ErrorMessage = "Birth Height must be between 20.0 and 60.0 cm.")]
         public double BirthHeight { get; set; }
 
-        [StringLength(3, ErrorMessage = "Blood Type can't be longer than 3 characters.")]
-        public string BloodType { get; set; } = string.Empty;
-
-        [StringLength(500, ErrorMessage = "Allergies can't be longer than 500 characters.")]
-        public string Allergies { get; set; } = string.Empty;
-
         [StringLength(2000, ErrorMessage = "Notes can't be longer than 2000 characters.")]
         public string Notes { get; set; } = string.Empty;
     }
