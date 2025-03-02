@@ -25,12 +25,10 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
         [RegularExpression("^(Male|Female)$", ErrorMessage = "Gender must be Male or Female.")]
         public string Gender { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Birth Weight is required.")]
         [Range(0.5, 10.0, ErrorMessage = "Birth Weight must be between 0.5 and 10.0 kg.")]
         public double BirthWeight { get; set; }
 
-        [Required(ErrorMessage = "Birth Height is required.")]
-        [Range(20.0, 60.0, ErrorMessage = "Birth Height must be between 20.0 and 60.0 cm.")]
+        [Range(0.5, 10.0, ErrorMessage = "Birth Height must be between 0.5 and 10.0 cm.")]
         public double BirthHeight { get; set; }
 
         [StringLength(2000, ErrorMessage = "Notes can't be longer than 2000 characters.")]

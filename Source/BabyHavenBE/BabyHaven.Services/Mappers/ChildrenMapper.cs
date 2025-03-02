@@ -24,6 +24,7 @@ namespace BabyHaven.Services.Mappers
                 RelationshipToMember = "N/A"
             };
         }
+
         public static Child ToChild(this ChildCreateForNowDto dto, Guid memberId)
         {
             return new Child
@@ -32,7 +33,7 @@ namespace BabyHaven.Services.Mappers
                 DateOfBirth = DateOnly.Parse(dto.DateOfBirth),
                 MemberId = memberId,
                 Gender = dto.Gender,
-                BirthWeight = dto.BirthWeight,
+                BirthWeight = dto.BirthWeight ??,
                 BirthHeight = dto.BirthHeight,
                 BloodType = dto.BloodType,
                 Allergies = dto.Allergies,
