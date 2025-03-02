@@ -89,25 +89,34 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
     {
         modelBuilder.Entity<Alert>(entity =>
         {
-            entity.HasKey(e => e.AlertId).HasName("PK__Alerts__EBB16AED01A6488E");
+            entity.HasKey(e => e.AlertId)
+                .HasName("PK__Alerts__EBB16AED01A6488E");
 
-            entity.Property(e => e.AlertId).HasColumnName("AlertID");
+            entity.Property(e => e.AlertId)
+                .HasColumnName("AlertID");
             entity.Property(e => e.AlertDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.DiseaseId).HasColumnName("DiseaseID");
-            entity.Property(e => e.GrowthRecordId).HasColumnName("GrowthRecordID");
+            entity.Property(e => e.DiseaseId)
+                .HasColumnName("DiseaseID");
+            entity.Property(e => e.GrowthRecordId)
+                .HasColumnName("GrowthRecordID");
             entity.Property(e => e.Message)
                 .IsRequired()
-                .HasMaxLength(2000);
-            entity.Property(e => e.SeverityLevel).HasMaxLength(50);
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.SeverityLevel)
+                .HasMaxLength(50)
+                .IsUnicode(true);
 
-            entity.HasOne(d => d.Disease).WithMany(p => p.Alerts)
+            entity.HasOne(d => d.Disease)
+                .WithMany(p => p.Alerts)
                 .HasForeignKey(d => d.DiseaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Alerts__DiseaseI__51300E55");
 
-            entity.HasOne(d => d.GrowthRecord).WithMany(p => p.Alerts)
+            entity.HasOne(d => d.GrowthRecord)
+                .WithMany(p => p.Alerts)
                 .HasForeignKey(d => d.GrowthRecordId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Alerts__GrowthRe__503BEA1C");
@@ -115,43 +124,55 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50754CF7D2");
+            entity.HasKey(e => e.BlogId)
+                .HasName("PK__Blogs__54379E50754CF7D2");
 
-            entity.Property(e => e.BlogId).HasColumnName("BlogID");
-            entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.BlogId)
+                .HasColumnName("BlogID");
+            entity.Property(e => e.AuthorId)
+                .HasColumnName("AuthorID");
+            entity.Property(e => e.CategoryId)
+                .HasColumnName("CategoryID");
             entity.Property(e => e.Content)
                 .IsRequired()
-                .HasMaxLength(2000);
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.ImageBlog)
                 .IsRequired()
                 .HasMaxLength(2000);
-            entity.Property(e => e.ReferenceSources).HasMaxLength(2000);
-            entity.Property(e => e.RejectionReason).HasMaxLength(2000);
+            entity.Property(e => e.ReferenceSources)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.RejectionReason)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Pending");
+                .HasDefaultValue("Pending")
+                .IsUnicode(true);
             entity.Property(e => e.Tags)
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Author).WithMany(p => p.Blogs)
+            entity.HasOne(d => d.Author)
+                .WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.AuthorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Blogs__AuthorID__69FBBC1F");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Blogs)
+            entity.HasOne(d => d.Category)
+                .WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Blogs__CategoryI__6AEFE058");
@@ -159,36 +180,46 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<BlogCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__BlogCate__19093A2B57A9595B");
+            entity.HasKey(e => e.CategoryId)
+                .HasName("PK__BlogCate__19093A2B57A9595B");
 
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryId)
+                .HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.ParentCategoryId).HasColumnName("ParentCategoryID");
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true);
+            entity.Property(e => e.ParentCategoryId)
+                .HasColumnName("ParentCategoryID");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.ParentCategory).WithMany(p => p.InverseParentCategory)
+            entity.HasOne(d => d.ParentCategory)
+                .WithMany(p => p.InverseParentCategory)
                 .HasForeignKey(d => d.ParentCategoryId)
                 .HasConstraintName("FK__BlogCateg__Paren__6442E2C9");
         });
 
         modelBuilder.Entity<Child>(entity =>
         {
-            entity.HasKey(e => e.ChildId).HasName("PK__Children__BEFA07360F4F08A5");
+            entity.HasKey(e => e.ChildId)
+                .HasName("PK__Children__BEFA07360F4F08A5");
 
             entity.Property(e => e.ChildId)
                 .HasDefaultValueSql("(newid())")
                 .HasColumnName("ChildID");
-            entity.Property(e => e.Allergies).HasMaxLength(2000);
+            entity.Property(e => e.Allergies)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.BloodType)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -197,26 +228,32 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Gender)
                 .IsRequired()
-                .HasMaxLength(20);
-            entity.Property(e => e.MemberId).HasColumnName("MemberID");
+                .HasMaxLength(20)
+                .IsUnicode(true);
+            entity.Property(e => e.MemberId)
+                .HasColumnName("MemberID");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Notes).HasMaxLength(2000);
+                .IsUnicode(true);
+            entity.Property(e => e.Notes)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.RelationshipToMember)
                 .IsRequired()
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Member).WithMany(p => p.Children)
+            entity.HasOne(d => d.Member)
+                .WithMany(p => p.Children)
                 .HasForeignKey(d => d.MemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Children__Member__628FA481");
@@ -224,34 +261,46 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<ChildMilestone>(entity =>
         {
-            entity.HasKey(e => new { e.ChildId, e.MilestoneId }).HasName("PK__ChildMil__2E664F33263B4E3C");
+            entity.HasKey(e => new { e.ChildId, e.MilestoneId })
+                .HasName("PK__ChildMil__2E664F33263B4E3C");
 
-            entity.Property(e => e.ChildId).HasColumnName("ChildID");
-            entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
-            entity.Property(e => e.Category).HasMaxLength(100);
+            entity.Property(e => e.ChildId)
+                .HasColumnName("ChildID");
+            entity.Property(e => e.MilestoneId)
+                .HasColumnName("MilestoneID");
+            entity.Property(e => e.Category)
+                .HasMaxLength(100)
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Guidelines).HasMaxLength(2000);
+            entity.Property(e => e.Guidelines)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.Importance)
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValue("Medium");
-            entity.Property(e => e.Notes).HasMaxLength(2000);
+            entity.Property(e => e.Notes)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Not Achieved");
+                .HasDefaultValue("Not Achieved")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Child).WithMany(p => p.ChildMilestones)
+            entity.HasOne(d => d.Child)
+                .WithMany(p => p.ChildMilestones)
                 .HasForeignKey(d => d.ChildId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ChildMile__Child__5D95E53A");
 
-            entity.HasOne(d => d.Milestone).WithMany(p => p.ChildMilestones)
+            entity.HasOne(d => d.Milestone)
+                .WithMany(p => p.ChildMilestones)
                 .HasForeignKey(d => d.MilestoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ChildMile__Miles__5E8A0973");
@@ -259,37 +308,50 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<ConsultationRequest>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Consulta__33A8519AD34628DD");
+            entity.HasKey(e => e.RequestId)
+                .HasName("PK__Consulta__33A8519AD34628DD");
 
-            entity.Property(e => e.RequestId).HasColumnName("RequestID");
+            entity.Property(e => e.RequestId)
+                .HasColumnName("RequestID");
             entity.Property(e => e.Attachments)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.Category).HasMaxLength(100);
-            entity.Property(e => e.ChildId).HasColumnName("ChildID");
+            entity.Property(e => e.Category)
+                 .HasMaxLength(100)
+                 .IsUnicode(true);
+            entity.Property(e => e.ChildId)
+                .HasColumnName("ChildID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
-            entity.Property(e => e.MemberId).HasColumnName("MemberID");
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.MemberId)
+                .HasColumnName("MemberID");
             entity.Property(e => e.RequestDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Pending");
+                .HasDefaultValue("Pending")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Urgency).HasMaxLength(50);
+            entity.Property(e => e.Urgency)
+                .HasMaxLength(50)
+                .IsUnicode(true);
 
-            entity.HasOne(d => d.Child).WithMany(p => p.ConsultationRequests)
+            entity.HasOne(d => d.Child)
+                .WithMany(p => p.ConsultationRequests)
                 .HasForeignKey(d => d.ChildId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Consultat__Child__3493CFA7");
 
-            entity.HasOne(d => d.Member).WithMany(p => p.ConsultationRequests)
+            entity.HasOne(d => d.Member)
+                .WithMany(p => p.ConsultationRequests)
                 .HasForeignKey(d => d.MemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Consultat__Membe__339FAB6E");
@@ -297,37 +359,45 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<ConsultationResponse>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Consulta__1AAA640C06EBE4DC");
+            entity.HasKey(e => e.ResponseId)
+                .HasName("PK__Consulta__1AAA640C06EBE4DC");
 
-            entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
+            entity.Property(e => e.ResponseId)
+                .HasColumnName("ResponseID");
             entity.Property(e => e.Attachments)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Content)
                 .IsRequired()
-                .HasMaxLength(2000);
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
-            entity.Property(e => e.RequestId).HasColumnName("RequestID");
+            entity.Property(e => e.DoctorId)
+                .HasColumnName("DoctorID");
+            entity.Property(e => e.RequestId)
+                .HasColumnName("RequestID");
             entity.Property(e => e.ResponseDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Pending");
+                .HasDefaultValue("Pending")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Doctor).WithMany(p => p.ConsultationResponses)
+            entity.HasOne(d => d.Doctor)
+                .WithMany(p => p.ConsultationResponses)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Consultat__Docto__3C34F16F");
 
-            entity.HasOne(d => d.Request).WithMany(p => p.ConsultationResponses)
+            entity.HasOne(d => d.Request)
+                .WithMany(p => p.ConsultationResponses)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Consultat__Reque__3B40CD36");
@@ -335,66 +405,86 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Disease>(entity =>
         {
-            entity.HasKey(e => e.DiseaseId).HasName("PK__Diseases__69B533A99B5134CE");
+            entity.HasKey(e => e.DiseaseId)
+                .HasName("PK__Diseases__69B533A99B5134CE");
 
-            entity.Property(e => e.DiseaseId).HasColumnName("DiseaseID");
+            entity.Property(e => e.DiseaseId)
+                .HasColumnName("DiseaseID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.DiseaseName)
                 .IsRequired()
                 .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.DiseaseType)
                 .IsRequired()
-                .HasMaxLength(50);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
+                .HasMaxLength(50)
+                .IsUnicode(true);
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true);
             entity.Property(e => e.LastModified)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Notes).HasMaxLength(2000);
-            entity.Property(e => e.Prevention).HasMaxLength(2000);
+            entity.Property(e => e.Notes)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.Prevention)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.Severity)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsUnicode(true);
             entity.Property(e => e.Symptoms)
                 .IsRequired()
-                .HasMaxLength(2000);
-            entity.Property(e => e.Treatment).HasMaxLength(2000);
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.Treatment)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
         });
 
         modelBuilder.Entity<Doctor>(entity =>
         {
-            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDFEF1A26E4");
+            entity.HasKey(e => e.DoctorId)
+                .HasName("PK__Doctors__2DC00EDFEF1A26E4");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E38E7C8A6DE").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__Doctors__85FB4E38E7C8A6DE")
+                .IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D105347F812951").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Doctors__A9D105347F812951")
+                .IsUnique();
 
-            entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
-            entity.Property(e => e.Biography).HasMaxLength(2000);
+            entity.Property(e => e.DoctorId)
+                .HasColumnName("DoctorID");
+            entity.Property(e => e.Biography)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Degree)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.HospitalAddress)
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.HospitalName)
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.PhoneNumber)
                 .IsRequired()
                 .HasMaxLength(20)
@@ -402,13 +492,16 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.UserId)
+                .HasColumnName("UserID");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Doctors)
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.Doctors)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Doctors__UserID__2180FB33");
@@ -416,28 +509,35 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<DoctorSpecialization>(entity =>
         {
-            entity.HasKey(e => e.DoctorSpecializationId).HasName("PK__DoctorSp__14F6ED6DAA9577FA");
+            entity.HasKey(e => e.DoctorSpecializationId)
+                .HasName("PK__DoctorSp__14F6ED6DAA9577FA");
 
-            entity.Property(e => e.DoctorSpecializationId).HasColumnName("DoctorSpecializationID");
+            entity.Property(e => e.DoctorSpecializationId)
+                .HasColumnName("DoctorSpecializationID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
-            entity.Property(e => e.SpecializationId).HasColumnName("SpecializationID");
+            entity.Property(e => e.DoctorId)
+                .HasColumnName("DoctorID");
+            entity.Property(e => e.SpecializationId)
+                .HasColumnName("SpecializationID");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorSpecializations)
+            entity.HasOne(d => d.Doctor)
+                .WithMany(p => p.DoctorSpecializations)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__DoctorSpe__Docto__2BFE89A6");
 
-            entity.HasOne(d => d.Specialization).WithMany(p => p.DoctorSpecializations)
+            entity.HasOne(d => d.Specialization)
+                .WithMany(p => p.DoctorSpecializations)
                 .HasForeignKey(d => d.SpecializationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__DoctorSpe__Speci__2CF2ADDF");
@@ -445,21 +545,26 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Feature>(entity =>
         {
-            entity.HasKey(e => e.FeatureId).HasName("PK__Features__82230A29C56E5352");
+            entity.HasKey(e => e.FeatureId)
+                .HasName("PK__Features__82230A29C56E5352");
 
-            entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
+            entity.Property(e => e.FeatureId)
+                .HasColumnName("FeatureID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.FeatureName)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -467,38 +572,62 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<GrowthRecord>(entity =>
         {
-            entity.HasKey(e => e.RecordId).HasName("PK__GrowthRe__FBDF78C92E890866");
+            entity.HasKey(e => e.RecordId)
+                .HasName("PK__GrowthRe__FBDF78C92E890866");
 
-            entity.Property(e => e.RecordId).HasColumnName("RecordID");
-            entity.Property(e => e.AttentionSpan).HasMaxLength(50);
-            entity.Property(e => e.ChildId).HasColumnName("ChildID");
+            entity.Property(e => e.RecordId)
+                .HasColumnName("RecordID");
+            entity.Property(e => e.AttentionSpan)
+                .HasMaxLength(50)
+                .IsUnicode(true);
+            entity.Property(e => e.ChildId)
+                .HasColumnName("ChildID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.DevelopmentalMilestones).HasMaxLength(255);
-            entity.Property(e => e.Hearing).HasMaxLength(50);
-            entity.Property(e => e.ImmunizationStatus).HasMaxLength(2000);
-            entity.Property(e => e.MentalHealthStatus).HasMaxLength(50);
-            entity.Property(e => e.NeurologicalReflexes).HasMaxLength(255);
-            entity.Property(e => e.Notes).HasMaxLength(2000);
-            entity.Property(e => e.NutritionalStatus).HasMaxLength(50);
-            entity.Property(e => e.PhysicalActivityLevel).HasMaxLength(50);
+            entity.Property(e => e.DevelopmentalMilestones)
+                .HasMaxLength(255);
+            entity.Property(e => e.Hearing)
+                .HasMaxLength(50);
+            entity.Property(e => e.ImmunizationStatus)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.MentalHealthStatus)
+                .HasMaxLength(50)
+                .IsUnicode(true);
+            entity.Property(e => e.NeurologicalReflexes)
+                .HasMaxLength(255)
+                .IsUnicode(true);
+            entity.Property(e => e.Notes)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.NutritionalStatus)
+                .HasMaxLength(50)
+                .IsUnicode(true);
+            entity.Property(e => e.PhysicalActivityLevel)
+                .HasMaxLength(50)
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Verified).HasDefaultValue(false);
-            entity.Property(e => e.Vision).HasMaxLength(50);
+            entity.Property(e => e.Verified)
+                .HasDefaultValue(false);
+            entity.Property(e => e.Vision)
+                .HasMaxLength(50);
 
-            entity.HasOne(d => d.Child).WithMany(p => p.GrowthRecords)
+            entity.HasOne(d => d.Child)
+                .WithMany(p => p.GrowthRecords)
                 .HasForeignKey(d => d.ChildId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__GrowthRec__Child__693CA210");
 
-            entity.HasOne(d => d.RecordedByNavigation).WithMany(p => p.GrowthRecords)
+            entity.HasOne(d => d.RecordedByNavigation)
+                .WithMany(p => p.GrowthRecords)
                 .HasForeignKey(d => d.RecordedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__GrowthRec__Recor__6A30C649");
@@ -506,9 +635,11 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemberId).HasName("PK__Members__0CF04B389CBAFA92");
+            entity.HasKey(e => e.MemberId)
+                .HasName("PK__Members__0CF04B389CBAFA92");
 
-            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCAD1CF36839").IsUnique();
+            entity.HasIndex(e => e.UserId, "UQ__Members__1788CCAD1CF36839")
+                .IsUnique();
 
             entity.Property(e => e.MemberId)
                 .HasDefaultValueSql("(newid())")
@@ -516,17 +647,24 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.EmergencyContact)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.JoinDate).HasColumnType("datetime");
-            entity.Property(e => e.LeaveDate).HasColumnType("datetime");
-            entity.Property(e => e.Notes).HasMaxLength(2000);
+                .IsUnicode(true);
+            entity.Property(e => e.JoinDate)
+                .HasColumnType("datetime");
+            entity.Property(e => e.LeaveDate)
+                .HasColumnType("datetime");
+            entity.Property(e => e.Notes)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
+            entity.Property(e => e.UserId)
+                .HasColumnName("UserID");
 
-            entity.HasOne(d => d.User).WithOne(p => p.Member)
+            entity.HasOne(d => d.User)
+                .WithOne(p => p.Member)
                 .HasForeignKey<Member>(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Members__UserID__5BE2A6F2");
@@ -534,7 +672,8 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<MemberMembership>(entity =>
         {
-            entity.HasKey(e => e.MemberMembershipId).HasName("PK__MemberMe__5EAB967F56224688");
+            entity.HasKey(e => e.MemberMembershipId)
+                .HasName("PK__MemberMe__5EAB967F56224688");
 
             entity.Property(e => e.MemberMembershipId)
                 .HasDefaultValueSql("(newid())")
@@ -542,26 +681,36 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
-            entity.Property(e => e.EndDate).HasColumnType("datetime");
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.MemberId).HasColumnName("MemberID");
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
-            entity.Property(e => e.StartDate).HasColumnType("datetime");
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true);
+            entity.Property(e => e.MemberId)
+                .HasColumnName("MemberID");
+            entity.Property(e => e.PackageId)
+                .HasColumnName("PackageID");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("datetime");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Member).WithMany(p => p.MemberMemberships)
+            entity.HasOne(d => d.Member)
+                .WithMany(p => p.MemberMemberships)
                 .HasForeignKey(d => d.MemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__MemberMem__Membe__123EB7A3");
 
-            entity.HasOne(d => d.Package).WithMany(p => p.MemberMemberships)
+            entity.HasOne(d => d.Package)
+                .WithMany(p => p.MemberMemberships)
                 .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__MemberMem__Packa__1332DBDC");
@@ -569,26 +718,35 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<MembershipPackage>(entity =>
         {
-            entity.HasKey(e => e.PackageId).HasName("PK__Membersh__322035ECEB2AF44C");
+            entity.HasKey(e => e.PackageId)
+                .HasName("PK__Membersh__322035ECEB2AF44C");
 
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
+            entity.Property(e => e.PackageId)
+                .HasColumnName("PackageID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Currency)
                 .HasMaxLength(10)
-                .HasDefaultValue("VND");
-            entity.Property(e => e.Description).HasMaxLength(2000);
+                .HasDefaultValue("VND")
+                .IsUnicode(true);
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.PackageName)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+                .IsUnicode(true);
+            entity.Property(e => e.Price)
+                .HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
-            entity.Property(e => e.SupportLevel).HasMaxLength(255);
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
+            entity.Property(e => e.SupportLevel)
+                .HasMaxLength(255)
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -596,21 +754,29 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Milestone>(entity =>
         {
-            entity.HasKey(e => e.MilestoneId).HasName("PK__Mileston__09C48058711E3563");
+            entity.HasKey(e => e.MilestoneId)
+                .HasName("PK__Mileston__09C48058711E3563");
 
-            entity.Property(e => e.MilestoneId).HasColumnName("MilestoneID");
-            entity.Property(e => e.Category).HasMaxLength(100);
+            entity.Property(e => e.MilestoneId)
+                .HasColumnName("MilestoneID");
+            entity.Property(e => e.Category)
+                .HasMaxLength(100)
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.Importance)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Medium");
+                .HasDefaultValue("Medium")
+                .IsUnicode(true);
             entity.Property(e => e.MilestoneName)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(255)
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -618,22 +784,27 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<PackageFeature>(entity =>
         {
-            entity.HasKey(e => new { e.PackageId, e.FeatureId }).HasName("PK__PackageF__BA02054E85344318");
+            entity.HasKey(e => new { e.PackageId, e.FeatureId })
+                .HasName("PK__PackageF__BA02054E85344318");
 
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
-            entity.Property(e => e.FeatureId).HasColumnName("FeatureID");
+            entity.Property(e => e.PackageId)
+                .HasColumnName("PackageID");
+            entity.Property(e => e.FeatureId)
+                .HasColumnName("FeatureID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Feature).WithMany(p => p.PackageFeatures)
+            entity.HasOne(d => d.Feature)
+                .WithMany(p => p.PackageFeatures)
                 .HasForeignKey(d => d.FeatureId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__PackageFe__Featu__0A9D95DB");
@@ -646,24 +817,30 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<PackagePromotion>(entity =>
         {
-            entity.HasKey(e => new { e.PackageId, e.PromotionId }).HasName("PK__PackageP__D70C771E4D3FDBDA");
+            entity.HasKey(e => new { e.PackageId, e.PromotionId })
+                .HasName("PK__PackageP__D70C771E4D3FDBDA");
 
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
-            entity.Property(e => e.PromotionId).HasColumnName("PromotionID");
+            entity.Property(e => e.PackageId)
+                .HasColumnName("PackageID");
+            entity.Property(e => e.PromotionId)
+                .HasColumnName("PromotionID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Package).WithMany(p => p.PackagePromotions)
+            entity.HasOne(d => d.Package)
+                .WithMany(p => p.PackagePromotions)
                 .HasForeignKey(d => d.PackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__PackagePr__Packa__7E37BEF6");
 
-            entity.HasOne(d => d.Promotion).WithMany(p => p.PackagePromotions)
+            entity.HasOne(d => d.Promotion)
+                .WithMany(p => p.PackagePromotions)
                 .HasForeignKey(d => d.PromotionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__PackagePr__Promo__7F2BE32F");
@@ -671,29 +848,37 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2FF4A3E50E");
+            entity.HasKey(e => e.PromotionId)
+                .HasName("PK__Promotio__52C42F2FF4A3E50E");
 
             entity.Property(e => e.PromotionId)
                 .HasDefaultValueSql("(newid())")
                 .HasColumnName("PromotionID");
             entity.Property(e => e.ApplicablePackageIds)
                 .HasMaxLength(2000)
-                .HasColumnName("ApplicablePackageIDs");
+                .HasColumnName("ApplicablePackageIDs")
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
-            entity.Property(e => e.MaxDiscountAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.MinPurchaseAmount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
+            entity.Property(e => e.MaxDiscountAmount)
+                .HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.MinPurchaseAmount)
+                .HasColumnType("decimal(10, 2)");
             entity.Property(e => e.PromotionCode)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.RedemptionCount).HasDefaultValue(0);
+            entity.Property(e => e.RedemptionCount)
+                .HasDefaultValue(0);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.TargetAudience)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -701,12 +886,14 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PromotionCreatedByNavigations)
+            entity.HasOne(d => d.CreatedByNavigation)
+                .WithMany(p => p.PromotionCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Promotion__Creat__71D1E811");
 
-            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.PromotionModifiedByNavigations)
+            entity.HasOne(d => d.ModifiedByNavigation)
+                .WithMany(p => p.PromotionModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Promotion__Modif__72C60C4A");
@@ -714,9 +901,12 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<RatingFeedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__RatingFe__6A4BEDD6DC2AC320");
+            entity.HasKey(e => e.FeedbackId)
+                .HasName("PK__RatingFe__6A4BEDD6DC2AC320");
 
-            entity.Property(e => e.Comment).HasMaxLength(2000);
+            entity.Property(e => e.Comment)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -725,21 +915,25 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.FeedbackType)
                 .HasMaxLength(50)
-                .HasDefaultValue("general");
+                .HasDefaultValue("general")
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Pending");
+                .HasDefaultValue("Pending")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
 
-            entity.HasOne(d => d.Response).WithMany(p => p.RatingFeedbacks)
+            entity.HasOne(d => d.Response)
+                .WithMany(p => p.RatingFeedbacks)
                 .HasForeignKey(d => d.ResponseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__RatingFee__Respo__45BE5BA9");
 
-            entity.HasOne(d => d.User).WithMany(p => p.RatingFeedbacks)
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.RatingFeedbacks)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__RatingFee__UserI__44CA3770");
@@ -747,13 +941,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A08567DF9");
+            entity.HasKey(e => e.RoleId)
+                .HasName("PK__Roles__8AFACE3A08567DF9");
 
-            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.RoleId)
+                .HasColumnName("RoleID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.RoleName)
                 .IsRequired()
                 .HasMaxLength(255)
@@ -761,7 +959,8 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -769,21 +968,26 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Specialization>(entity =>
         {
-            entity.HasKey(e => e.SpecializationId).HasName("PK__Speciali__5809D84F30952F62");
+            entity.HasKey(e => e.SpecializationId)
+                .HasName("PK__Speciali__5809D84F30952F62");
 
-            entity.Property(e => e.SpecializationId).HasColumnName("SpecializationID");
+            entity.Property(e => e.SpecializationId)
+                .HasColumnName("SpecializationID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(2000);
+            entity.Property(e => e.Description)
+                .HasMaxLength(2000)
+                .IsUnicode(true);
             entity.Property(e => e.SpecializationName)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -791,42 +995,54 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__55433A4BC423188E");
+            entity.HasKey(e => e.TransactionId)
+                .HasName("PK__Transact__55433A4BC423188E");
 
             entity.Property(e => e.TransactionId)
                 .HasDefaultValueSql("(newid())")
                 .HasColumnName("TransactionID");
-            entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Amount)
+                .HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Currency)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsUnicode(true);
             entity.Property(e => e.Description)
                 .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.GatewayTransactionId).HasColumnName("GatewayTransactionID");
-            entity.Property(e => e.MemberMembershipId).HasColumnName("MemberMembershipID");
-            entity.Property(e => e.PaymentDate).HasColumnType("datetime");
+                .IsUnicode(true);
+            entity.Property(e => e.GatewayTransactionId)
+                .HasColumnName("GatewayTransactionID");
+            entity.Property(e => e.MemberMembershipId)
+                .HasColumnName("MemberMembershipID");
+            entity.Property(e => e.PaymentDate)
+                .HasColumnType("datetime");
             entity.Property(e => e.PaymentMethod)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsUnicode(true);
             entity.Property(e => e.PaymentStatus)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.TransactionDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.TransactionType)
                 .IsRequired()
-                .HasMaxLength(100);
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+                .HasMaxLength(100)
+                .IsUnicode(true);
+            entity.Property(e => e.UserId)
+                .HasColumnName("UserID");
 
-            entity.HasOne(d => d.MemberMembership).WithMany(p => p.Transactions)
+            entity.HasOne(d => d.MemberMembership)
+                .WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.MemberMembershipId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Transacti__Membe__19DFD96B");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Transactions)
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Transacti__UserI__18EBB532");
@@ -834,13 +1050,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC34166207");
+            entity.HasKey(e => e.UserId)
+                .HasName("PK__UserAcco__1788CCAC34166207");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E419FEE9B6").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E419FEE9B6")
+                .IsUnique();
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E38B13F3ED5").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__UserAcco__85FB4E38B13F3ED5")
+                .IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D10534CB034035").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__UserAcco__A9D10534CB034035")
+                .IsUnique();
 
             entity.Property(e => e.UserId)
                 .HasDefaultValueSql("(newid())")
@@ -848,7 +1068,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.Address)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -858,13 +1078,16 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Gender)
                 .IsRequired()
-                .HasMaxLength(20);
-            entity.Property(e => e.IsVerified).HasDefaultValue(false);
-            entity.Property(e => e.LastLogin).HasColumnType("datetime");
+                .HasMaxLength(20)
+                .IsUnicode(true);
+            entity.Property(e => e.IsVerified)
+                .HasDefaultValue(false);
+            entity.Property(e => e.LastLogin)
+                .HasColumnType("datetime");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(true);
             entity.Property(e => e.Password)
                 .IsRequired()
                 .HasMaxLength(255)
@@ -873,13 +1096,17 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .IsRequired()
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.ProfilePicture).HasMaxLength(2000);
-            entity.Property(e => e.RegistrationDate).HasColumnType("datetime");
-            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.ProfilePicture)
+                .HasMaxLength(2000);
+            entity.Property(e => e.RegistrationDate)
+                .HasColumnType("datetime");
+            entity.Property(e => e.RoleId)
+                .HasColumnName("RoleID");
             entity.Property(e => e.Status)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasDefaultValue("Active");
+                .HasDefaultValue("Active")
+                .IsUnicode(true);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -891,7 +1118,8 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.Role).WithMany(p => p.UserAccounts)
+            entity.HasOne(d => d.Role)
+                .WithMany(p => p.UserAccounts)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__UserAccou__RoleI__5629CD9C");
