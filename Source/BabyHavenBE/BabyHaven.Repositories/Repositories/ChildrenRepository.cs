@@ -25,6 +25,7 @@ namespace BabyHaven.Repositories.Repositories
                 .Where(c => c.MemberId == memberId)
                 .ToListAsync();
         }
+
         // Combine with GrowthRecords table to update the latest data
         public async Task<List<Child>> GetChildrenByMemberIdForNowAsync(Guid memberId)
         {
@@ -38,6 +39,13 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.Children
                 .ToDictionaryAsync(mp => mp.Name, p => p.ChildId);
+        }
+
+        //Get child by name and date of birth
+        public async Task<Child?> GetChildByNameAndDateOfBirthAsync(string name, DateOnly dateOfBirth)
+        {
+            return await _context.Children
+                .FirstOrDefaultAsync(c => c.Name == name && c.DateOfBirth == dateOfBirth);
         }
     }
 }

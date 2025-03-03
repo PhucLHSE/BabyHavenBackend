@@ -10,11 +10,11 @@ namespace BabyHaven.Services.Mappers
 {
     public static class GrowthRecordMapper
     {
-        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordCreateDto dto)
+        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordCreateDto dto, Child child)
         {
             return new GrowthRecord
             {
-                ChildId = dto.ChildId,
+                ChildId = child.ChildId,
                 RecordedBy = dto.RecordedBy,
                 Weight = dto.Weight,
                 Height = dto.Height,
