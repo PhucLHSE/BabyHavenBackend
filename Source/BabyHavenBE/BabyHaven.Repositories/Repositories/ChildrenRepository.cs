@@ -41,11 +41,11 @@ namespace BabyHaven.Repositories.Repositories
                 .ToDictionaryAsync(mp => mp.Name, p => p.ChildId);
         }
 
-        //Get child by name and date of birth
-        public async Task<Child?> GetChildByNameAndDateOfBirthAsync(string name, DateOnly dateOfBirth)
+        //Get child by name, memberId and date of birth
+        public async Task<Child?> GetChildByNameAndDateOfBirthAsync(string name, DateOnly dateOfBirth, Guid memberId)
         {
             return await _context.Children
-                .FirstOrDefaultAsync(c => c.Name == name && c.DateOfBirth == dateOfBirth);
+                .FirstOrDefaultAsync(c => c.Name == name && c.DateOfBirth == dateOfBirth && c.MemberId == memberId);
         }
     }
 }

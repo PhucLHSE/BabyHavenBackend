@@ -50,7 +50,7 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG);
                 }
 
-                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(dto.name, DateOnly.Parse(dto.DateOfBirth));
+                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(dto.name, DateOnly.Parse(dto.DateOfBirth), dto.RecordedBy);
 
                 if (child == null)
                 {
