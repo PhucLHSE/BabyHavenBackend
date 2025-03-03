@@ -116,6 +116,22 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetChildByNameDateOfBirthAndMemberId(string childName, string dateOfBirth, Guid memberId)
+        {
+            try
+            {
+                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(childName, DateOnly.Parse(dateOfBirth), memberId);
+                if (child == null)
+                    return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Child not found." };
+
+                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = child.ToChildViewAllDto() };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult { Status = Const.ERROR_EXCEPTION, Message = $"An error occurred while retrieving the child: {ex.Message}" };
+            }
+        }
+
         public async Task<IServiceResult> GetChildrenByMemberId(Guid memberId)
         {
             try

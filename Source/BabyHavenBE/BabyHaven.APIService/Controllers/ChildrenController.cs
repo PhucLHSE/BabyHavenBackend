@@ -76,6 +76,12 @@ namespace BabyHaven.APIService.Controllers
             return await _childrenService.GetChildById(childId);
         }
 
+        [HttpGet("{name}/{dob}/{id}")]
+        public async Task<IServiceResult> GetChildByNameDateOfBirthAndMemberId(string name, string dob, Guid id)
+        {
+            return await _childrenService.GetChildByNameDateOfBirthAndMemberId(name, dob, id);
+        }
+
         /// <summary>
         /// Gets children by member ID.
         /// </summary>
