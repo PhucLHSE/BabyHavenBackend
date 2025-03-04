@@ -11,8 +11,6 @@ public partial class ConsultationResponse
 
     public int RequestId { get; set; }
 
-    public int DoctorId { get; set; }
-
     public DateTime ResponseDate { get; set; }
 
     public string Content { get; set; }
@@ -26,8 +24,6 @@ public partial class ConsultationResponse
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
-
-    public virtual Doctor Doctor { get; set; }
 
     public virtual ICollection<RatingFeedback> RatingFeedbacks { get; set; } = new List<RatingFeedback>();
 

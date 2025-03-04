@@ -18,7 +18,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new ConsultationResponseViewAllDto
             {
-                DoctorName = model.Doctor?.User?.Name ?? "Unknown",
+                //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
                 RequestName = model.Request?.Description ?? "Unknown",
 
                 ResponseDate = model.ResponseDate,
@@ -38,7 +38,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new ConsultationResponseViewDetailsDto
             {
-                DoctorName = model.Doctor?.User?.Name ?? "Unknown",
+                //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
                 RequestName = model.Request?.Description ?? "Unknown",
 
                 ResponseDate = model.ResponseDate,
@@ -59,13 +59,13 @@ namespace BabyHaven.Services.Mappers
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt,
 
-                // Map previous consultation requests
-                PreviousConsultations = model.Request?.ConsultationResponses?
-                    .Where(cr => cr.ResponseId != model.ResponseId) // Exclude current response
-                    .OrderByDescending(cr => cr.ResponseDate)
-                    .Take(5)
-                    .Select(cr => cr.MapToConsultationResponseViewAllDto())
-                    .ToList() ?? new List<ConsultationResponseViewAllDto>()
+                //// Map previous consultation requests
+                //PreviousConsultations = model.Request?.ConsultationResponses?
+                //    .Where(cr => cr.ResponseId != model.ResponseId) // Exclude current response
+                //    .OrderByDescending(cr => cr.ResponseDate)
+                //    .Take(5)
+                //    .Select(cr => cr.MapToConsultationResponseViewAllDto())
+                //    .ToList() ?? new List<ConsultationResponseViewAllDto>()
             };
         }
 
@@ -74,7 +74,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new ConsultationResponse
             {
-                DoctorId = doctorId,
+                //DoctorId = doctorId,
                 RequestId = requestId,
 
                 ResponseDate = dto.ResponseDate,
@@ -95,7 +95,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new ConsultationResponseDeleteDto
             {
-                DoctorName = model.Doctor?.User?.Name ?? "Unknown",
+                //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
                 RequestName = model.Request?.Description ?? "Unknown",
 
                 ResponseDate = model.ResponseDate,

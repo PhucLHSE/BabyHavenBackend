@@ -19,8 +19,6 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<List<ConsultationResponse>> GetAllConsultationResponseAsync()
         {
             return await _context.ConsultationResponses
-                .Include(cr => cr.Doctor)
-                   .ThenInclude(cr => cr.User)
                 .Include(cr => cr.Request)
                 .ToListAsync();
         }
@@ -28,8 +26,6 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<ConsultationResponse?> GetByIdConsultationResponseAsync(int responseId)
         {
             return await _context.ConsultationResponses
-                .Include(cr => cr.Doctor)
-                    .ThenInclude(m => m.User)
                 .Include(cr => cr.Request)
                 .FirstOrDefaultAsync(cr => cr.ResponseId == responseId);
         }

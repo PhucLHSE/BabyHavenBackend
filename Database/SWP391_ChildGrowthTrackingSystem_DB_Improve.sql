@@ -258,6 +258,7 @@ CREATE TABLE ConsultationRequests (
     RequestID INT PRIMARY KEY IDENTITY(1,1),                         -- ID duy nhất cho yêu cầu
     MemberID UNIQUEIDENTIFIER NOT NULL,                              -- Liên kết với bảng Members
     ChildID UNIQUEIDENTIFIER NOT NULL,                               -- Liên kết với bảng Children
+	DoctorID INT NOT NULL,											 -- Liên kết với bảng Doctor
     RequestDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,         -- Ngày tạo yêu cầu tư vấn
     Description NVARCHAR(2000),                                      -- Mô tả chi tiết về yêu cầu tư vấn
     Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                  -- Trạng thái yêu cầu: 0 (pending), 1 (approved), 2 (rejected)
@@ -267,14 +268,14 @@ CREATE TABLE ConsultationRequests (
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Thời gian yêu cầu được tạo
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Thời gian cập nhật yêu cầu
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID),             -- Liên kết với bảng Members
-    FOREIGN KEY (ChildID) REFERENCES Children(ChildID)               -- Liên kết với bảng Children
+    FOREIGN KEY (ChildID) REFERENCES Children(ChildID),              -- Liên kết với bảng Children
+	FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)              -- Liên kết với bảng Doctor
 );
 
 -- Table ConsultationResponses
 CREATE TABLE ConsultationResponses (
     ResponseID INT PRIMARY KEY IDENTITY(1,1),                         -- ID phản hồi duy nhất
-    RequestID INT NOT NULL,                                           -- Liên kết với bảng ConsultationRequests
-    DoctorID INT NOT NULL,                                            -- Liên kết với bảng Doctors
+    RequestID INT UNIQUE NOT NULL,                                           -- Liên kết với bảng ConsultationRequests
     ResponseDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,         -- Thời gian phản hồi
     Content NVARCHAR(2000) NOT NULL,                                  -- Nội dung phản hồi (bắt buộc)
     Attachments VARCHAR(1000),                                        -- Đường dẫn tệp đính kèm (không bắt buộc)
@@ -283,7 +284,6 @@ CREATE TABLE ConsultationResponses (
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian tạo phản hồi
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian cập nhật phản hồi
     FOREIGN KEY (RequestID) REFERENCES ConsultationRequests(RequestID), -- Liên kết với bảng ConsultationRequests
-    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)               -- Liên kết với bảng Doctors
 );
 
 -- Table RatingFeedbacks
