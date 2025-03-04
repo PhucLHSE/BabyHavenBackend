@@ -22,21 +22,21 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<PromotionsController>
         [HttpGet]
-        public async Task<IServiceResult> Get()
+        public async Task<IServiceResult> GetAll()
         {
             return await _promotionService.GetAll();
         }
 
         // GET api/<PromotionsController>/5
         [HttpGet("{id}")]
-        public async Task<IServiceResult> Get(Guid id)
+        public async Task<IServiceResult> GetById(Guid id)
         {
             return await _promotionService.GetById(id);
         }
 
         // POST api/<PromotionsController>
         [HttpPost]
-        public async Task<IServiceResult> Post(PromotionCreateDto promotionCreateDto)
+        public async Task<IServiceResult> Create(PromotionCreateDto promotionCreateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<PromotionsController>/5
         [HttpPut("{id}")]
-        public async Task<IServiceResult> Put(PromotionUpdateDto promotionUpdateDto)
+        public async Task<IServiceResult> Update(PromotionUpdateDto promotionUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<PromotionsController>/5
         [HttpDelete("{id}")]
-        public async Task<IServiceResult> Delete(Guid id)
+        public async Task<IServiceResult> DeleteById(Guid id)
         {
             return await _promotionService.DeleteById(id);
         }

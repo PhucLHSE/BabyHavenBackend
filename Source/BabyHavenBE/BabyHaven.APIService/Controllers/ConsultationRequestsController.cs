@@ -20,21 +20,21 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<ConsultationRequestsController>
         [HttpGet]
-        public async Task<IServiceResult> Get()
+        public async Task<IServiceResult> GetAll()
         {
             return await _consultationRequestService.GetAll();
         }
 
         // GET api/<ConsultationRequestsController>/5
         [HttpGet("{id}")]
-        public async Task<IServiceResult> Get(int id)
+        public async Task<IServiceResult> GetById(int id)
         {
             return await _consultationRequestService.GetById(id);
         }
 
         // POST api/<ConsultationRequestsController>
         [HttpPost]
-        public async Task<IServiceResult> Post(ConsultationRequestCreateDto consultationRequestCreateDto)
+        public async Task<IServiceResult> Create(ConsultationRequestCreateDto consultationRequestCreateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -42,6 +42,18 @@ namespace BabyHaven.APIService.Controllers
             }
 
             return await _consultationRequestService.Create(consultationRequestCreateDto);
+        }
+
+        // DELETE api/<ConsultationRequestsController>/5
+        [HttpDelete("{id}")]
+        public async Task<IServiceResult> DeleteById(int id)
+        {
+            return await _consultationRequestService.DeleteById(id);
+        }
+
+        private bool ConsultationRequestExists(int id)
+        {
+            return _consultationRequestService.GetById(id) != null;
         }
     }
 }

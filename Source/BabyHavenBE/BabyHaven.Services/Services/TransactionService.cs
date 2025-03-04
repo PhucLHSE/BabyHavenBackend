@@ -15,9 +15,10 @@ namespace BabyHaven.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public TransactionService()
+        public TransactionService(UnitOfWork unitOfWork)
         {
-            _unitOfWork ??= new UnitOfWork();
+            _unitOfWork = unitOfWork
+                ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public async Task<IServiceResult> GetAll()

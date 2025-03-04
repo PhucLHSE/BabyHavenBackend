@@ -28,7 +28,7 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Retrieve mappings: AuthorName -> AuthorId and CategoryName -> CategoryId
-                var authorNameToIdMapping = await _unitOfWork.UserAccountRepository.GetAllUserNameToIdMappingAsync();
+                var authorNameToIdMapping = await _unitOfWork.UserAccountRepository.GetAllNameToIdMappingAsync();
                 var categoryNameToIdMapping = await _unitOfWork.BlogCategoryRepository.GetAllCategoryNameToIdMappingAsync();
 
                 // Check if the provided AuthorName exists

@@ -26,6 +26,11 @@ namespace BabyHaven.Repositories.Repositories
             return await _context.UserAccounts
                 .ToDictionaryAsync(u => u.Username, u => u.UserId);
         }
+        public async Task<Dictionary<string, Guid>> GetAllNameToIdMappingAsync()
+        {
+            return await _context.UserAccounts
+                .ToDictionaryAsync(u => u.Name, u => u.UserId);
+        }
 
         public async Task<IEnumerable<UserAccount>> GetAllWithRolesAsync()
         {

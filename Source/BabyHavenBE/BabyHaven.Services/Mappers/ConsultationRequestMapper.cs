@@ -120,5 +120,45 @@ namespace BabyHaven.Services.Mappers
                 UpdatedAt = DateTime.UtcNow
             };
         }
+
+        // Mapper for ConsultationRequestDeleteDto
+        public static ConsultationRequestDeleteDto MapToConsultationRequestDeleteDto(this ConsultationRequest model)
+        {
+            return new ConsultationRequestDeleteDto
+            {
+                MemberName = model.Member?.User?.Name ?? "Unknown",
+                ChildName = model.Child?.Name ?? "Unknown",
+
+                RequestDate = model.RequestDate,
+
+                // Convert Status from string to enum
+                Status = Enum.TryParse<ConsultationRequestStatus>(model.Status, true, out var status)
+                          ? status
+                          : ConsultationRequestStatus.Pending,
+
+                // Convert Urgency from string to enum
+                Urgency = Enum.TryParse<ConsultationRequestUrgency>(model.Urgency, true, out var urgency)
+                          ? urgency
+                          : ConsultationRequestUrgency.Low,
+
+                // Convert Category from string to enum
+                Category = Enum.TryParse<ConsultationRequestCategory>(model.Category, true, out var category)
+                          ? category
+                          : ConsultationRequestCategory.Other,
+
+                // Description of the consultation request, defaulting to an empty string if null
+                Description = model.Description ?? string.Empty,
+
+                // Attachments of the consultation request, defaulting to an empty list if null
+                Attachments = string.IsNullOrEmpty(model.Attachments)
+                          ? new List<string>()
+                          : JsonSerializer.Deserialize<List<string>>(model.Attachments)
+                          ?? new List<string>(),
+
+                // Audit Information
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt,
+            };
+        }
     }
 }

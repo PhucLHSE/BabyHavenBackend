@@ -11,9 +11,10 @@ namespace BabyHaven.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public PackagePromotionService()
+        public PackagePromotionService(UnitOfWork unitOfWork)
         {
-            _unitOfWork ??= new UnitOfWork();
+            _unitOfWork = unitOfWork
+                ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public async Task<IServiceResult> GetAll()

@@ -20,19 +20,19 @@ namespace BabyHaven.APIService.Controllers
 
         // GET: api/<MembersController>
         [HttpGet]
-        public async Task<IServiceResult> Get()
+        public async Task<IServiceResult> GetAll()
         {
             return await _memberService.GetAll();
         }
 
         // GET api/<MembersController>/5
         [HttpGet("{id}")]
-        public async Task<IServiceResult> Get(Guid id)
+        public async Task<IServiceResult> GetById(Guid id)
         {
             return await _memberService.GetById(id);
         }
 
-        // GET: api/<MembersController>
+        // GET: api/<MembersController>/5
         [HttpGet("member/{id}")]
         public async Task<IServiceResult> GetByUserId(Guid id)
         {
@@ -41,7 +41,7 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<MembersController>/5
         [HttpPut("{id}")]
-        public async Task<IServiceResult> Put(MemberUpdateDto memberUpdateDto)
+        public async Task<IServiceResult> Update(MemberUpdateDto memberUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -53,7 +53,7 @@ namespace BabyHaven.APIService.Controllers
 
         // DELETE api/<MembersController>/5/3
         [HttpDelete("{id}")]
-        public async Task<IServiceResult> Delete(Guid id)
+        public async Task<IServiceResult> DeleteById(Guid id)
         {
             return await _memberService.DeleteById(id);
         }

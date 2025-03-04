@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BabyHaven.Common.Enum.MemberEnums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace BabyHaven.Common.DTOs.MemberDTOs
     public class MemberAPIResponseDto
     {
         public Guid MemberId { get; set; }
+
         public string MemberName { get; set; } = string.Empty;
 
         public string EmergencyContact { get; set; } = string.Empty;
