@@ -29,12 +29,7 @@ namespace BabyHaven.Services.Services
                 if (dto == null)
                     return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
 
-                var member = await _unitOfWork.MemberRepository.GetMemberByUserId(dto.UserId);
-
-                if (member == null)
-                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
-
-                var child = dto.ToChild(member.MemberId);
+                var child = dto.ToChild();
 
                 await _unitOfWork.ChildrenRepository.CreateAsync(child);
 
@@ -110,6 +105,22 @@ namespace BabyHaven.Services.Services
             try
             {
                 var child = await _unitOfWork.ChildrenRepository.GetByIdAsync(childId);
+                if (child == null)
+                    return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Child not found." };
+
+                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = child.ToChildViewAllDto() };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult { Status = Const.ERROR_EXCEPTION, Message = $"An error occurred while retrieving the child: {ex.Message}" };
+            }
+        }
+
+        public async Task<IServiceResult> GetChildByNameDateOfBirthAndMemberId(string childName, string dateOfBirth, Guid memberId)
+        {
+            try
+            {
+                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(childName, DateOnly.Parse(dateOfBirth), memberId);
                 if (child == null)
                     return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Child not found." };
 

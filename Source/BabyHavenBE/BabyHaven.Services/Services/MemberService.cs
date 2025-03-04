@@ -44,10 +44,10 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> GetById(Guid MemberId)
+        public async Task<IServiceResult> GetById(Guid memberId)
         {
             var member = await _unitOfWork.MemberRepository
-                .GetByIdMemberAsync(MemberId);
+                .GetByIdMemberAsync(memberId);
 
             if (member == null)
             {
@@ -63,10 +63,10 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> GetByUserId(Guid UserId)
+        public async Task<IServiceResult> GetByUserId(Guid userId)
         {
             var member = await _unitOfWork.MemberRepository
-                .GetMemberByUserId(UserId);
+                .GetMemberByUserId(userId);
 
             if (member == null)
             {
@@ -122,12 +122,12 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> DeleteById(Guid MemberId)
+        public async Task<IServiceResult> DeleteById(Guid memberId)
         {
             try
             {
                 var member = await _unitOfWork.MemberRepository
-                    .GetByIdMemberAsync(MemberId);
+                    .GetByIdMemberAsync(memberId);
 
                 if (member == null)
                 {

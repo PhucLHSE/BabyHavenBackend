@@ -29,6 +29,12 @@ namespace BabyHaven.APIService.Controllers
             return await _blogService.GetById(BlogId);
         }
 
+        [HttpGet("blogs/{categoryId}")]
+        public async Task<IServiceResult> GetByCategory(int categoryId)
+        {
+            return await _blogService.GetAllByCategoryId(categoryId);
+        }
+
         // POST api/<BlogController>
         [HttpPost]
         public async Task<IServiceResult> Post(BlogCreateDto blogCreateDto)

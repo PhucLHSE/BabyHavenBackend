@@ -1,5 +1,6 @@
 ﻿using BabyHaven.Common;
 using BabyHaven.Common.DTOs.GrowthRecordDTOs;
+using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,14 +18,9 @@ namespace BabyHaven.APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGrowthRecord([FromBody] GrowthRecordCreateDto dto)
+        public async Task<IServiceResult> Create([FromBody] GrowthRecordCreateDto dto)
         {
-            var result = await _growthRecordService.CreateGrowthRecord(dto);
-            if (result.Status == Const.SUCCESS_CREATE_CODE)
-            {
-                return Ok(result);
-            }
-            return StatusCode(result.Status, result);
+            return await _growthRecordService.CreateGrowthRecord(dto);
         }
 
         [HttpPut]
@@ -39,7 +35,7 @@ namespace BabyHaven.APIService.Controllers
         }
 
         [HttpDelete("{recordId}")]
-        public async Task<IActionResult> DeleteGrowthRecord(int recordId)
+        public async Task<IActionResult> Delete(int recordId)
         {
             var result = await _growthRecordService.DeleteGrowthRecord(recordId);
             if (result.Status == Const.SUCCESS_DELETE_CODE)

@@ -50,7 +50,14 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG);
                 }
 
-                var record = await _unitOfWork.GrowthRecordRepository.CreateAsync(dto.MapToGrowthRecordEntity());
+                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(dto.name, DateOnly.Parse(dto.DateOfBirth), dto.RecordedBy);
+
+                if (child == null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Child not found");
+                }
+
+                var record = await _unitOfWork.GrowthRecordRepository.CreateAsync(dto.MapToGrowthRecordEntity(child));
                 return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = record };
             }
             catch (Exception ex)

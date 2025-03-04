@@ -10,10 +10,12 @@ namespace BabyHaven.Services.Mappers
 {
     public static class GrowthRecordMapper
     {
-        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordCreateDto dto)
+        public static GrowthRecord MapToGrowthRecordEntity(this GrowthRecordCreateDto dto, Child child)
         {
             return new GrowthRecord
             {
+                ChildId = child.ChildId,
+                RecordedBy = dto.RecordedBy,
                 Weight = dto.Weight,
                 Height = dto.Height,
                 ChestCircumference = dto.ChestCircumference,
@@ -38,7 +40,7 @@ namespace BabyHaven.Services.Mappers
                 SleepDuration = dto.SleepDuration,
                 FerritinLevel = dto.FerritinLevel,
                 HeadCircumference = dto.HeadCircumference,
-                CreatedAt = dto.CreatedAt
+                CreatedAt = DateTime.Parse(dto.CreatedAt)
             };
         }
         // Required

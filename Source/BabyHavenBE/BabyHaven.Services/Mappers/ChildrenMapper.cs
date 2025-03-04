@@ -10,22 +10,21 @@ namespace BabyHaven.Services.Mappers
 {
     public static class ChildrenMapper
     {
-        public static Child ToChild(this ChildCreateDto dto, Guid memberId)
+        public static Child ToChild(this ChildCreateDto dto)
         {
             return new Child
             {
                 Name = dto.Name,
                 DateOfBirth = DateOnly.Parse(dto.DateOfBirth),
-                MemberId = memberId,
+                MemberId = dto.MemberId,
                 Gender = dto.Gender,
                 BirthWeight = dto.BirthWeight,
                 BirthHeight = dto.BirthHeight,
-                BloodType = dto.BloodType,
-                Allergies = dto.Allergies,
                 Notes = dto.Notes,
                 RelationshipToMember = "N/A"
             };
         }
+
         public static Child ToChild(this ChildCreateForNowDto dto, Guid memberId)
         {
             return new Child

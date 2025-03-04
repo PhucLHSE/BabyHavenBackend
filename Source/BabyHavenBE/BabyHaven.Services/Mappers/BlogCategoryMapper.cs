@@ -36,6 +36,20 @@ namespace BabyHaven.Services.Mappers
                 ParentCategoryId = model.ParentCategoryId
             };
         }
+
+        public static BlogCategoryAPIResponseDto MapToBlogCategoryAPIResponseDto(this BlogCategory model)
+        {
+            return new BlogCategoryAPIResponseDto
+            {
+                CategoryId = model.CategoryId,
+                CategoryName = model.CategoryName,
+                Description = model.Description,
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt,
+                IsActive = model.IsActive,
+                ParentCategoryId = model.ParentCategoryId
+            };
+        }
         //Mapper BlogCategoryUpdateDto
         public static void MapToBlogCategoryUpdateDto(this BlogCategoryUpdateDto updateDto, BlogCategory blogCategory)
         {
@@ -67,15 +81,14 @@ namespace BabyHaven.Services.Mappers
             };
         }
         //Mapper BlogCategoryCreateDto
-        public static BlogCategory MapToEntity(this BlogCategoryCreateDto dto, BlogCategory blogParentCategory)
+        public static BlogCategory MapToEntity(this BlogCategoryCreateDto dto)
         {
             return new BlogCategory
             {
                 CategoryName = dto.CategoryName,
                 Description = dto.Description,
                 IsActive = dto.IsActive,
-                ParentCategoryId = dto.ParentCategoryId,
-                ParentCategory = blogParentCategory
+                ParentCategoryId = dto.ParentCategoryId
             };
         }
     }

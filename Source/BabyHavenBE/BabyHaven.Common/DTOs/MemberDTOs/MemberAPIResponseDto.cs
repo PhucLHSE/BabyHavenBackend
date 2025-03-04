@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BabyHaven.Common.Enum.MemberEnums;
 
 namespace BabyHaven.Common.DTOs.MemberDTOs
 {

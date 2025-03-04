@@ -16,7 +16,7 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Member ID is required.")]
-        public Guid UserId { get; set; }
+        public Guid MemberId { get; set; }
 
         [Required(ErrorMessage = "Date of Birth is required.")]
         public string DateOfBirth { get; set; }
@@ -25,19 +25,11 @@ namespace BabyHaven.Common.DTOs.ChildrenDTOs
         [RegularExpression("^(Male|Female)$", ErrorMessage = "Gender must be Male or Female.")]
         public string Gender { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Birth Weight is required.")]
         [Range(0.5, 10.0, ErrorMessage = "Birth Weight must be between 0.5 and 10.0 kg.")]
         public double BirthWeight { get; set; }
 
-        [Required(ErrorMessage = "Birth Height is required.")]
-        [Range(20.0, 60.0, ErrorMessage = "Birth Height must be between 20.0 and 60.0 cm.")]
+        [Range(0.5, 10.0, ErrorMessage = "Birth Height must be between 0.5 and 10.0 cm.")]
         public double BirthHeight { get; set; }
-
-        [StringLength(3, ErrorMessage = "Blood Type can't be longer than 3 characters.")]
-        public string BloodType { get; set; } = string.Empty;
-
-        [StringLength(500, ErrorMessage = "Allergies can't be longer than 500 characters.")]
-        public string Allergies { get; set; } = string.Empty;
 
         [StringLength(2000, ErrorMessage = "Notes can't be longer than 2000 characters.")]
         public string Notes { get; set; } = string.Empty;

@@ -22,7 +22,6 @@ namespace BabyHaven.Common.DTOs.BlogCategoryDTOs
         public bool IsActive { get; set; }
 
 
-        [Required(ErrorMessage = "ParentCategoryId is required.")]
         public int? ParentCategoryId { get; set; }
     }
 }
