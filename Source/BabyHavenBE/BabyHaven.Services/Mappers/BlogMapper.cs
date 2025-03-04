@@ -21,6 +21,7 @@ namespace BabyHaven.Services.Mappers
                 Title = model.Title,
                 Content = model.Content,
                 ImageBlog = model.ImageBlog,
+                Tags = model.Tags,
                 // Author
                 AuthorName = model.Author?.Name ?? string.Empty,
 
