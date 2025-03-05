@@ -815,46 +815,46 @@ DECLARE @DoctorThaoID UNIQUEIDENTIFIER = (SELECT UserID FROM UserAccounts WHERE 
 INSERT INTO Blogs (Title, Content, AuthorID, CategoryID, ImageBlog, Status, Tags, ReferenceSources, CreatedAt, UpdatedAt)
 VALUES
     -- Bài viết của Admin
-    (N'Dấu hiệu rụng trứng và cách theo dõi', 
-    N'Rụng trứng đóng vai trò quan trọng trong việc thụ thai. Bài viết này giúp bạn nhận biết các dấu hiệu như dịch nhầy cổ tử cung, nhiệt độ cơ thể cơ bản, và bộ kit thử rụng trứng.', 
+    (N'Ovulation signs and how to track them', 
+    N'Ovulation plays an important role in conception. This article helps you identify signs such as cervical mucus, basal body temperature, and ovulation test kits.', 
     @AdminID, (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Ovulation'),
-    'https://example.com/images/ovulation-tracking.jpg', 'Approved', 
-    N'rụng trứng, theo dõi rụng trứng, sinh sản',
+    'https://plus.unsplash.com/premium_photo-1676049342411-c118fe1570b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Approved', 
+    N'ovulation, ovulation tracking, fertility',
     'https://www.mayoclinic.org, https://www.webmd.com',
     GETDATE(), GETDATE()),
 
-    (N'Thử thai tại nhà có chính xác không?', 
-    N'Thử thai tại nhà là phương pháp nhanh chóng để phát hiện mang thai. Bài viết này giải thích cách hoạt động, độ chính xác, và thời điểm tốt nhất để thử.', 
+    (N'Are home pregnancy tests accurate?', 
+    N'A home pregnancy test is a quick method for detecting pregnancy. This article explains how it works, its accuracy, and the best time to take the test.', 
     @AdminID, (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Pregnancy Tests'),
-    'https://example.com/images/pregnancy-test.jpg', 'Approved', 
-    N'thử thai, kiểm tra thai kỳ, que thử thai',
+    'https://images.unsplash.com/photo-1533483595632-c5f0e57a1936?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Approved', 
+    N'pregnancy test, pregnancy detection, home pregnancy test',
     'https://www.healthline.com, https://www.nhs.uk',
     GETDATE(), GETDATE()),
 
-    -- Bài viết của Doctor Huỳnh Nguyễn Ngọc Nguyên (Chuyên khoa Nhi)
-    (N'Bí quyết giúp bé ngủ ngon', 
-    N'Giấc ngủ rất quan trọng với sự phát triển của trẻ sơ sinh. Tìm hiểu các phương pháp giúp bé ngủ sâu hơn và tránh bị giật mình.', 
+    -- Bài viết của Doctor Huỳnh Nguyễn Ngọc Nguyên (Pediatric Specialist)
+    (N'Tips for helping your baby sleep well', 
+    N'Sleep is crucial for the development of newborns. Learn methods that can help your baby sleep deeper and avoid waking up abruptly.', 
     @DoctorNguyenID, (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Sleep Tips'),
-    'https://example.com/images/baby-sleep-routine.jpg', 'Approved', 
-    N'giấc ngủ trẻ em, mẹo ngủ ngon, ngủ sâu',
+    'https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Approved', 
+    N'baby sleep, sleep tips, deep sleep',
     'https://www.sleepfoundation.org, https://www.aap.org',
     GETDATE(), GETDATE()),
 
-    -- Bài viết của Doctor Huỳnh Thái Tú (Chuyên gia Dinh dưỡng)
-    (N'Dinh dưỡng quan trọng cho trẻ nhỏ', 
-    N'Trẻ nhỏ cần được cung cấp đầy đủ chất dinh dưỡng để phát triển toàn diện. Bài viết này liệt kê các nhóm thực phẩm thiết yếu.', 
+    -- Bài viết của Doctor Huỳnh Thái Tú (Nutrition Specialist)
+    (N'Nutrition importance for young children', 
+    N'Young children need to be provided with sufficient nutrition for full development. This article lists essential food groups.', 
     @DoctorTuID, (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Nutrition'),
-    'https://example.com/images/toddler-nutrition.jpg', 'Approved', 
-    N'dinh dưỡng trẻ em, thực đơn cho trẻ, ăn dặm',
+    'https://plus.unsplash.com/premium_photo-1676049342406-20d6e89dc79c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Approved', 
+    N'child nutrition, toddler meals, baby food',
     'https://www.nhs.uk, https://www.aap.org',
     GETDATE(), GETDATE()),
 
-    -- Bài viết của Doctor Nguyễn Thị Thanh Thảo (Chuyên khoa Tim mạch & Tâm lý tuổi teen)
-    (N'Bố mẹ nên làm gì khi con bước vào tuổi teen?', 
-    N'Tuổi teen là giai đoạn trẻ thay đổi về thể chất và tâm lý. Bố mẹ cần hiểu cách hỗ trợ và đồng hành cùng con.', 
+    -- Bài viết của Doctor Nguyễn Thị Thanh Thảo (Cardiology & Teen Mental Health Specialist)
+    (N'What should parents do when their child enters adolescence?', 
+    N'Adolescence is a period when children undergo physical and mental changes. Parents need to understand how to support and accompany their children during this time.', 
     @DoctorThaoID, (SELECT CategoryID FROM BlogCategories WHERE CategoryName = 'Teen Mental Health'),
-    'https://example.com/images/teen-stress.jpg', 'Approved', 
-    N'tâm lý tuổi teen, dạy con tuổi teen, hỗ trợ tinh thần',
+    'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Approved', 
+    N'teen mental health, parenting teenagers, mental support',
     'https://www.psychologytoday.com, https://www.nimh.nih.gov',
     GETDATE(), GETDATE());
 

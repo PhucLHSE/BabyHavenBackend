@@ -62,6 +62,25 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetByMemberId(Guid memberId)
+        {
+            var memberMembership = await _unitOfWork.MemberMembershipRepository
+                .GetByMemberId(memberId);
+
+            if (memberMembership == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new MemberMembershipViewDetailsDto());
+            }
+            else
+            {
+                var memberMembershipDto = memberMembership.MapToMemberMembershipViewDetailsDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    memberMembershipDto);
+            }
+        }
+
         public async Task<IServiceResult> Create(MemberMembershipCreateDto memberMembershipDto)
         {
             try

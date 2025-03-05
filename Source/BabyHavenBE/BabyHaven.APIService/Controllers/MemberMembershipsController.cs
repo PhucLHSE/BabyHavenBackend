@@ -30,7 +30,7 @@ namespace BabyHaven.APIService.Controllers
         [HttpGet("{id}")]
         public async Task<IServiceResult> Get(Guid id)
         {
-            return await _membershipService.GetById(id);
+            return await _membershipService.GetByMemberId(id);
         }
 
         // POST api/<MemberMembershipsController>
