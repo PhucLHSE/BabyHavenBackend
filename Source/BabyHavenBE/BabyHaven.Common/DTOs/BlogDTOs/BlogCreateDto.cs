@@ -41,5 +41,9 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
         [Required(ErrorMessage = "ReferenceSources is required.")]
         [MaxLength(2000, ErrorMessage = "ReferenceSources cannot exceed 2000 characters.")]
         public string ReferenceSources { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Status is required.")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public BlogStatus? Status { get; set; } = BlogStatus.Pending;
     }
 }
