@@ -73,38 +73,38 @@ CREATE TABLE Children (
 
 -- Table GrowthRecords
 CREATE TABLE GrowthRecords (
-    RecordID INT PRIMARY KEY IDENTITY(1,1),          -- ID bản ghi
-    ChildID UNIQUEIDENTIFIER NOT NULL,               -- ID của trẻ
-    RecordedBy UNIQUEIDENTIFIER NOT NULL,            -- ID người ghi nhận
-    Weight FLOAT NOT NULL,                           -- Cân nặng của trẻ
-    Height FLOAT NOT NULL,                           -- Chiều cao của trẻ
-    HeadCircumference FLOAT,                         -- Vòng đầu
-    MuscleMass FLOAT,                                -- Khối lượng cơ bắp
-    ChestCircumference FLOAT,                        -- Vòng ngực
-    NutritionalStatus NVARCHAR(50),                  -- Tình trạng dinh dưỡng
-    FerritinLevel FLOAT,                             -- Mức ferritin
-    Triglycerides FLOAT,                             -- Mức triglycerides
-    BloodSugarLevel FLOAT,                           -- Mức đường huyết
-    PhysicalActivityLevel NVARCHAR(50),              -- Mức độ hoạt động thể chất
-    HeartRate INT,                                   -- Nhịp tim
-    BloodPressure FLOAT,                             -- Huyết áp
-    BodyTemperature FLOAT,                           -- Nhiệt độ cơ thể
-    OxygenSaturation FLOAT,                          -- Mức độ bão hòa oxy
-    SleepDuration FLOAT,                             -- Thời gian ngủ
-    Vision NVARCHAR(50),                             -- Tình trạng thị giác
-    Hearing NVARCHAR(50),                            -- Tình trạng thính giác
-    ImmunizationStatus NVARCHAR(2000),               -- Tình trạng tiêm chủng
-    MentalHealthStatus NVARCHAR(50),                 -- Tình trạng sức khỏe tâm thần
-    GrowthHormoneLevel FLOAT,                        -- Mức độ hormone tăng trưởng
-    AttentionSpan NVARCHAR(50),                      -- Thời gian chú ý
-    NeurologicalReflexes NVARCHAR(255),              -- Phản xạ thần kinh
-    DevelopmentalMilestones NVARCHAR(255),           -- Mốc phát triển
-    Notes NVARCHAR(2000),                            -- Ghi chú khác
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Active',   -- Trạng thái
-    Verified BIT DEFAULT 0,                          -- Trạng thái xác nhận
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian tạo bản ghi
-    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,    -- Thời gian cập nhật bản ghi
-    FOREIGN KEY (ChildID) REFERENCES Children(ChildID), -- Liên kết với bảng Children
+    RecordID INT PRIMARY KEY IDENTITY(1,1),               -- ID bản ghi
+    ChildID UNIQUEIDENTIFIER NOT NULL,                    -- ID của trẻ
+    RecordedBy UNIQUEIDENTIFIER NOT NULL,                 -- ID người ghi nhận
+    Weight FLOAT NOT NULL,                                -- Cân nặng của trẻ
+    Height FLOAT NOT NULL,                                -- Chiều cao của trẻ
+    HeadCircumference FLOAT,                              -- Vòng đầu
+    MuscleMass FLOAT,                                     -- Khối lượng cơ bắp
+    ChestCircumference FLOAT,                             -- Vòng ngực
+    NutritionalStatus NVARCHAR(50),                       -- Tình trạng dinh dưỡng
+    FerritinLevel FLOAT,                                  -- Mức ferritin
+    Triglycerides FLOAT,                                  -- Mức triglycerides
+    BloodSugarLevel FLOAT,                                -- Mức đường huyết
+    PhysicalActivityLevel NVARCHAR(50),                   -- Mức độ hoạt động thể chất
+    HeartRate INT,                                        -- Nhịp tim
+    BloodPressure FLOAT,                                  -- Huyết áp
+    BodyTemperature FLOAT,                                -- Nhiệt độ cơ thể
+    OxygenSaturation FLOAT,                               -- Mức độ bão hòa oxy
+    SleepDuration FLOAT,                                  -- Thời gian ngủ
+    Vision NVARCHAR(50),                                  -- Tình trạng thị giác
+    Hearing NVARCHAR(50),                                 -- Tình trạng thính giác
+    ImmunizationStatus NVARCHAR(2000),                    -- Tình trạng tiêm chủng
+    MentalHealthStatus NVARCHAR(50),                      -- Tình trạng sức khỏe tâm thần
+    GrowthHormoneLevel FLOAT,                             -- Mức độ hormone tăng trưởng
+    AttentionSpan NVARCHAR(50),                           -- Thời gian chú ý
+    NeurologicalReflexes NVARCHAR(255),                   -- Phản xạ thần kinh
+    DevelopmentalMilestones NVARCHAR(255),                -- Mốc phát triển
+    Notes NVARCHAR(2000),                                 -- Ghi chú khác
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Active',        -- Trạng thái
+    Verified BIT DEFAULT 0,                               -- Trạng thái xác nhận
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,         -- Thời gian tạo bản ghi
+    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,         -- Thời gian cập nhật bản ghi
+    FOREIGN KEY (ChildID) REFERENCES Children(ChildID),   -- Liên kết với bảng Children
     FOREIGN KEY (RecordedBy) REFERENCES Members(MemberID) -- Liên kết với bảng UserAccounts
 );
 
@@ -184,16 +184,16 @@ CREATE TABLE PackageFeatures (
 -- Table MemberMemberships
 CREATE TABLE MemberMemberships (
     MemberMembershipID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    MemberID UNIQUEIDENTIFIER NOT NULL,                      -- Liên kết với bảng Members
-    PackageID INT NOT NULL,                                  -- Liên kết với bảng MembershipPackages
-    StartDate DATETIME NOT NULL,                             -- Ngày bắt đầu gói thành viên
-    EndDate DATETIME NOT NULL,                               -- Ngày kết thúc gói thành viên
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Active',           -- Trạng thái của gói thành viên (Active, Inactive, Pending, Suspended, Expired, Canceled, Renewing, Trial)
-    IsActive BIT NOT NULL DEFAULT 1,                         -- Trạng thái hoạt động của gói
-    Description NVARCHAR(2000),                              -- Mô tả gói thành viên
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian tạo
-    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian cập nhật
-    FOREIGN KEY (MemberID) REFERENCES Members(MemberID),     -- Liên kết với bảng Members
+    MemberID UNIQUEIDENTIFIER NOT NULL,                               -- Liên kết với bảng Members
+    PackageID INT NOT NULL,                                           -- Liên kết với bảng MembershipPackages
+    StartDate DATETIME NOT NULL,                                      -- Ngày bắt đầu gói thành viên
+    EndDate DATETIME NOT NULL,                                        -- Ngày kết thúc gói thành viên
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Active',                    -- Trạng thái của gói thành viên (Active, Inactive, Pending, Suspended, Expired, Canceled, Renewing, Trial)
+    IsActive BIT NOT NULL DEFAULT 1,                                  -- Trạng thái hoạt động của gói
+    Description NVARCHAR(2000),                                       -- Mô tả gói thành viên
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian tạo
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian cập nhật
+    FOREIGN KEY (MemberID) REFERENCES Members(MemberID),              -- Liên kết với bảng Members
     FOREIGN KEY (PackageID) REFERENCES MembershipPackages(PackageID)  -- Liên kết với bảng MembershipPackages
 );
 
@@ -243,13 +243,13 @@ CREATE TABLE Specializations (
 
 -- Table DoctorSpecializations
 CREATE TABLE DoctorSpecializations (
-    DoctorSpecializationID INT PRIMARY KEY IDENTITY(1,1),  -- ID mối quan hệ bác sĩ-chuyên ngành
-    DoctorID INT NOT NULL,                                 -- ID bác sĩ (liên kết với bảng Doctors)
-    SpecializationID INT NOT NULL,                         -- ID chuyên ngành (liên kết với bảng Specializations)
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Active',         -- Trạng thái (1: active, 0: inactive)
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Thời gian tạo mối quan hệ
-    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Thời gian cập nhật mối quan hệ
-    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID),   -- Liên kết với bảng Doctors
+    DoctorSpecializationID INT PRIMARY KEY IDENTITY(1,1),                       -- ID mối quan hệ bác sĩ-chuyên ngành
+    DoctorID INT NOT NULL,                                                      -- ID bác sĩ (liên kết với bảng Doctors)
+    SpecializationID INT NOT NULL,                                              -- ID chuyên ngành (liên kết với bảng Specializations)
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Active',                              -- Trạng thái (1: active, 0: inactive)
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                      -- Thời gian tạo mối quan hệ
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                      -- Thời gian cập nhật mối quan hệ
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID),                        -- Liên kết với bảng Doctors
     FOREIGN KEY (SpecializationID) REFERENCES Specializations(SpecializationID) -- Liên kết với bảng Specializations
 );
 
@@ -274,50 +274,50 @@ CREATE TABLE ConsultationRequests (
 
 -- Table ConsultationResponses
 CREATE TABLE ConsultationResponses (
-    ResponseID INT PRIMARY KEY IDENTITY(1,1),                         -- ID phản hồi duy nhất
-    RequestID INT UNIQUE NOT NULL,                                           -- Liên kết với bảng ConsultationRequests
-    ResponseDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,         -- Thời gian phản hồi
-    Content NVARCHAR(2000) NOT NULL,                                  -- Nội dung phản hồi (bắt buộc)
-    Attachments VARCHAR(1000),                                        -- Đường dẫn tệp đính kèm (không bắt buộc)
-    IsHelpful BIT NULL,                                               -- Đánh giá xem phản hồi có hữu ích không (NULL nếu không đánh giá)
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                   -- Trạng thái phản hồi: 0 (pending), 1 (answered), 2 (resolved)
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian tạo phản hồi
-    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,            -- Thời gian cập nhật phản hồi
+    ResponseID INT PRIMARY KEY IDENTITY(1,1),                           -- ID phản hồi duy nhất
+    RequestID INT UNIQUE NOT NULL,                                      -- Liên kết với bảng ConsultationRequests
+    ResponseDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Thời gian phản hồi
+    Content NVARCHAR(2000) NOT NULL,                                    -- Nội dung phản hồi (bắt buộc)
+    Attachments VARCHAR(1000),                                          -- Đường dẫn tệp đính kèm (không bắt buộc)
+    IsHelpful BIT NULL,                                                 -- Đánh giá xem phản hồi có hữu ích không (NULL nếu không đánh giá)
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                     -- Trạng thái phản hồi: 0 (pending), 1 (answered), 2 (resolved)
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,              -- Thời gian tạo phản hồi
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,              -- Thời gian cập nhật phản hồi
     FOREIGN KEY (RequestID) REFERENCES ConsultationRequests(RequestID), -- Liên kết với bảng ConsultationRequests
 );
 
 -- Table RatingFeedbacks
 CREATE TABLE RatingFeedbacks (
-    FeedbackId INT PRIMARY KEY IDENTITY(1,1),                -- ID phản hồi đánh giá
-    UserId UNIQUEIDENTIFIER NOT NULL,                        -- Liên kết với bảng UserAccounts
-    ResponseId INT NOT NULL,                                 -- Liên kết với bảng ConsultationResponses
-    Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),      -- Đánh giá từ 1 đến 5
-    Comment NVARCHAR(2000) NULL,                             -- Nhận xét (không bắt buộc)
-    FeedbackDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,-- Thời gian phản hồi
-    FeedbackType NVARCHAR(50) NULL DEFAULT 'general',        -- Loại phản hồi (không bắt buộc, mặc định là 'general')
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',          -- Trạng thái: 'Pending', 'Approved', 'Rejected'
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian tạo
-    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian cập nhật
-    FOREIGN KEY (UserId) REFERENCES UserAccounts(UserId),    -- Liên kết với bảng UserAccounts
+    FeedbackId INT PRIMARY KEY IDENTITY(1,1),                             -- ID phản hồi đánh giá
+    UserId UNIQUEIDENTIFIER NOT NULL,                                     -- Liên kết với bảng UserAccounts
+    ResponseId INT NOT NULL,                                              -- Liên kết với bảng ConsultationResponses
+    Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),                   -- Đánh giá từ 1 đến 5
+    Comment NVARCHAR(2000) NULL,                                          -- Nhận xét (không bắt buộc)
+    FeedbackDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,             -- Thời gian phản hồi
+    FeedbackType NVARCHAR(50) NULL DEFAULT 'general',                     -- Loại phản hồi (không bắt buộc, mặc định là 'general')
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                       -- Trạng thái: 'Pending', 'Approved', 'Rejected'
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                -- Thời gian tạo
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                -- Thời gian cập nhật
+    FOREIGN KEY (UserId) REFERENCES UserAccounts(UserId),                 -- Liên kết với bảng UserAccounts
     FOREIGN KEY (ResponseId) REFERENCES ConsultationResponses(ResponseId) -- Liên kết với bảng ConsultationResponses
 );
 
 -- Table Diseases
 CREATE TABLE Diseases (
-    DiseaseID INT PRIMARY KEY IDENTITY(1,1),                -- ID bệnh
-    DiseaseName NVARCHAR(100) NOT NULL,                     -- Tên bệnh
-    LowerBoundMale FLOAT NOT NULL,                          -- Giới hạn thấp cho chỉ số đối với nam (cân nặng, chiều cao, BMI)
-    UpperBoundMale FLOAT NOT NULL,                          -- Giới hạn cao cho chỉ số đối với nam
-    LowerBoundFemale FLOAT NOT NULL,                        -- Giới hạn thấp cho chỉ số đối với nữ
-    UpperBoundFemale FLOAT NOT NULL,                        -- Giới hạn cao cho chỉ số đối với nữ
-    MinAge INT NOT NULL,                                    -- Độ tuổi nhỏ nhất có thể mắc bệnh
-    MaxAge INT NOT NULL,                                    -- Độ tuổi lớn nhất có thể mắc bệnh
-    Severity NVARCHAR(50) NOT NULL,                         -- Độ nghiêm trọng (High, Medium, Low)
-    DiseaseType NVARCHAR(50) NOT NULL,                      -- Loại bệnh (ví dụ: Béo phì, Suy dinh dưỡng)
-    Symptoms NVARCHAR(2000) NOT NULL,                       -- Triệu chứng bệnh
-    Treatment NVARCHAR(2000),                               -- Phương pháp điều trị
-    Prevention NVARCHAR(2000),                              -- Phương pháp phòng ngừa
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,  -- Thời gian tạo
+    DiseaseID INT PRIMARY KEY IDENTITY(1,1),                 -- ID bệnh
+    DiseaseName NVARCHAR(100) NOT NULL,                      -- Tên bệnh
+    LowerBoundMale FLOAT NOT NULL,                           -- Giới hạn thấp cho chỉ số đối với nam (cân nặng, chiều cao, BMI)
+    UpperBoundMale FLOAT NOT NULL,                           -- Giới hạn cao cho chỉ số đối với nam
+    LowerBoundFemale FLOAT NOT NULL,                         -- Giới hạn thấp cho chỉ số đối với nữ
+    UpperBoundFemale FLOAT NOT NULL,                         -- Giới hạn cao cho chỉ số đối với nữ
+    MinAge INT NOT NULL,                                     -- Độ tuổi nhỏ nhất có thể mắc bệnh
+    MaxAge INT NOT NULL,                                     -- Độ tuổi lớn nhất có thể mắc bệnh
+    Severity NVARCHAR(50) NOT NULL,                          -- Độ nghiêm trọng (High, Medium, Low)
+    DiseaseType NVARCHAR(50) NOT NULL,                       -- Loại bệnh (ví dụ: Béo phì, Suy dinh dưỡng)
+    Symptoms NVARCHAR(2000) NOT NULL,                        -- Triệu chứng bệnh
+    Treatment NVARCHAR(2000),                                -- Phương pháp điều trị
+    Prevention NVARCHAR(2000),                               -- Phương pháp phòng ngừa
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- Thời gian tạo
     LastModified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,-- Thời gian chỉnh sửa gần nhất
     Description NVARCHAR(2000),                              -- Mô tả về bệnh
     Notes NVARCHAR(2000),                                    -- Ghi chú thêm
@@ -327,15 +327,15 @@ CREATE TABLE Diseases (
 -- Table Alerts
 CREATE TABLE Alerts (
     AlertID INT PRIMARY KEY IDENTITY(1,1),
-    GrowthRecordID INT NOT NULL,                           -- Liên kết với bảng GrowthRecords
-    AlertDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày giờ cảnh báo
-    DiseaseID INT NOT NULL,                                -- Liên kết với bảng Diseases
-    Message NVARCHAR(2000) NOT NULL,                       -- Nội dung cảnh báo
-    IsRead BIT NOT NULL DEFAULT 0,                         -- Trạng thái đọc
-    SeverityLevel NVARCHAR(50),                            -- Mức độ nghiêm trọng
-    IsAcknowledged BIT NOT NULL DEFAULT 0,                 -- Trạng thái xác nhận
+    GrowthRecordID INT NOT NULL,                                     -- Liên kết với bảng GrowthRecords
+    AlertDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Ngày giờ cảnh báo
+    DiseaseID INT NOT NULL,                                          -- Liên kết với bảng Diseases
+    Message NVARCHAR(2000) NOT NULL,                                 -- Nội dung cảnh báo
+    IsRead BIT NOT NULL DEFAULT 0,                                   -- Trạng thái đọc
+    SeverityLevel NVARCHAR(50),                                      -- Mức độ nghiêm trọng
+    IsAcknowledged BIT NOT NULL DEFAULT 0,                           -- Trạng thái xác nhận
     FOREIGN KEY (GrowthRecordID) REFERENCES GrowthRecords(RecordID), -- Liên kết GrowthRecords
-    FOREIGN KEY (DiseaseID) REFERENCES Diseases(DiseaseID) -- Liên kết với Diseases
+    FOREIGN KEY (DiseaseID) REFERENCES Diseases(DiseaseID)           -- Liên kết với Diseases
 );
 
 -- Table Milestones
@@ -354,13 +354,13 @@ CREATE TABLE Milestones (
 
 -- Table ChildMilestones
 CREATE TABLE ChildMilestones (
-    ChildID UNIQUEIDENTIFIER NOT NULL,          -- Liên kết với bảng Children
-    MilestoneID INT NOT NULL,                   -- Liên kết với bảng Milestones
-    AchievedDate DATE,                          -- Ngày đạt mốc
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Not Achieved', -- Trạng thái mốc (Not Achieved, Achieved)
-    Notes NVARCHAR(2000),                       -- Ghi chú
-    Guidelines NVARCHAR(2000),                  -- Hướng dẫn
-    Importance NVARCHAR(50) NOT NULL DEFAULT 'Medium', -- Độ quan trọng
+    ChildID UNIQUEIDENTIFIER NOT NULL,                           -- Liên kết với bảng Children
+    MilestoneID INT NOT NULL,                                    -- Liên kết với bảng Milestones
+    AchievedDate DATE,                                           -- Ngày đạt mốc
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Not Achieved',         -- Trạng thái mốc (Not Achieved, Achieved)
+    Notes NVARCHAR(2000),                                        -- Ghi chú
+    Guidelines NVARCHAR(2000),                                   -- Hướng dẫn
+    Importance NVARCHAR(50) NOT NULL DEFAULT 'Medium',           -- Độ quan trọng
     Category NVARCHAR(100),                                      -- Nhóm mốc
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,       -- Ngày tạo
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,       -- Ngày cập nhật
@@ -371,31 +371,31 @@ CREATE TABLE ChildMilestones (
 
 -- Table BlogCategories
 CREATE TABLE BlogCategories (
-    CategoryID INT PRIMARY KEY IDENTITY(1,1),                  -- ID thể loại
-    CategoryName NVARCHAR(255) NOT NULL,                       -- Tên thể loại bài viết (không được NULL)
-    Description NVARCHAR(2000),                                -- Mô tả về thể loại
-    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian tạo thể loại
-    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian cập nhật thể loại
-    IsActive BIT NOT NULL DEFAULT 1,                           -- Trạng thái thể loại (1: Active, 0: Inactive)
-    ParentCategoryID INT,                                      -- ID thể loại cha (nếu có thể loại con)
+    CategoryID INT PRIMARY KEY IDENTITY(1,1),                             -- ID thể loại
+    CategoryName NVARCHAR(255) NOT NULL,                                  -- Tên thể loại bài viết (không được NULL)
+    Description NVARCHAR(2000),                                           -- Mô tả về thể loại
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                -- Thời gian tạo thể loại
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                -- Thời gian cập nhật thể loại
+    IsActive BIT NOT NULL DEFAULT 1,                                      -- Trạng thái thể loại (1: Active, 0: Inactive)
+    ParentCategoryID INT,                                                 -- ID thể loại cha (nếu có thể loại con)
     FOREIGN KEY (ParentCategoryID) REFERENCES BlogCategories(CategoryID)  -- Liên kết với thể loại cha
 );
 
 -- Table Blogs
 CREATE TABLE Blogs (
-    BlogID INT PRIMARY KEY IDENTITY(1,1),                      -- ID bài viết
-    Title NVARCHAR(255) NOT NULL,                               -- Tiêu đề bài viết
-    Content NVARCHAR(2000) NOT NULL,                           -- Nội dung bài viết
-    AuthorID UNIQUEIDENTIFIER NOT NULL,                        -- ID tác giả (admin hoặc người dùng)
-	CategoryID INT NOT NULL,                                   -- ID thể loại bài viết
-	ImageBlog NVARCHAR(2000) NOT NULL,                         -- URL hoặc đường dẫn tới ảnh
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',            -- Trạng thái bài viết ('Pending', 'Approved', 'Rejected')
-	RejectionReason NVARCHAR(2000),                            -- Lý do từ chối (nếu có)
-    Tags NVARCHAR(255),                                         -- Các tag của bài viết
-    ReferenceSources NVARCHAR(2000),                           -- Các trích dẫn hoặc nguồn tài liệu tham khảo
-	CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian tạo bài viết
-    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,     -- Thời gian cập nhật bài viết
-    FOREIGN KEY (AuthorID) REFERENCES UserAccounts(UserID),    -- Liên kết với bảng UserAccounts (tác giả)
+    BlogID INT PRIMARY KEY IDENTITY(1,1),                          -- ID bài viết
+    Title NVARCHAR(255) NOT NULL,                                  -- Tiêu đề bài viết
+    Content NVARCHAR(2000) NOT NULL,                               -- Nội dung bài viết
+    AuthorID UNIQUEIDENTIFIER NOT NULL,                            -- ID tác giả (admin hoặc người dùng)
+	CategoryID INT NOT NULL,                                       -- ID thể loại bài viết
+	ImageBlog NVARCHAR(2000) NOT NULL,                             -- URL hoặc đường dẫn tới ảnh
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                -- Trạng thái bài viết ('Pending', 'Approved', 'Rejected')
+	RejectionReason NVARCHAR(2000),                                -- Lý do từ chối (nếu có)
+    Tags NVARCHAR(255),                                            -- Các tag của bài viết
+    ReferenceSources NVARCHAR(2000),                               -- Các trích dẫn hoặc nguồn tài liệu tham khảo
+	CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,         -- Thời gian tạo bài viết
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,         -- Thời gian cập nhật bài viết
+    FOREIGN KEY (AuthorID) REFERENCES UserAccounts(UserID),        -- Liên kết với bảng UserAccounts (tác giả)
     FOREIGN KEY (CategoryID) REFERENCES BlogCategories(CategoryID) -- Liên kết với bảng BlogCategories
 );
 
