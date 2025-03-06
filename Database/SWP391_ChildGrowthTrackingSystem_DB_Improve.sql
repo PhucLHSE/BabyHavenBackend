@@ -775,30 +775,45 @@ DECLARE @Teenager INT = (SELECT CategoryID FROM BlogCategories WHERE CategoryNam
 
 INSERT INTO BlogCategories (CategoryName, Description, ParentCategoryID, IsActive)
 VALUES
-    -- Getting Pregnant
+    -- Getting Pregnant (6 subcategories)
     ('Ovulation', N'Kiến thức về rụng trứng', @GettingPregnant, 1),
     ('Fertility', N'Thông tin về khả năng sinh sản', @GettingPregnant, 1),
     ('Pregnancy Tests', N'Các phương pháp thử thai', @GettingPregnant, 1),
+    ('Nutrition Before Pregnancy', N'Dinh dưỡng trước khi mang thai', @GettingPregnant, 1),
+    ('Exercise & Fitness', N'Tập thể dục và sức khỏe sinh sản', @GettingPregnant, 1),
+    ('Common Pregnancy Myths', N'Những quan niệm sai lầm về mang thai', @GettingPregnant, 1),
 
-    -- Baby
+    -- Baby (7 subcategories)
     ('Breastfeeding', N'Hướng dẫn và lợi ích của việc cho con bú', @Baby, 1),
     ('Sleep Tips', N'Mẹo giúp bé ngủ ngon', @Baby, 1),
     ('Newborn Care', N'Chăm sóc trẻ sơ sinh', @Baby, 1),
+    ('Baby Milestones', N'Sự phát triển quan trọng của bé', @Baby, 1),
+    ('Vaccination', N'Lịch tiêm phòng cho bé', @Baby, 1),
+    ('Babyproofing', N'Làm thế nào để giữ an toàn cho bé', @Baby, 1),
+    ('Teething', N'Mọc răng và cách giảm đau cho bé', @Baby, 1),
 
-    -- Toddler
+    -- Toddler (6 subcategories)
     ('Potty Training', N'Cách hướng dẫn trẻ đi vệ sinh', @Toddler, 1),
     ('Nutrition', N'Dinh dưỡng cần thiết cho trẻ', @Toddler, 1),
     ('Preschool', N'Chuẩn bị cho trẻ đi mẫu giáo', @Toddler, 1),
+    ('Speech Development', N'Phát triển ngôn ngữ ở trẻ', @Toddler, 1),
+    ('Discipline', N'Rèn luyện thói quen cho trẻ', @Toddler, 1),
+    ('Sleep Routine', N'Xây dựng thói quen ngủ cho trẻ', @Toddler, 1),
 
-    -- Child
+    -- Child (5 subcategories)
     ('Education', N'Phát triển kỹ năng học tập', @Child, 1),
     ('Health Tips', N'Mẹo giữ sức khỏe cho trẻ', @Child, 1),
     ('Outdoor Activities', N'Các hoạt động ngoài trời', @Child, 1),
+    ('Screen Time', N'Kiểm soát thời gian sử dụng thiết bị điện tử', @Child, 1),
+    ('Emotional Development', N'Phát triển cảm xúc ở trẻ nhỏ', @Child, 1),
 
-    -- Teenager
+    -- Teenager (6 subcategories)
     ('Teen Mental Health', N'Sức khỏe tinh thần cho tuổi teen', @Teenager, 1),
     ('Social Media', N'Ảnh hưởng của mạng xã hội với tuổi teen', @Teenager, 1),
-    ('Teen Education', N'Giáo dục dành cho tuổi teen', @Teenager, 1);
+    ('Teen Education', N'Giáo dục dành cho tuổi teen', @Teenager, 1),
+    ('Peer Pressure', N'Áp lực từ bạn bè đồng trang lứa', @Teenager, 1),
+    ('Career Guidance', N'Định hướng nghề nghiệp cho tuổi teen', @Teenager, 1),
+    ('Teen Relationships', N'Các mối quan hệ của tuổi teen', @Teenager, 1);
 
 GO
 
