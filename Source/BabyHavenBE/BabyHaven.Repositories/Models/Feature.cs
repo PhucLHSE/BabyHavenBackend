@@ -2,11 +2,13 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BabyHaven.Repositories.Models;
 
 public partial class Feature
 {
+    [Key]
     public int FeatureId { get; set; }
 
     public string FeatureName { get; set; }

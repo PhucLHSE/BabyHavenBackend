@@ -16,6 +16,7 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> DeleteGrowthRecord(int recordId);
         Task<IServiceResult> GetGrowthRecordById(int recordId, Guid childId);
         Task<IServiceResult> GetAllGrowthRecordsByChild(Guid childId);
+        Task<IQueryable<GrowthRecordViewAllDto>> GetQueryable();
         Task<IServiceResult> GetRecordsByDateRangeAsync(Guid childId, DateTime startDate, DateTime endDate);
     }
 }

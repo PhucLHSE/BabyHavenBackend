@@ -72,6 +72,16 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<UserAccountViewAllDto>> GetQueryable()
+        {
+            var userAccounts = await _unitOfWork.UserAccountRepository
+                .GetAllAsync();
+
+            return userAccounts
+                .Select(users => users.MapToUserAccountViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(Guid UserId)
         {
             var user = await _unitOfWork.UserAccountRepository.GetByIdWithRolesAsync(UserId);

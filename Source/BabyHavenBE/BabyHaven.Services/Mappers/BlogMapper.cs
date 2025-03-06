@@ -87,6 +87,8 @@ namespace BabyHaven.Services.Mappers
                 ImageBlog = dto.ImageBlog,
                 Tags = dto.Tags,
                 ReferenceSources = dto.ReferenceSources,
+                // Convert Status from string to enum
+                Status = dto.Status.ToString()
             };
         }
 

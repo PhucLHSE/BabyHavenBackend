@@ -2,16 +2,20 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BabyHaven.Repositories.Models;
 
 public partial class ConsultationRequest
 {
+    [Key]
     public int RequestId { get; set; }
 
     public Guid MemberId { get; set; }
 
     public Guid ChildId { get; set; }
+
+    public int DoctorId { get; set; }
 
     public DateTime RequestDate { get; set; }
 
@@ -31,7 +35,9 @@ public partial class ConsultationRequest
 
     public virtual Child Child { get; set; }
 
-    public virtual ICollection<ConsultationResponse> ConsultationResponses { get; set; } = new List<ConsultationResponse>();
+    public virtual ConsultationResponse ConsultationResponse { get; set; }
 
     public virtual Member Member { get; set; }
+    public virtual Doctor Doctor { get; set; }
+
 }

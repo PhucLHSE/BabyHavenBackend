@@ -2,16 +2,16 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BabyHaven.Repositories.Models;
 
 public partial class ConsultationResponse
 {
+    [Key]
     public int ResponseId { get; set; }
 
     public int RequestId { get; set; }
-
-    public int DoctorId { get; set; }
 
     public DateTime ResponseDate { get; set; }
 
@@ -26,8 +26,6 @@ public partial class ConsultationResponse
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
-
-    public virtual Doctor Doctor { get; set; }
 
     public virtual ICollection<RatingFeedback> RatingFeedbacks { get; set; } = new List<RatingFeedback>();
 
