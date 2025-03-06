@@ -12,6 +12,7 @@ namespace BabyHaven.Services.IServices
     public interface IMembershipPackageService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<MembershipPackageViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int PackageId);
         Task<IServiceResult> Create(MembershipPackageCreateDto membershipPackageDto);
         Task<IServiceResult> Update(MembershipPackageUpdateDto membershipPackageDto);

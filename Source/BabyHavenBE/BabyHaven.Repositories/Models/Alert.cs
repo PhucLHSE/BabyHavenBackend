@@ -2,11 +2,13 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BabyHaven.Repositories.Models;
 
 public partial class Alert
 {
+    [Key]
     public int AlertId { get; set; }
 
     public int GrowthRecordId { get; set; }
