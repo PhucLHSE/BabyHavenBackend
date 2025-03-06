@@ -1,4 +1,5 @@
 ﻿using BabyHaven.Common;
+using BabyHaven.Common.DTOs.MembershipPackageDTOs;
 using BabyHaven.Common.DTOs.UserAccountDTOs;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
@@ -6,6 +7,7 @@ using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -34,12 +36,20 @@ namespace BabyHaven.APIService.Controllers
             return await _userAccountsService.GetAll();
         }
 
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<UserAccountViewAllDto>> GetForOData()
+        {
+            return await _userAccountsService.GetQueryable();
+        }
+
         // GET api/<UserAccountsController>/5
         [HttpGet("{id}")]
         public async Task<IServiceResult> Get(Guid id)
         {
             return await _userAccountsService.GetById(id);
         }
+
         // POST api/<UserAccountsController>
         [HttpPost]
         public async Task<IServiceResult> Post(UserAccountCreateDto userDto)
