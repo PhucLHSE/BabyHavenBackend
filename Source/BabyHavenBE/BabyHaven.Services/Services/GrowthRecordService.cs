@@ -157,7 +157,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IQueryable<GrowthRecordViewAllDto>> GetQueryable()
         {
-            var growthRecords = await _unitOfWork.GrowthRecordRepository.GetAllAsync();
+            var growthRecords = await _unitOfWork.GrowthRecordRepository
+                .GetAllAsync();
 
             return growthRecords
                 .Select(record => record.MapToGrowthRecordViewAll())

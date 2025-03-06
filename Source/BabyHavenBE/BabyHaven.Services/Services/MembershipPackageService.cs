@@ -45,7 +45,8 @@ namespace BabyHaven.Services.Services
 
         public async Task<IQueryable<MembershipPackageViewAllDto>> GetQueryable()
         {
-            var membershipPackages = await _unitOfWork.MembershipPackageRepository.GetAllAsync();
+            var membershipPackages = await _unitOfWork.MembershipPackageRepository
+                .GetAllAsync();
 
             return membershipPackages
                 .Select(packages => packages.MapToMembershipPackageViewAllDto())
