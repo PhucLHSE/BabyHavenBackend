@@ -346,7 +346,8 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.HasKey(e => e.ResponseId)
                 .HasName("PK__Consulta__1AAA640C0D496D47");
 
-            entity.HasIndex(e => e.RequestId, "UQ__Consulta__33A8519B05918472").IsUnique();
+            entity.HasIndex(e => e.RequestId, "UQ__Consulta__33A8519B05918472")
+                .IsUnique();
 
             entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
 

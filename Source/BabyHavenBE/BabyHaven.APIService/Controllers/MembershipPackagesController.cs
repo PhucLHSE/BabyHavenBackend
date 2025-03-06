@@ -4,6 +4,7 @@ using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,6 +24,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> Get()
         {
             return await _membershipPackageService.GetAll();
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<MembershipPackageViewAllDto>> GetForOData()
+        {
+            return await _membershipPackageService.GetQueryable();
         }
 
         // GET api/<MembershipPackagesController>/5

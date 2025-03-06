@@ -154,5 +154,14 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, $"{Const.FAIL_UPDATE_MSG}: {ex.Message}");
             }
         }
+
+        public async Task<IQueryable<GrowthRecordViewAllDto>> GetQueryable()
+        {
+            var growthRecords = await _unitOfWork.GrowthRecordRepository.GetAllAsync();
+
+            return growthRecords
+                .Select(record => record.MapToGrowthRecordViewAll())
+                .AsQueryable();
+        }
     }
 }

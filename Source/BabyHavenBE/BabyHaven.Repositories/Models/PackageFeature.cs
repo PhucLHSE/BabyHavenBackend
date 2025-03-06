@@ -2,13 +2,16 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BabyHaven.Repositories.Models;
 
 public partial class PackageFeature
 {
+    [Key]
     public int PackageId { get; set; }
 
+    [Key]
     public int FeatureId { get; set; }
 
     public DateTime CreatedAt { get; set; }
