@@ -31,7 +31,10 @@ namespace BabyHaven.Services.Mappers
                 // Convert Status from string to enum
                 Status = Enum.TryParse<BlogStatus>(model.Status, true, out var status)
                           ? status
-                          : BlogStatus.Approved
+                          : BlogStatus.Approved,
+
+                CreatedAt = model.CreatedAt,
+                UpdatedAt = model.UpdatedAt
             };
         }
 
