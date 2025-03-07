@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.GrowthRecordDTOs;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -76,6 +77,13 @@ namespace BabyHaven.APIService.Controllers
                 return Ok(result);
             }
             return StatusCode(result.Status, result);
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<GrowthRecordViewAllDto>> GetForOData()
+        {
+            return await _growthRecordService.GetQueryable();
         }
     }
 }

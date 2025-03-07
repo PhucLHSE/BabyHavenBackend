@@ -21,6 +21,7 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 
         public string CategoryName { get; set; } = string.Empty;
 
+        public string Tags { get; set; } = string.Empty;
 
         public string ImageBlog { get; set; } = string.Empty;
 

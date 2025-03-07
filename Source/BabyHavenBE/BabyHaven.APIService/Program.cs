@@ -16,6 +16,10 @@ using Microsoft.Extensions.Caching.Memory;
 using VNPAY.NET;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Identity.Web;
+using BabyHaven.Repositories.Models;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,11 +65,50 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
 });
 
+
+//ODATA
+static IEdmModel GetEdmModel()
+{
+    var odataBuilder = new ODataConventionModelBuilder();
+    odataBuilder.EntitySet<Alert>("Alert");
+    odataBuilder.EntitySet<Blog>("Blog");
+    odataBuilder.EntitySet<BlogCategory>("BlogCategory");
+    odataBuilder.EntitySet<Child>("Child");
+    odataBuilder.EntitySet<ChildMilestone>("ChildMilestone");
+    odataBuilder.EntitySet<ConsultationRequest>("ConsultationRequest");
+    odataBuilder.EntitySet<ConsultationResponse>("ConsultationResponse");
+    odataBuilder.EntitySet<Disease>("Disease");
+    odataBuilder.EntitySet<Doctor>("Doctor");
+    odataBuilder.EntitySet<DoctorSpecialization>("DoctorSpecialization");
+    odataBuilder.EntitySet<Feature>("Feature");
+    odataBuilder.EntitySet<GrowthRecord>("GrowthRecord");
+    odataBuilder.EntitySet<Member>("Member");
+    odataBuilder.EntitySet<MemberMembership>("MemberMembership");
+    odataBuilder.EntitySet<MembershipPackage>("MembershipPackage");
+    odataBuilder.EntitySet<Milestone>("Milestone");
+    odataBuilder.EntitySet<PackageFeature>("PackageFeature");
+    odataBuilder.EntitySet<PackagePromotion>("PackagePromotion");
+    odataBuilder.EntitySet<Promotion>("Promotion");
+    odataBuilder.EntitySet<RatingFeedback>("RatingFeedback");
+    odataBuilder.EntitySet<Role>("Role");
+    odataBuilder.EntitySet<Specialization>("Specialization");
+    odataBuilder.EntitySet<Transaction>("Transaction");
+    odataBuilder.EntitySet<UserAccount>("UserAccount");
+    return odataBuilder.GetEdmModel();
+}
+builder.Services.AddControllers().AddOData(options =>
+{
+    options.Select().Filter().OrderBy().Expand().SetMaxTop(null).Count();
+    options.AddRouteComponents("odata", GetEdmModel());
+});
+
 // Swagger UI
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.DescribeAllParametersInCamelCase();
+    option.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,

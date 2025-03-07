@@ -2,13 +2,16 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BabyHaven.Repositories.Models;
 
 public partial class ChildMilestone
 {
+    [Key]
     public Guid ChildId { get; set; }
 
+    [Key]
     public int MilestoneId { get; set; }
 
     public DateOnly? AchievedDate { get; set; }

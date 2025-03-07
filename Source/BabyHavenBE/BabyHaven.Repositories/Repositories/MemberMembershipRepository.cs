@@ -41,6 +41,15 @@ namespace BabyHaven.Repositories.Repositories
                 .FirstOrDefaultAsync(mm => mm.MemberMembershipId == memberMembershipId);
         }
 
+        public async Task<MemberMembership?> GetByMemberId(Guid memberId)
+        {
+            return await _context.MemberMemberships
+                .Include(mm => mm.Member )
+                   .ThenInclude(m => m.User) // Include User from Member
+                .Include(mm => mm.Package)
+                .FirstOrDefaultAsync(mm => mm.MemberId == memberId);
+        }
+
         public async Task<bool> HasActiveMembershipAsync(Guid memberId, int packageId)
         {
             return await _context.MemberMemberships
