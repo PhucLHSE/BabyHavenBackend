@@ -12,27 +12,10 @@ namespace BabyHaven.Common.DTOs.MemberMembershipDTOs
     public class MemberMembershipCreateDto
     {
         [Required(ErrorMessage = "MemberName is required.")]
-        [MaxLength(255, ErrorMessage = "PackagMemberNameeName cannot exceed 255 characters.")]
-        public string MemberName { get; set; } = string.Empty;
+        public Guid MemberId { get; set; }
 
         [Required(ErrorMessage = "PackageName is required.")]
         [MaxLength(255, ErrorMessage = "PackageName cannot exceed 255 characters.")]
-        public string PackageName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "StartDate is required.")]
-        public DateTime StartDate { get; set; }
-
-        [Required(ErrorMessage = "EndDate is required.")]
-        public DateTime EndDate { get; set; }
-
-        [Required(ErrorMessage = "Status is required.")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public MemberMembershipStatus Status { get; set; } = MemberMembershipStatus.Inactive;
-
-        [Required(ErrorMessage = "IsActive is required.")]
-        public bool IsActive { get; set; }
-
-        [MaxLength(2000, ErrorMessage = "Description cannot exceed 2000 characters.")]
-        public string Description { get; set; } = string.Empty;
+        public String PackageName { get; set; } = string.Empty;
     }
 }

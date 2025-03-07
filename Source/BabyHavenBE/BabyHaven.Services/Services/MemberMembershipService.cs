@@ -86,40 +86,27 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Retrieve mappings: MemberName -> MemberId and PackageName -> PackageId
-                var memberNameToIdMapping = await _unitOfWork.MemberRepository
-                    .GetAllMemberNameToIdMappingAsync();
+                var member = await _unitOfWork.MemberRepository
+                    .GetByIdAsync(memberMembershipDto.MemberId);
 
-                var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
-                    .GetAllPackageNameToIdMappingAsync();
-
-                // Check existence and retrieve MemberId from MemberName
-                if (!memberNameToIdMapping
-                    .TryGetValue(memberMembershipDto.MemberName, out var memberId))
+                if(member == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
-                        $"MemberName '{memberMembershipDto.MemberName}' does not exist.");
+                        $"MemberId '{memberMembershipDto.MemberId}' does not exist.");
                 }
 
-                // Check existence and retrieve PackageId from PackageName
-                if (!packageNameToIdMapping
-                    .TryGetValue(memberMembershipDto.PackageName, out var packageId))
+                var package = await _unitOfWork.MembershipPackageRepository
+                    .GetByPackageNameAsync(memberMembershipDto.PackageName);
+                if (package == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PackageName '{memberMembershipDto.PackageName}' does not exist.");
                 }
-
-                // Check if active membership already exists
-                if (await _unitOfWork.MemberMembershipRepository.HasActiveMembershipAsync(memberId, packageId))
-                {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE,
-                        "An active membership for this package already exists.");
-                }
-
-                // Generate unique MemberMembership ID
-                var memberMembershipId = Guid.NewGuid();
+                //// Generate unique MemberMembership ID
+                //var memberMembershipId = Guid.NewGuid();
 
                 // Map DTO to entity with IDs
-                var newMemberMembership = memberMembershipDto.MapToMemberMembershipCreateDto(memberMembershipId, memberId, packageId);
+                var newMemberMembership = memberMembershipDto.MapToMemberMembershipCreateDto(member, package);
 
                 // Save the new entity to the database
                 var result = await _unitOfWork.MemberMembershipRepository

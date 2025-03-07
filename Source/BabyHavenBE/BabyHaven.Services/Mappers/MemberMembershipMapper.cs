@@ -55,26 +55,22 @@ namespace BabyHaven.Services.Mappers
         }
 
         //Mapper MemberMembershipCreateDto
-        public static MemberMembership MapToMemberMembershipCreateDto(this MemberMembershipCreateDto dto, Guid memberMembershipId, Guid memberId, int packageId)
+        public static MemberMembership MapToMemberMembershipCreateDto(this MemberMembershipCreateDto dto, Member member, MembershipPackage package)
         {
             return new MemberMembership
             {
-                // Primary Identifiers
-                MemberMembershipId = memberMembershipId,
-                MemberId = memberId,
-                PackageId = packageId,
+                Description = package.Description,
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddMonths(package.DurationMonths),
 
-                // Dates
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
+                // If the package is free, set active
+                Status = package.PackageName.Equals("Free") ? MemberMembershipStatus.Active.ToString() : MemberMembershipStatus.Inactive.ToString(),
+                IsActive = package.PackageName.Equals("Free") ? true : false,
 
-                // Status
-                Status = dto.Status.ToString(),
-                IsActive = dto.IsActive,
-
-                // Additional Data
-                Description = dto.Description,
-                CreatedAt = DateTime.UtcNow
+                PackageId = package.PackageId,
+                MemberId = member.MemberId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
         }
 
