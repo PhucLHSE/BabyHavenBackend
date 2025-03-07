@@ -51,6 +51,7 @@ namespace BabyHaven.Services.Services
                 }
 
                 var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(dto.name, DateOnly.Parse(dto.DateOfBirth), dto.RecordedBy);
+                var member = await _unitOfWork.MemberRepository.GetByIdAsync(dto.RecordedBy);
 
                 if (child == null)
                 {
@@ -158,7 +159,7 @@ namespace BabyHaven.Services.Services
         public async Task<IQueryable<GrowthRecordViewAllDto>> GetQueryable()
         {
             var growthRecords = await _unitOfWork.GrowthRecordRepository
-                .GetAllAsync();
+                .GetAllGrowthRecord();
 
             return growthRecords
                 .Select(record => record.MapToGrowthRecordViewAll())

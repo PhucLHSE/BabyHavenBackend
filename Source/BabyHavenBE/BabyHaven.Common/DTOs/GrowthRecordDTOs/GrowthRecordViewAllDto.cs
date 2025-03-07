@@ -10,6 +10,8 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
 {
     public class GrowthRecordViewAllDto
     {
+        public string ChildName { get; set; }
+        public string ParentName { get; set; }
         public double Weight { get; set; }
 
         public double Height { get; set; }
