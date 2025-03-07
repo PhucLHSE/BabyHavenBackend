@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using BabyHaven.Repositories;
 using BabyHaven.Services.Mappers;
 using BabyHaven.Common.DTOs.VNPayDTOS;
+using BabyHaven.Common.Enum.MemberMembershipEnums;
 
 namespace BabyHaven.Services.Services
 {
@@ -130,10 +131,23 @@ namespace BabyHaven.Services.Services
                 }
 
                 transaction.UpdateTransactionFromVNPayResponse(paymentResult);
+                var result = await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
 
-                await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
+                if (transaction.PaymentStatus == Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString())
+                {
+                    var membership = await _unitOfWork.MemberMembershipRepository.GetByIdMemberMembershipAsync(transaction.MemberMembershipId);
+                    if (membership == null)
+                    {
+                        return new ServiceResult(Const.FAIL_READ_CODE, "Membership not found");
+                    }
 
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, "Transaction update successfully", transaction);
+                    membership.UpdateFromTransactionResponse();
+                    var updatedMembership = await _unitOfWork.MemberMembershipRepository.UpdateAsync(membership);
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, "Payment completed successfully, Membership plan has been active", updatedMembership);
+                }
+
+                return new ServiceResult(Const.SUCCESS_CREATE_CODE, "Payment error", result);
             }
             catch (Exception ex)
             {

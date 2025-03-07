@@ -79,7 +79,7 @@ namespace BabyHaven.Services.Mappers
         }
 
         // Mapper MemberMembershipUpdateDto
-        public static void MapToMemberMembershipUpdateDto(this MemberMembership memberMembership,MemberMembershipUpdateDto updateDto)
+        public static void MapToMemberMembershipUpdateDto(this MemberMembership memberMembership, MemberMembershipUpdateDto updateDto)
         {
             // Update basic properties with checks
             if (updateDto.MemberMembershipId != Guid.Empty)
@@ -134,6 +134,16 @@ namespace BabyHaven.Services.Mappers
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt
             };
+        }
+
+        //Mapper MemberMembershipFromTransactionResponse
+        public static void UpdateFromTransactionResponse(this MemberMembership membership)
+        {
+            membership.Status = MemberMembershipStatus.Active.ToString();
+            membership.StartDate = DateTime.UtcNow;
+            membership.EndDate = DateTime.UtcNow.AddMonths(membership.Package.DurationMonths);
+            membership.IsActive = true;
+            membership.UpdatedAt = DateTime.UtcNow;
         }
     }
 }
