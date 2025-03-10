@@ -11,9 +11,9 @@ namespace BabyHaven.Common.DTOs.ConsultationResponseDTOs
     public class ConsultationResponseCreateDto
     {
         // Basic information about the consultation response
-        [Required(ErrorMessage = "RequestName is required.")]
-        [MaxLength(255, ErrorMessage = "RequestName cannot exceed 255 characters.")]
-        public string RequestName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "RequestId is required.")]
+        //[MaxLength(255, ErrorMessage = "RequestName cannot exceed 255 characters.")]
+        public int RequestId { get; set; }
 
         [Required(ErrorMessage = "DoctorName is required.")]
         [MaxLength(255, ErrorMessage = "DoctorName cannot exceed 255 characters.")]
