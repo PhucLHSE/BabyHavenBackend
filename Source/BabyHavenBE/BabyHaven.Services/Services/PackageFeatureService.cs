@@ -29,7 +29,8 @@ namespace BabyHaven.Services.Services
 
             if (packageFeatures == null || !packageFeatures.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
                     new List<PackageFeatureViewAllDto>());
             }
             else
@@ -38,7 +39,8 @@ namespace BabyHaven.Services.Services
                     .Select(packageFeature => packageFeature.MapToPackageFeatureViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     packageFeatureDtos);
             }
         }
@@ -50,14 +52,16 @@ namespace BabyHaven.Services.Services
 
             if (packageFeature == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
                     new PackageFeatureViewDetailsDto());
             }
             else
             {
                 var packageFeatureDto = packageFeature.MapToPackageFeatureViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     packageFeatureDto);
             }
         }
@@ -115,17 +119,20 @@ namespace BabyHaven.Services.Services
                         Status = packageFeatureDto.Status
                     };
 
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG, 
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE,
+                        Const.SUCCESS_CREATE_MSG, 
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
@@ -176,18 +183,21 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, 
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                        Const.SUCCESS_UPDATE_MSG, 
                         packageFeatureDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG, 
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        Const.FAIL_UPDATE_MSG, 
                         packageFeatureDto);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
@@ -202,7 +212,8 @@ namespace BabyHaven.Services.Services
                 // Check if the PackageFeature exists
                 if (packageFeature == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                        Const.WARNING_NO_DATA_MSG,
                         new PackageFeatureDeleteDto());
                 }
                 else
@@ -215,19 +226,22 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
+                            Const.SUCCESS_DELETE_MSG,
                             deletePackageFeatureDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                        return new ServiceResult(Const.FAIL_DELETE_CODE,
+                            Const.FAIL_DELETE_MSG,
                             deletePackageFeatureDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
     }
