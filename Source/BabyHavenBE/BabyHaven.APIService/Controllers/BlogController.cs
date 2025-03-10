@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.BlogDTOs;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -20,6 +21,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> Get()
         {
             return await _blogService.GetAll();
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<BlogViewAllDto>> GetForOData()
+        {
+            return await _blogService.GetQueryable();
         }
 
         // GET api/<BlogController>/5/3
