@@ -29,7 +29,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<Dictionary<string, Guid>> GetAllNameToIdMappingAsync()
         {
             return await _context.UserAccounts
-                .ToDictionaryAsync(u => u.Name, u => u.UserId);
+                .ToDictionaryAsync(u => u.Email, u => u.UserId);
         }
 
         public async Task<IEnumerable<UserAccount>> GetAllWithRolesAsync()

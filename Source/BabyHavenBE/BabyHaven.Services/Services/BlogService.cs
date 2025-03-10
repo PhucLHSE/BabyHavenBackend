@@ -32,10 +32,10 @@ namespace BabyHaven.Services.Services
                 var categoryNameToIdMapping = await _unitOfWork.BlogCategoryRepository.GetAllCategoryNameToIdMappingAsync();
 
                 // Check if the provided AuthorName exists
-                if (!authorNameToIdMapping.ContainsKey(blogCreateDto.AuthorName))
+                if (!authorNameToIdMapping.ContainsKey(blogCreateDto.Email))
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
-                        $"AuthorName '{blogCreateDto.AuthorName}' does not exist.");
+                        $"AuthorName '{blogCreateDto.Email}' does not exist.");
                 }
 
                 // Check if the provided CategoryName exists
@@ -46,7 +46,7 @@ namespace BabyHaven.Services.Services
                 }
 
                 // Get AuthorId and CategoryId from AuthorName and CategoryName
-                var authorId = authorNameToIdMapping[blogCreateDto.AuthorName];
+                var authorId = authorNameToIdMapping[blogCreateDto.Email];
                 var categoryId = categoryNameToIdMapping[blogCreateDto.CategoryName];
 
                 // Check if the Blog already exists in the database
@@ -74,7 +74,7 @@ namespace BabyHaven.Services.Services
                     {
                         Title = blogCreateDto.Title,
                         Content = blogCreateDto.Content,
-                        AuthorName = blogCreateDto.AuthorName,
+                        Email = blogCreateDto.Email,
                         CategoryName = blogCreateDto.CategoryName,
                         ImageBlog = blogCreateDto.ImageBlog,
                         Tags = blogCreateDto.Tags,
