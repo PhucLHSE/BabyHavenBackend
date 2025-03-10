@@ -5,6 +5,7 @@ using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.BlogCategoryDTOs;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +26,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> Get()
         {
             return await _blogCategoryService.GetAll();
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<BlogCategoryAPIResponseDto>> GetForOData()
+        {
+            return await _blogCategoryService.GetQueryable();
         }
 
         // GET api/<BlogCategoriesController>/5
