@@ -3,6 +3,8 @@ using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.DoctorDTOs;
+using BabyHaven.Common.DTOs.ChildrenDTOs;
+using BabyHaven.Services.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,6 +35,22 @@ namespace BabyHaven.APIService.Controllers
         {
             return await _doctorService.GetById(id);
         }
+        // POST api/<DoctorController>/5
+        [HttpPost]
+        public async Task<IServiceResult> Create([FromBody] DoctorCreateDto dto)
+        {
+            if (!ModelState.IsValid)
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid model state." };
+
+            // Lấy userId từ token hoặc request (tuỳ theo cách bạn triển khai xác thực)
+            var userId = Guid.Parse(User.FindFirst("UserId")?.Value ?? Guid.Empty.ToString());
+
+            if (userId == Guid.Empty)
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid user ID." };
+
+            return await _doctorService.Create(dto, userId);
+        }
+
 
         // PUT api/<DoctorController>/5
         [HttpPut("{id}")]

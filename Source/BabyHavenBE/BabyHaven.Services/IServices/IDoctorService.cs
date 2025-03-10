@@ -12,6 +12,8 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> GetAll();
         Task<IServiceResult> GetById(int DoctorId);
+        Task<IServiceResult> Create(DoctorCreateDto doctorDto,Guid userId);
+
         Task<IServiceResult> Update(DoctorUpdateDto doctorUpdateDto);
         Task<IServiceResult> DeleteById(int DoctorId);
     }

@@ -61,8 +61,6 @@ namespace BabyHaven.Services.Mappers
         {
             return new Doctor
             {
-
-                UserId = userId,
                 Name = dto.Name,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
