@@ -169,5 +169,10 @@ namespace BabyHaven.Repositories.Base
         }
 
         #endregion Separating asign entity and save operators
+
+        public IQueryable<T> GetAllQueryable()
+        {
+            return _context.Set<T>().AsQueryable();
+        }
     }
 }
