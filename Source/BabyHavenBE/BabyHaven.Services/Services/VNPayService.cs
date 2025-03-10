@@ -139,7 +139,7 @@ namespace BabyHaven.Services.Services
                 await _unitOfWork.MemberMembershipRepository.UpdateAsync(transaction.MemberMembership);
                 await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
 
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, transaction.PaymentStatus);
+                return new ServiceResult(Const.SUCCESS_CREATE_CODE, "Payment status: " + transaction.PaymentStatus);
             }
             catch (Exception ex)
             {
