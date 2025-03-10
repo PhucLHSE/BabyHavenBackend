@@ -30,7 +30,8 @@ namespace BabyHaven.Services.Services
 
             if (members == null || !members.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new List<MemberViewAllDto>());
             }
             else
@@ -39,7 +40,8 @@ namespace BabyHaven.Services.Services
                     .Select(promotions => promotions.MapToMemberViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     memberDtos);
             }
         }
@@ -61,14 +63,16 @@ namespace BabyHaven.Services.Services
 
             if (member == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new MemberViewDetailsDto());
             }
             else
             {
                 var memberDto = member.MapToMemberViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     memberDto);
             }
         }
@@ -80,14 +84,16 @@ namespace BabyHaven.Services.Services
 
             if (member == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new MemberViewDetailsDto());
             }
             else
             {
                 var memberDto = member.MapToMemberAPIResonseDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     memberDto);
             }
         }
@@ -118,17 +124,20 @@ namespace BabyHaven.Services.Services
                     // Map the saved entity to a response DTO
                     var responseDto = member.MapToMemberViewDetailsDto();
 
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, 
+                        Const.SUCCESS_UPDATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -141,7 +150,8 @@ namespace BabyHaven.Services.Services
 
                 if (member == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        Const.WARNING_NO_DATA_MSG,
                         new MemberDeleteDto());
                 }
                 else
@@ -153,19 +163,22 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
+                            Const.SUCCESS_DELETE_MSG,
                             deleteMemberDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                        return new ServiceResult(Const.FAIL_DELETE_CODE,
+                            Const.FAIL_DELETE_MSG,
                             deleteMemberDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
     }
