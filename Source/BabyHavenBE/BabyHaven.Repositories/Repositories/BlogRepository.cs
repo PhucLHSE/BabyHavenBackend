@@ -61,5 +61,13 @@ namespace BabyHaven.Repositories.Repositories
                 .Where(b => categoryIds.Contains(b.CategoryId))
                 .ToListAsync();
         }
+
+        public async Task<Blog> GetByTitle(string title, string email)
+        {
+            return await _context.Blogs
+                .Include(b => b.Author)
+                .Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Author.Email == email && b.Title == title);
+        }
     }
 }
