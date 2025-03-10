@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.ChildrenDTOs;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -14,7 +15,8 @@ namespace BabyHaven.APIService.Controllers
 
         public ChildrenController(IChildrenService childrenService)
         {
-            _childrenService = childrenService ?? throw new ArgumentNullException(nameof(childrenService));
+            _childrenService = childrenService 
+                ?? throw new ArgumentNullException(nameof(childrenService));
         }
 
         /// <summary>
@@ -26,7 +28,8 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> CreateChild([FromBody] ChildCreateDto dto)
         {
             if (!ModelState.IsValid)
-                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid model state." };
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE,
+                    Message = "Invalid model state." };
 
             return await _childrenService.CreateChild(dto);
         }
@@ -39,7 +42,8 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> CreateChildForNow([FromBody] ChildCreateForNowDto dto)
         {
             if (!ModelState.IsValid)
-                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid model state." };
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE,
+                    Message = "Invalid model state." };
 
             return await _childrenService.CreateChildForNow(dto);
         }
@@ -124,9 +128,17 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> UpdateChildById([FromBody] ChildUpdateDto dto)
         {
             if (!ModelState.IsValid)
-                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid model state." };
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE,
+                    Message = "Invalid model state." };
 
             return await _childrenService.UpdateChildById(dto);
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<ChildViewAllDto>> GetForOData()
+        {
+            return await _childrenService.GetQueryable();
         }
     }
 }
