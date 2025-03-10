@@ -40,6 +40,16 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<BlogCategoryAPIResponseDto>> GetQueryable()
+        {
+            var blogCategories = await _unitOfWork.BlogCategoryRepository
+                .GetAllAsync();
+
+            return blogCategories
+                .Select(blogCategories => blogCategories.MapToBlogCategoryAPIResponseDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int CategoryId)
         {
             var blogCategory = await _unitOfWork.BlogCategoryRepository.GetByIdAsync(CategoryId);

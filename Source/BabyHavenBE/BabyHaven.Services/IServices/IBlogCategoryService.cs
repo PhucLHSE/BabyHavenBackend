@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IBlogCategoryService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<BlogCategoryAPIResponseDto>> GetQueryable();
         Task<IServiceResult> GetById(int CategoryId);
         Task<IServiceResult> GetChildCategories(int CategoryId);
         Task<IServiceResult> Create(BlogCategoryCreateDto categoryDto);
