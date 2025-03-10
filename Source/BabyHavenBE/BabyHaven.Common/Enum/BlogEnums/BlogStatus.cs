@@ -8,7 +8,8 @@ namespace BabyHaven.Common.Enum.BlogEnums
 {
     public enum BlogStatus
     {
-        Pending,
+        Draft,
+        PendingApproval,
         Approved,
         Rejected
     }

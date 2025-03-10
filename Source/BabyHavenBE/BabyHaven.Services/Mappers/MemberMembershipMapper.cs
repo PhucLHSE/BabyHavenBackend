@@ -55,31 +55,27 @@ namespace BabyHaven.Services.Mappers
         }
 
         //Mapper MemberMembershipCreateDto
-        public static MemberMembership MapToMemberMembershipCreateDto(this MemberMembershipCreateDto dto, Guid memberMembershipId, Guid memberId, int packageId)
+        public static MemberMembership MapToMemberMembershipCreateDto(this MemberMembershipCreateDto dto, Member member, MembershipPackage package)
         {
             return new MemberMembership
             {
-                // Primary Identifiers
-                MemberMembershipId = memberMembershipId,
-                MemberId = memberId,
-                PackageId = packageId,
+                Description = package.Description,
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddMonths(package.DurationMonths),
 
-                // Dates
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
+                // If the package is free, set active
+                Status = package.PackageName.Equals("Free") ? MemberMembershipStatus.Active.ToString() : MemberMembershipStatus.Pending.ToString(),
+                IsActive = package.PackageName.Equals("Free") ? true : false,
 
-                // Status
-                Status = dto.Status.ToString(),
-                IsActive = dto.IsActive,
-
-                // Additional Data
-                Description = dto.Description,
-                CreatedAt = DateTime.UtcNow
+                PackageId = package.PackageId,
+                MemberId = member.MemberId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
         }
 
         // Mapper MemberMembershipUpdateDto
-        public static void MapToMemberMembershipUpdateDto(this MemberMembership memberMembership,MemberMembershipUpdateDto updateDto)
+        public static void MapToMemberMembershipUpdateDto(this MemberMembership memberMembership, MemberMembershipUpdateDto updateDto)
         {
             // Update basic properties with checks
             if (updateDto.MemberMembershipId != Guid.Empty)
@@ -135,5 +131,15 @@ namespace BabyHaven.Services.Mappers
                 UpdatedAt = model.UpdatedAt
             };
         }
+
+        ////Mapper MemberMembershipFromTransactionResponse
+        //public static void UpdateFromTransactionResponse(this MemberMembership membership)
+        //{
+        //    membership.Status = MemberMembershipStatus.Active.ToString();
+        //    membership.StartDate = DateTime.UtcNow;
+        //    membership.EndDate = DateTime.UtcNow.AddMonths(membership.Package.DurationMonths);
+        //    membership.IsActive = true;
+        //    membership.UpdatedAt = DateTime.UtcNow;
+        //}
     }
 }

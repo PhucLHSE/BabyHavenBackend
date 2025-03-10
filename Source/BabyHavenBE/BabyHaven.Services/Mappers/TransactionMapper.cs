@@ -1,5 +1,6 @@
 ﻿using BabyHaven.Common.DTOs.MemberMembershipDTOs;
 using BabyHaven.Common.DTOs.TransactionDTOs;
+using BabyHaven.Common.Enum.MemberMembershipEnums;
 using BabyHaven.Common.Enum.TransactionEnums;
 using BabyHaven.Repositories.Models;
 using System;
@@ -103,11 +104,24 @@ namespace BabyHaven.Services.Mappers
       
         public static void UpdateTransactionFromVNPayResponse(this Transaction transaction, PaymentResult vnpayResponse)
         {
-            transaction.PaymentStatus = vnpayResponse.IsSuccess ? Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString() : Common.Enum.TransactionEnums.TransactionStatus.Failed.ToString();
+            transaction.PaymentStatus = vnpayResponse.IsSuccess 
+                ? Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString() 
+                : Common.Enum.TransactionEnums.TransactionStatus.Failed.ToString();
+
             transaction.PaymentDate = vnpayResponse.Timestamp;
             transaction.PaymentMethod = vnpayResponse.PaymentMethod ?? transaction.PaymentMethod;
             transaction.Currency = "VND";
             transaction.TransactionType = "VNpay";
+
+            //Update MemberMembership
+            transaction.MemberMembership.StartDate = DateTime.Now;
+            transaction.MemberMembership.EndDate = DateTime.Now.AddMonths(transaction.MemberMembership.Package.DurationMonths);
+
+            transaction.MemberMembership.Status = vnpayResponse.IsSuccess 
+                ? MemberMembershipStatus.Active.ToString() 
+                : MemberMembershipStatus.Inactive.ToString();
+            transaction.MemberMembership.IsActive = vnpayResponse.IsSuccess;
+            transaction.MemberMembership.UpdatedAt = DateTime.Now;
         }
     }
 }

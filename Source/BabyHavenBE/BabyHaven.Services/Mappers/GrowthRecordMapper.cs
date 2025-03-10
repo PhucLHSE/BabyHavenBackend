@@ -149,6 +149,10 @@ namespace BabyHaven.Services.Mappers
         {
             return new GrowthRecordViewAllDto
             {
+                ChildName = model.Child != null ? model.Child.Name : "Unknown",
+                ParentName = model.RecordedByNavigation != null && model.RecordedByNavigation.User != null
+                     ? model.RecordedByNavigation.User.Name
+                     : "Unknown",
                 Weight = model.Weight,
                 Height = model.Height,
                 ChestCircumference = model.ChestCircumference,

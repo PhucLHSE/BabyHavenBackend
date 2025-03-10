@@ -30,5 +30,9 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public BlogStatus Status { get; set; } = BlogStatus.Approved;
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }

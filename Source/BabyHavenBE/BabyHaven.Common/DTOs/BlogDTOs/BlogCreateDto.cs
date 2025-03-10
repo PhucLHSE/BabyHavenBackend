@@ -44,6 +44,6 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 
         [Required(ErrorMessage = "Status is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public BlogStatus? Status { get; set; } = BlogStatus.Pending;
+        public BlogStatus? Status { get; set; } = BlogStatus.PendingApproval;
     }
 }
