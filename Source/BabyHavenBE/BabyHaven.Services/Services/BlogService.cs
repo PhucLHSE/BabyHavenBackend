@@ -226,5 +226,15 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
+
+        public async Task<IQueryable<BlogViewAllDto>> GetQueryable()
+        {
+            var blogs = await _unitOfWork.BlogRepository
+                .GetAllAsync();
+
+            return blogs
+                .Select(blogs => blogs.MapToBlogViewAllDto())
+                .AsQueryable();
+        }
     }
 }
