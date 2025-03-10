@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.ChildrenDTOs;
+using BabyHaven.Common.Enum.ChildrenEnums;
 using BabyHaven.Repositories.Models;
 
 namespace BabyHaven.Services.Mappers
@@ -21,7 +22,7 @@ namespace BabyHaven.Services.Mappers
                 BirthWeight = dto.BirthWeight,
                 BirthHeight = dto.BirthHeight,
                 Notes = dto.Notes,
-                RelationshipToMember = "N/A"
+                RelationshipToMember = dto.Gender.Equals("Male") ? "Son" : "Daughter"
             };
         }
 

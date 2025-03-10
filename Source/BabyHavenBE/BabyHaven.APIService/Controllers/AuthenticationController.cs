@@ -87,7 +87,7 @@ namespace BabyHaven.APIService.Controllers
                 Password = request.Password, // Ideally, you should hash the password
                 RegistrationDate = DateTime.UtcNow,
                 Status = "Active",
-                IsVerified = false,
+                IsVerified = true,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 RoleId = 1

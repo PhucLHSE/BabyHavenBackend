@@ -31,7 +31,8 @@ public class JwtTokenService : IJwtTokenService
                 new(ClaimTypes.NameIdentifier, userAccount.UserId.ToString()),
                 new(ClaimTypes.Role, userAccount.RoleId.ToString()),
                 new(ClaimTypes.Email, userAccount.Email),
-                new("ProfileImage", profilePicture)
+                new("ProfileImage", profilePicture),
+                new("IsVerified", userAccount.IsVerified.ToString()) // Use a custom claim type for IsVerified
             },
             expires: DateTime.UtcNow.AddMinutes(120),
             signingCredentials: credentials
