@@ -20,5 +20,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetChildByNameDateOfBirthAndMemberId(string childName, string dateOfBirth, Guid memberId);
         Task<IServiceResult> PreDeleteById(Guid childId);
         Task<IServiceResult> RecoverById(Guid childId);
+        Task<IQueryable<ChildViewAllDto>> GetQueryable();
     }
 }
