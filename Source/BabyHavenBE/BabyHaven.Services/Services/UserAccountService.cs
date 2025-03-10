@@ -37,7 +37,11 @@ namespace BabyHaven.Services.Services
                 user = await CreateGoogleUserAsync(googleDto);
             }
             user.LastLogin = DateTime.Now;
-            return new ServiceResult(Const.SUCCESS_LOGIN_CODE, Const.SUCCESS_LOGIN_GOOGLE_MSG, user);
+            return new ServiceResult(Const.
+                SUCCESS_LOGIN_CODE,
+                Const.
+                SUCCESS_LOGIN_GOOGLE_MSG,
+                user);
         }
 
         private async Task<UserAccount> CreateGoogleUserAsync(LoginGoogleDto googleDto)
@@ -58,7 +62,10 @@ namespace BabyHaven.Services.Services
 
             if (users == null || !users.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.
+                    WARNING_NO_DATA_CODE,
+                    Const.
+                    WARNING_NO_DATA_MSG,
                     new List<UserAccountViewAllDto>());
             }
             else
@@ -67,7 +74,10 @@ namespace BabyHaven.Services.Services
                     .Select(user => user.MapToUserAccountViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.
+                    SUCCESS_READ_CODE,
+                    Const.
+                    SUCCESS_READ_MSG,
                     userDtos);
             }
         }
@@ -88,14 +98,20 @@ namespace BabyHaven.Services.Services
 
             if (user == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.
+                    WARNING_NO_DATA_CODE,
+                    Const.
+                    WARNING_NO_DATA_MSG,
                     new UserAccountViewDetailsDto());
             }
             else
             {
                 var userDto = user.MapToUserAccountViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.
+                    SUCCESS_READ_CODE,
+                    Const.
+                    SUCCESS_READ_MSG,
                     userDto);
             }
         }
@@ -111,7 +127,9 @@ namespace BabyHaven.Services.Services
 
                 if (user == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "User not found.");
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        "User not found.");
                 }
 
                 //Map DTO to Entity
@@ -125,17 +143,25 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                    return new ServiceResult(Const.
+                        SUCCESS_UPDATE_CODE,
+                        Const.
+                        SUCCESS_UPDATE_MSG,
                         user);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        Const.
+                        FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
@@ -147,7 +173,10 @@ namespace BabyHaven.Services.Services
 
                 if (user == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    return new ServiceResult(Const.
+                        WARNING_NO_DATA_CODE,
+                        Const.
+                        WARNING_NO_DATA_MSG,
                         new UserAccountDeleteDto());
                 }
                 else
@@ -158,19 +187,27 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                        return new ServiceResult(Const.
+                            SUCCESS_DELETE_CODE,
+                            Const.
+                            SUCCESS_DELETE_MSG,
                             deleteUserAccountDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                        return new ServiceResult(Const.
+                            FAIL_DELETE_CODE,
+                            Const.
+                            FAIL_DELETE_MSG,
                             deleteUserAccountDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
         public async Task<UserAccount?> GetByEmailAsync(string email)
@@ -193,7 +230,8 @@ namespace BabyHaven.Services.Services
 
                 if (user != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                    return new ServiceResult(Const.
+                        FAIL_CREATE_CODE,
                         "Email already exists.");
                 }
 
@@ -208,7 +246,10 @@ namespace BabyHaven.Services.Services
                                         .CreateAsync(newUserAccount);
                 } catch (Exception ex)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, ex.InnerException.ToString());
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        ex.
+                        InnerException.
+                        ToString());
                 }
                 
 
@@ -217,17 +258,25 @@ namespace BabyHaven.Services.Services
                     // Map the saved entity to a response DTO
                     var responseDto = newUserAccount.MapToUserAccountViewDetailsDto();
 
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.
+                        SUCCESS_CREATE_CODE,
+                        Const.
+                        SUCCESS_CREATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                    return new ServiceResult(Const.
+                        FAIL_CREATE_CODE,
+                        Const.
+                        FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
