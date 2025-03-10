@@ -64,7 +64,7 @@ namespace BabyHaven.Services.Mappers
                 EndDate = DateTime.UtcNow.AddMonths(package.DurationMonths),
 
                 // If the package is free, set active
-                Status = package.PackageName.Equals("Free") ? MemberMembershipStatus.Active.ToString() : MemberMembershipStatus.Inactive.ToString(),
+                Status = package.PackageName.Equals("Free") ? MemberMembershipStatus.Active.ToString() : MemberMembershipStatus.Pending.ToString(),
                 IsActive = package.PackageName.Equals("Free") ? true : false,
 
                 PackageId = package.PackageId,
@@ -132,14 +132,14 @@ namespace BabyHaven.Services.Mappers
             };
         }
 
-        //Mapper MemberMembershipFromTransactionResponse
-        public static void UpdateFromTransactionResponse(this MemberMembership membership)
-        {
-            membership.Status = MemberMembershipStatus.Active.ToString();
-            membership.StartDate = DateTime.UtcNow;
-            membership.EndDate = DateTime.UtcNow.AddMonths(membership.Package.DurationMonths);
-            membership.IsActive = true;
-            membership.UpdatedAt = DateTime.UtcNow;
-        }
+        ////Mapper MemberMembershipFromTransactionResponse
+        //public static void UpdateFromTransactionResponse(this MemberMembership membership)
+        //{
+        //    membership.Status = MemberMembershipStatus.Active.ToString();
+        //    membership.StartDate = DateTime.UtcNow;
+        //    membership.EndDate = DateTime.UtcNow.AddMonths(membership.Package.DurationMonths);
+        //    membership.IsActive = true;
+        //    membership.UpdatedAt = DateTime.UtcNow;
+        //}
     }
 }

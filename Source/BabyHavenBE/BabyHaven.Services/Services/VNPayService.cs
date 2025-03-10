@@ -128,26 +128,18 @@ namespace BabyHaven.Services.Services
                 if (transaction == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Transaction not found!");
+                }   
+
+                if (transaction.MemberMembership == null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Membership not found!");
                 }
 
                 transaction.UpdateTransactionFromVNPayResponse(paymentResult);
-                var result = await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
+                await _unitOfWork.MemberMembershipRepository.UpdateAsync(transaction.MemberMembership);
+                await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
 
-                if (transaction.PaymentStatus == Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString())
-                {
-                    var membership = await _unitOfWork.MemberMembershipRepository.GetByIdMemberMembershipAsync(transaction.MemberMembershipId);
-                    if (membership == null)
-                    {
-                        return new ServiceResult(Const.FAIL_READ_CODE, "Membership not found");
-                    }
-
-                    membership.UpdateFromTransactionResponse();
-                    var updatedMembership = await _unitOfWork.MemberMembershipRepository.UpdateAsync(membership);
-
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, "Payment completed successfully, Membership plan has been active", updatedMembership);
-                }
-
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, "Payment error", result);
+                return new ServiceResult(Const.SUCCESS_CREATE_CODE, transaction.PaymentStatus);
             }
             catch (Exception ex)
             {
