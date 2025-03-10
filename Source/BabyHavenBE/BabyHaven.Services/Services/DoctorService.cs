@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Services.Services
 {
-    public class DoctorService: IDoctorService
+    public class DoctorService : IDoctorService
     {
         private UnitOfWork _unitOfWork;
         public DoctorService()
@@ -57,7 +57,7 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     doctorDto);
             }
-        }      
+        }
 
 
 
@@ -135,5 +135,44 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
             }
         }
+        public async Task<IServiceResult> Create(DoctorCreateDto doctorDto,Guid userId)
+        {
+            try
+            {
+                if (doctorDto == null)
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
+
+                // Kiểm tra trùng lặp theo tên bác sĩ
+                var existingDoctor = await _unitOfWork.DoctorRepository.GetByDoctorNameAsync(doctorDto.Name);
+                if (existingDoctor != null)
+                {
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = "A doctor with this name already exists." };
+                }
+
+                // Kiểm tra trùng lặp theo email bác sĩ
+                var existingDoctorByEmail = await _unitOfWork.DoctorRepository.GetByEmailAsync(doctorDto.Email);
+                if (existingDoctorByEmail != null)
+                {
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = "A doctor with this email already exists." };
+                }
+
+                // Map DTO sang Entity
+                var newDoctor = doctorDto.MapToDoctor(userId);
+                newDoctor.CreatedAt = DateTime.UtcNow;
+                newDoctor.UpdatedAt = DateTime.UtcNow;
+
+                // Thêm vào database
+                await _unitOfWork.DoctorRepository.CreateAsync(newDoctor);
+
+                // Trả về kết quả
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = newDoctor.MapToDoctorViewDetailsDto() };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult { Status = Const.ERROR_EXCEPTION, Message = $"An error occurred while creating the doctor: {ex.Message}" };
+            }
+        }
+
     }
 }
+

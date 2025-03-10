@@ -38,5 +38,10 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(u => u.User)
                 .FirstOrDefaultAsync(u => u.DoctorId == DoctorId);
         }
+        public async Task<Doctor?> GetByEmailAsync(string email)
+        {
+            return await _context.Doctors
+                .FirstOrDefaultAsync(d => d.Email == email);
+        }
     }
 }
