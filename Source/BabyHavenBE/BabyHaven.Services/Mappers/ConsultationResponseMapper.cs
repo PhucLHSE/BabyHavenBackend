@@ -19,7 +19,7 @@ namespace BabyHaven.Services.Mappers
             return new ConsultationResponseViewAllDto
             {
                 //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
-                RequestName = model.Request?.Description ?? "Unknown",
+                RequestId = model.Request?.RequestId ?? 0,
 
                 ResponseDate = model.ResponseDate,
                 Content = model.Content ?? string.Empty,
@@ -39,7 +39,7 @@ namespace BabyHaven.Services.Mappers
             return new ConsultationResponseViewDetailsDto
             {
                 //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
-                RequestName = model.Request?.Description ?? "Unknown",
+                RequestId = model.Request?.RequestId ?? 0,
 
                 ResponseDate = model.ResponseDate,
                 Content = model.Content,
@@ -70,13 +70,12 @@ namespace BabyHaven.Services.Mappers
         }
 
         // Mapper for ConsultationResponseCreateDto
-        public static ConsultationResponse MapToConsultationResponse(this ConsultationResponseCreateDto dto, int doctorId, int requestId)
+        public static ConsultationResponse MapToConsultationResponse(this ConsultationResponseCreateDto dto)
         {
             return new ConsultationResponse
             {
                 //DoctorId = doctorId,
-                RequestId = requestId,
-
+                RequestId = dto.RequestId,
                 ResponseDate = dto.ResponseDate,
                 Status = dto.Status.ToString(),
                 Content = dto.Content.ToString(),
@@ -96,7 +95,7 @@ namespace BabyHaven.Services.Mappers
             return new ConsultationResponseDeleteDto
             {
                 //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
-                RequestName = model.Request?.Description ?? "Unknown",
+                RequestId = model.Request?.RequestId ?? 0,
 
                 ResponseDate = model.ResponseDate,
 
