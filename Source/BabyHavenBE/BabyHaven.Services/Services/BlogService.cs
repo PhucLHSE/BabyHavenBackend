@@ -51,7 +51,7 @@ namespace BabyHaven.Services.Services
 
                 // Check if the Blog already exists in the database
                 var existingBlog = await _unitOfWork.BlogRepository
-                    .GetByIdBlogAsync(authorId, categoryId);
+                    .GetByEmail(blogCreateDto.Email);
 
                 if (existingBlog != null && existingBlog.BlogId > 0)
                 {
