@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IMemberMembershipService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<MemberMembershipViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(Guid MemberMembershipId);
         Task<IServiceResult> GetByMemberId(Guid memberId);
         Task<IServiceResult> Create(MemberMembershipCreateDto memberMembershipDto);
