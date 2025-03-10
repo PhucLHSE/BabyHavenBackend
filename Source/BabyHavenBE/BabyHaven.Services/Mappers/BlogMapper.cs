@@ -18,6 +18,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new BlogViewAllDto
             {
+                BlogId = model.BlogId,
                 Title = model.Title,
                 Content = model.Content,
                 ImageBlog = model.ImageBlog,

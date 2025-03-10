@@ -10,6 +10,7 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 {
     public class BlogViewAllDto
     {
+        public int BlogId { get; set; }
         public string Title { get; set; } = string.Empty;
 
 
