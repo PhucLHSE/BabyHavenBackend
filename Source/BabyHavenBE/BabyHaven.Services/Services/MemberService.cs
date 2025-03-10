@@ -44,6 +44,16 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<MemberViewAllDto>> GetQueryable()
+        {
+            var members = await _unitOfWork.MemberRepository
+                .GetAllMemberAsync();
+
+            return members
+                .Select(members => members.MapToMemberViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(Guid memberId)
         {
             var member = await _unitOfWork.MemberRepository
