@@ -41,6 +41,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new TransactionViewDetailsDto
             {
+                TransactionId = model.TransactionId,
                 FullName = model.User?.Name ?? "Unknown",
                 PackageName = model.MemberMembership?.Package?.PackageName ?? "Unknown",
 

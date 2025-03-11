@@ -10,6 +10,7 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
 {
     public class TransactionViewDetailsDto
     {
+        public Guid TransactionId { get; set; }
         public string FullName { get; set; } = string.Empty;
 
         public string PackageName { get; set; } = string.Empty;
