@@ -76,16 +76,13 @@ namespace BabyHaven.Services.Mappers
             {
                 //DoctorId = doctorId,
                 RequestId = dto.RequestId,
-                ResponseDate = dto.ResponseDate,
+                ResponseDate = DateTime.Now,
                 Status = dto.Status.ToString(),
-                Content = dto.Content.ToString(),
+                Content = dto.Content,
                 IsHelpful = dto.IsHelpful,
                 Attachments = dto.Attachments != null && dto.Attachments.Count > 0
                     ? JsonSerializer.Serialize(dto.Attachments)
-                    : string.Empty,
-
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                    : string.Empty
             };
         }
 

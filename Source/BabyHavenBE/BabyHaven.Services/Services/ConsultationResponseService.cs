@@ -61,6 +61,30 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> Create(ConsultationResponseCreateDto dto)
+        {
+            try
+            {
+                if (dto == null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                }
+                var consultationRequest = await _unitOfWork.ConsultationRequestRepository
+                    .GetByIdConsultationRequestAsync(dto.RequestId);
+                if (consultationRequest == null)
+                {
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Consultation Request not found");
+                }
+                var consultationResponse = await _unitOfWork.ConsultationResponseRepository
+                    .CreateAsync(dto.MapToConsultationResponse());
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = consultationResponse };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION, ex.InnerException?.Message);
+            }
+        }
+
         public async Task<IServiceResult> DeleteById(int ResponseId)
         {
             try

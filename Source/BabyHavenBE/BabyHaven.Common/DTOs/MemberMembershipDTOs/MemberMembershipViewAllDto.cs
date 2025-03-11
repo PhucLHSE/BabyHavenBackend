@@ -10,6 +10,8 @@ namespace BabyHaven.Common.DTOs.MemberMembershipDTOs
 {
     public class MemberMembershipViewAllDto
     {
+        public Guid MemberId { get; set; }
+        public Guid MemberMembershipId { get; set; }
         public string MemberName { get; set; } = string.Empty;
 
         public string PackageName { get; set; } = string.Empty;

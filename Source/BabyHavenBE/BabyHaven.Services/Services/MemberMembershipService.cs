@@ -124,27 +124,8 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    // Retrieve full entity with includes for Member and Package
-                    var memberMembership = await _unitOfWork.MemberMembershipRepository
-                        .GetByIdMemberMembershipAsync(newMemberMembership.MemberMembershipId);
-
-                    if (memberMembership?.Member?.User == null)
-                    {
-                        return new ServiceResult(Const.FAIL_CREATE_CODE, "Member or User information is missing.");
-                    }
-
-                    // Retrieve names from navigation properties
-                    var memberName = memberMembership.Member.User.Name;
-                    var packageName = await _unitOfWork.MembershipPackageRepository
-                        .GetByIdAsync(newMemberMembership.PackageId);
-
-                    // Map retrieved details to response DTO
-                    var responseDto = memberMembership.MapToMemberMembershipViewDetailsDto();
-                    responseDto.MemberName = memberName;
-                    responseDto.PackageName = packageName?.PackageName ?? "Unknown Package";
-
                     return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
-                        responseDto);
+                        newMemberMembership.MemberMembershipId);
                 }
                 else
                 {

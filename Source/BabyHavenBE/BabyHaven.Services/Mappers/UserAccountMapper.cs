@@ -194,7 +194,7 @@ namespace BabyHaven.Services.Mappers
                 Status = UserAccountStatus.Active.ToString(),
                 RoleId = 1,
                 RegistrationDate = DateTime.UtcNow,
-                IsVerified = true
+                IsVerified = false
             };
         }
     }

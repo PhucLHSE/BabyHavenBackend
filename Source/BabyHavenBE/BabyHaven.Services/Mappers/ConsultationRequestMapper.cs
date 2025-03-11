@@ -100,14 +100,15 @@ namespace BabyHaven.Services.Mappers
         }
 
         // Mapper for ConsultationRequestCreateDto
-        public static ConsultationRequest MapToConsultationRequest(this ConsultationRequestCreateDto dto, Guid memberId, Guid childId)
+        public static ConsultationRequest MapToConsultationRequest(this ConsultationRequestCreateDto dto, int doctorId, Child child)
         {
             return new ConsultationRequest
             {
-                MemberId = memberId,
-                ChildId = childId,
+                MemberId = child.MemberId,
+                ChildId = child.ChildId,
+                DoctorId = doctorId,
 
-                RequestDate = dto.RequestDate,
+                RequestDate = DateTime.Parse(dto.RequestDate),
                 Status = dto.Status.ToString(),
                 Urgency = dto.Urgency.ToString(),
                 Category = dto.Category.ToString(),

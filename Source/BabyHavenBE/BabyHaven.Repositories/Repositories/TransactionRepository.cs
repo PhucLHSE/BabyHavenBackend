@@ -1,4 +1,5 @@
-﻿using BabyHaven.Repositories.Base;
+﻿using BabyHaven.Common.Enum.TransactionEnums;
+using BabyHaven.Repositories.Base;
 using BabyHaven.Repositories.DBContext;
 using BabyHaven.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,15 @@ namespace BabyHaven.Repositories.Repositories
                 .FirstOrDefaultAsync(t => t.TransactionId == transactionId);
         }
 
+        public async Task<Transaction?> GetByUserIdAndMemberMembershipId(Guid userId, Guid membershipId)
+        {
+            return await _context.Transactions
+                .Include(t => t.User)
+                .Include(t => t.MemberMembership)
+                    .ThenInclude(t => t.Package)   // Include Package from MemberMembership
+                .FirstOrDefaultAsync(t => t.UserId == userId && t.MemberMembershipId == membershipId && t.PaymentStatus.Equals(TransactionStatus.Pending.ToString()));
+        }
+
         public async Task<Transaction?> GetByGatewayTransactionIdAsync(long gatewayTransactionId)
         {
             return await _context.Transactions
@@ -47,6 +57,13 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(t => t.MemberMembership)
                     .ThenInclude(t => t.Package)   // Include Package from MemberMembership
                 .FirstOrDefaultAsync(t => t.GatewayTransactionId == gatewayTransactionId);
+        }
+
+        public async Task<List<Transaction>?> GetByUserId(Guid userId)
+        {
+            return await _context.Transactions
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
         }
     }
 }

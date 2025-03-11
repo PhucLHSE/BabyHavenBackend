@@ -61,6 +61,27 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetByUserId(Guid userId)
+        {
+            var transaction = await _unitOfWork.TransactionRepository
+                .GetByUserId(userId);
+
+            if (transaction == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new TransactionViewDetailsDto());
+            }
+            else
+            {
+                var transactionDto = transaction
+                    .Select(t => t.MapToTransactionViewAllDto())
+                    .ToList();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    transactionDto);
+            }
+        }
+
         public async Task<IServiceResult> Create(TransactionCreateDto transactionDto)
         {
             try
@@ -147,6 +168,23 @@ namespace BabyHaven.Services.Services
             catch (Exception ex)
             {
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> GetByUserIdAndMemberMembership(Guid userId, Guid membershipId)
+        {
+            var transaction = await _unitOfWork.TransactionRepository
+                .GetByUserIdAndMemberMembershipId(userId, membershipId);
+
+            if (transaction == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new TransactionViewDetailsDto());
+            }
+            else
+            {
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    transaction.MapToTransactionViewDetailsDto());
             }
         }
     }
