@@ -21,15 +21,13 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         public string ChildName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "RequestDate is required.")]
-        [DataType(DataType.DateTime, ErrorMessage = "Invalid date format.")]
-        [FutureDate(ErrorMessage = "RequestDate must be today or in the future.")]
-        public DateTime RequestDate { get; set; }
-
+        //[FutureDate(ErrorMessage = "RequestDate must be today or in the future.")]
+        public string RequestDate { get; set; }
 
         // Status and categorization of the request
         [Required(ErrorMessage = "Status is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public ConsultationRequestStatus Status { get; set; } = ConsultationRequestStatus.Pending;
+        public ConsultationRequestStatus Status { get; set; }
 
         [Required(ErrorMessage = "Urgency is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -42,7 +40,6 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 
         // Detailed information about the request
         [Required(ErrorMessage = "Description is required.")]
-        [MaxLength(1000, ErrorMessage = "Description cannot exceed 2000 characters.")]
         public string Description { get; set; } = string.Empty;
 
         [MaxLength(5, ErrorMessage = "Cannot attach more than 5 files.")]

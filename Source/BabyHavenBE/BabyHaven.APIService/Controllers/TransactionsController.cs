@@ -39,7 +39,7 @@ namespace BabyHaven.APIService.Controllers
             return await _transactionService.GetByUserId(id);
         }
 
-        [HttpGet("transaction/{userId}/{memberId}")]
+        [HttpGet("transaction/{userId}/{membershipId}")]
         public async Task<IServiceResult> GetByUserAndMembership(Guid userId, Guid memberId)
         {
             return await _transactionService.GetByUserIdAndMemberMembership(userId, memberId);

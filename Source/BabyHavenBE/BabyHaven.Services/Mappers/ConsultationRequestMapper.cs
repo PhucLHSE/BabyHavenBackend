@@ -107,7 +107,7 @@ namespace BabyHaven.Services.Mappers
                 MemberId = memberId,
                 ChildId = childId,
 
-                RequestDate = dto.RequestDate,
+                RequestDate = DateTime.Parse(dto.RequestDate),
                 Status = dto.Status.ToString(),
                 Urgency = dto.Urgency.ToString(),
                 Category = dto.Category.ToString(),
