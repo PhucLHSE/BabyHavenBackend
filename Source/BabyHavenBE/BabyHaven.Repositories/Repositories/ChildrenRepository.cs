@@ -42,9 +42,10 @@ namespace BabyHaven.Repositories.Repositories
         }
 
         //Get child by name, memberId and date of birth
-        public async Task<Child?> GetChildByNameAndDateOfBirthAsync(string name, DateOnly dateOfBirth, Guid memberId)
+        public async Task<Child> GetChildByNameAndDateOfBirthAsync(string name, DateOnly dateOfBirth, Guid memberId)
         {
             return await _context.Children
+                .Include(c => c.Member)
                 .FirstOrDefaultAsync(c => c.Name == name && c.DateOfBirth == dateOfBirth && c.MemberId == memberId);
         }
     }

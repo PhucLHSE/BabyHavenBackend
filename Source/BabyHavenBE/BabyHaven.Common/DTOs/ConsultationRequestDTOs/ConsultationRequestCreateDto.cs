@@ -11,14 +11,22 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 {
     public class ConsultationRequestCreateDto
     {
-        // Basic information about the consultation request
-        [Required(ErrorMessage = "MemberName is required.")]
-        [MaxLength(255, ErrorMessage = "MemberName cannot exceed 255 characters.")]
-        public string MemberName { get; set; } = string.Empty;
+        //// Basic information about the consultation request
+        //[Required(ErrorMessage = "MemberName is required.")]
+        //[MaxLength(255, ErrorMessage = "MemberName cannot exceed 255 characters.")]
+        //public string MemberName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "ChildName is required.")]
-        [MaxLength(255, ErrorMessage = "ChildName cannot exceed 255 characters.")]
-        public string ChildName { get; set; } = string.Empty;
+        //[Required(ErrorMessage = "ChildName is required.")]
+        //[MaxLength(255, ErrorMessage = "ChildName cannot exceed 255 characters.")]
+        //public string ChildName { get; set; } = string.Empty;
+
+        [Required]
+        public Guid MemberId { get; set; }
+        [Required]
+        public string ChildName { get; set; }
+        [Required]
+        public string ChildBirth { get; set; }
+        public int DoctorId { get; set; }
 
         [Required(ErrorMessage = "RequestDate is required.")]
         //[FutureDate(ErrorMessage = "RequestDate must be today or in the future.")]
