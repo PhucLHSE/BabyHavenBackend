@@ -17,6 +17,7 @@ namespace BabyHaven.Services.Mappers
             return new MemberMembershipViewAllDto
             {
                 MemberMembershipId = model.MemberMembershipId,
+                MemberId = model.MemberId,
                 MemberName = model.Member?.User?.Name ?? "Unknown",
                 PackageName = model.Package?.PackageName ?? "Unknown",
                 StartDate = model.StartDate,
