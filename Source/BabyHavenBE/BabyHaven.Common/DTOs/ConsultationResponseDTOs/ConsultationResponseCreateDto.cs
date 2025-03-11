@@ -15,18 +15,13 @@ namespace BabyHaven.Common.DTOs.ConsultationResponseDTOs
         //[MaxLength(255, ErrorMessage = "RequestName cannot exceed 255 characters.")]
         public int RequestId { get; set; }
 
-        [Required(ErrorMessage = "DoctorName is required.")]
-        [MaxLength(255, ErrorMessage = "DoctorName cannot exceed 255 characters.")]
-        public string DoctorName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "ResponseDate is required.")]
-        [DataType(DataType.DateTime, ErrorMessage = "Invalid date format.")]
-        [FutureDate(ErrorMessage = "ResponseDate must be today or in the future.")]
-        public DateTime ResponseDate { get; set; }
+        //[Required(ErrorMessage = "ResponseDate is required.")]
+        ////[DataType(DataType.DateTime, ErrorMessage = "Invalid date format.")]
+        ////[FutureDate(ErrorMessage = "ResponseDate must be today or in the future.")]
+        //public string ResponseDate { get; set; }
 
         // Detailed information about the response
         [Required(ErrorMessage = "Content is required.")]
-        [MaxLength(2000, ErrorMessage = "Content cannot exceed 2000 characters.")]
         public string Content { get; set; } = string.Empty;
 
         [MaxLength(5, ErrorMessage = "Cannot attach more than 5 files.")]
