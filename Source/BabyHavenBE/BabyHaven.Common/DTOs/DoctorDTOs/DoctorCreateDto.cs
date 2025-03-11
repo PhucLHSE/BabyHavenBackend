@@ -11,9 +11,9 @@ namespace BabyHaven.Common.DTOs.DoctorDTOs
 {
     public class DoctorCreateDto
     {
-        [Required(ErrorMessage = "UserName is required.")]
-        [MaxLength(255, ErrorMessage = "UserName cannot exceed 255 characters.")]
-        public string UserName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "UserId is required.")]
+
+        public Guid UserId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(255, ErrorMessage = "Name cannot exceed 255 characters.")]
