@@ -29,7 +29,8 @@ namespace BabyHaven.Services.Services
 
             if (memberMemberships == null || !memberMemberships.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new List<MemberMembershipViewAllDto>());
             }
             else
@@ -38,7 +39,8 @@ namespace BabyHaven.Services.Services
                     .Select(memberMemberships => memberMemberships.MapToMemberMembershipViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     memberMembershipDtos);
             }
         }
@@ -60,14 +62,16 @@ namespace BabyHaven.Services.Services
 
             if (memberMembership == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new MemberMembershipViewDetailsDto());
             }
             else
             {
                 var memberMembershipDto = memberMembership.MapToMemberMembershipViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     memberMembershipDto);
             }
         }
@@ -79,14 +83,16 @@ namespace BabyHaven.Services.Services
 
             if (memberMembership == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new MemberMembershipViewDetailsDto());
             }
             else
             {
                 var memberMembershipDto = memberMembership.MapToMemberMembershipViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     memberMembershipDto);
             }
         }
@@ -107,11 +113,13 @@ namespace BabyHaven.Services.Services
 
                 var package = await _unitOfWork.MembershipPackageRepository
                     .GetByPackageNameAsync(memberMembershipDto.PackageName);
+
                 if (package == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PackageName '{memberMembershipDto.PackageName}' does not exist.");
                 }
+
                 //// Generate unique MemberMembership ID
                 //var memberMembershipId = Guid.NewGuid();
 
@@ -124,17 +132,20 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, 
+                        Const.SUCCESS_CREATE_MSG,
                         newMemberMembership.MemberMembershipId);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -196,33 +207,40 @@ namespace BabyHaven.Services.Services
 
                 if (memberMembership?.Member?.User == null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Member or User information is missing.");
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        "Member or User information is missing.");
                 }
 
                 // Retrieve names from navigation properties
                 var memberName = memberMembership.Member.User.Name;
+
                 var packageName = await _unitOfWork.MembershipPackageRepository
                     .GetByIdAsync(existingMemberMembership.PackageId);
 
                 // Map retrieved details to response DTO
                 var responseDto = memberMembership.MapToMemberMembershipViewDetailsDto();
+
                 responseDto.MemberName = memberName;
+
                 responseDto.PackageName = packageName?.PackageName ?? "Unknown Package";
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, 
+                        Const.SUCCESS_UPDATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG,
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        Const.FAIL_UPDATE_MSG,
                         responseDto);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -235,7 +253,8 @@ namespace BabyHaven.Services.Services
 
                 if (memberMembership == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        Const.WARNING_NO_DATA_MSG,
                         new MemberMembershipDeleteDto());
                 }
                 else
@@ -247,19 +266,22 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
+                            Const.SUCCESS_DELETE_MSG,
                             deleteMemberMembershipDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, 
+                            Const.FAIL_DELETE_MSG,
                             deleteMemberMembershipDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
     }
