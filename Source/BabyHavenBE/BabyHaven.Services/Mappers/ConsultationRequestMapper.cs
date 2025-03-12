@@ -113,9 +113,6 @@ namespace BabyHaven.Services.Mappers
                 Urgency = dto.Urgency.ToString(),
                 Category = dto.Category.ToString(),
                 Description = dto.Description,
-                Attachments = dto.Attachments != null && dto.Attachments.Count > 0
-                    ? JsonSerializer.Serialize(dto.Attachments)
-                    : string.Empty,
 
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow

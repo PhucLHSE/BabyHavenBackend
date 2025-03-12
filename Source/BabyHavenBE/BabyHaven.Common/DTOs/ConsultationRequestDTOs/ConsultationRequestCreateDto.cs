@@ -37,11 +37,9 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestStatus Status { get; set; }
 
-        [Required(ErrorMessage = "Urgency is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestUrgency Urgency { get; set; } = ConsultationRequestUrgency.Low;
 
-        [Required(ErrorMessage = "Category is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestCategory Category { get; set; } = ConsultationRequestCategory.Other;
 
@@ -49,9 +47,6 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         // Detailed information about the request
         [Required(ErrorMessage = "Description is required.")]
         public string Description { get; set; } = string.Empty;
-
-        [MaxLength(5, ErrorMessage = "Cannot attach more than 5 files.")]
-        public List<string> Attachments { get; set; } = new List<string>();
     }
 
     // Custom validation attribute for future date

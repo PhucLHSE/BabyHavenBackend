@@ -172,6 +172,7 @@ namespace BabyHaven.Services.Mappers
                 ImmunizationStatus = model.ImmunizationStatus,
                 NutritionalStatus = model.NutritionalStatus,
                 Notes = model.Notes,
+                CreatedAt = model.CreatedAt
             };
         }
         

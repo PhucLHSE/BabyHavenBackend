@@ -59,5 +59,7 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         public string DevelopmentalMilestones { get; set; } = string.Empty;
 
         public string Notes { get; set; } = string.Empty;
+
+        public DateTime? CreatedAt { get; set; }
     }
 }
