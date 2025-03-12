@@ -24,17 +24,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
+
             var memberMemberships = await _unitOfWork.MemberMembershipRepository
             .GetAllMemberMembershipAsync();
 
             if (memberMemberships == null || !memberMemberships.Any())
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new List<MemberMembershipViewAllDto>());
             }
             else
             {
+
                 var memberMembershipDtos = memberMemberships
                     .Select(memberMemberships => memberMemberships.MapToMemberMembershipViewAllDto())
                     .ToList();
@@ -47,6 +50,7 @@ namespace BabyHaven.Services.Services
 
         public async Task<IQueryable<MemberMembershipViewAllDto>> GetQueryable()
         {
+
             var memberMemberships = await _unitOfWork.MemberMembershipRepository
                 .GetAllMemberMembershipAsync();
 
@@ -57,6 +61,7 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(Guid MemberMembershipId)
         {
+
             var memberMembership = await _unitOfWork.MemberMembershipRepository
                 .GetByIdMemberMembershipAsync(MemberMembershipId);
 
@@ -78,17 +83,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetByMemberId(Guid memberId)
         {
+
             var memberMembership = await _unitOfWork.MemberMembershipRepository
                 .GetByMemberId(memberId);
 
             if (memberMembership == null)
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new MemberMembershipViewDetailsDto());
             }
             else
             {
+
                 var memberMembershipDto = memberMembership.MapToMemberMembershipViewDetailsDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, 
@@ -101,12 +109,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve mappings: MemberName -> MemberId and PackageName -> PackageId
                 var member = await _unitOfWork.MemberRepository
                     .GetByIdAsync(memberMembershipDto.MemberId);
 
                 if(member == null)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"MemberId '{memberMembershipDto.MemberId}' does not exist.");
                 }
@@ -116,6 +126,7 @@ namespace BabyHaven.Services.Services
 
                 if (package == null)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PackageName '{memberMembershipDto.PackageName}' does not exist.");
                 }
@@ -132,18 +143,21 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     return new ServiceResult(Const.SUCCESS_CREATE_CODE, 
                         Const.SUCCESS_CREATE_MSG,
                         newMemberMembership.MemberMembershipId);
                 }
                 else
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE, 
                         Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }
@@ -153,6 +167,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve mappings: MemberName -> MemberId and PackageName -> PackageId
                 var memberNameToIdMapping = await _unitOfWork.MemberRepository
                     .GetAllMemberNameToIdMappingAsync();
@@ -164,6 +179,7 @@ namespace BabyHaven.Services.Services
                 if (!memberNameToIdMapping
                     .TryGetValue(memberMembershipDto.MemberName, out var memberId))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"MemberName '{memberMembershipDto.MemberName}' does not exist.");
                 }
@@ -172,6 +188,7 @@ namespace BabyHaven.Services.Services
                 if (!packageNameToIdMapping
                     .TryGetValue(memberMembershipDto.PackageName, out var packageId))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PackageName '{memberMembershipDto.PackageName}' does not exist.");
                 }
@@ -179,6 +196,7 @@ namespace BabyHaven.Services.Services
                 // Check if active membership already exists
                 if (await _unitOfWork.MemberMembershipRepository.HasActiveMembershipAsync(memberId, packageId))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         "An active membership for this package already exists.");
                 }
@@ -207,6 +225,7 @@ namespace BabyHaven.Services.Services
 
                 if (memberMembership?.Member?.User == null)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE, 
                         "Member or User information is missing.");
                 }
@@ -226,12 +245,14 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     return new ServiceResult(Const.SUCCESS_UPDATE_CODE, 
                         Const.SUCCESS_UPDATE_MSG,
                         responseDto);
                 }
                 else
                 {
+
                     return new ServiceResult(Const.FAIL_UPDATE_CODE, 
                         Const.FAIL_UPDATE_MSG,
                         responseDto);
@@ -239,6 +260,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }
@@ -248,17 +270,20 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var memberMembership = await _unitOfWork.MemberMembershipRepository
                     .GetByIdMemberMembershipAsync(MemberMembershipId);
 
                 if (memberMembership == null)
                 {
+
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                         Const.WARNING_NO_DATA_MSG,
                         new MemberMembershipDeleteDto());
                 }
                 else
                 {
+
                     var deleteMemberMembershipDto = memberMembership.MapToMemberMembershipDeleteDto();
 
                     var result = await _unitOfWork.MemberMembershipRepository
@@ -266,12 +291,14 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
+
                         return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
                             Const.SUCCESS_DELETE_MSG,
                             deleteMemberMembershipDto);
                     }
                     else
                     {
+
                         return new ServiceResult(Const.FAIL_DELETE_CODE, 
                             Const.FAIL_DELETE_MSG,
                             deleteMemberMembershipDto);
@@ -280,6 +307,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }

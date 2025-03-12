@@ -24,17 +24,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
+
             var features = await _unitOfWork.FeatureRepository
                 .GetAllAsync();
 
             if (features == null || !features.Any())
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG, 
                     new List<FeatureViewAllDto>());
             }
             else
             {
+
                 var featureDtos = features
                     .Select(features => features.MapToFeatureViewAllDto())
                     .ToList();
@@ -47,17 +50,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int FeatureId)
         {
+
             var feature = await _unitOfWork.FeatureRepository
                 .GetByIdAsync(FeatureId);
 
             if (feature == null)
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new FeatureViewDetailsDto());
             }
             else
             {
+
                 var featureDto = feature.MapToFeatureViewDetailsDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, 
@@ -70,12 +76,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the feature exists in the database
                 var feature = await _unitOfWork.FeatureRepository
                     .GetByFeatureNameAsync(featureDto.FeatureName);
 
                 if (feature != null)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE, 
                         "Feature with the same name already exists.");
                 }
@@ -93,6 +101,7 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     // Map the saved entity to a response DTO
                     var responseDto = newFeature.MapToFeatureViewDetailsDto();
 
@@ -102,12 +111,14 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE, 
                         Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }
@@ -117,12 +128,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the package exists in the database
                 var feature = await _unitOfWork.FeatureRepository
                     .GetByIdAsync(featureDto.FeatureId);
 
                 if (feature == null)
                 {
+
                     return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         "Feature not found.");
                 }
@@ -139,6 +152,7 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     // Map the saved entity to a response DTO
                     var responseDto = feature.MapToFeatureViewDetailsDto();
 
@@ -148,12 +162,14 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
+
                     return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION,
                     ex.ToString());
             }
@@ -163,17 +179,20 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var feature = await _unitOfWork.FeatureRepository
                     .GetByIdAsync(FeatureId);
 
                 if (feature == null)
                 {
+
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE,
                         Const.WARNING_NO_DATA_MSG,
                         new FeatureDeleteDto());
                 }
                 else
                 {
+
                     var deleteFeatureDto = feature.MapToFeatureDeleteDto();
 
                     var result = await _unitOfWork.FeatureRepository
@@ -181,12 +200,14 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
+
                         return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
                             Const.SUCCESS_DELETE_MSG,
                             deleteFeatureDto);
                     }
                     else
                     {
+
                         return new ServiceResult(Const.FAIL_DELETE_CODE,
                             Const.FAIL_DELETE_MSG,
                             deleteFeatureDto);
@@ -195,6 +216,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }

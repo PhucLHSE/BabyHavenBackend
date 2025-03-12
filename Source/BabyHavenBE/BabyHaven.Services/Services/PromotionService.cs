@@ -25,17 +25,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
+
             var promotions = await _unitOfWork.PromotionRepository
                 .GetAllAsync();
 
             if (promotions == null || !promotions.Any())
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new List<PromotionViewAllDto>());
             }
             else
             {
+
                 var promotionDtos = promotions
                     .Select(promotions => promotions.MapToPromotionViewAllDto())
                     .ToList();
@@ -48,17 +51,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(Guid PromotionId)
         {
+
             var promotion = await _unitOfWork.PromotionRepository
                 .GetByIdPromotionAsync(PromotionId);
 
             if (promotion == null)
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new PromotionViewDetailsDto());
             }
             else
             {
+
                 var promotionDto = promotion.MapToPromotionViewDetailsDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, 
@@ -71,12 +77,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the promotion exists in the database
                 var promotion = await _unitOfWork.PromotionRepository
                     .GetByPromotionCodeAsync(promotionDto.PromotionCode);
 
                 if (promotion != null)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         "PromotionCode with the same code already exists.");
                 }
@@ -94,6 +102,7 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     // Retrieve user details from UserAccountRepository
                     var createdByUser = await _unitOfWork.UserAccountRepository
                         .GetByIdAsync(newPromotion.CreatedBy);
@@ -114,12 +123,14 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE, 
                         Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }
@@ -129,12 +140,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the package exists in the database
                 var promotion = await _unitOfWork.PromotionRepository
                     .GetByIdPromotionAsync(promotionDto.PromotionId);
 
                 if (promotion == null)
                 {
+
                     return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         "Promotion not found.");
                 }
@@ -151,6 +164,7 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     // Retrieve user details from UserAccountRepository
                     var createdByUser = await _unitOfWork.UserAccountRepository
                         .GetByIdAsync(promotion.CreatedBy);
@@ -171,12 +185,14 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
+
                     return new ServiceResult(Const.FAIL_UPDATE_CODE, 
                         Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }
@@ -186,17 +202,20 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var promotion = await _unitOfWork.PromotionRepository
                     .GetByIdPromotionAsync(PromotionId);
 
                 if (promotion == null)
                 {
+
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                         Const.WARNING_NO_DATA_MSG,
                         new PromotionDeleteDto());
                 }
                 else
                 {
+
                     var deletePromotionDto = promotion.MapToPromotionDeleteDto();
 
                     var result = await _unitOfWork.PromotionRepository
@@ -204,12 +223,14 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
+
                         return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
                             Const.SUCCESS_DELETE_MSG,
                             deletePromotionDto);
                     }
                     else
                     {
+
                         return new ServiceResult(Const.FAIL_DELETE_CODE, 
                             Const.FAIL_DELETE_MSG,
                             deletePromotionDto);
@@ -218,6 +239,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }
