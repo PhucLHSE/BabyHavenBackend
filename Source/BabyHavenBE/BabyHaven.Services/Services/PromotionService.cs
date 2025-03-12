@@ -30,7 +30,8 @@ namespace BabyHaven.Services.Services
 
             if (promotions == null || !promotions.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new List<PromotionViewAllDto>());
             }
             else
@@ -39,7 +40,8 @@ namespace BabyHaven.Services.Services
                     .Select(promotions => promotions.MapToPromotionViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     promotionDtos);
             }
         }
@@ -51,14 +53,16 @@ namespace BabyHaven.Services.Services
 
             if (promotion == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new PromotionViewDetailsDto());
             }
             else
             {
                 var promotionDto = promotion.MapToPromotionViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     promotionDto);
             }
         }
@@ -104,17 +108,20 @@ namespace BabyHaven.Services.Services
                     // Map the saved entity to a response DTO
                     var responseDto = newPromotion.MapToPromotionViewDetailsDto();
 
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, 
+                        Const.SUCCESS_CREATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -158,17 +165,20 @@ namespace BabyHaven.Services.Services
                     // Map the saved entity to a response DTO
                     var responseDto = promotion.MapToPromotionViewDetailsDto();
 
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, 
+                        Const.SUCCESS_UPDATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -181,7 +191,8 @@ namespace BabyHaven.Services.Services
 
                 if (promotion == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        Const.WARNING_NO_DATA_MSG,
                         new PromotionDeleteDto());
                 }
                 else
@@ -193,19 +204,22 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
+                            Const.SUCCESS_DELETE_MSG,
                             deletePromotionDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, 
+                            Const.FAIL_DELETE_MSG,
                             deletePromotionDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
     }
