@@ -3,7 +3,6 @@ using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.DoctorDTOs;
-using BabyHaven.Common.DTOs.ChildrenDTOs;
 using BabyHaven.Services.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

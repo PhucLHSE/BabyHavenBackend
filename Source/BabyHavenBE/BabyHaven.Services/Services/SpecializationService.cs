@@ -27,7 +27,10 @@ namespace BabyHaven.Services.Services
 
             if (specializations == null || !specializations.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.
+                    WARNING_NO_DATA_CODE,
+                    Const.
+                    WARNING_NO_DATA_MSG,
                     new List<SpecializationViewAllDto>());
             }
             else
@@ -36,7 +39,10 @@ namespace BabyHaven.Services.Services
                     .Select(specializations => specializations.MapToSpecializationViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.
+                    SUCCESS_READ_CODE,
+                    Const.
+                    SUCCESS_READ_MSG,
                     specializationDtos);
             }
         }
@@ -47,14 +53,20 @@ namespace BabyHaven.Services.Services
 
             if (specialization == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.
+                    WARNING_NO_DATA_CODE,
+                    Const.
+                    WARNING_NO_DATA_MSG,
                     new SpecializationViewDetailsDto());
             }
             else
             {
                 var specializationDto = specialization.MapToSpecializationViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.
+                    SUCCESS_READ_CODE,
+                    Const.
+                    SUCCESS_READ_MSG,
                     specializationDto);
             }
         }
@@ -68,7 +80,9 @@ namespace BabyHaven.Services.Services
 
                 if (specialization != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Specialization with the same name already exists.");
+                    return new ServiceResult(Const.
+                        FAIL_CREATE_CODE,
+                        "Specialization with the same name already exists.");
                 }
 
                 // Map DTO to Entity
@@ -83,17 +97,25 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.
+                        SUCCESS_CREATE_CODE,
+                        Const.
+                        SUCCESS_CREATE_MSG,
                         newSpecialization);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                    return new ServiceResult(Const.
+                        FAIL_CREATE_CODE,
+                        Const.
+                        FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
@@ -106,7 +128,9 @@ namespace BabyHaven.Services.Services
 
                 if (specialization == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Specialization not found.");
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        "Specialization not found.");
                 }
 
                 //Map DTO to Entity
@@ -120,17 +144,25 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                    return new ServiceResult(Const.
+                        SUCCESS_UPDATE_CODE,
+                        Const.
+                        SUCCESS_UPDATE_MSG,
                         specialization);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        Const.
+                        FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
@@ -142,7 +174,10 @@ namespace BabyHaven.Services.Services
 
                 if (specialization == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    return new ServiceResult(Const.
+                        WARNING_NO_DATA_CODE,
+                        Const.
+                        WARNING_NO_DATA_MSG,
                         new SpecializationDeleteDto());
                 }
                 else
@@ -153,19 +188,27 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                        return new ServiceResult(Const.
+                            SUCCESS_DELETE_CODE,
+                            Const.
+                            SUCCESS_DELETE_MSG,
                             deleteSpecializationDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                        return new ServiceResult(Const.
+                            FAIL_DELETE_CODE,
+                            Const.
+                            FAIL_DELETE_MSG,
                             deleteSpecializationDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
     }

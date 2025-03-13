@@ -28,7 +28,8 @@ namespace BabyHaven.Services.Services
 
             if (roles == null || !roles.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
                     new List<RoleViewAllDto>());
             }
             else
@@ -37,7 +38,8 @@ namespace BabyHaven.Services.Services
                     .Select(roles => roles.MapToRoleViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     roleDtos);
             }
         }
@@ -48,14 +50,16 @@ namespace BabyHaven.Services.Services
 
             if (role == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
                     new RoleViewDetailsDto());
             }
             else
             {
                 var roleDto = role.MapToRoleViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     roleDto);
             }
         }
@@ -69,7 +73,8 @@ namespace BabyHaven.Services.Services
 
                 if (role != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Role with the same name already exists.");
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "Role with the same name already exists.");
                 }
 
                 // Map DTO to Entity
@@ -84,17 +89,22 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.
+                        SUCCESS_CREATE_CODE,
+                        Const.
+                        SUCCESS_CREATE_MSG,
                         newRole);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                        ex.ToString());
             }
         }
 
@@ -107,7 +117,9 @@ namespace BabyHaven.Services.Services
 
                 if (role == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Role not found.");
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        "Role not found.");
                 }
 
                 //Map DTO to Entity
@@ -121,17 +133,26 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                    return new ServiceResult(Const.
+                        SUCCESS_UPDATE_CODE,
+                        Const.
+                        SUCCESS_UPDATE_MSG,
                         role);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        Const.
+                        FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.
+                    ToString());
             }
         }
 
@@ -143,7 +164,10 @@ namespace BabyHaven.Services.Services
 
                 if (role == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    return new ServiceResult(Const.
+                        WARNING_NO_DATA_CODE,
+                        Const.
+                        WARNING_NO_DATA_MSG,
                         new RoleDeleteDto());
                 }
                 else
@@ -154,12 +178,18 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+                        return new ServiceResult(Const.
+                            SUCCESS_DELETE_CODE,
+                            Const.
+                            SUCCESS_DELETE_MSG,
                             deleteRoleDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+                        return new ServiceResult(Const.
+                            FAIL_DELETE_CODE,
+                            Const.
+                            FAIL_DELETE_MSG,
                             deleteRoleDto);
                     }
                 }
