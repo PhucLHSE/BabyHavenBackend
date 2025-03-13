@@ -48,6 +48,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<FeatureViewAllDto>> GetQueryable()
+        {
+
+            var features = await _unitOfWork.FeatureRepository
+                .GetAllAsync();
+
+            return features
+                .Select(features => features.MapToFeatureViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int FeatureId)
         {
 
