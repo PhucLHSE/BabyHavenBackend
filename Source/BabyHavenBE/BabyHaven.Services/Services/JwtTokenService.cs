@@ -26,11 +26,7 @@ public class JwtTokenService : IJwtTokenService
             _config["Jwt:Audience"],
             new Claim[]
             {
-            new Claim("TransactionId", transaction.TransactionId.ToString()),
-            new Claim("Amount", transaction.Amount.ToString()),
-            new Claim("Currency", transaction.Currency),
-            new Claim("Status", transaction.PaymentStatus),
-            new Claim("Timestamp", transaction.TransactionDate.ToString())
+            new Claim("Status", transaction.PaymentStatus)
             },
             expires: DateTime.UtcNow.AddMinutes(10),
             signingCredentials: credentials
