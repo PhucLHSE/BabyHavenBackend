@@ -49,6 +49,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<ConsultationRequestViewAllDto>> GetQueryable()
+        {
+
+            var consultationRequests = await _unitOfWork.ConsultationRequestRepository
+                .GetAllAsync();
+
+            return consultationRequests
+                .Select(consultationRequests => consultationRequests.MapToConsultationRequestViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int RequestId)
         {
 
