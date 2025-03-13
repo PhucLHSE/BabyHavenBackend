@@ -260,7 +260,7 @@ CREATE TABLE ConsultationRequests (
     ChildID UNIQUEIDENTIFIER NOT NULL,                               -- Liên kết với bảng Children
 	DoctorID INT NOT NULL,											 -- Liên kết với bảng Doctor
     RequestDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,         -- Ngày tạo yêu cầu tư vấn
-    Description NVARCHAR(2000),                                      -- Mô tả chi tiết về yêu cầu tư vấn
+    Description NVARCHAR(MAX),                                      -- Mô tả chi tiết về yêu cầu tư vấn
     Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                  -- Trạng thái yêu cầu: 0 (pending), 1 (approved), 2 (rejected)
     Urgency NVARCHAR(50),                                            -- Mức độ khẩn cấp: low, medium, high
     Attachments VARCHAR(1000),                                       -- Đường dẫn tệp đính kèm
@@ -277,7 +277,7 @@ CREATE TABLE ConsultationResponses (
     ResponseID INT PRIMARY KEY IDENTITY(1,1),                           -- ID phản hồi duy nhất
     RequestID INT UNIQUE NOT NULL,                                      -- Liên kết với bảng ConsultationRequests
     ResponseDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Thời gian phản hồi
-    Content NVARCHAR(2000) NOT NULL,                                    -- Nội dung phản hồi (bắt buộc)
+    Content NVARCHAR(MAX) NOT NULL,                                    -- Nội dung phản hồi (bắt buộc)
     Attachments VARCHAR(1000),                                          -- Đường dẫn tệp đính kèm (không bắt buộc)
     IsHelpful BIT NULL,                                                 -- Đánh giá xem phản hồi có hữu ích không (NULL nếu không đánh giá)
     Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                     -- Trạng thái phản hồi: 0 (pending), 1 (answered), 2 (resolved)
@@ -385,7 +385,7 @@ CREATE TABLE BlogCategories (
 CREATE TABLE Blogs (
     BlogID INT PRIMARY KEY IDENTITY(1,1),                          -- ID bài viết
     Title NVARCHAR(255) NOT NULL,                                  -- Tiêu đề bài viết
-    Content NVARCHAR(2000) NOT NULL,                               -- Nội dung bài viết
+    Content NVARCHAR(MAX) NOT NULL,                               -- Nội dung bài viết
     AuthorID UNIQUEIDENTIFIER NOT NULL,                            -- ID tác giả (admin hoặc người dùng)
 	CategoryID INT NOT NULL,                                       -- ID thể loại bài viết
 	ImageBlog NVARCHAR(2000) NOT NULL,                             -- URL hoặc đường dẫn tới ảnh
@@ -872,5 +872,4 @@ VALUES
     N'teen mental health, parenting teenagers, mental support',
     'https://www.psychologytoday.com, https://www.nimh.nih.gov',
     GETDATE(), GETDATE());
-
 

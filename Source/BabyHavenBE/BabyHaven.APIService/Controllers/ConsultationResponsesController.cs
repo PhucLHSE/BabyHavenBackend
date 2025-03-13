@@ -33,17 +33,17 @@ namespace BabyHaven.APIService.Controllers
             return await _consultationResponseService.GetById(id);
         }
 
-        //// POST api/<ConsultationRequestsController>
-        //[HttpPost]
-        //public async Task<IServiceResult> Create(ConsultationResponseCreateDto consultationResponseCreateDto)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
-        //    }
+        // POST api/<ConsultationRequestsController>
+        [HttpPost]
+        public async Task<IServiceResult> Create(ConsultationResponseCreateDto consultationResponseCreateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+            }
 
-        //    return await _consultationResponseService.Create(consultationResponseCreateDto);
-        //}
+            return await _consultationResponseService.Create(consultationResponseCreateDto);
+        }
 
         // DELETE api/<ConsultationResponsesController>/5
         [HttpDelete("{id}")]

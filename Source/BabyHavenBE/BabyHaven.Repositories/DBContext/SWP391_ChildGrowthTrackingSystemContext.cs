@@ -132,8 +132,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.CategoryId)
                 .HasColumnName("CategoryID");
             entity.Property(e => e.Content)
-                .IsRequired()
-                .HasMaxLength(2000);
+                .IsRequired();
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -303,8 +302,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description)
-                .HasMaxLength(2000);
+            entity.Property(e => e.Description);
             entity.Property(e => e.DoctorId)
                 .HasColumnName("DoctorID");
             entity.Property(e => e.MemberId)
@@ -355,8 +353,7 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.Content)
-                .IsRequired()
-                .HasMaxLength(2000);
+                .IsRequired();
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");

@@ -17,13 +17,12 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
 
 
         [Required(ErrorMessage = "Content is required.")]
-        [MaxLength(2000, ErrorMessage = "Content cannot exceed 2000 characters.")]
         public string Content { get; set; } = string.Empty;
 
 
-        [Required(ErrorMessage = "AuthorName is required.")]
-        [MaxLength(255, ErrorMessage = "AuthorName cannot exceed 255 characters.")]
-        public string AuthorName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Email is required.")]
+        [MaxLength(255, ErrorMessage = "Email cannot exceed 255 characters.")]
+        public string Email { get; set; } = string.Empty;
 
 
         [Required(ErrorMessage = "CategoryName is required.")]
@@ -38,7 +37,6 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
         public string Tags { get; set; } = string.Empty;
 
 
-        [Required(ErrorMessage = "ReferenceSources is required.")]
         [MaxLength(2000, ErrorMessage = "ReferenceSources cannot exceed 2000 characters.")]
         public string ReferenceSources { get; set; } = string.Empty;
 

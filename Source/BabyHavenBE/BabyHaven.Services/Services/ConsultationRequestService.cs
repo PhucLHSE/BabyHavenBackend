@@ -68,52 +68,29 @@ namespace BabyHaven.Services.Services
             try
             {
                 // Retrieve mappings: MemberName -> MemberId and ChildName -> ChildId
-                var memberNameToIdMapping = await _unitOfWork.MemberRepository
-                    .GetAllMemberNameToIdMappingAsync();
+                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(consultationRequestDto.ChildName, DateOnly.Parse(consultationRequestDto.ChildBirth), consultationRequestDto.MemberId);
+                var doctor = await _unitOfWork.DoctorRepository.GetByIdAsync(consultationRequestDto.DoctorId);
 
-                var childNameToIdMapping = await _unitOfWork.ChildrenRepository
-                    .GetAllChildNameToIdMappingAsync();
-
-                // Check existence and retrieve MemberId
-                if (!memberNameToIdMapping
-                    .TryGetValue(consultationRequestDto.MemberName, out var memberId))
+                if (child == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
-                        $"MemberName '{consultationRequestDto.MemberName}' does not exist.");
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Child not found");
                 }
 
-                // Check if the provided ChildName exists
-                if (!childNameToIdMapping
-                    .TryGetValue(consultationRequestDto.ChildName, out var childId))
+                if (doctor == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
-                        $"ChildName '{consultationRequestDto.ChildName}' does not exist.");
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Doctor not found");
                 }
 
                 // Map the DTO to an entity object
-                var newConsultationRequest = consultationRequestDto.MapToConsultationRequest(memberId, childId);
+                var newConsultationRequest = consultationRequestDto.MapToConsultationRequest(doctor.DoctorId, child);
 
                 // Save the new entity to the database
                 var result = await _unitOfWork.ConsultationRequestRepository
                     .CreateAsync(newConsultationRequest);
 
                 if (result > 0)
-                {
-                    var memberName = await _unitOfWork.MemberRepository
-                        .GetByIdMemberAsync(newConsultationRequest.MemberId);
-
-                    var childName = await _unitOfWork.ChildrenRepository
-                        .GetByIdAsync(newConsultationRequest.ChildId);
-
-                    // Assign retrieved details to navigation properties
-                    newConsultationRequest.Member = memberName;
-                    newConsultationRequest.Child = childName;
-
-                    // Map the saved entity to a response DTO
-                    var responseDto = newConsultationRequest.MapToConsultationRequestViewDetailsDto();
-
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
-                        responseDto);
+                { 
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG);
                 }
                 else
                 {

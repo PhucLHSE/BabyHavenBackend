@@ -5,6 +5,7 @@ using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.FeatureDTOs;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,6 +28,13 @@ namespace BabyHaven.APIService.Controllers
             return await _featureService.GetAll();
         }
 
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<FeatureViewAllDto>> GetForOData()
+        {
+            return await _featureService.GetQueryable();
+        }
+
         // GET api/<FeaturesController>/5
         [HttpGet("{id}")]
         public async Task<IServiceResult> GetById(int id)
@@ -40,6 +48,7 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
+
                 return new ServiceResult(Const.ERROR_VALIDATION_CODE,
                     "Validation failed",
                     ModelState);
@@ -54,6 +63,7 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
+
                 return new ServiceResult(Const.ERROR_VALIDATION_CODE,
                     "Validation failed", 
                     ModelState);

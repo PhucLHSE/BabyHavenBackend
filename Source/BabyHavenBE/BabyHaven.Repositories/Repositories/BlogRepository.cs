@@ -33,6 +33,14 @@ namespace BabyHaven.Repositories.Repositories
                 .FirstOrDefaultAsync(b => b.BlogId == BlogId);
         }
 
+        public async Task<Blog> GetByEmail(string email)
+        {
+            return await _context.Blogs
+                .Include(b => b.Author)
+                .Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Author.Email == email);
+        }
+
         public async Task<Blog> GetByIdBlogAsync(Guid AuthorId, int CategoryId)
         {
             return await _context.Blogs
@@ -52,6 +60,14 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(b => b.Category)
                 .Where(b => categoryIds.Contains(b.CategoryId))
                 .ToListAsync();
+        }
+
+        public async Task<Blog> GetByTitle(string title, string email)
+        {
+            return await _context.Blogs
+                .Include(b => b.Author)
+                .Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Author.Email == email && b.Title == title);
         }
     }
 }
