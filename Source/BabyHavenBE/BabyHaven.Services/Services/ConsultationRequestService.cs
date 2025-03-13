@@ -25,40 +25,50 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
+
             var consultationRequests = await _unitOfWork.ConsultationRequestRepository
                 .GetAllConsultationRequestAsync();
 
             if (consultationRequests == null || !consultationRequests.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new List<ConsultationRequestViewAllDto>());
             }
             else
             {
+
                 var consultationRequestDtos = consultationRequests
                     .Select(consultationRequests => consultationRequests.MapToConsultationRequestViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     consultationRequestDtos);
             }
         }
 
         public async Task<IServiceResult> GetById(int RequestId)
         {
+
             var consultationRequest = await _unitOfWork.ConsultationRequestRepository
                 .GetByIdConsultationRequestAsync(RequestId);
 
             if (consultationRequest == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new ConsultationRequestViewDetailsDto());
             }
             else
             {
+
                 var consultationRequestDto = consultationRequest.MapToConsultationRequestViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     consultationRequestDto);
             }
         }
@@ -67,18 +77,24 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve mappings: MemberName -> MemberId and ChildName -> ChildId
                 var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(consultationRequestDto.ChildName, DateOnly.Parse(consultationRequestDto.ChildBirth), consultationRequestDto.MemberId);
+
                 var doctor = await _unitOfWork.DoctorRepository.GetByIdAsync(consultationRequestDto.DoctorId);
 
                 if (child == null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Child not found");
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        "Child not found");
                 }
 
                 if (doctor == null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Doctor not found");
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        "Doctor not found");
                 }
 
                 // Map the DTO to an entity object
@@ -90,16 +106,22 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 { 
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG);
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, 
+                        Const.SUCCESS_CREATE_MSG);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -107,16 +129,20 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var consultationRequest = await _unitOfWork.ConsultationRequestRepository
                     .GetByIdConsultationRequestAsync(RequestId);
 
                 if (consultationRequest == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        Const.WARNING_NO_DATA_MSG,
                         new ConsultationRequestDeleteDto());
                 }
                 else
                 {
+
                     var deleteConsultationRequestDto = consultationRequest.MapToConsultationRequestDeleteDto();
 
                     var result = await _unitOfWork.ConsultationRequestRepository
@@ -124,19 +150,25 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
+                            Const.SUCCESS_DELETE_MSG,
                             deleteConsultationRequestDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, 
+                            Const.FAIL_DELETE_MSG,
                             deleteConsultationRequestDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
     }
