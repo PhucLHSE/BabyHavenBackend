@@ -12,6 +12,7 @@ namespace BabyHaven.Common.DTOs.DoctorDTOs
     {
         public string UserName { get; set; } = string.Empty;
 
+
         public string Name { get; set; } = string.Empty;
 
 
@@ -31,6 +32,7 @@ namespace BabyHaven.Common.DTOs.DoctorDTOs
 
 
         public string Biography { get; set; } = string.Empty;
+
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public DoctorStatus Status { get; set; } = DoctorStatus.Inactive;
