@@ -42,18 +42,21 @@ namespace BabyHaven.APIService.Controllers
         {
             return await _doctorService.GetById(id);
         }
+
         // POST api/<DoctorController>/5
         [HttpPost]
         public async Task<IServiceResult> Create([FromBody] DoctorCreateDto dto)
         {
             if (!ModelState.IsValid)
-                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid model state." };
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, 
+                    Message = "Invalid model state." };
 
             // Lấy userId từ token hoặc request (tuỳ theo cách bạn triển khai xác thực)
             var userId = Guid.Parse(User.FindFirst("UserId")?.Value ?? Guid.Empty.ToString());
 
             if (userId == Guid.Empty)
-                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, Message = "Invalid user ID." };
+                return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, 
+                    Message = "Invalid user ID." };
 
             return await _doctorService.Create(dto, userId);
         }
@@ -65,7 +68,10 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, 
+                    "Validation failed", 
+                    ModelState);
             }
 
             return await _doctorService.Update(userDto);
