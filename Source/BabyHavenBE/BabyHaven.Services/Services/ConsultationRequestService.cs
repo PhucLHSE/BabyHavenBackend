@@ -53,7 +53,7 @@ namespace BabyHaven.Services.Services
         {
 
             var consultationRequests = await _unitOfWork.ConsultationRequestRepository
-                .GetAllAsync();
+                .GetAllConsultationRequestAsync();
 
             return consultationRequests
                 .Select(consultationRequests => consultationRequests.MapToConsultationRequestViewAllDto())
