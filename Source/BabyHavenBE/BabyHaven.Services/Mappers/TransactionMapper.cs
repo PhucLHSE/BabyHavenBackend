@@ -51,7 +51,7 @@ namespace BabyHaven.Services.Mappers
                 PaymentMethod = model.PaymentMethod,
                 TransactionDate = model.TransactionDate,
                 PaymentDate = model.PaymentDate,
-                GatewayTransactionId = model.GatewayTransactionId,
+                GatewayTransactionId = model.GatewayTransactionId.ToString(),
                 Description = model.Description,
 
                 // Convert Status from string to enum
