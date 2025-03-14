@@ -50,5 +50,21 @@ namespace BabyHaven.Common
         public static string WARNING_NO_DATA_MSG = "No data";
 
         #endregion
+
+        #region OTP & Password Reset Codes
+
+        public static int SUCCESS_SEND_OTP_CODE = 1;
+        public static string SUCCESS_SEND_OTP_MSG = "OTP sent successfully";
+        public static int SUCCESS_VERIFY_OTP_CODE = 1;
+        public static string SUCCESS_VERIFY_OTP_MSG = "OTP verified successfully";
+        public static int FAIL_VERIFY_OTP_CODE = -1;
+        public static string FAIL_VERIFY_OTP_MSG = "OTP verification failed";
+        public static int SUCCESS_RESET_PASSWORD_CODE = 1;
+        public static string SUCCESS_RESET_PASSWORD_MSG = "Password reset successfully";
+        public static int FAIL_RESET_PASSWORD_CODE = -1;
+        public static string FAIL_RESET_PASSWORD_MSG = "Password reset failed";
+
+        #endregion
+
     }
 }
