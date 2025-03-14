@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.ChildMilestoneDTOs;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -26,6 +27,13 @@ namespace BabyHaven.APIService.Controllers
         {
             var result = await _childMilestoneService.GetAll();
             return StatusCode(result.Status, result);
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<ChildMilestoneViewAllDto>> GetForOData()
+        {
+            return await _childMilestoneService.GetQueryable();
         }
 
         /// <summary>
