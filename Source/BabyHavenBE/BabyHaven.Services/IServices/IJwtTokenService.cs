@@ -10,5 +10,6 @@ namespace BabyHaven.Services.IServices
     public interface IJwtTokenService
     {
         string GenerateJSONWebToken(UserAccount user);
+        string GenerateJSONPaymentToken(Transaction transaction);
     }
 }

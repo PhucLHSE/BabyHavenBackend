@@ -16,6 +16,26 @@ public class JwtTokenService : IJwtTokenService
         _config = config;
     }
 
+    public string GenerateJSONPaymentToken(Transaction transaction)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            _config["Jwt:Issuer"],
+            _config["Jwt:Audience"],
+            new Claim[]
+            {
+            new Claim("Status", transaction.PaymentStatus)
+            },
+            expires: DateTime.UtcNow.AddMinutes(10),
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+
     public string GenerateJSONWebToken(UserAccount userAccount)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -34,7 +54,7 @@ public class JwtTokenService : IJwtTokenService
                 new("ProfileImage", profilePicture),
                 new("IsVerified", userAccount.IsVerified.ToString()) // Use a custom claim type for IsVerified
             },
-            expires: DateTime.UtcNow.AddMinutes(120),
+            expires: DateTime.UtcNow.AddMinutes(10),
             signingCredentials: credentials
         );
 

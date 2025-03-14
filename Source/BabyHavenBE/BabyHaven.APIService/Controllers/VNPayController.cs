@@ -1,11 +1,13 @@
 ﻿using BabyHaven.Common;
 using BabyHaven.Common.DTOs.VNPayDTOS;
+using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Transactions;
 using VNPAY.NET;
 using VNPAY.NET.Enums;
 using VNPAY.NET.Models;
@@ -18,10 +20,12 @@ namespace BabyHaven.API.Controllers
     public class VNPayController : ControllerBase
     {
         private readonly IVNPayService _vnPayService;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public VNPayController(IVNPayService vnPayService)
+        public VNPayController(IVNPayService vnPayService, IJwtTokenService jwtTokenService)
         {
             _vnPayService = vnPayService;
+            _jwtTokenService = jwtTokenService;
         }
 
         [HttpGet("create-payment")]
@@ -36,7 +40,10 @@ namespace BabyHaven.API.Controllers
         public async Task<IActionResult> PaymentConfirm()
         {
             var result = await _vnPayService.ValidateResponse(Request.Query);
-            return StatusCode(result.Status, new { message = result.Message, data = result.Data });
+            // Tạo JWT token
+            var token = _jwtTokenService.GenerateJSONPaymentToken(result.Data as Repositories.Models.Transaction);
+            // Chuyển hướng về frontend với token trong query string
+            return Redirect($"http://localhost:5173/packages?token={token}");
         }
 
 
