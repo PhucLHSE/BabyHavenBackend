@@ -13,7 +13,7 @@ using BabyHaven.Common.DTOs.SpecializationDTOs;
 
 namespace BabyHaven.Services.Services
 {
-    public class SpecializationService:ISpecializationService
+    public class SpecializationService : ISpecializationService
     {
         private readonly UnitOfWork _unitOfWork;
 
@@ -23,10 +23,13 @@ namespace BabyHaven.Services.Services
         }
         public async Task<IServiceResult> GetAll()
         {
-            var specializations = await _unitOfWork.SpecializationRepository.GetAllAsync();
+
+            var specializations = await _unitOfWork.SpecializationRepository
+                .GetAllAsync();
 
             if (specializations == null || !specializations.Any())
             {
+
                 return new ServiceResult(Const.
                     WARNING_NO_DATA_CODE,
                     Const.
@@ -35,6 +38,7 @@ namespace BabyHaven.Services.Services
             }
             else
             {
+
                 var specializationDtos = specializations
                     .Select(specializations => specializations.MapToSpecializationViewAllDto())
                     .ToList();
@@ -49,10 +53,13 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(int SpecializationId)
         {
-            var specialization = await _unitOfWork.SpecializationRepository.GetByIdAsync(SpecializationId);
+
+            var specialization = await _unitOfWork.SpecializationRepository
+                .GetByIdAsync(SpecializationId);
 
             if (specialization == null)
             {
+
                 return new ServiceResult(Const.
                     WARNING_NO_DATA_CODE,
                     Const.
@@ -61,6 +68,7 @@ namespace BabyHaven.Services.Services
             }
             else
             {
+
                 var specializationDto = specialization.MapToSpecializationViewDetailsDto();
 
                 return new ServiceResult(Const.
@@ -75,11 +83,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the specialization exists in the database
-                var specialization = await _unitOfWork.SpecializationRepository.GetBySpecializationNameAsync(specializationDto.SpecializationName);
+                var specialization = await _unitOfWork.SpecializationRepository
+                    .GetBySpecializationNameAsync(specializationDto.SpecializationName);
 
                 if (specialization != null)
                 {
+
                     return new ServiceResult(Const.
                         FAIL_CREATE_CODE,
                         "Specialization with the same name already exists.");
@@ -93,10 +104,12 @@ namespace BabyHaven.Services.Services
                 newSpecialization.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.SpecializationRepository.CreateAsync(newSpecialization);
+                var result = await _unitOfWork.SpecializationRepository
+                    .CreateAsync(newSpecialization);
 
                 if (result > 0)
                 {
+
                     return new ServiceResult(Const.
                         SUCCESS_CREATE_CODE,
                         Const.
@@ -105,6 +118,7 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
+
                     return new ServiceResult(Const.
                         FAIL_CREATE_CODE,
                         Const.
@@ -113,6 +127,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.
                     ERROR_EXCEPTION,
                     ex.ToString());
@@ -123,11 +138,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the Specialization exists in the database
-                var specialization = await _unitOfWork.SpecializationRepository.GetByIdAsync(specializationDto.SpecializationId);
+                var specialization = await _unitOfWork.SpecializationRepository
+                    .GetByIdAsync(specializationDto.SpecializationId);
 
                 if (specialization == null)
                 {
+
                     return new ServiceResult(Const.
                         FAIL_UPDATE_CODE,
                         "Specialization not found.");
@@ -140,7 +158,8 @@ namespace BabyHaven.Services.Services
                 specialization.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.SpecializationRepository.UpdateAsync(specialization);
+                var result = await _unitOfWork.SpecializationRepository
+                    .UpdateAsync(specialization);
 
                 if (result > 0)
                 {
@@ -170,10 +189,13 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var specialization = await _unitOfWork.SpecializationRepository.GetByIdAsync(SpecializationId);
+
+                var specialization = await _unitOfWork.SpecializationRepository
+                    .GetByIdAsync(SpecializationId);
 
                 if (specialization == null)
                 {
+
                     return new ServiceResult(Const.
                         WARNING_NO_DATA_CODE,
                         Const.
@@ -182,12 +204,15 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
+
                     var deleteSpecializationDto = specialization.MapToSpecializationDeleteDto();
 
-                    var result = await _unitOfWork.SpecializationRepository.RemoveAsync(specialization);
+                    var result = await _unitOfWork.SpecializationRepository
+                        .RemoveAsync(specialization);
 
                     if (result)
                     {
+
                         return new ServiceResult(Const.
                             SUCCESS_DELETE_CODE,
                             Const.
@@ -196,6 +221,7 @@ namespace BabyHaven.Services.Services
                     }
                     else
                     {
+
                         return new ServiceResult(Const.
                             FAIL_DELETE_CODE,
                             Const.
@@ -206,6 +232,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.
                     ERROR_EXCEPTION,
                     ex.ToString());
