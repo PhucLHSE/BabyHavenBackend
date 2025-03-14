@@ -21,5 +21,12 @@ namespace BabyHaven.Services.IServices
         Task<UserAccount?> GetByEmailAsync(string email);
         Task<bool> CreateAsync(UserAccount userAccount);
         Task<IServiceResult> Create(UserAccountCreateDto userDto);
+
+        // Thêm chức năng xác thực bằng OTP
+        Task<IServiceResult> SendOtpForRegistration(string email);
+        Task<IServiceResult> VerifyOtpForRegistration(string email, string otp);
+        Task<IServiceResult> SendOtpForPasswordReset(string email);
+        Task<IServiceResult> VerifyOtpForPasswordReset(string email, string otp);
+        Task<IServiceResult> ResetPassword(string email, string newPassword);
     }
 }

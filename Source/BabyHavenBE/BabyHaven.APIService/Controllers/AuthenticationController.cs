@@ -1,7 +1,9 @@
-﻿using BabyHaven.Common;
+﻿using Azure.Core;
+using BabyHaven.Common;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,16 +21,18 @@ namespace BabyHaven.APIService.Controllers
         private readonly IConfiguration _config;
         private readonly IUserAccountService _userAccountsService;
         private readonly IJwtTokenService _jwtTokenService;
+        private readonly IAuthService _authService;
 
-        public AuthenticationController(IConfiguration config, IUserAccountService userAccountsService, IJwtTokenService jwtTokenService)
+        public AuthenticationController(IConfiguration config, IUserAccountService userAccountsService, IJwtTokenService jwtTokenService, IAuthService authService)
         {
             _config = config;
             _userAccountsService = userAccountsService;
             _jwtTokenService = jwtTokenService;
+            _authService = authService;
         }
 
         [HttpPost("Login")]
-        public async Task<IServiceResult> Login([FromBody] LoginReqeust request)
+        public async Task<IServiceResult> Login([FromBody] LoginRequest request)
         {
             var user = await _userAccountsService.Authenticate(request.Email, request.Password);
 
@@ -62,7 +66,7 @@ namespace BabyHaven.APIService.Controllers
         //    return tokenString;
         //}
 
-        public sealed record LoginReqeust(string Email, string Password);
+        public sealed record LoginRequest(string Email, string Password);
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
@@ -72,6 +76,24 @@ namespace BabyHaven.APIService.Controllers
             if (existingUser != null)
             {
                 return Conflict(new { message = "Email already exists." });
+            }
+            var otpSent = await _authService.SendOtpAsync(request.Email);
+            if (!otpSent)
+            {
+                return BadRequest(new { message = "Failed to send OTP." });
+            }
+
+            return Ok(new { message = "OTP sent. Please verify your email." });
+        }
+
+        [HttpPost("VerifyRegistrationOtp")]
+        public async Task<IActionResult> VerifyRegistrationOtp([FromBody] VerifyOtpRequest request, string otp)
+        {
+
+            var isValid = await _authService.VerifyOtpAsync(request.Email, otp);
+            if (!isValid)
+            {
+                return BadRequest(new { message = "Invalid OTP." });
             }
 
             // Map request to a UserAccount model
@@ -83,7 +105,7 @@ namespace BabyHaven.APIService.Controllers
                 Name = request.Name,
                 Gender = request.Gender,
                 DateOfBirth = DateOnly.Parse(request.DateOfBirth),
-                Address = string.Empty,
+                Address = request.Address,
                 Password = request.Password, // Ideally, you should hash the password
                 RegistrationDate = DateTime.UtcNow,
                 Status = "Active",
@@ -103,15 +125,92 @@ namespace BabyHaven.APIService.Controllers
             return BadRequest(new { message = "Failed to register user." });
         }
 
+        [HttpPost("ForgetPassword")]
+        public async Task<IActionResult> ForgetPassword([FromBody] ResetPasswordRequest request)
+        {
+            var user = await _userAccountsService.GetByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return NotFound(new { message = "Email not found." });
+            }
+
+            var otpSent = await _authService.SendResetPasswordOtpAsync(request.Email);
+            if (!otpSent)
+            {
+                return BadRequest(new { message = "Failed to send OTP." });
+            }
+
+            return Ok(new { message = "OTP sent to email." });
+        }
+
+        [HttpPost("VerifyResetPasswordOtp")]
+        public async Task<IActionResult> VerifyResetPasswordOtp([FromBody] string email, string otp)
+        {
+            var isValid = await _authService.VerifyResetPasswordOtpAsync(email, otp);
+            if (!isValid)
+            {
+                return BadRequest(new { message = "Invalid OTP." });
+            }
+            await _authService.MarkOtpVerified(email);
+            return Ok(new { message = "OTP verified successfully. You can now reset your password." });
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordWithOtpRequest request)
+        {
+            // Kiểm tra xem email đã xác thực OTP chưa
+            var isOtpVerified = await _authService.IsOtpVerified(request.Email);
+            if (!isOtpVerified)
+            {
+                return BadRequest(new { message = "OTP verification required before resetting password." });
+            }
+            var result = await _authService.ResetPasswordAsync(request.Email, request.NewPassword);
+            if (result)
+            {
+                return Ok(new { message = "Password reset successfully." });
+            }
+
+            return BadRequest(new { message = "Failed to reset password." });
+        }
+
+        //[HttpPost("VerifyOtpAndResetPassword")]
+        //public async Task<IActionResult> VerifyOtpAndResetPassword([FromBody] ResetPasswordWithOtpRequest request)
+        //{
+        //    var isValid = await _authService.SendResetPasswordOtpAsync(request.Email);
+        //    if (!isValid)
+        //    {
+        //        return BadRequest(new { message = "Invalid OTP." });
+        //    }
+
+        //    var result = await _authService.ResetPasswordAsync(request.Email, request.Otp, request.NewPassword);
+        //    if (result)
+        //    {
+        //        return Ok(new { message = "Password reset successfully." });
+        //    }
+
+        //    return BadRequest(new { message = "Failed to reset password." });
+        //}
+
         // DTO for register request
         public sealed record RegisterRequest(
-            string Username,
+            string Email
+        );
+        public sealed record VerifyOtpRequest(
             string Email,
+            string Username,
             string PhoneNumber,
             string Name,
             string Gender,
             string DateOfBirth,
+            string Address,
             string Password
+        );
+        public sealed record ResetPasswordRequest(
+            string Email
+        );
+        public sealed record ResetPasswordWithOtpRequest(
+            string Email,
+            string NewPassword
         );
 
     }

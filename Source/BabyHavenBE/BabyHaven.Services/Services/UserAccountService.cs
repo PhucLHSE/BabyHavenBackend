@@ -17,10 +17,13 @@ namespace BabyHaven.Services.Services
     public class UserAccountService : IUserAccountService
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly IEmailService _emailService;
+        private static readonly Dictionary<string, string> _otpStorage = new();
 
-        public UserAccountService(UnitOfWork unitOfWork)
+        public UserAccountService(UnitOfWork unitOfWork,IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         public async Task<UserAccount> Authenticate(string email, string password)
@@ -280,6 +283,118 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> SendOtpForRegistration(string email)
+        {
+            var existingUser = await _unitOfWork.UserAccountRepository.GetByEmailAsync(email);
+            if (existingUser != null)
+            {
+                return new ServiceResult(Const.FAIL_CREATE_CODE, "Email already registered.");
+            }
 
+            string otp = new Random().Next(100000, 999999).ToString();
+            var newUser = new UserAccount
+            {
+                Email = email,
+                VerificationCode = otp,
+                IsVerified = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow // Lưu thời điểm tạo OTP
+            };
+
+            await _unitOfWork.UserAccountRepository.CreateAsync(newUser);
+            await _emailService.SendEmailAsync(email, "OTP for Registration", $"Your OTP is: {otp}");
+
+            return new ServiceResult(Const.SUCCESS_SEND_OTP_CODE, "OTP sent successfully.");
+        }
+
+        public async Task<IServiceResult> VerifyOtpForRegistration(string email, string otp)
+        {
+            var user = await _unitOfWork.UserAccountRepository.GetByEmailAsync(email);
+            if (user == null || string.IsNullOrEmpty(user.VerificationCode))
+            {
+                return new ServiceResult(Const.FAIL_VERIFY_OTP_CODE, "Invalid OTP.");
+            }
+
+            TimeSpan timeElapsed = DateTime.UtcNow - user.UpdatedAt; // Tính thời gian đã trôi qua
+            if (timeElapsed.TotalMinutes > 5) // OTP hết hạn sau 5 phút
+            {
+                return new ServiceResult(Const.FAIL_VERIFY_OTP_CODE, "OTP has expired.");
+            }
+
+            if (user.VerificationCode != otp)
+            {
+                return new ServiceResult(Const.FAIL_VERIFY_OTP_CODE, "Incorrect OTP.");
+            }
+
+            // OTP hợp lệ, cập nhật trạng thái đã xác minh
+            user.IsVerified = true;
+            user.VerificationCode = null; // Xóa OTP sau khi xác thực thành công
+            await _unitOfWork.UserAccountRepository.UpdateAsync(user);
+
+            return new ServiceResult(Const.SUCCESS_VERIFY_OTP_CODE, "Registration OTP verified successfully.");
+        }
+
+        public async Task<IServiceResult> SendOtpForPasswordReset(string email)
+        {
+            var user = await _unitOfWork.UserAccountRepository.GetByEmailAsync(email);
+            if (user == null)
+            {
+                return new ServiceResult(Const.FAIL_RESET_PASSWORD_CODE, "Email not found.");
+            }
+
+            string otp = new Random().Next(100000, 999999).ToString();
+            user.VerificationCode = otp;
+            user.UpdatedAt = DateTime.UtcNow; // Lưu thời điểm tạo OTP
+            await _unitOfWork.UserAccountRepository.UpdateAsync(user);
+
+            await _emailService.SendEmailAsync(email, "OTP for Password Reset", $"Your OTP is: {otp}");
+
+            return new ServiceResult(Const.SUCCESS_SEND_OTP_CODE, "OTP sent successfully.");
+        }
+
+        public async Task<IServiceResult> VerifyOtpForPasswordReset(string email, string otp)
+        {
+            var user = await _unitOfWork.UserAccountRepository.GetByEmailAsync(email);
+            if (user == null || string.IsNullOrEmpty(user.VerificationCode))
+            {
+                return new ServiceResult(Const.FAIL_VERIFY_OTP_CODE, "Invalid OTP.");
+            }
+
+            TimeSpan timeElapsed = DateTime.UtcNow - user.UpdatedAt; // Tính thời gian đã trôi qua
+            if (timeElapsed.TotalMinutes > 5) // OTP hết hạn sau 5 phút
+            {
+                return new ServiceResult(Const.FAIL_VERIFY_OTP_CODE, "OTP has expired.");
+            }
+
+            if (user.VerificationCode != otp)
+            {
+                return new ServiceResult(Const.FAIL_VERIFY_OTP_CODE, "Incorrect OTP.");
+            }
+
+            // OTP hợp lệ, xóa mã OTP để tránh sử dụng lại
+            user.VerificationCode = null;
+            await _unitOfWork.UserAccountRepository.UpdateAsync(user);
+
+            return new ServiceResult(Const.SUCCESS_VERIFY_OTP_CODE, "Password reset OTP verified successfully.");
+        }
+
+        public async Task<IServiceResult> ResetPassword(string email, string newPassword)
+        {
+            var user = await _unitOfWork.UserAccountRepository.GetByEmailAsync(email);
+            if (user == null)
+            {
+                return new ServiceResult(Const.FAIL_RESET_PASSWORD_CODE, "Email not found.");
+            }
+
+            if (!string.IsNullOrEmpty(user.VerificationCode))
+            {
+                return new ServiceResult(Const.FAIL_RESET_PASSWORD_CODE, "Please verify OTP before resetting password.");
+            }
+
+            user.Password = newPassword;
+            await _unitOfWork.UserAccountRepository.UpdateAsync(user);
+
+            return new ServiceResult(Const.SUCCESS_RESET_PASSWORD_CODE, "Password reset successful.");
+        }
     }
 }

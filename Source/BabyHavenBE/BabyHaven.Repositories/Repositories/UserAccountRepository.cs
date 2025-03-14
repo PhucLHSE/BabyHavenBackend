@@ -68,5 +68,44 @@ namespace BabyHaven.Repositories.Repositories
                 }
             }
         }
+
+        public async Task<UserAccount?> GetByVerificationCodeAsync(string code)
+        {
+            return await _context.UserAccounts.FirstOrDefaultAsync(u => u.VerificationCode == code);
+        }
+
+        public async Task UpdateVerificationCodeAsync(Guid userId, string code)
+        {
+            var user = await _context.UserAccounts.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user != null)
+            {
+                user.VerificationCode = code;
+                user.IsVerified = false;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task VerifyAccountAsync(Guid userId)
+        {
+            var user = await _context.UserAccounts.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user != null)
+            {
+                user.IsVerified = true;
+                user.VerificationCode = null;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task ResetPasswordAsync(Guid userId, string newPassword)
+        {
+            var user = await _context.UserAccounts.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user != null)
+            {
+                user.Password = newPassword;
+                user.VerificationCode = null;
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }
