@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IMilestoneService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<MilestoneViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int milestoneId);
         Task<IServiceResult> Create(MilestoneCreateDto milestone);
         Task<IServiceResult> Update(MilestoneUpdateDto milestone);

@@ -34,6 +34,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<MilestoneViewAllDto>> GetQueryable()
+        {
+
+            var milestones = await _unitOfWork.MilestoneRepository
+                .GetAllAsync();
+
+            return milestones
+                .Select(milestones => milestones.ToMilestoneViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int milestoneId)
         {
             try
