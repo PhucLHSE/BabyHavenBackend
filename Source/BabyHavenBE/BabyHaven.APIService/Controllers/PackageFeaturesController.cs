@@ -5,6 +5,7 @@ using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.PackageFeatureDTOs;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +26,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> GetAll()
         {
             return await _packageFeatureService.GetAll();
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<PackageFeatureViewAllDto>> GetForOData()
+        {
+            return await _packageFeatureService.GetQueryable();
         }
 
         // GET api/<PackageFeaturesController>/5/3
