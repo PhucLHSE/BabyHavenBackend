@@ -29,7 +29,7 @@ namespace BabyHaven.Services.Services
             if (consultationResponses == null || !consultationResponses.Any())
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
-                    new List<ConsultationRequestViewAllDto>());
+                    new List<ConsultationResponseViewAllDto>());
             }
             else
             {
@@ -40,6 +40,17 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     consultationResponseDtos);
             }
+        }
+
+        public async Task<IQueryable<ConsultationResponseViewAllDto>> GetQueryable()
+        {
+
+            var consultationResponses = await _unitOfWork.ConsultationResponseRepository
+                .GetAllConsultationResponseAsync();
+
+            return consultationResponses
+                .Select(consultationResponses => consultationResponses.MapToConsultationResponseViewAllDto())
+                .AsQueryable();
         }
 
         public async Task<IServiceResult> GetById(int ResponseId)
