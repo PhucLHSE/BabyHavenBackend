@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Services.Services
 {
-    public class BlogCategoryService: IBlogCategoryService
+    public class BlogCategoryService : IBlogCategoryService
     {
         private readonly UnitOfWork _unitOfWork;
 
