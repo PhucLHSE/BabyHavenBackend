@@ -43,6 +43,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<PackagePromotionViewAllDto>> GetQueryable()
+        {
+
+            var packagePromotions = await _unitOfWork.PackagePromotionRepository
+                .GetAllPackagePromotionAsync();
+
+            return packagePromotions
+                .Select(packagePromotions => packagePromotions.MapToPackagePromotionViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int PackageId, Guid PromotionId)
         {
 
