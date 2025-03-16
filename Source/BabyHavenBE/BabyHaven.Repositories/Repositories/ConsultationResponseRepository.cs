@@ -29,5 +29,14 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(cr => cr.Request)
                 .FirstOrDefaultAsync(cr => cr.ResponseId == responseId);
         }
+
+        public async Task<List<ConsultationResponse?>> GetByMemberIdConsultationResponseAsync(Guid memberId)
+        {
+            return await _context.ConsultationResponses
+                .AsNoTracking()
+                .Include(cr => cr.Request)
+                .Where(cr => cr.Request.MemberId == memberId)
+                .ToListAsync();
+        }
     }
 }

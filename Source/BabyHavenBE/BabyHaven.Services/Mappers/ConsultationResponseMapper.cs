@@ -25,7 +25,7 @@ namespace BabyHaven.Services.Mappers
                 Content = model.Content ?? string.Empty,
                 IsHelpful = model.IsHelpful,
                 // Convert Status from string to enum
-                Status = model.Status,
+                Status = model.Status
             };
         }
 
