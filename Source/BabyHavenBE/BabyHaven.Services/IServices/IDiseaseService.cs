@@ -12,6 +12,7 @@ namespace BabyHaven.Services.IServices
     public interface IDiseaseService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<DiseaseViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int DiseaseId);
         Task<IServiceResult> Create(DiseaseCreateDto diseaseCreateDto);
         Task<IServiceResult> DeleteById(int DiseaseId);

@@ -196,5 +196,16 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.Message);
             }
         }
+
+        public async Task<IQueryable<DiseaseViewAllDto>> GetQueryable()
+        {
+
+            var diseases = await _unitOfWork.DiseaseRepository
+                .GetAllAsync();
+
+            return diseases
+                .Select(diseases => diseases.MapToDiseaseViewAllDto())
+                .AsQueryable();
+        }
     }
 }
