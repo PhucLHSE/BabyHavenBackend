@@ -29,7 +29,7 @@ namespace BabyHaven.Services.Services
             if (consultationResponses == null || !consultationResponses.Any())
             {
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
-                    new List<ConsultationRequestViewAllDto>());
+                    new List<ConsultationResponseViewAllDto>());
             }
             else
             {
