@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.ConsultationResponseDTOs;
+using BabyHaven.Repositories.Models;
 
 namespace BabyHaven.Services.Services
 {
@@ -58,6 +59,27 @@ namespace BabyHaven.Services.Services
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
                     consultationResponseDto);
+            }
+        }
+
+        public async Task<IServiceResult> GetByMemberId(Guid memberId)
+        {
+            var consultationResponses = await _unitOfWork.ConsultationResponseRepository
+                .GetByMemberIdConsultationResponseAsync(memberId);
+
+            if (consultationResponses == null)
+            {
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+                    new ConsultationResponseViewDetailsDto());
+            }
+            else
+            {
+                var consultationResponseDtos = consultationResponses
+                    .Select(consultationResponses => consultationResponses.MapToConsultationResponseViewAllDto())
+                    .ToList();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                    consultationResponseDtos);
             }
         }
 

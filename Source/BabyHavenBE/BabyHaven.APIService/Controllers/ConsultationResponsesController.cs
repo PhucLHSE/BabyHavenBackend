@@ -33,6 +33,12 @@ namespace BabyHaven.APIService.Controllers
             return await _consultationResponseService.GetById(id);
         }
 
+        [HttpGet("member/{id}")]
+        public async Task<IServiceResult> GetByMemberId(Guid id)
+        {
+            return await _consultationResponseService.GetByMemberId(id);
+        }
+
         // POST api/<ConsultationRequestsController>
         [HttpPost]
         public async Task<IServiceResult> Create(ConsultationResponseCreateDto consultationResponseCreateDto)
