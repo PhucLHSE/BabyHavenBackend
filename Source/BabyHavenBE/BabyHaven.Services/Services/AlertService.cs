@@ -36,6 +36,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<AlertViewAllDto>> GetQueryable()
+        {
+
+            var alerts = await _unitOfWork.AlertRepository
+                .GetAllAsync();
+
+            return alerts
+                .Select(alerts => alerts.ToAlertViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int alertId)
         {
             try
