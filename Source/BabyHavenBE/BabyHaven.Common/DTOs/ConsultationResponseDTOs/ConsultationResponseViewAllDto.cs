@@ -21,7 +21,7 @@ namespace BabyHaven.Common.DTOs.ConsultationResponseDTOs
         public string Content { get; set; } = string.Empty;   
 
         public bool? IsHelpful { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+
         public string Status { get; set; }
     }
 }

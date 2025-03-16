@@ -14,13 +14,8 @@ namespace BabyHaven.Common.DTOs.AlertDTOS
         public int GrowthRecordId { get; set; }
 
         [Required]
-        public DateTime AlertDate { get; set; }
-
-        [Required]
         public int DiseaseId { get; set; }
 
-        [Required]
-        [StringLength(500)]
         public string Message { get; set; } = string.Empty;
 
         [Required]
