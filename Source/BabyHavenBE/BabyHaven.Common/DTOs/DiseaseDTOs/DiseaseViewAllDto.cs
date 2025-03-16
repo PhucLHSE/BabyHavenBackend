@@ -24,6 +24,7 @@ namespace BabyHaven.Common.DTOs.DiseaseDTOs
 
         public int MaxAge { get; set; }
 
+
         [JsonConverter(typeof(JsonStringEnumConverter))] // Chuyển Enum thành string khi trả về API
         public SeverityLevelEnum Severity { get; set; }
 

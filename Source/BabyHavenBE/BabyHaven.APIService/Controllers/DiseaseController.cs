@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.DiseaseDTOs;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -11,20 +12,24 @@ namespace BabyHaven.APIService.Controllers
     public class DiseasesController : ControllerBase
     {
         private readonly IDiseaseService _diseaseService;
+
         public DiseasesController(IDiseaseService diseaseService)
             => _diseaseService = diseaseService;
+
         // GET: api/<DiseaseController>
         [HttpGet]
         public async Task<IServiceResult> Get()
         {
             return await _diseaseService.GetAll();
         }
+
         // GET api/<DiseaseController>/id
         [HttpGet("{id}")]
         public async Task<IServiceResult> Get(int id)
         {
             return await _diseaseService.GetById(id);
         }
+
         // POST api/<DiseaseController>
         [HttpPost]
         public async Task<IServiceResult> Post(DiseaseCreateDto diseaseCreateDto)
@@ -64,6 +69,13 @@ namespace BabyHaven.APIService.Controllers
         {
             var result = await _diseaseService.RecoverById(id);
             return result;
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<DiseaseViewAllDto>> GetForOData()
+        {
+            return await _diseaseService.GetQueryable();
         }
     }
 }
