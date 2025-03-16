@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IAlertService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<AlertViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int alertId);
         Task<IServiceResult> Create(AlertCreateDto dto);
         Task<IServiceResult> Update(AlertUpdateDto dto);

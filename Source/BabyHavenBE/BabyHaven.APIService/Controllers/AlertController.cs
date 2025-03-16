@@ -1,6 +1,7 @@
 ﻿using BabyHaven.Common.DTOs.AlertDTOS;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -24,6 +25,13 @@ namespace BabyHaven.APIService.Controllers
         {
             var result = await _alertService.GetAll();
             return StatusCode(result.Status, result);
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<AlertViewAllDto>> GetForOData()
+        {
+            return await _alertService.GetQueryable();
         }
 
         /// <summary>
