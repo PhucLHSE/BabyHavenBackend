@@ -6,6 +6,7 @@ using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.PromotionDTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +26,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> GetAll()
         {
             return await _promotionService.GetAll();
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<PromotionViewAllDto>> GetForOData()
+        {
+            return await _promotionService.GetQueryable();
         }
 
         // GET api/<PromotionsController>/5
