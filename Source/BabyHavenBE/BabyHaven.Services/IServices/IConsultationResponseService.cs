@@ -13,6 +13,7 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> GetAll();
         Task<IServiceResult> GetById(int ResponseId);
+        Task<IServiceResult> GetByMemberId(Guid memberId);
         Task<IServiceResult> Create(ConsultationResponseCreateDto consultationResponseCreateDto);
         Task<IServiceResult> DeleteById(int ResponseId);
     }

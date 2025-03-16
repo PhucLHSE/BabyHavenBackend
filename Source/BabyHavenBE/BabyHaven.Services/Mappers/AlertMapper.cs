@@ -15,7 +15,6 @@ namespace BabyHaven.Services.Mappers
             return new Alert
             {
                 GrowthRecordId = dto.GrowthRecordId,
-                AlertDate = dto.AlertDate,
                 DiseaseId = dto.DiseaseId,
                 Message = dto.Message,
                 IsRead = dto.IsRead,
