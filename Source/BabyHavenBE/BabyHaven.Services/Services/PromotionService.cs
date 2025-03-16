@@ -49,6 +49,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<PromotionViewAllDto>> GetQueryable()
+        {
+
+            var promotions = await _unitOfWork.PromotionRepository
+                .GetAllAsync();
+
+            return promotions
+                .Select(promotions => promotions.MapToPromotionViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(Guid PromotionId)
         {
 
