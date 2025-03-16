@@ -873,3 +873,98 @@ VALUES
     'https://www.psychologytoday.com, https://www.nimh.nih.gov',
     GETDATE(), GETDATE());
 
+GO
+
+-- Insert Diseases
+INSERT INTO Diseases (DiseaseName, LowerBoundMale, UpperBoundMale, LowerBoundFemale, UpperBoundFemale, 
+                      MinAge, MaxAge, Severity, DiseaseType, Symptoms, Treatment, Prevention, 
+                      Description, Notes, IsActive)
+VALUES
+    -- 1. Obesity (Béo phì)
+    ('Obesity', 25.0, 40.0, 24.0, 39.0, 5, 18, 'High', 'Nutritional Disorder',
+     'Excessive body fat, difficulty in breathing, fatigue, joint pain',
+     'Balanced diet, regular exercise, medical consultation if needed',
+     'Promote healthy eating habits, increase physical activity',
+     'A condition characterized by excessive fat accumulation, leading to health risks.',
+     'Monitor BMI regularly to prevent severe complications.', 1),
+
+    -- 2. Malnutrition (Suy dinh dưỡng)
+    ('Malnutrition', 10.0, 15.0, 9.0, 14.0, 1, 10, 'High', 'Nutritional Deficiency',
+     'Underweight, weak immune system, delayed growth, brittle hair',
+     'High-protein and nutrient-rich diet, vitamin supplements',
+     'Ensure proper nutrition intake, promote breastfeeding for infants',
+     'A condition resulting from lack of essential nutrients in the diet.',
+     'Common in developing countries, affects cognitive development.', 1),
+
+    -- 3. Anemia (Thiếu máu) - ĐÃ CHỈNH SỬA GIỚI HẠN
+    ('Anemia', 10.0, 18.5, 9.5, 18.0, 3, 16, 'Medium', 'Blood Disorder',
+     'Paleness, fatigue, shortness of breath, dizziness',
+     'Iron supplements, iron-rich diet (red meat, leafy greens)',
+     'Maintain a diet rich in iron and vitamin C, regular health check-ups',
+     'A condition where there is a deficiency of red blood cells or hemoglobin in the blood.',
+     'Common in children due to poor diet and rapid growth phases.', 1),
+
+    -- 4. Diabetes Type 1 (Tiểu đường tuýp 1)
+    ('Diabetes Type 1', 15.0, 25.0, 14.0, 24.0, 6, 18, 'High', 'Endocrine Disorder',
+     'Frequent urination, excessive thirst, weight loss, fatigue',
+     'Insulin therapy, carbohydrate management, regular monitoring',
+     'Healthy diet, physical activity, routine glucose level checks',
+     'A chronic disease where the pancreas produces little or no insulin.',
+     'Requires lifelong insulin therapy to regulate blood sugar levels.', 1),
+
+    -- 5. Stunted Growth (Chậm phát triển chiều cao)
+    ('Stunted Growth', 12.0, 18.0, 11.0, 17.0, 1, 10, 'Medium', 'Growth Disorder',
+     'Short stature, delayed physical development, cognitive impairment',
+     'Nutritional supplements, balanced diet, medical monitoring',
+     'Ensure adequate food intake, early intervention for nutrient deficiencies',
+     'A condition where a child’s growth rate is significantly lower than expected.',
+     'Can be caused by poor nutrition, infections, or genetic conditions.', 1),
+
+    -- 6. Asthma (Hen suyễn)
+    ('Asthma', 18.0, 28.0, 17.0, 27.0, 4, 18, 'Medium', 'Respiratory Disorder',
+     'Shortness of breath, wheezing, coughing, chest tightness',
+     'Inhalers, medication, avoiding triggers (allergens, smoke)',
+     'Avoid smoking exposure, control allergens at home',
+     'A chronic respiratory condition where the airways become inflamed and narrow.',
+     'Can be triggered by allergens, pollution, or respiratory infections.', 1),
+
+    -- 7. Rickets (Còi xương)
+    ('Rickets', 10.0, 17.0, 9.5, 16.5, 1, 10, 'Medium', 'Bone Disorder',
+     'Delayed growth, weak bones, skeletal deformities',
+     'Vitamin D and calcium supplements, sunlight exposure',
+     'Ensure a diet rich in vitamin D, allow outdoor playtime',
+     'A disorder caused by vitamin D, calcium, or phosphate deficiency leading to soft bones.',
+     'Common in children with limited sun exposure or poor diet.', 1),
+
+    -- 8. Underweight (Thiếu cân)
+    ('Underweight', 10.0, 16.0, 9.5, 15.5, 1, 18, 'Medium', 'Nutritional Disorder',
+     'Low body weight, fatigue, weak immune system',
+     'Increase calorie intake, balanced diet, medical evaluation',
+     'Monitor growth regularly, ensure proper nutrition',
+     'A condition where a child weighs significantly less than the standard for their age.',
+     'Can lead to developmental delays and weakened immunity.', 1),
+
+    -- 9. Overweight (Thừa cân) 
+    ('Overweight', 21.0, 24.9, 20.5, 23.9, 5, 18, 'Low', 'Nutritional Disorder',
+     'Excess fat accumulation, early signs of obesity risk',
+     'Balanced diet, increased physical activity, behavioral changes',
+     'Encourage sports and outdoor activities, limit sugary foods',
+     'A condition where a child has excess body weight but not yet obesity.',
+     'Early intervention can prevent obesity and related complications.', 1),
+
+    -- 10. Hypertension (Cao huyết áp ở trẻ)
+    ('Hypertension', 20.0, 40.0, 19.0, 39.0, 10, 18, 'High', 'Cardiovascular Disorder',
+     'High blood pressure, headaches, dizziness, blurred vision',
+     'Lifestyle changes, low-salt diet, medical treatment if severe',
+     'Encourage exercise, avoid high-sodium and processed foods',
+     'A condition where a child has abnormally high blood pressure, increasing cardiovascular risks.',
+     'Can be associated with obesity, genetic factors, or poor diet.', 1),
+
+    -- 11. Failure to Thrive (Không phát triển đúng chuẩn)
+    ('Failure to Thrive', 10.0, 18.0, 9.5, 17.5, 1, 5, 'High', 'Developmental Disorder',
+     'Slow weight gain, delayed milestones, lack of energy',
+     'Nutritional therapy, parental guidance, medical monitoring',
+     'Early detection, frequent weight monitoring, improved diet',
+     'A condition where a child’s growth is significantly below the expected rate.',
+     'Requires medical evaluation to determine underlying causes.', 1);
+
