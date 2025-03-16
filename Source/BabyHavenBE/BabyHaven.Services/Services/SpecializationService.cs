@@ -51,6 +51,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<SpecializationViewAllDto>> GetQueryable()
+        {
+
+            var specializations = await _unitOfWork.SpecializationRepository
+                .GetAllAsync();
+
+            return specializations
+                .Select(specializations => specializations.MapToSpecializationViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int SpecializationId)
         {
 

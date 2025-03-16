@@ -13,6 +13,8 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> GetAll();
 
+        Task<IQueryable<SpecializationViewAllDto>> GetQueryable();
+
         Task<IServiceResult> GetById(int SpecializationId);
 
         Task<IServiceResult> Create(SpecializationCreateDto specializationDto);
