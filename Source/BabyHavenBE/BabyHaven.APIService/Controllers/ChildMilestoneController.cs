@@ -15,7 +15,8 @@ namespace BabyHaven.APIService.Controllers
 
         public ChildMilestoneController(IChildMilestoneService childMilestoneService)
         {
-            _childMilestoneService = childMilestoneService ?? throw new ArgumentNullException(nameof(childMilestoneService));
+            _childMilestoneService = childMilestoneService 
+                ?? throw new ArgumentNullException(nameof(childMilestoneService));
         }
 
         /// <summary>
@@ -26,6 +27,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _childMilestoneService.GetAll();
+
             return StatusCode(result.Status, result);
         }
 
@@ -46,6 +48,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetById(Guid childId, int milestoneId)
         {
             var result = await _childMilestoneService.GetById(childId, milestoneId);
+
             return StatusCode(result.Status, result);
         }
 
@@ -62,6 +65,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _childMilestoneService.Create(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -79,6 +83,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _childMilestoneService.Update(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -92,6 +97,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> Delete(Guid childId, int milestoneId)
         {
             var result = await _childMilestoneService.Delete(childId, milestoneId);
+
             return StatusCode(result.Status, result);
         }
     }
