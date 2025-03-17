@@ -11,6 +11,7 @@ namespace BabyHaven.Common.DTOs.MembershipPackageDTOs
 {
     public class MembershipPackageViewAllDto
     {
+        public int PackageId { get; set; }
         public string PackageName { get; set; } = string.Empty;
 
         public string Description { get; set; } = string.Empty;

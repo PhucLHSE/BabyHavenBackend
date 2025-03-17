@@ -18,6 +18,7 @@ namespace BabyHaven.Repositories.Mappers
             return new MembershipPackageViewAllDto
             {
                 // MembershipPackage
+                PackageId = model.PackageId,
                 PackageName = model.PackageName,
                 Description = model.Description,
                 Price = model.Price,
