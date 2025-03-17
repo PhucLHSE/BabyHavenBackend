@@ -36,7 +36,10 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, 
+                    "Validation failed",
+                    ModelState);
             }
             return await _diseaseService.Create(diseaseCreateDto);
         }
@@ -52,7 +55,10 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, 
+                    "Validation failed", 
+                    ModelState);
             }
             return await _diseaseService.UpdateById(id, diseaseUpdateDto);
         }
@@ -61,6 +67,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> PreDelete(int id)
         {
             var result = await _diseaseService.PreDeleteById(id);
+
             return result;
         }
 
@@ -68,6 +75,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> Recover(int id)
         {
             var result = await _diseaseService.RecoverById(id);
+
             return result;
         }
 
