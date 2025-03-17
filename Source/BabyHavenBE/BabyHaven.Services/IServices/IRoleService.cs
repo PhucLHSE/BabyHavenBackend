@@ -12,6 +12,7 @@ namespace BabyHaven.Services.IServices
     public interface IRoleService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<RoleViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int RoleId);
         Task<IServiceResult> Create(RoleCreateDto roleDto);
         Task<IServiceResult> Update(RoleUpdateDto roleDto);
