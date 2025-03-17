@@ -19,8 +19,8 @@ namespace BabyHaven.Services.Mappers
                 Description = dto.Description,
                 Importance = dto.Importance,
                 Category = dto.Category,
-                MinAge = dto.MinAge,
-                MaxAge = dto.MaxAge,
+                MinAge = dto.IsPersonal ? 0 : dto.MinAge,
+                MaxAge = dto.IsPersonal ? 0 : dto.MaxAge,
                 IsPersonal = dto.IsPersonal,
             };
         }

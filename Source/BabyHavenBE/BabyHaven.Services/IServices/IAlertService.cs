@@ -13,6 +13,7 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> GetAll();
         Task<IQueryable<AlertViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int alertId);
+        Task<IServiceResult> GetByChild(string name, string dob, Guid memberId);
         Task<IServiceResult> Create(AlertCreateDto dto);
         Task<IServiceResult> Update(AlertUpdateDto dto);
         Task<IServiceResult> Delete(int alertId);

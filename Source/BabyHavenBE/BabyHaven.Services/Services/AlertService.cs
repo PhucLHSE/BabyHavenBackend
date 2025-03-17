@@ -82,6 +82,24 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetByChild(string name, string dob, Guid memberId)
+        {
+            try
+            {
+                var alert = await _unitOfWork.AlertRepository.GetChildByNameAndDateOfBirthAsync(name, DateOnly.Parse(dob), memberId);
+                if (alert == null)
+                    return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Alert not found." };
+
+                var alerts = alert.Select(a => a.ToAlertViewDetailsDto()).ToList();
+
+                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = alerts };
+            }
+            catch (Exception ex)
+            {
+                return HandleException("retrieving the alert", ex);
+            }
+        }
+
         public async Task<IServiceResult> Create(AlertCreateDto dto)
         {
             try
