@@ -20,6 +20,7 @@ namespace BabyHaven.Services.Services
         {
             _unitOfWork ??= new UnitOfWork();
         }
+
         public async Task<IServiceResult> GetAll()
         {
 
@@ -44,6 +45,17 @@ namespace BabyHaven.Services.Services
                     Const.SUCCESS_READ_MSG,
                     doctorSpecializationDtos);
             }
+        }
+
+        public async Task<IQueryable<DoctorSpecializationViewAllDto>> GetQueryable()
+        {
+
+            var doctorSpecializations = await _unitOfWork.DoctorSpecializationRepository
+                .GetAllAsync();
+
+            return doctorSpecializations
+                .Select(doctorSpecializations => doctorSpecializations.MapToDoctorSpecializationViewAllDto())
+                .AsQueryable();
         }
 
         public async Task<IServiceResult> GetById(int DoctorSpecializationId)
