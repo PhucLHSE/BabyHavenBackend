@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.MemberMembershipDTOs;
 using BabyHaven.Services.Mappers;
+using BabyHaven.Common.Enum.ChildrenEnums;
+using BabyHaven.Common.Enum.MemberMembershipEnums;
 
 namespace BabyHaven.Services.Services
 {
@@ -260,6 +262,40 @@ namespace BabyHaven.Services.Services
             catch (Exception ex)
             {
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> PreDeleteById(Guid membershipId)
+        {
+            try
+            {
+                var membership = await _unitOfWork.MemberMembershipRepository
+                    .GetByIdAsync(membershipId);
+
+                if (membership == null)
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_READ_CODE,
+                        Message = "Membership not found."
+                    };
+
+                membership.Status = MemberMembershipStatus.Inactive.ToString();
+                membership.IsActive = false;
+                await _unitOfWork.MemberMembershipRepository.UpdateAsync(membership);
+
+                return new ServiceResult
+                {
+                    Status = Const.SUCCESS_UPDATE_CODE,
+                    Message = "Membership marked for deletion."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = Const.ERROR_EXCEPTION,
+                    Message = $"An error occurred while marking the child for deletion: {ex.Message}"
+                };
             }
         }
     }

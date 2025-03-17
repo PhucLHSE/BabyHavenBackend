@@ -72,6 +72,17 @@ namespace BabyHaven.APIService.Controllers
             return await _membershipService.DeleteById(id);
         }
 
+        [HttpPut("/pre-del/{id}")]
+        public async Task<IServiceResult> PreDelete(Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+            }
+
+            return await _membershipService.PreDeleteById(id);
+        }
+
         private bool MemberMembershipExists(Guid id)
         {
             return _membershipService.GetById(id) != null;

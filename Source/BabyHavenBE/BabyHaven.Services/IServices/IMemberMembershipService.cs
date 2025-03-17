@@ -12,10 +12,11 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> GetAll();
         Task<IQueryable<MemberMembershipViewAllDto>> GetQueryable();
-        Task<IServiceResult> GetById(Guid MemberMembershipId);
+        Task<IServiceResult> GetById(Guid memberMembershipId);
         Task<IServiceResult> GetByMemberId(Guid memberId);
         Task<IServiceResult> Create(MemberMembershipCreateDto memberMembershipDto);
         Task<IServiceResult> Update(MemberMembershipUpdateDto memberMembershipDto);
-        Task<IServiceResult> DeleteById(Guid MemberMembershipId);
+        Task<IServiceResult> DeleteById(Guid memberMembershipId);
+        Task<IServiceResult> PreDeleteById(Guid memberMembershipId);
     }
 }
