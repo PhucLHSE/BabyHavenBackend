@@ -22,6 +22,8 @@ namespace BabyHaven.Services.Mappers
                 MemberName = model.Member?.User?.Name ?? "Unknown",
                 ChildName = model.Child?.Name ?? "Unknown",
 
+                DoctorId = model.DoctorId,
+
                 RequestDate = model.RequestDate,
 
                 // Convert Status from string to enum

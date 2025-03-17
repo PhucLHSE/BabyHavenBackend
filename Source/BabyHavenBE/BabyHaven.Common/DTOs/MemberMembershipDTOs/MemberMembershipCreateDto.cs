@@ -11,7 +11,7 @@ namespace BabyHaven.Common.DTOs.MemberMembershipDTOs
 {
     public class MemberMembershipCreateDto
     {
-        [Required(ErrorMessage = "MemberName is required.")]
+        [Required(ErrorMessage = "MemberId is required.")]
         public Guid MemberId { get; set; }
 
         [Required(ErrorMessage = "PackageName is required.")]
