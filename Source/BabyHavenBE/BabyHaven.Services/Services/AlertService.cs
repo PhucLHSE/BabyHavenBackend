@@ -54,6 +54,22 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetByChild(string name, string dob, Guid memberId)
+        {
+            try
+            {
+                var alert = await _unitOfWork.AlertRepository.GetByChild(name, dob, memberId);
+                if (alert == null)
+                    return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Alert not found." };
+
+                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = alert.ToAlertViewDetailsDto() };
+            }
+            catch (Exception ex)
+            {
+                return HandleException("retrieving the alert", ex);
+            }
+        }
+
         public async Task<IServiceResult> Create(AlertCreateDto dto)
         {
             try

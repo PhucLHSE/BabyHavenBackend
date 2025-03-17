@@ -18,5 +18,10 @@ namespace BabyHaven.Repositories.Repositories
 
         public AlertRepository(SWP391_ChildGrowthTrackingSystemContext context)
             => _context = context;
+
+        public async Task GetByChild(string name, string dob, Guid memberId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -25,7 +25,9 @@ namespace BabyHaven.Services.Mappers
                 Content = model.Content ?? string.Empty,
                 IsHelpful = model.IsHelpful,
                 // Convert Status from string to enum
-                Status = model.Status
+                Status = Enum.TryParse<ConsultationResponseStatus>(model.Status, true, out var status)
+                          ? status
+                          : ConsultationResponseStatus.Pending
             };
         }
 
