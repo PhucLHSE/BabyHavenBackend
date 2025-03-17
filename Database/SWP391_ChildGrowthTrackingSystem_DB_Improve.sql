@@ -882,19 +882,19 @@ INSERT INTO Diseases (DiseaseName, LowerBoundMale, UpperBoundMale, LowerBoundFem
 VALUES
      -- 1. Suy dinh dưỡng nặng (Severe Malnutrition)
     ('Severe Malnutrition', 10.0, 16.0, 9.0, 16.0, 1, 10, 'High', 'Nutritional Deficiency',
-     'Sụt cân nghiêm trọng, teo cơ, phát triển chậm, mệt mỏi',
-     'Chế độ ăn giàu calo, thực phẩm giàu protein, can thiệp y tế',
-     'Đảm bảo chế độ ăn đủ dinh dưỡng, theo dõi tăng trưởng',
-     'Tình trạng suy dinh dưỡng nghiêm trọng do thiếu hụt dinh dưỡng kéo dài.',
-     'Cần can thiệp y tế ngay để tránh biến chứng nguy hiểm.', 1),
+     N'Severe weight loss, muscle atrophy, slow development, fatigue',
+     N'High-calorie diet, protein-rich foods, medical intervention',
+     N'Ensure adequate nutrition, monitor growth',
+     N'Severe malnutrition due to prolonged nutritional deficiency.',
+     N'Medical intervention is required immediately to prevent dangerous complications.', 1),
 
     -- 2. Suy dinh dưỡng nhẹ (Mild Malnutrition)
     ('Mild Malnutrition', 16.0, 18.5, 16.0, 18.5, 1, 18, 'Medium', 'Nutritional Deficiency',
-     'Thiếu cân nhẹ, hay ốm vặt, năng lượng kém',
-     'Chế độ ăn cân đối, bổ sung dinh dưỡng nếu cần',
-     'Khuyến khích ăn uống lành mạnh, tăng cường protein',
-     'Dạng suy dinh dưỡng nhẹ, thiếu hụt một số vi chất cần thiết.',
-     'Thường gặp ở trẻ nhỏ có chế độ ăn không hợp lý.', 1),
+     N'Slight underweight, frequent illness, low energy',
+     N'Balanced diet, nutritional supplements if needed',
+     N'Encourage healthy eating, increase protein intake',
+     N'Mild malnutrition, deficiency in some essential micronutrients.',
+     N'Common in children with an unbalanced diet.', 1),
 
     -- 3. Anemia (Thiếu máu)
     ('Anemia', 10.0, 18.5, 9.5, 18.0, 3, 16, 'Medium', 'Blood Disorder',
@@ -938,19 +938,19 @@ VALUES
 
     -- 8. Thừa cân (Overweight)
     ('Overweight', 25.0, 30.0, 24.0, 29.9, 5, 18, 'Medium', 'Nutritional Disorder',
-     'Cân nặng tăng nhanh, dễ mệt mỏi, thở ngắn, khó vận động',
-     'Chế độ ăn kiểm soát calo, tăng cường vận động',
-     'Xây dựng thói quen ăn uống lành mạnh, duy trì vận động thể chất',
-     'Tình trạng cơ thể tích tụ mỡ dư thừa nhưng chưa đến mức béo phì.',
-     'Có thể dẫn đến béo phì nếu không kiểm soát sớm.', 1),
+     'Rapid weight gain, easily fatigued, shortness of breath, difficulty moving',
+     'Calorie-controlled diet, increased physical activity',
+     'Develop healthy eating habits, maintain regular physical exercise',
+     'A condition where excess fat accumulates in the body but has not yet reached obesity.',
+     'May lead to obesity if not controlled early.', 1),
 
     -- 9. Béo phì (Obesity)
     ('Obesity', 30.0, 40.0, 30.0, 39.9, 5, 18, 'High', 'Nutritional Disorder',
-     'Tích mỡ nhiều, khó thở, đau khớp, nguy cơ tiểu đường',
-     'Chế độ ăn giảm béo, tập thể dục thường xuyên, theo dõi y tế',
-     'Thay đổi thói quen ăn uống, hạn chế đồ ngọt và chất béo',
-     'Béo phì là tình trạng cơ thể tích trữ quá nhiều mỡ, ảnh hưởng sức khỏe.',
-     'Là yếu tố nguy cơ gây bệnh tim mạch, tiểu đường.', 1),
+     'Excessive fat accumulation, difficulty breathing, joint pain, risk of diabetes',
+     'Weight-loss diet, regular exercise, medical monitoring',
+     'Change eating habits, limit sugar and fat intake',
+     'Obesity is a condition where excessive fat is stored in the body, affecting health.',
+     'A risk factor for cardiovascular diseases and diabetes.', 1),
 
     -- 10. Hypertension (Cao huyết áp ở trẻ)
     ('Hypertension', 20.0, 40.0, 19.0, 39.0, 10, 18, 'High', 'Cardiovascular Disorder',
@@ -972,102 +972,102 @@ GO
 
 -- Insert Children
 INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
-SELECT MemberID, N'Nguyễn Minh Khang', '2008-06-15', 'Male', 3.2, 50, 'O+', NULL, N'Đang học cấp 3, yêu thích bóng đá', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Nguyễn Minh Khang', '2008-06-15', 'Male', 3.2, 50, 'O+', NULL, N'Đang học cấp 3, yêu thích bóng đá', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'NguyenVA1992')
 UNION ALL
-SELECT MemberID, N'Trần Gia Hân', '2012-08-20', 'Female', 3.0, 48, 'A+', 'Dị ứng sữa', N'Học sinh tiểu học, thích vẽ tranh', 'Con gái', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Trần Gia Hân', '2012-08-20', 'Female', 3.0, 48, 'A+', N'Dị ứng sữa', N'Học sinh tiểu học, thích vẽ tranh', N'Con gái', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TranTB1995')
 UNION ALL
-SELECT MemberID, N'Lê Hoàng Nam', '2018-12-10', 'Male', 3.1, 49, 'B-', NULL, N'Bé hiếu động, thích khám phá', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Lê Hoàng Nam', '2018-12-10', 'Male', 3.1, 49, 'B-', NULL, N'Bé hiếu động, thích khám phá', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LeVC1990')
 UNION ALL
-SELECT MemberID, N'Phạm Khánh Linh', '2023-03-25', 'Female', 3.4, 51, 'AB+', 'Dị ứng phấn hoa', N'Sơ sinh, cần theo dõi đặc biệt', 'Con gái', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Phạm Khánh Linh', '2023-03-25', 'Female', 3.4, 51, 'AB+', N'Dị ứng phấn hoa', N'Sơ sinh, cần theo dõi đặc biệt', N'Con gái', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'PhamTD1993')
 UNION ALL
-SELECT MemberID, N'Hoàng Bảo Long', '2016-11-07', 'Male', 3.6, 52, 'O-', NULL, N'Bé thích vận động, học lớp 1', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Hoàng Bảo Long', '2016-11-07', 'Male', 3.6, 52, 'O-', NULL, N'Bé thích vận động, học lớp 1', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'HoangVT1998')
 UNION ALL
-SELECT MemberID, N'Đặng Gia Bảo', '2010-02-14', 'Male', 3.2, 49, 'A-', NULL, N'Chơi bóng rổ giỏi, thích khoa học', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Đặng Gia Bảo', '2010-02-14', 'Male', 3.2, 49, 'A-', NULL, N'Chơi bóng rổ giỏi, thích khoa học', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'DangTT1994')
 UNION ALL
-SELECT MemberID, N'Võ Thảo My', '2015-09-10', 'Female', 3.5, 50, 'B+', 'Dị ứng mèo', N'Yêu thích đọc sách, học giỏi', 'Con gái', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Võ Thảo My', '2015-09-10', 'Female', 3.5, 50, 'B+', N'Dị ứng mèo', N'Yêu thích đọc sách, học giỏi', N'Con gái', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'VoVD1996')
 UNION ALL
-SELECT MemberID, N'Bùi Phúc An', '2022-01-21', 'Male', 3.1, 48, 'O+', NULL, N'Bé hay cười, thích chơi với mẹ', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Bùi Phúc An', '2022-01-21', 'Male', 3.1, 48, 'O+', NULL, N'Bé hay cười, thích chơi với mẹ', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'BuiTH1997')
 UNION ALL
-SELECT MemberID, N'Mạc Thị Minh Anh', '2008-04-05', 'Female', 3.3, 49, 'A+', NULL, N'Yêu thích ca hát, tham gia đội văn nghệ', 'Con gái', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Mạc Thị Minh Anh', '2008-04-05', 'Female', 3.3, 49, 'A+', NULL, N'Yêu thích ca hát, tham gia đội văn nghệ', N'Con gái', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'MacVO1995')
 UNION ALL
-SELECT MemberID, N'Ngô Hải Đăng', '2017-07-29', 'Male', 3.4, 50, 'B-', NULL, N'Bé thông minh, thích lắp ráp đồ chơi', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Ngô Hải Đăng', '2017-07-29', 'Male', 3.4, 50, 'B-', NULL, N'Bé thông minh, thích lắp ráp đồ chơi', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'NgoVS1991')
 UNION ALL
-SELECT MemberID, N'Đinh Thị Ngọc Hân', '2011-10-18', 'Female', 3.0, 48, 'O-', 'Dị ứng hải sản', N'Học sinh giỏi, yêu thích tiếng Anh', 'Con gái', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Đinh Thị Ngọc Hân', '2011-10-18', 'Female', 3.0, 48, 'O-', N'Dị ứng hải sản', N'Học sinh giỏi, yêu thích tiếng Anh', N'Con gái', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'DinhTN1999')
 UNION ALL
-SELECT MemberID, N'Phan Nguyễn Gia Huy', '2009-05-23', 'Male', 3.3, 51, 'A+', NULL, N'Đang học cấp 2, thích chơi thể thao', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Phan Nguyễn Gia Huy', '2009-05-23', 'Male', 3.3, 51, 'A+', NULL, N'Đang học cấp 2, thích chơi thể thao', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'PhanVK1993')
 UNION ALL
-SELECT MemberID, N'Nguyễn Thị Bảo Trân', '2014-12-01', 'Female', 3.2, 50, 'AB-', NULL, N'Yêu thích hội họa, vẽ rất đẹp', 'Con gái', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Nguyễn Thị Bảo Trân', '2014-12-01', 'Female', 3.2, 50, 'AB-', NULL, N'Yêu thích hội họa, vẽ rất đẹp', N'Con gái', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'NguyenTL1990')
 UNION ALL
-SELECT MemberID, N'Đỗ Hoàng Nam Phong', '2007-06-22', 'Male', 3.5, 52, 'B+', NULL, N'Chơi cờ vua rất giỏi, đã đạt giải', 'Con trai', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'Đỗ Hoàng Nam Phong', '2007-06-22', 'Male', 3.5, 52, 'B+', NULL, N'Chơi cờ vua rất giỏi, đã đạt giải', N'Con trai', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'DoVM1994')
 UNION ALL
-SELECT MemberID, N'La Thị Hải Yến', '2013-09-17', 'Female', 3.1, 49, 'A-', NULL, N'Yêu thích thiên nhiên, thích trồng cây', 'Con gái', 'Active', GETDATE(), GETDATE()
+SELECT MemberID, N'La Thị Hải Yến', '2013-09-17', 'Female', 3.1, 49, 'A-', NULL, N'Yêu thích thiên nhiên, thích trồng cây', N'Con gái', 'Active', GETDATE(), GETDATE()
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LaTN1992');
 
 GO
 
 -- Thành viên StandardUser1 có 2 con
 INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
-SELECT MemberID, N'Nguyễn Đặng Tuấn Kiệt', '2019-05-10', 'Male', 3.5, 51, 'B+', NULL, N'Bé rất hiếu động', 'Con trai', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Nguyễn Đặng Tuấn Kiệt', '2019-05-10', 'Male', 3.5, 51, 'B+', NULL, N'Bé rất hiếu động', N'Con trai', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LyTP1997')
 UNION ALL
-SELECT MemberID, N'Nguyễn Đặng Ngọc Anh', '2022-01-25', 'Female', 3.1, 49, 'O-', NULL, N'Hay khóc đêm', 'Con gái', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Nguyễn Đặng Ngọc Anh', '2022-01-25', 'Female', 3.1, 49, 'O-', NULL, N'Hay khóc đêm', N'Con gái', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LyTP1997');
 
 GO
 
 -- Thành viên StandardUser2 có 2 con
 INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
-SELECT MemberID, N'Vũ Bùi Thanh Tú', '2020-07-18', 'Male', 3.3, 50, 'A-', 'Dị ứng hải sản', N'Cần theo dõi chế độ ăn', 'Con trai', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Vũ Bùi Thanh Tú', '2020-07-18', 'Male', 3.3, 50, 'A-', N'Dị ứng hải sản', N'Cần theo dõi chế độ ăn', N'Con trai', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'VuVQ1991')
 UNION ALL
-SELECT MemberID, N'Vũ Huyền Hà My', '2021-09-10', 'Female', 3.2, 49, 'AB-', NULL, N'Rất ngoan', 'Con gái', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Vũ Huyền Hà My', '2021-09-10', 'Female', 3.2, 49, 'AB-', NULL, N'Rất ngoan', N'Con gái', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'VuVQ1991');
 
 GO
 
 -- Thành viên PremiumUser1 có 2 con
 INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
-SELECT MemberID, N'Phạm Quang Huy', '2015-11-12', 'Male', 3.4, 50, 'O+', NULL, N'Rất thích thể thao', 'Con trai', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Phạm Quang Huy', '2015-11-12', 'Male', 3.4, 50, 'O+', NULL, N'Rất thích thể thao', N'Con trai', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'CaoTM1996')
 UNION ALL
-SELECT MemberID, N'Phạm Mai Chi', '2023-02-15', 'Female', 3.0, 48, 'A+', 'Dị ứng trứng', N'Cẩn thận với thực phẩm chứa trứng', 'Con gái', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Phạm Mai Chi', '2023-02-15', 'Female', 3.0, 48, 'A+', N'Dị ứng trứng', N'Cẩn thận với thực phẩm chứa trứng', N'Con gái', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'CaoTM1996');
 
 GO
 
 -- Thành viên PremiumUser2 có 2 con
 INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
-SELECT MemberID, N'Tân Lê Tuấn Phong', '2014-06-20', 'Male', 3.8, 52, 'B+', NULL, N'Bé thích lập trình', 'Con trai', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Tân Lê Tuấn Phong', '2014-06-20', 'Male', 3.8, 52, 'B+', NULL, N'Bé thích lập trình', N'Con trai', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TanVS1998')
 UNION ALL
-SELECT MemberID, N'Tân Minh Ngọc', '2019-10-05', 'Female', 3.2, 50, 'AB+', NULL, N'Nhút nhát, cần động viên', 'Con gái', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Tân Minh Ngọc', '2019-10-05', 'Female', 3.2, 50, 'AB+', NULL, N'Nhút nhát, cần động viên', N'Con gái', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TanVS1998');
 
 GO
 
 -- Thành viên PremiumUser3 có 3 con
 INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
-SELECT MemberID, N'Lê Đức Anh', '2010-08-30', 'Male', 3.6, 52, 'O-', NULL, N'Thích bóng đá', 'Con trai', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Lê Đức Anh', '2010-08-30', 'Male', 3.6, 52, 'O-', NULL, N'Thích bóng đá', N'Con trai', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TrinhTT1993')
 UNION ALL
-SELECT MemberID, N'Lê Thị Bảo Ngọc', '2016-04-25', 'Female', 3.5, 50, 'A-', NULL, N'Học giỏi và chăm chỉ', 'Con gái', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Lê Thị Bảo Ngọc', '2016-04-25', 'Female', 3.5, 50, 'A-', NULL, N'Học giỏi và chăm chỉ', N'Con gái', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TrinhTT1993')
 UNION ALL
-SELECT MemberID, N'Lê Trịnh Minh Khoa', '2022-12-10', 'Male', 3.1, 48, 'B+', 'Dị ứng đậu phộng', N'Cần tránh các sản phẩm từ đậu phộng', 'Con trai', 'Active', GETDATE(), GETDATE() 
+SELECT MemberID, N'Lê Trịnh Minh Khoa', '2022-12-10', 'Male', 3.1, 48, 'B+', N'Dị ứng đậu phộng', N'Cần tránh các sản phẩm từ đậu phộng', N'Con trai', 'Active', GETDATE(), GETDATE() 
 FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TrinhTT1993');
 
 GO
