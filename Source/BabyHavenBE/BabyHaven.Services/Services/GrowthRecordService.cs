@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common;
+using BabyHaven.Common.DTOs.FeatureDTOs;
 using BabyHaven.Common.DTOs.GrowthRecordDTOs;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Models;
@@ -57,9 +58,16 @@ namespace BabyHaven.Services.Services
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Child not found");
                 }
+                var record = dto.MapToGrowthRecordEntity(child);
 
-                var record = await _unitOfWork.GrowthRecordRepository.CreateAsync(dto.MapToGrowthRecordEntity(child));
-                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = record };
+                if (record == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                        Const.WARNING_NO_DATA_MSG);
+                }
+
+                await _unitOfWork.GrowthRecordRepository.CreateAsync(record);
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG,  Data = record };
             }
             catch (Exception ex)
             {
