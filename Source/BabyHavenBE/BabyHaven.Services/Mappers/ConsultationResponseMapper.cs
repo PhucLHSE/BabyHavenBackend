@@ -24,8 +24,11 @@ namespace BabyHaven.Services.Mappers
                 ResponseDate = model.ResponseDate,
                 Content = model.Content ?? string.Empty,
                 IsHelpful = model.IsHelpful,
+
                 // Convert Status from string to enum
-                Status = model.Status
+                Status = Enum.TryParse<ConsultationResponseStatus>(model.Status, true, out var status)
+                          ? status
+                          : ConsultationResponseStatus.Pending
             };
         }
 
@@ -40,6 +43,7 @@ namespace BabyHaven.Services.Mappers
                 ResponseDate = model.ResponseDate,
                 Content = model.Content,
                 IsHelpful = model.IsHelpful,
+
                 // Convert Status from string to enum
                 Status = Enum.TryParse<ConsultationResponseStatus>(model.Status, true, out var status)
                           ? status
@@ -105,7 +109,9 @@ namespace BabyHaven.Services.Mappers
                           ? new List<string>()
                           : JsonSerializer.Deserialize<List<string>>(model.Attachments)
                           ?? new List<string>(),
+
                 IsHelpful = model.IsHelpful,
+
                 // Audit Information
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt,
