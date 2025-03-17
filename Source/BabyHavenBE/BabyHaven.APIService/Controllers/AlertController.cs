@@ -1,6 +1,7 @@
 ﻿using BabyHaven.Common.DTOs.AlertDTOS;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -12,7 +13,8 @@ namespace BabyHaven.APIService.Controllers
 
         public AlertController(IAlertService alertService)
         {
-            _alertService = alertService ?? throw new ArgumentNullException(nameof(alertService));
+            _alertService = alertService 
+                ?? throw new ArgumentNullException(nameof(alertService));
         }
 
         /// <summary>
@@ -23,7 +25,15 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _alertService.GetAll();
+
             return StatusCode(result.Status, result);
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<AlertViewAllDto>> GetForOData()
+        {
+            return await _alertService.GetQueryable();
         }
 
         /// <summary>
@@ -35,6 +45,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _alertService.GetById(id);
+
             return StatusCode(result.Status, result);
         }
 
@@ -50,6 +61,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _alertService.Create(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -65,6 +77,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _alertService.Update(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -77,6 +90,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _alertService.Delete(id);
+
             return StatusCode(result.Status, result);
         }
 
@@ -90,11 +104,14 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
+
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
+
                 return BadRequest(errors);
             }
 
             var result = await _alertService.CheckAndCreateAlert(name, dob, id);
+
             return StatusCode(result.Status, result);
         }
 

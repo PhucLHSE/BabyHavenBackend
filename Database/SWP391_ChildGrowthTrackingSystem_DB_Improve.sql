@@ -873,3 +873,334 @@ VALUES
     'https://www.psychologytoday.com, https://www.nimh.nih.gov',
     GETDATE(), GETDATE());
 
+GO
+
+-- Insert Diseases
+INSERT INTO Diseases (DiseaseName, LowerBoundMale, UpperBoundMale, LowerBoundFemale, UpperBoundFemale, 
+                      MinAge, MaxAge, Severity, DiseaseType, Symptoms, Treatment, Prevention, 
+                      Description, Notes, IsActive)
+VALUES
+     -- 1. Suy dinh dưỡng nặng (Severe Malnutrition)
+    ('Severe Malnutrition', 10.0, 16.0, 9.0, 16.0, 1, 10, 'High', 'Nutritional Deficiency',
+     N'Severe weight loss, muscle atrophy, slow development, fatigue',
+     N'High-calorie diet, protein-rich foods, medical intervention',
+     N'Ensure adequate nutrition, monitor growth',
+     N'Severe malnutrition due to prolonged nutritional deficiency.',
+     N'Medical intervention is required immediately to prevent dangerous complications.', 1),
+
+    -- 2. Suy dinh dưỡng nhẹ (Mild Malnutrition)
+    ('Mild Malnutrition', 16.0, 18.5, 16.0, 18.5, 1, 18, 'Medium', 'Nutritional Deficiency',
+     N'Slight underweight, frequent illness, low energy',
+     N'Balanced diet, nutritional supplements if needed',
+     N'Encourage healthy eating, increase protein intake',
+     N'Mild malnutrition, deficiency in some essential micronutrients.',
+     N'Common in children with an unbalanced diet.', 1),
+
+    -- 3. Anemia (Thiếu máu)
+    ('Anemia', 10.0, 18.5, 9.5, 18.0, 3, 16, 'Medium', 'Blood Disorder',
+     'Paleness, fatigue, shortness of breath, dizziness',
+     'Iron supplements, iron-rich diet (red meat, leafy greens)',
+     'Maintain a diet rich in iron and vitamin C, regular health check-ups',
+     'A condition where there is a deficiency of red blood cells or hemoglobin in the blood.',
+     'Common in children due to poor diet and rapid growth phases.', 1),
+
+    -- 4. Diabetes Type 1 (Tiểu đường tuýp 1)
+    ('Diabetes Type 1', 15.0, 25.0, 14.0, 24.0, 6, 18, 'High', 'Endocrine Disorder',
+     'Frequent urination, excessive thirst, weight loss, fatigue',
+     'Insulin therapy, carbohydrate management, regular monitoring',
+     'Healthy diet, physical activity, routine glucose level checks',
+     'A chronic disease where the pancreas produces little or no insulin.',
+     'Requires lifelong insulin therapy to regulate blood sugar levels.', 1),
+
+    -- 5. Stunted Growth (Chậm phát triển chiều cao)
+    ('Stunted Growth', 12.0, 18.0, 11.0, 17.0, 1, 10, 'Medium', 'Growth Disorder',
+     'Short stature, delayed physical development, cognitive impairment',
+     'Nutritional supplements, balanced diet, medical monitoring',
+     'Ensure adequate food intake, early intervention for nutrient deficiencies',
+     'A condition where a child’s growth rate is significantly lower than expected.',
+     'Can be caused by poor nutrition, infections, or genetic conditions.', 1),
+
+    -- 6. Asthma (Hen suyễn)
+    ('Asthma', 18.0, 28.0, 17.0, 27.0, 4, 18, 'Medium', 'Respiratory Disorder',
+     'Shortness of breath, wheezing, coughing, chest tightness',
+     'Inhalers, medication, avoiding triggers (allergens, smoke)',
+     'Avoid smoking exposure, control allergens at home',
+     'A chronic respiratory condition where the airways become inflamed and narrow.',
+     'Can be triggered by allergens, pollution, or respiratory infections.', 1),
+
+    -- 7. Rickets (Còi xương)
+    ('Rickets', 10.0, 17.0, 9.5, 16.5, 1, 10, 'Medium', 'Bone Disorder',
+     'Delayed growth, weak bones, skeletal deformities',
+     'Vitamin D and calcium supplements, sunlight exposure',
+     'Ensure a diet rich in vitamin D, allow outdoor playtime',
+     'A disorder caused by vitamin D, calcium, or phosphate deficiency leading to soft bones.',
+     'Common in children with limited sun exposure or poor diet.', 1),
+
+    -- 8. Thừa cân (Overweight)
+    ('Overweight', 25.0, 30.0, 24.0, 29.9, 5, 18, 'Medium', 'Nutritional Disorder',
+     'Rapid weight gain, easily fatigued, shortness of breath, difficulty moving',
+     'Calorie-controlled diet, increased physical activity',
+     'Develop healthy eating habits, maintain regular physical exercise',
+     'A condition where excess fat accumulates in the body but has not yet reached obesity.',
+     'May lead to obesity if not controlled early.', 1),
+
+    -- 9. Béo phì (Obesity)
+    ('Obesity', 30.0, 40.0, 30.0, 39.9, 5, 18, 'High', 'Nutritional Disorder',
+     'Excessive fat accumulation, difficulty breathing, joint pain, risk of diabetes',
+     'Weight-loss diet, regular exercise, medical monitoring',
+     'Change eating habits, limit sugar and fat intake',
+     'Obesity is a condition where excessive fat is stored in the body, affecting health.',
+     'A risk factor for cardiovascular diseases and diabetes.', 1),
+
+    -- 10. Hypertension (Cao huyết áp ở trẻ)
+    ('Hypertension', 20.0, 40.0, 19.0, 39.0, 10, 18, 'High', 'Cardiovascular Disorder',
+     'High blood pressure, headaches, dizziness, blurred vision',
+     'Lifestyle changes, low-salt diet, medical treatment if severe',
+     'Encourage exercise, avoid high-sodium and processed foods',
+     'A condition where a child has abnormally high blood pressure, increasing cardiovascular risks.',
+     'Can be associated with obesity, genetic factors, or poor diet.', 1),
+
+    -- 11. Failure to Thrive (Không phát triển đúng chuẩn)
+    ('Failure to Thrive', 10.0, 18.0, 9.5, 17.5, 1, 5, 'High', 'Developmental Disorder',
+     'Slow weight gain, delayed milestones, lack of energy',
+     'Nutritional therapy, parental guidance, medical monitoring',
+     'Early detection, frequent weight monitoring, improved diet',
+     'A condition where a child’s growth is significantly below the expected rate.',
+     'Requires medical evaluation to determine underlying causes.', 1);
+
+GO
+
+-- Insert Children
+INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
+SELECT MemberID, N'Nguyễn Minh Khang', '2008-06-15', 'Male', 3.2, 50, 'O+', NULL, N'Đang học cấp 3, yêu thích bóng đá', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'NguyenVA1992')
+UNION ALL
+SELECT MemberID, N'Trần Gia Hân', '2012-08-20', 'Female', 3.0, 48, 'A+', N'Dị ứng sữa', N'Học sinh tiểu học, thích vẽ tranh', N'Con gái', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TranTB1995')
+UNION ALL
+SELECT MemberID, N'Lê Hoàng Nam', '2018-12-10', 'Male', 3.1, 49, 'B-', NULL, N'Bé hiếu động, thích khám phá', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LeVC1990')
+UNION ALL
+SELECT MemberID, N'Phạm Khánh Linh', '2023-03-25', 'Female', 3.4, 51, 'AB+', N'Dị ứng phấn hoa', N'Sơ sinh, cần theo dõi đặc biệt', N'Con gái', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'PhamTD1993')
+UNION ALL
+SELECT MemberID, N'Hoàng Bảo Long', '2016-11-07', 'Male', 3.6, 52, 'O-', NULL, N'Bé thích vận động, học lớp 1', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'HoangVT1998')
+UNION ALL
+SELECT MemberID, N'Đặng Gia Bảo', '2010-02-14', 'Male', 3.2, 49, 'A-', NULL, N'Chơi bóng rổ giỏi, thích khoa học', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'DangTT1994')
+UNION ALL
+SELECT MemberID, N'Võ Thảo My', '2015-09-10', 'Female', 3.5, 50, 'B+', N'Dị ứng mèo', N'Yêu thích đọc sách, học giỏi', N'Con gái', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'VoVD1996')
+UNION ALL
+SELECT MemberID, N'Bùi Phúc An', '2022-01-21', 'Male', 3.1, 48, 'O+', NULL, N'Bé hay cười, thích chơi với mẹ', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'BuiTH1997')
+UNION ALL
+SELECT MemberID, N'Mạc Thị Minh Anh', '2008-04-05', 'Female', 3.3, 49, 'A+', NULL, N'Yêu thích ca hát, tham gia đội văn nghệ', N'Con gái', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'MacVO1995')
+UNION ALL
+SELECT MemberID, N'Ngô Hải Đăng', '2017-07-29', 'Male', 3.4, 50, 'B-', NULL, N'Bé thông minh, thích lắp ráp đồ chơi', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'NgoVS1991')
+UNION ALL
+SELECT MemberID, N'Đinh Thị Ngọc Hân', '2011-10-18', 'Female', 3.0, 48, 'O-', N'Dị ứng hải sản', N'Học sinh giỏi, yêu thích tiếng Anh', N'Con gái', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'DinhTN1999')
+UNION ALL
+SELECT MemberID, N'Phan Nguyễn Gia Huy', '2009-05-23', 'Male', 3.3, 51, 'A+', NULL, N'Đang học cấp 2, thích chơi thể thao', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'PhanVK1993')
+UNION ALL
+SELECT MemberID, N'Nguyễn Thị Bảo Trân', '2014-12-01', 'Female', 3.2, 50, 'AB-', NULL, N'Yêu thích hội họa, vẽ rất đẹp', N'Con gái', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'NguyenTL1990')
+UNION ALL
+SELECT MemberID, N'Đỗ Hoàng Nam Phong', '2007-06-22', 'Male', 3.5, 52, 'B+', NULL, N'Chơi cờ vua rất giỏi, đã đạt giải', N'Con trai', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'DoVM1994')
+UNION ALL
+SELECT MemberID, N'La Thị Hải Yến', '2013-09-17', 'Female', 3.1, 49, 'A-', NULL, N'Yêu thích thiên nhiên, thích trồng cây', N'Con gái', 'Active', GETDATE(), GETDATE()
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LaTN1992');
+
+GO
+
+-- Thành viên StandardUser1 có 2 con
+INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
+SELECT MemberID, N'Nguyễn Đặng Tuấn Kiệt', '2019-05-10', 'Male', 3.5, 51, 'B+', NULL, N'Bé rất hiếu động', N'Con trai', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LyTP1997')
+UNION ALL
+SELECT MemberID, N'Nguyễn Đặng Ngọc Anh', '2022-01-25', 'Female', 3.1, 49, 'O-', NULL, N'Hay khóc đêm', N'Con gái', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'LyTP1997');
+
+GO
+
+-- Thành viên StandardUser2 có 2 con
+INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
+SELECT MemberID, N'Vũ Bùi Thanh Tú', '2020-07-18', 'Male', 3.3, 50, 'A-', N'Dị ứng hải sản', N'Cần theo dõi chế độ ăn', N'Con trai', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'VuVQ1991')
+UNION ALL
+SELECT MemberID, N'Vũ Huyền Hà My', '2021-09-10', 'Female', 3.2, 49, 'AB-', NULL, N'Rất ngoan', N'Con gái', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'VuVQ1991');
+
+GO
+
+-- Thành viên PremiumUser1 có 2 con
+INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
+SELECT MemberID, N'Phạm Quang Huy', '2015-11-12', 'Male', 3.4, 50, 'O+', NULL, N'Rất thích thể thao', N'Con trai', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'CaoTM1996')
+UNION ALL
+SELECT MemberID, N'Phạm Mai Chi', '2023-02-15', 'Female', 3.0, 48, 'A+', N'Dị ứng trứng', N'Cẩn thận với thực phẩm chứa trứng', N'Con gái', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'CaoTM1996');
+
+GO
+
+-- Thành viên PremiumUser2 có 2 con
+INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
+SELECT MemberID, N'Tân Lê Tuấn Phong', '2014-06-20', 'Male', 3.8, 52, 'B+', NULL, N'Bé thích lập trình', N'Con trai', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TanVS1998')
+UNION ALL
+SELECT MemberID, N'Tân Minh Ngọc', '2019-10-05', 'Female', 3.2, 50, 'AB+', NULL, N'Nhút nhát, cần động viên', N'Con gái', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TanVS1998');
+
+GO
+
+-- Thành viên PremiumUser3 có 3 con
+INSERT INTO Children (MemberID, Name, DateOfBirth, Gender, BirthWeight, BirthHeight, BloodType, Allergies, Notes, RelationshipToMember, Status, CreatedAt, UpdatedAt)
+SELECT MemberID, N'Lê Đức Anh', '2010-08-30', 'Male', 3.6, 52, 'O-', NULL, N'Thích bóng đá', N'Con trai', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TrinhTT1993')
+UNION ALL
+SELECT MemberID, N'Lê Thị Bảo Ngọc', '2016-04-25', 'Female', 3.5, 50, 'A-', NULL, N'Học giỏi và chăm chỉ', N'Con gái', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TrinhTT1993')
+UNION ALL
+SELECT MemberID, N'Lê Trịnh Minh Khoa', '2022-12-10', 'Male', 3.1, 48, 'B+', N'Dị ứng đậu phộng', N'Cần tránh các sản phẩm từ đậu phộng', N'Con trai', 'Active', GETDATE(), GETDATE() 
+FROM Members WHERE UserID = (SELECT UserID FROM UserAccounts WHERE Username = 'TrinhTT1993');
+
+GO
+
+--Insert GrowthRecords Nguyễn Minh Khang child
+INSERT INTO GrowthRecords (
+    ChildID, RecordedBy, Weight, Height, HeadCircumference, MuscleMass, ChestCircumference, 
+    NutritionalStatus, FerritinLevel, Triglycerides, BloodSugarLevel, PhysicalActivityLevel, 
+    HeartRate, BloodPressure, BodyTemperature, OxygenSaturation, SleepDuration, Vision, 
+    Hearing, ImmunizationStatus, MentalHealthStatus, GrowthHormoneLevel, AttentionSpan, 
+    NeurologicalReflexes, DevelopmentalMilestones, Notes, Status, Verified, CreatedAt, UpdatedAt
+) 
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    52.0, 168.5, 56.0, 19.0, 85.0, N'Bình thường', 75.0, 1.1, 95.0, N'Cao', 
+    72, 120.0, 36.6, 99.2, 7.5, N'Tốt', N'Bình thường', N'Đã tiêm đủ các mũi', N'Ổn định', 
+    20.0, N'Dài', N'Bình thường', N'Hoạt động thể thao đều đặn', N'Không có vấn đề sức khỏe', 
+    'Active', 1, '2024-01-05', '2024-01-05'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Nguyễn Minh Khang'
+
+UNION ALL
+
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    53.5, 169.0, 56.2, 19.3, 86.5, N'Bình thường', 76.5, 1.2, 94.8, N'Cao', 
+    70, 118.5, 36.5, 99.0, 7.3, N'Tốt', N'Bình thường', N'Đã tiêm đủ các mũi', N'Ổn định', 
+    20.5, N'Dài', N'Bình thường', N'Thể lực tốt, ít ốm vặt', N'Không có vấn đề sức khỏe', 
+    'Active', 1, '2024-01-25', '2024-01-25'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Nguyễn Minh Khang'
+
+UNION ALL
+
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    54.2, 169.8, 56.5, 19.7, 87.0, N'Tốt', 78.0, 1.3, 94.5, N'Cao', 
+    68, 117.0, 36.4, 98.9, 7.2, N'Tốt', N'Bình thường', N'Đã tiêm đủ các mũi', N'Ổn định', 
+    21.0, N'Dài', N'Bình thường', N'Bắt đầu tập gym nhẹ', N'Không có vấn đề sức khỏe', 
+    'Active', 1, '2024-02-15', '2024-02-15'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Nguyễn Minh Khang'
+
+UNION ALL
+
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    55.0, 170.5, 57.0, 20.0, 88.0, N'Tốt', 80.0, 1.4, 94.2, N'Cao', 
+    67, 116.5, 36.4, 98.8, 7.0, N'Tốt', N'Bình thường', N'Đã tiêm đủ các mũi', N'Ổn định', 
+    21.5, N'Tốt', N'Bình thường', N'Thể trạng ổn định, ăn uống khoa học', N'Không có vấn đề sức khỏe', 
+    'Active', 1, '2024-03-05', '2024-03-05'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Nguyễn Minh Khang'
+
+UNION ALL
+
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    56.0, 171.0, 57.5, 20.5, 89.0, N'Tốt', 82.0, 1.5, 94.0, N'Cao', 
+    65, 115.0, 36.3, 98.7, 6.8, N'Tốt', N'Bình thường', N'Đã tiêm đủ các mũi', N'Ổn định', 
+    22.0, N'Tốt', N'Bình thường', N'Thể lực tối ưu, không gặp vấn đề sức khỏe', N'Không có vấn đề sức khỏe', 
+    'Active', 1, '2024-03-25', '2024-03-25'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Nguyễn Minh Khang';
+
+GO
+
+-- Insert GrowthRecords Trần Gia Hân child
+INSERT INTO GrowthRecords (
+    ChildID, RecordedBy, Weight, Height, HeadCircumference, MuscleMass, ChestCircumference, 
+    NutritionalStatus, FerritinLevel, Triglycerides, BloodSugarLevel, PhysicalActivityLevel, 
+    HeartRate, BloodPressure, BodyTemperature, OxygenSaturation, SleepDuration, Vision, 
+    Hearing, ImmunizationStatus, MentalHealthStatus, GrowthHormoneLevel, AttentionSpan, 
+    NeurologicalReflexes, DevelopmentalMilestones, Notes, Status, Verified, CreatedAt, UpdatedAt
+) 
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    27.0, 120.0, 50.0, 10.0, 55.0, N'Bình thường', 65.0, 1.0, 90.0, N'Bình thường',
+    80, 110.0, 36.5, 98.0, 9.0, N'Bình thường', N'Bình thường', N'Đã tiêm đầy đủ', N'Ổn định',
+    18.0, N'Tốt', N'Bình thường', N'Thể chất phát triển bình thường', N'Không có vấn đề sức khỏe',
+    'Active', 1, '2025-01-05', '2025-01-05'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Trần Gia Hân'
+
+UNION ALL
+
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    27.5, 121.0, 50.5, 10.2, 56.0, N'Bình thường', 66.5, 1.1, 92.0, N'Bình thường',
+    82, 112.0, 36.6, 98.5, 9.2, N'Bình thường', N'Bình thường', N'Đã tiêm đầy đủ', N'Ổn định',
+    18.5, N'Tốt', N'Bình thường', N'Hoạt động thể thao thường xuyên', N'Không có vấn đề sức khỏe',
+    'Active', 1, '2025-02-10', '2025-02-10'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Trần Gia Hân'
+
+UNION ALL
+
+SELECT 
+    c.ChildID, 
+    m.MemberID, 
+    26.0, 122.0, 51.0, 10.4, 57.0, N'Bình thường', 67.0, 1.2, 93.0, N'Bình thường',
+    85, 115.0, 36.7, 99.0, 9.5, N'Bình thường', N'Bình thường', N'Đã tiêm đầy đủ', N'Ổn định',
+    19.0, N'Tốt', N'Bình thường', N'Thể chất phát triển ổn định', N'Không có vấn đề sức khỏe',
+    'Active', 1, '2025-03-15', '2025-03-15'
+FROM Children c
+JOIN Members m ON c.MemberID = m.MemberID
+WHERE c.Name = N'Trần Gia Hân';
+
+GO
+
+-- Insert Alerts
+INSERT INTO Alerts (GrowthRecordID, DiseaseID, Message, SeverityLevel) 
+SELECT 
+    gr.RecordID,
+    d.DiseaseID,
+    N'Phát hiện dấu hiệu ' + d.DiseaseName + N' ở bé Trần Gia Hân. Cần theo dõi và điều chỉnh chế độ ăn uống.',
+    d.Severity
+FROM GrowthRecords gr
+JOIN Diseases d ON d.DiseaseName = 'Mild Malnutrition'
+WHERE gr.ChildID = (SELECT ChildID FROM Children WHERE Name = N'Trần Gia Hân')
+  AND gr.Weight / POWER(gr.Height / 100, 2) BETWEEN d.LowerBoundFemale AND d.UpperBoundFemale;
+

@@ -5,6 +5,7 @@ using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.PackageFeatureDTOs;
 using BabyHaven.Common.DTOs.VNPayDTOS.PackagePromotionDTOs;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,6 +27,13 @@ namespace BabyHaven.APIService.Controllers
             return await _packagePromotionsService.GetAll();
         }
 
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<PackagePromotionViewAllDto>> GetForOData()
+        {
+            return await _packagePromotionsService.GetQueryable();
+        }
+
         // GET api/<PackagePromotionsController>/5/3
         [HttpGet("{packageId}/{promotionId}")]
         public async Task<IServiceResult> GetByIds(int packageId, Guid promotionId)
@@ -39,7 +47,9 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed",
+
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, 
+                    "Validation failed",
                     ModelState);
             }
 
@@ -52,7 +62,10 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, 
+                    "Validation failed", 
+                    ModelState);
             }
 
             return await _packagePromotionsService.Update(packagePromotionUpdateDto);

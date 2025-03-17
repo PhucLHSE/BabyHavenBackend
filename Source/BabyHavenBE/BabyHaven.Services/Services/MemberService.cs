@@ -25,17 +25,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
+
             var members = await _unitOfWork.MemberRepository
                 .GetAllMemberAsync();
 
             if (members == null || !members.Any())
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new List<MemberViewAllDto>());
             }
             else
             {
+
                 var memberDtos = members
                     .Select(promotions => promotions.MapToMemberViewAllDto())
                     .ToList();
@@ -48,6 +51,7 @@ namespace BabyHaven.Services.Services
 
         public async Task<IQueryable<MemberViewAllDto>> GetQueryable()
         {
+
             var members = await _unitOfWork.MemberRepository
                 .GetAllMemberAsync();
 
@@ -58,17 +62,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetById(Guid memberId)
         {
+
             var member = await _unitOfWork.MemberRepository
                 .GetByIdMemberAsync(memberId);
 
             if (member == null)
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new MemberViewDetailsDto());
             }
             else
             {
+
                 var memberDto = member.MapToMemberViewDetailsDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, 
@@ -79,17 +86,20 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetByUserId(Guid userId)
         {
+
             var member = await _unitOfWork.MemberRepository
                 .GetMemberByUserId(userId);
 
             if (member == null)
             {
+
                 return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                     Const.WARNING_NO_DATA_MSG,
                     new MemberViewDetailsDto());
             }
             else
             {
+
                 var memberDto = member.MapToMemberAPIResonseDto();
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, 
@@ -102,12 +112,14 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the member exists in the database
                 var member = await _unitOfWork.MemberRepository
                     .GetByIdMemberAsync(memberDto.MemberId);
 
                 if (member == null)
                 {
+
                     return new ServiceResult(Const.FAIL_UPDATE_CODE,
                         "Member not found.");
                 }
@@ -121,6 +133,7 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     // Map the saved entity to a response DTO
                     var responseDto = member.MapToMemberViewDetailsDto();
 
@@ -130,12 +143,14 @@ namespace BabyHaven.Services.Services
                 }
                 else
                 {
+
                     return new ServiceResult(Const.FAIL_UPDATE_CODE, 
                         Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }
@@ -145,17 +160,20 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var member = await _unitOfWork.MemberRepository
                     .GetByIdMemberAsync(memberId);
 
                 if (member == null)
                 {
+
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
                         Const.WARNING_NO_DATA_MSG,
                         new MemberDeleteDto());
                 }
                 else
                 {
+
                     var deleteMemberDto = member.MapToMemberDeleteDto();
 
                     var result = await _unitOfWork.MemberRepository
@@ -163,12 +181,14 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
+
                         return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
                             Const.SUCCESS_DELETE_MSG,
                             deleteMemberDto);
                     }
                     else
                     {
+
                         return new ServiceResult(Const.FAIL_DELETE_CODE,
                             Const.FAIL_DELETE_MSG,
                             deleteMemberDto);
@@ -177,6 +197,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
             }

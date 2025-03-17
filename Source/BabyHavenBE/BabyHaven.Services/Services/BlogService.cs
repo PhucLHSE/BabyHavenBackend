@@ -20,20 +20,26 @@ namespace BabyHaven.Services.Services
 
         public BlogService(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _unitOfWork = unitOfWork 
+                ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public async Task<IServiceResult> Create(BlogCreateDto blogCreateDto)
         {
             try
             {
+
                 // Retrieve mappings: AuthorName -> AuthorId and CategoryName -> CategoryId
-                var authorNameToIdMapping = await _unitOfWork.UserAccountRepository.GetAllNameToIdMappingAsync();
-                var categoryNameToIdMapping = await _unitOfWork.BlogCategoryRepository.GetAllCategoryNameToIdMappingAsync();
+                var authorNameToIdMapping = await _unitOfWork.UserAccountRepository
+                    .GetAllNameToIdMappingAsync();
+
+                var categoryNameToIdMapping = await _unitOfWork.BlogCategoryRepository
+                    .GetAllCategoryNameToIdMappingAsync();
 
                 // Check if the provided AuthorName exists
                 if (!authorNameToIdMapping.ContainsKey(blogCreateDto.Email))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"AuthorName '{blogCreateDto.Email}' does not exist.");
                 }
@@ -41,6 +47,7 @@ namespace BabyHaven.Services.Services
                 // Check if the provided CategoryName exists
                 if (!categoryNameToIdMapping.ContainsKey(blogCreateDto.CategoryName))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"CategoryName '{blogCreateDto.CategoryName}' does not exist.");
                 }
@@ -55,6 +62,7 @@ namespace BabyHaven.Services.Services
 
                 if (existingBlog != null && existingBlog.BlogId > 0)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         "The specified Blog already exists.");
                 }
@@ -70,6 +78,7 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     var responseDto = new BlogCreateDto
                     {
                         Title = blogCreateDto.Title,
@@ -81,17 +90,22 @@ namespace BabyHaven.Services.Services
                         ReferenceSources = blogCreateDto.ReferenceSources
                     };
 
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, 
+                        Const.SUCCESS_CREATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -99,93 +113,124 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve the Blog using the provided SpecializationId and DoctorId
-                var blog = await _unitOfWork.BlogRepository.GetByIdBlogAsync(BlogId);
+                var blog = await _unitOfWork.BlogRepository
+                    .GetByIdBlogAsync(BlogId);
 
                 // Check if the Blog exists
                 if (blog == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        Const.WARNING_NO_DATA_MSG,
                         new BlogDeleteDto());
                 }
                 else
                 {
+
                     // Map to BlogDeleteDto for response
                     var deleteBlogDto = blog.MapToBlogDeleteDto();
 
-                    var result = await _unitOfWork.BlogRepository.RemoveAsync(blog);
+                    var result = await _unitOfWork.BlogRepository
+                        .RemoveAsync(blog);
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE,
+                            Const.SUCCESS_DELETE_MSG,
                             deleteBlogDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, 
+                            Const.FAIL_DELETE_MSG,
                             deleteBlogDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
         public async Task<IServiceResult> GetAll()
         {
-            var blogs = await _unitOfWork.BlogRepository.GetAllBlogAsync();
+
+            var blogs = await _unitOfWork.BlogRepository
+                .GetAllBlogAsync();
+
             if (blogs == null || !blogs.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new List<BlogViewAllDto>());
             }
             else
             {
+
                 var blogDtos = blogs
                     .Select(blog => blog.MapToBlogViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     blogDtos);
             }
         }
 
         public async Task<IServiceResult> GetById(int BlogId)
         {
-            var blog = await _unitOfWork.BlogRepository.GetByIdBlogAsync(BlogId);
+
+            var blog = await _unitOfWork.BlogRepository
+                .GetByIdBlogAsync(BlogId);
 
             if (blog == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new BlogViewDetailsDto());
             }
             else
             {
+
                 var blogDto = blog.MapToBlogViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     blogDto);
             }
         }
 
         public async Task<IServiceResult> GetAllByCategoryId(int categoryId)
         {
-            var blogs = await _unitOfWork.BlogRepository.GetAllBlogByParentCategoryId(categoryId);
+
+            var blogs = await _unitOfWork.BlogRepository
+                .GetAllBlogByParentCategoryId(categoryId);
 
             if (blogs == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new BlogViewDetailsDto());
             }
             else
             {
+
                 var blogDtos = blogs
                     .Select(blog => blog.MapToBlogViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     blogDtos);
             }
         }
@@ -194,6 +239,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if Blog exists
                 var blog = await _unitOfWork.BlogRepository
                     .GetByIdAsync(blogUpdateDto.BlogId);
@@ -208,7 +254,9 @@ namespace BabyHaven.Services.Services
 
                 if (blog == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Blog not found.");
+
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        "Blog not found.");
                 }
 
                 // Call the correct extension method
@@ -218,25 +266,33 @@ namespace BabyHaven.Services.Services
                 blog.UpdatedAt = DateTime.UtcNow;
 
                 // Save changes to the database
-                var result = await _unitOfWork.BlogRepository.UpdateAsync(blog);
+                var result = await _unitOfWork.BlogRepository
+                    .UpdateAsync(blog);
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, blog);
+
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                        Const.SUCCESS_UPDATE_MSG, blog);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
         public async Task<IQueryable<BlogViewAllDto>> GetQueryable()
         {
+
             var blogs = await _unitOfWork.BlogRepository
                 .GetAllAsync();
 

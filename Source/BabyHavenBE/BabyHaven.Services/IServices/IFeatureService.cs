@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IFeatureService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<FeatureViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int FeatureId);
         Task<IServiceResult> Create(FeatureCreateDto featureDto);
         Task<IServiceResult> Update(FeatureUpdateDto featureDto);

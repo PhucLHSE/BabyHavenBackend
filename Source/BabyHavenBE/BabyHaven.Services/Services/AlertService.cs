@@ -21,36 +21,64 @@ namespace BabyHaven.Services.Services
 
         public AlertService(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _unitOfWork = unitOfWork 
+                ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public async Task<IServiceResult> GetAll()
         {
             try
             {
-                var alerts = await _unitOfWork.AlertRepository.GetAllAsync();
+
+                var alerts = await _unitOfWork.AlertRepository
+                    .GetAllAsync();
+
                 var alertDtos = alerts.Select(alert => alert.ToAlertViewAllDto()).ToList();
-                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = alertDtos };
+
+                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, 
+                    Message = Const.SUCCESS_READ_MSG, 
+                    Data = alertDtos };
             }
             catch (Exception ex)
             {
-                return HandleException("retrieving alerts", ex);
+
+                return HandleException("retrieving alerts", 
+                    ex);
             }
+        }
+
+        public async Task<IQueryable<AlertViewAllDto>> GetQueryable()
+        {
+
+            var alerts = await _unitOfWork.AlertRepository
+                .GetAllAsync();
+
+            return alerts
+                .Select(alerts => alerts.ToAlertViewAllDto())
+                .AsQueryable();
         }
 
         public async Task<IServiceResult> GetById(int alertId)
         {
             try
             {
-                var alert = await _unitOfWork.AlertRepository.GetByIdAsync(alertId);
-                if (alert == null)
-                    return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Alert not found." };
 
-                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = alert.ToAlertViewDetailsDto() };
+                var alert = await _unitOfWork.AlertRepository
+                    .GetByIdAsync(alertId);
+
+                if (alert == null)
+                    return new ServiceResult { Status = Const.FAIL_READ_CODE, 
+                        Message = "Alert not found." };
+
+                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, 
+                    Message = Const.SUCCESS_READ_MSG, 
+                    Data = alert.ToAlertViewDetailsDto() };
             }
             catch (Exception ex)
             {
-                return HandleException("retrieving the alert", ex);
+
+                return HandleException("retrieving the alert", 
+                    ex);
             }
         }
 
@@ -77,16 +105,23 @@ namespace BabyHaven.Services.Services
             try
             {
                 if (dto is null)
-                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, 
+                        Message = Const.FAIL_CREATE_MSG };
 
                 var alert = dto.ToAlert();
-                await _unitOfWork.AlertRepository.CreateAsync(alert);
 
-                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = alert };
+                await _unitOfWork.AlertRepository
+                    .CreateAsync(alert);
+
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, 
+                    Message = Const.SUCCESS_CREATE_MSG, 
+                    Data = alert };
             }
             catch (Exception ex)
             {
-                return HandleException("creating the alert", ex);
+
+                return HandleException("creating the alert", 
+                    ex);
             }
         }
 
@@ -95,20 +130,30 @@ namespace BabyHaven.Services.Services
             try
             {
                 if (dto is null)
-                    return new ServiceResult { Status = Const.FAIL_UPDATE_CODE, Message = Const.FAIL_UPDATE_MSG };
+                    return new ServiceResult { Status = Const.FAIL_UPDATE_CODE, 
+                        Message = Const.FAIL_UPDATE_MSG };
 
-                var alert = await _unitOfWork.AlertRepository.GetByIdAsync(dto.AlertId);
+                var alert = await _unitOfWork.AlertRepository
+                    .GetByIdAsync(dto.AlertId);
+
                 if (alert == null)
-                    return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Alert not found." };
+                    return new ServiceResult { Status = Const.FAIL_READ_CODE, 
+                        Message = "Alert not found." };
 
                 alert = dto.ToAlert(alert);
-                await _unitOfWork.AlertRepository.UpdateAsync(alert);
 
-                return new ServiceResult { Status = Const.SUCCESS_UPDATE_CODE, Message = Const.SUCCESS_UPDATE_MSG, Data = alert };
+                await _unitOfWork.AlertRepository
+                    .UpdateAsync(alert);
+
+                return new ServiceResult { Status = Const.SUCCESS_UPDATE_CODE, 
+                    Message = Const.SUCCESS_UPDATE_MSG, 
+                    Data = alert };
             }
             catch (Exception ex)
             {
-                return HandleException("updating the alert", ex);
+
+                return HandleException("updating the alert", 
+                    ex);
             }
         }
 
@@ -116,17 +161,25 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var alert = await _unitOfWork.AlertRepository.GetByIdAsync(alertId);
+
+                var alert = await _unitOfWork.AlertRepository
+                    .GetByIdAsync(alertId);
+
                 if (alert == null)
-                    return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Alert not found." };
+                    return new ServiceResult { Status = Const.FAIL_READ_CODE, 
+                        Message = "Alert not found." };
 
-                await _unitOfWork.AlertRepository.RemoveAsync(alert);
+                await _unitOfWork.AlertRepository
+                    .RemoveAsync(alert);
 
-                return new ServiceResult { Status = Const.SUCCESS_DELETE_CODE, Message = Const.SUCCESS_DELETE_MSG };
+                return new ServiceResult { Status = Const.SUCCESS_DELETE_CODE, 
+                    Message = Const.SUCCESS_DELETE_MSG };
             }
             catch (Exception ex)
             {
-                return HandleException("deleting the alert", ex);
+
+                return HandleException("deleting the alert",
+                    ex);
             }
         }
 
@@ -135,25 +188,36 @@ namespace BabyHaven.Services.Services
             try
             {
 
-                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(name, DateOnly.Parse(dob), memberId);
+                var child = await _unitOfWork.ChildrenRepository
+                    .GetChildByNameAndDateOfBirthAsync(name, DateOnly.Parse(dob), memberId);
 
                 if (child == null)
                 {
-                    return new ServiceResult(Const.FAIL_READ_CODE, "Invalid child.");
+
+                    return new ServiceResult(Const.FAIL_READ_CODE, 
+                        "Invalid child.");
                 }
 
-                var latestRecord = await _unitOfWork.GrowthRecordRepository.GetLatestGrowthRecordByChildAsync(child.ChildId);
+                var latestRecord = await _unitOfWork.GrowthRecordRepository
+                    .GetLatestGrowthRecordByChildAsync(child.ChildId);
+
                 if (latestRecord == null)
                 {
-                    return new ServiceResult(Const.FAIL_READ_CODE, "No growth records found for this child.");
+
+                    return new ServiceResult(Const.FAIL_READ_CODE, 
+                        "No growth records found for this child.");
                 }
 
                 if (child?.Gender == null)
                 {
-                    return new ServiceResult(Const.FAIL_READ_CODE, "Child not found or gender not specified.");
+
+                    return new ServiceResult(Const.FAIL_READ_CODE, 
+                        "Child not found or gender not specified.");
                 }
 
-                var diseases = await _unitOfWork.DiseaseRepository.GetAllAsync();
+                var diseases = await _unitOfWork.DiseaseRepository
+                    .GetAllAsync();
+
                 var alertsToCreate = diseases
                     .Where(disease => ShouldCreateAlert(latestRecord, disease, child))
                     .Select(disease => disease.ToAlertFromGrowthRecord(latestRecord))
@@ -161,25 +225,35 @@ namespace BabyHaven.Services.Services
 
                 if (!alertsToCreate.Any())
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, "No alerts created.");
+
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        "No alerts created.");
                 }
 
                 foreach (var alert in alertsToCreate)
                 {
-                    await _unitOfWork.AlertRepository.CreateAsync(alert);
+
+                    await _unitOfWork.AlertRepository
+                        .CreateAsync(alert);
                 }
 
-                return new ServiceResult(Const.SUCCESS_CREATE_CODE, "Alerts created successfully.", alertsToCreate);
+                return new ServiceResult(Const.SUCCESS_CREATE_CODE,
+                    "Alerts created successfully.",
+                    alertsToCreate);
             }
             catch (Exception ex)
             {
-                return HandleException("checking and creating alerts", ex);
+
+                return HandleException("checking and creating alerts", 
+                    ex);
             }
         }
 
         private bool ShouldCreateAlert(GrowthRecord growthRecord, Disease disease, Child child)
         {
+
             int age = ChildrenHelper.CalculateAge(child.DateOfBirth.ToDateTime(TimeOnly.MinValue));
+
             if (age < 0) return false;
 
             return disease.DiseaseName switch
@@ -201,14 +275,18 @@ namespace BabyHaven.Services.Services
 
         private bool IsBmiInRange(GrowthRecord growthRecord, Disease disease, Child child)
         {
+
             if (growthRecord.Weight <= 0 || growthRecord.Height <= 0) return false;
+
             double bmi = growthRecord.Weight / (growthRecord.Height * growthRecord.Height) * 10000;
+
             return IsValueInRange(bmi, disease, child);
         }
 
         private bool IsValueInRange(double? value, Disease disease, Child child)
         {
             if (!value.HasValue || value.Value < 0) return false;
+
             return child.Gender == "Male"
                 ? value.Value > disease.LowerBoundMale && value.Value < disease.UpperBoundMale
                 : value.Value > disease.LowerBoundFemale && value.Value < disease.UpperBoundFemale;
@@ -217,7 +295,9 @@ namespace BabyHaven.Services.Services
         private bool IsDevelopmentalMilestonesInRange(GrowthRecord growthRecord, Disease disease, Child child)
         {
             if (string.IsNullOrEmpty(growthRecord.DevelopmentalMilestones)) return false;
+
             int length = growthRecord.DevelopmentalMilestones.Length;
+
             return child.Gender == "Male"
                 ? length > disease.LowerBoundMale && length < disease.UpperBoundMale
                 : length > disease.LowerBoundFemale && length < disease.UpperBoundFemale;
@@ -228,6 +308,7 @@ namespace BabyHaven.Services.Services
         {
             return new ServiceResult
             {
+
                 Status = Const.ERROR_EXCEPTION,
                 Message = $"An error occurred while {action}: {ex.InnerException?.Message}"
             };

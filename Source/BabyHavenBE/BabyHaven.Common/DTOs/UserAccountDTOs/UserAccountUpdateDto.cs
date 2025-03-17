@@ -41,7 +41,7 @@ namespace BabyHaven.Common.DTOs.UserAccountDTOs
 
 
         [Required(ErrorMessage = "DateOfBirth is required.")]
-        public DateOnly? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; } = string.Empty;
 
 
         [Required(ErrorMessage = "Address is required.")]

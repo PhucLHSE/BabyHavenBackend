@@ -2,6 +2,7 @@
 using BabyHaven.Common.DTOs.MilestoneDTOS;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -13,7 +14,8 @@ namespace BabyHaven.APIService.Controllers
 
         public MilestoneController(IMilestoneService milestoneService)
         {
-            _milestoneService = milestoneService ?? throw new ArgumentNullException(nameof(milestoneService));
+            _milestoneService = milestoneService 
+                ?? throw new ArgumentNullException(nameof(milestoneService));
         }
 
         /// <summary>
@@ -24,7 +26,15 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _milestoneService.GetAll();
+
             return StatusCode(result.Status, result);
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<MilestoneViewAllDto>> GetForOData()
+        {
+            return await _milestoneService.GetQueryable();
         }
 
         /// <summary>
@@ -36,6 +46,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _milestoneService.GetById(id);
+
             return StatusCode(result.Status, result);
         }
 
@@ -51,6 +62,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _milestoneService.Create(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -67,6 +79,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _milestoneService.Update(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -79,6 +92,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _milestoneService.Delete(id);
+
             return StatusCode(result.Status, result);
         }
     }

@@ -127,8 +127,10 @@ namespace BabyHaven.Services.Mappers
             if (!string.IsNullOrWhiteSpace(updateDto.Gender))
                 userAccount.Gender = updateDto.Gender;
 
-            if (updateDto.DateOfBirth.HasValue)
-                userAccount.DateOfBirth = updateDto.DateOfBirth.Value;
+            if (!string.IsNullOrWhiteSpace(updateDto.DateOfBirth))
+            {
+                userAccount.DateOfBirth = DateOnly.Parse(updateDto.DateOfBirth);
+            }
 
             if (!string.IsNullOrWhiteSpace(updateDto.Address))
                 userAccount.Address = updateDto.Address;
@@ -141,6 +143,7 @@ namespace BabyHaven.Services.Mappers
 
             if (updateDto.Status.HasValue)
                 userAccount.Status = updateDto.Status.ToString();
+
             userAccount.UpdatedAt = DateTime.UtcNow;
         }
 
@@ -197,5 +200,32 @@ namespace BabyHaven.Services.Mappers
                 IsVerified = false
             };
         }
+
+        public static ForgotPasswordDto MapToForgotPasswordDto(this UserAccount user)
+        {
+            return new ForgotPasswordDto
+            {
+                Email = user.Email
+            };
+        }
+
+        public static VerifyOtpDto MapToVerifyOtpDto(this UserAccount user, string otp)
+        {
+            return new VerifyOtpDto
+            {
+                Email = user.Email,
+                Otp = otp
+            };
+        }
+
+        public static ResetPasswordDto MapToResetPasswordDto(this UserAccount user, string newPassword)
+        {
+            return new ResetPasswordDto
+            {
+                Email = user.Email,
+                NewPassword = newPassword
+            };
+        }
+
     }
 }

@@ -5,6 +5,7 @@ using BabyHaven.Services.IServices;
 using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.TransactionDTOs;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,6 +34,13 @@ namespace BabyHaven.APIService.Controllers
             return await _transactionService.GetById(id);
         }
 
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<TransactionViewAllDto>> GetForOData()
+        {
+            return await _transactionService.GetQueryable();
+        }
+
         [HttpGet("transaction/{id}")]
         public async Task<IServiceResult> GetByUserId(Guid id)
         {
@@ -51,7 +59,10 @@ namespace BabyHaven.APIService.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new ServiceResult(Const.ERROR_VALIDATION_CODE, "Validation failed", ModelState);
+
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE, 
+                    "Validation failed", 
+                    ModelState);
             }
 
             return await _transactionService.Create(transactionCreateDto);

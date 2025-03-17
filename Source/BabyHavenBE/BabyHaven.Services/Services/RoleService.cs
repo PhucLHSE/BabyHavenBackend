@@ -24,38 +24,61 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
-            var roles = await _unitOfWork.RoleRepository.GetAllAsync();
+
+            var roles = await _unitOfWork.RoleRepository
+                .GetAllAsync();
 
             if (roles == null || !roles.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
                     new List<RoleViewAllDto>());
             }
             else
             {
+
                 var roleDtos = roles
                     .Select(roles => roles.MapToRoleViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     roleDtos);
             }
         }
 
+        public async Task<IQueryable<RoleViewAllDto>> GetQueryable()
+        {
+
+            var roles = await _unitOfWork.RoleRepository
+                .GetAllAsync();
+
+            return roles
+                .Select(roles => roles.MapToRoleViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int RoleId)
         {
-            var role = await _unitOfWork.RoleRepository.GetByIdAsync(RoleId);
+
+            var role = await _unitOfWork.RoleRepository
+                .GetByIdAsync(RoleId);
 
             if (role == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
                     new RoleViewDetailsDto());
             }
             else
             {
+
                 var roleDto = role.MapToRoleViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
                     roleDto);
             }
         }
@@ -64,12 +87,16 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the role exists in the database
-                var role = await _unitOfWork.RoleRepository.GetByRoleNameAsync(roleDto.RoleName);
+                var role = await _unitOfWork.RoleRepository
+                    .GetByRoleNameAsync(roleDto.RoleName);
 
                 if (role != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Role with the same name already exists.");
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "Role with the same name already exists.");
                 }
 
                 // Map DTO to Entity
@@ -80,21 +107,30 @@ namespace BabyHaven.Services.Services
                 newRole.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.RoleRepository.CreateAsync(newRole);
+                var result = await _unitOfWork.RoleRepository
+                    .CreateAsync(newRole);
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+
+                    return new ServiceResult(Const.
+                        SUCCESS_CREATE_CODE,
+                        Const.
+                        SUCCESS_CREATE_MSG,
                         newRole);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                        ex.ToString());
             }
         }
 
@@ -102,12 +138,17 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the role exists in the database
-                var role = await _unitOfWork.RoleRepository.GetByIdAsync(roleDto.RoleId);
+                var role = await _unitOfWork.RoleRepository
+                    .GetByIdAsync(roleDto.RoleId);
 
                 if (role == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Role not found.");
+
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        "Role not found.");
                 }
 
                 //Map DTO to Entity
@@ -117,21 +158,34 @@ namespace BabyHaven.Services.Services
                 role.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.RoleRepository.UpdateAsync(role);
+                var result = await _unitOfWork.RoleRepository
+                    .UpdateAsync(role);
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+
+                    return new ServiceResult(Const.
+                        SUCCESS_UPDATE_CODE,
+                        Const.
+                        SUCCESS_UPDATE_MSG,
                         role);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        Const.
+                        FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.
+                    ToString());
             }
         }
 
@@ -139,34 +193,52 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var role = await _unitOfWork.RoleRepository.GetByIdAsync(RoleId);
+
+                var role = await _unitOfWork.RoleRepository
+                    .GetByIdAsync(RoleId);
 
                 if (role == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                    return new ServiceResult(Const.
+                        WARNING_NO_DATA_CODE,
+                        Const.
+                        WARNING_NO_DATA_MSG,
                         new RoleDeleteDto());
                 }
                 else
                 {
+
                     var deleteRoleDto = role.MapToRoleDeleteDto();
 
-                    var result = await _unitOfWork.RoleRepository.RemoveAsync(role);
+                    var result = await _unitOfWork.RoleRepository
+                        .RemoveAsync(role);
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+
+                        return new ServiceResult(Const.
+                            SUCCESS_DELETE_CODE,
+                            Const.
+                            SUCCESS_DELETE_MSG,
                             deleteRoleDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+
+                        return new ServiceResult(Const.
+                            FAIL_DELETE_CODE,
+                            Const.
+                            FAIL_DELETE_MSG,
                             deleteRoleDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
     }

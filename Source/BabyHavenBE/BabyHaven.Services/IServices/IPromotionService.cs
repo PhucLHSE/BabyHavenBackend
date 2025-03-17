@@ -12,6 +12,7 @@ namespace BabyHaven.Services.IServices
     public interface IPromotionService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<PromotionViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(Guid PromotionId);
         Task<IServiceResult> Create(PromotionCreateDto promotionDto);
         Task<IServiceResult> Update(PromotionUpdateDto promotionDto);

@@ -19,40 +19,61 @@ namespace BabyHaven.Services.Services
 
         public async Task<IServiceResult> GetAll()
         {
+
             var packagePromotions = await _unitOfWork.PackagePromotionRepository
                 .GetAllPackagePromotionAsync();
 
             if (packagePromotions == null || !packagePromotions.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new List<PackagePromotionViewAllDto>());
             }
             else
             {
+
                 var packagePromotionDtos = packagePromotions
                     .Select(packagePromotion => packagePromotion.MapToPackagePromotionViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     packagePromotionDtos);
             }
         }
 
+        public async Task<IQueryable<PackagePromotionViewAllDto>> GetQueryable()
+        {
+
+            var packagePromotions = await _unitOfWork.PackagePromotionRepository
+                .GetAllPackagePromotionAsync();
+
+            return packagePromotions
+                .Select(packagePromotions => packagePromotions.MapToPackagePromotionViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int PackageId, Guid PromotionId)
         {
+
             var packagePromotion = await _unitOfWork.PackagePromotionRepository
                 .GetByIdPackagePromotionAsync(PackageId, PromotionId);
 
             if (packagePromotion == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new PackagePromotionViewDetailsDto());
             }
             else
             {
+
                 var packagePromotionDto = packagePromotion.MapToPackagePromotionViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     packagePromotionDto);
             }
         }
@@ -61,6 +82,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve mappings: PackageName -> PackageId and PromotionCode -> PromotionId
                 var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
                     .GetAllPackageNameToIdMappingAsync();
@@ -72,6 +94,7 @@ namespace BabyHaven.Services.Services
                 if (!packageNameToIdMapping
                     .TryGetValue(packagePromotionDto.PackageName, out var packageId))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PackageName '{packagePromotionDto.PackageName}' does not exist.");
                 }
@@ -80,6 +103,7 @@ namespace BabyHaven.Services.Services
                 if (!promotionCodeToIdMapping
                     .TryGetValue(packagePromotionDto.PromotionCode, out var promotionId))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PromotionCode '{packagePromotionDto.PromotionCode}' does not exist.");
                 }
@@ -90,6 +114,7 @@ namespace BabyHaven.Services.Services
 
                 if (existingPackagePromotion != null)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         "The specified PackageFeature already exists.");
                 }
@@ -103,6 +128,7 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
+
                     var responseDto = new PackagePromotionCreateDto
                     {
                         PackageName = packagePromotionDto.PackageName,
@@ -110,17 +136,22 @@ namespace BabyHaven.Services.Services
                         IsActive = packagePromotionDto.IsActive
                     };
 
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, 
+                        Const.SUCCESS_CREATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -128,6 +159,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve mappings: PackageName -> PackageId and PromotionCode -> PromotionId
                 var packageNameToIdMapping = await _unitOfWork.MembershipPackageRepository
                     .GetAllPackageNameToIdMappingAsync();
@@ -139,6 +171,7 @@ namespace BabyHaven.Services.Services
                 if (!packageNameToIdMapping
                     .TryGetValue(packagePromotionDto.PackageName, out var packageId))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PackageName '{packagePromotionDto.PackageName}' does not exist.");
                 }
@@ -147,6 +180,7 @@ namespace BabyHaven.Services.Services
                 if (!promotionCodeToIdMapping
                     .TryGetValue(packagePromotionDto.PromotionCode, out var promotionId))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"PromotionCode '{packagePromotionDto.PromotionCode}' does not exist.");
                 }
@@ -171,18 +205,24 @@ namespace BabyHaven.Services.Services
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, 
+                        Const.SUCCESS_UPDATE_MSG,
                         packagePromotionDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG,
+
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        Const.FAIL_UPDATE_MSG,
                         packagePromotionDto);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -190,6 +230,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve the PackagePromotion using the provided PackageId and PromotionId
                 var packagePromotion = await _unitOfWork.PackagePromotionRepository
                     .GetByIdPackagePromotionAsync(PackageId, PromotionId);
@@ -197,11 +238,14 @@ namespace BabyHaven.Services.Services
                 // Check if the PackagePromotion exists
                 if (packagePromotion == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        Const.WARNING_NO_DATA_MSG,
                         new PackagePromotionDeleteDto());
                 }
                 else
                 {
+
                     // Map to PackagePromotionDeleteDto for response
                     var deletePackagePromotionDto = packagePromotion.MapToPackagePromotionDeleteDto();
 
@@ -210,19 +254,25 @@ namespace BabyHaven.Services.Services
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, 
+                            Const.SUCCESS_DELETE_MSG,
                             deletePackagePromotionDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+
+                        return new ServiceResult(Const.FAIL_DELETE_CODE, 
+                            Const.FAIL_DELETE_MSG,
                             deletePackagePromotionDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
     }

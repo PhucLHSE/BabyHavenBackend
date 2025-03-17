@@ -13,7 +13,7 @@ using BabyHaven.Common.DTOs.SpecializationDTOs;
 
 namespace BabyHaven.Services.Services
 {
-    public class SpecializationService:ISpecializationService
+    public class SpecializationService : ISpecializationService
     {
         private readonly UnitOfWork _unitOfWork;
 
@@ -23,38 +23,69 @@ namespace BabyHaven.Services.Services
         }
         public async Task<IServiceResult> GetAll()
         {
-            var specializations = await _unitOfWork.SpecializationRepository.GetAllAsync();
+
+            var specializations = await _unitOfWork.SpecializationRepository
+                .GetAllAsync();
 
             if (specializations == null || !specializations.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.
+                    WARNING_NO_DATA_CODE,
+                    Const.
+                    WARNING_NO_DATA_MSG,
                     new List<SpecializationViewAllDto>());
             }
             else
             {
+
                 var specializationDtos = specializations
                     .Select(specializations => specializations.MapToSpecializationViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.
+                    SUCCESS_READ_CODE,
+                    Const.
+                    SUCCESS_READ_MSG,
                     specializationDtos);
             }
         }
 
+        public async Task<IQueryable<SpecializationViewAllDto>> GetQueryable()
+        {
+
+            var specializations = await _unitOfWork.SpecializationRepository
+                .GetAllAsync();
+
+            return specializations
+                .Select(specializations => specializations.MapToSpecializationViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int SpecializationId)
         {
-            var specialization = await _unitOfWork.SpecializationRepository.GetByIdAsync(SpecializationId);
+
+            var specialization = await _unitOfWork.SpecializationRepository
+                .GetByIdAsync(SpecializationId);
 
             if (specialization == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.
+                    WARNING_NO_DATA_CODE,
+                    Const.
+                    WARNING_NO_DATA_MSG,
                     new SpecializationViewDetailsDto());
             }
             else
             {
+
                 var specializationDto = specialization.MapToSpecializationViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.
+                    SUCCESS_READ_CODE,
+                    Const.
+                    SUCCESS_READ_MSG,
                     specializationDto);
             }
         }
@@ -63,12 +94,17 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the specialization exists in the database
-                var specialization = await _unitOfWork.SpecializationRepository.GetBySpecializationNameAsync(specializationDto.SpecializationName);
+                var specialization = await _unitOfWork.SpecializationRepository
+                    .GetBySpecializationNameAsync(specializationDto.SpecializationName);
 
                 if (specialization != null)
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, "Specialization with the same name already exists.");
+
+                    return new ServiceResult(Const.
+                        FAIL_CREATE_CODE,
+                        "Specialization with the same name already exists.");
                 }
 
                 // Map DTO to Entity
@@ -79,21 +115,33 @@ namespace BabyHaven.Services.Services
                 newSpecialization.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.SpecializationRepository.CreateAsync(newSpecialization);
+                var result = await _unitOfWork.SpecializationRepository
+                    .CreateAsync(newSpecialization);
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+
+                    return new ServiceResult(Const.
+                        SUCCESS_CREATE_CODE,
+                        Const.
+                        SUCCESS_CREATE_MSG,
                         newSpecialization);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+
+                    return new ServiceResult(Const.
+                        FAIL_CREATE_CODE,
+                        Const.
+                        FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
@@ -101,12 +149,17 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if the Specialization exists in the database
-                var specialization = await _unitOfWork.SpecializationRepository.GetByIdAsync(specializationDto.SpecializationId);
+                var specialization = await _unitOfWork.SpecializationRepository
+                    .GetByIdAsync(specializationDto.SpecializationId);
 
                 if (specialization == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Specialization not found.");
+
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        "Specialization not found.");
                 }
 
                 //Map DTO to Entity
@@ -116,21 +169,30 @@ namespace BabyHaven.Services.Services
                 specialization.UpdatedAt = DateTime.UtcNow;
 
                 // Save data to database
-                var result = await _unitOfWork.SpecializationRepository.UpdateAsync(specialization);
+                var result = await _unitOfWork.SpecializationRepository
+                    .UpdateAsync(specialization);
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG,
+                    return new ServiceResult(Const.
+                        SUCCESS_UPDATE_CODE,
+                        Const.
+                        SUCCESS_UPDATE_MSG,
                         specialization);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                    return new ServiceResult(Const.
+                        FAIL_UPDATE_CODE,
+                        Const.
+                        FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
 
@@ -138,34 +200,53 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var specialization = await _unitOfWork.SpecializationRepository.GetByIdAsync(SpecializationId);
+
+                var specialization = await _unitOfWork.SpecializationRepository
+                    .GetByIdAsync(SpecializationId);
 
                 if (specialization == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                    return new ServiceResult(Const.
+                        WARNING_NO_DATA_CODE,
+                        Const.
+                        WARNING_NO_DATA_MSG,
                         new SpecializationDeleteDto());
                 }
                 else
                 {
+
                     var deleteSpecializationDto = specialization.MapToSpecializationDeleteDto();
 
-                    var result = await _unitOfWork.SpecializationRepository.RemoveAsync(specialization);
+                    var result = await _unitOfWork.SpecializationRepository
+                        .RemoveAsync(specialization);
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+
+                        return new ServiceResult(Const.
+                            SUCCESS_DELETE_CODE,
+                            Const.
+                            SUCCESS_DELETE_MSG,
                             deleteSpecializationDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+
+                        return new ServiceResult(Const.
+                            FAIL_DELETE_CODE,
+                            Const.
+                            FAIL_DELETE_MSG,
                             deleteSpecializationDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.
+                    ERROR_EXCEPTION,
+                    ex.ToString());
             }
         }
     }

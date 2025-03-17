@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IConsultationRequestService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<ConsultationRequestViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int RequestId);
         Task<IServiceResult> Create(ConsultationRequestCreateDto consultationRequestDto);
         Task<IServiceResult> DeleteById(int RequestId);

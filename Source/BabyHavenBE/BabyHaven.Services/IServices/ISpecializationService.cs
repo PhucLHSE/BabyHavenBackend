@@ -12,9 +12,15 @@ namespace BabyHaven.Services.IServices
     public interface ISpecializationService
     {
         Task<IServiceResult> GetAll();
+
+        Task<IQueryable<SpecializationViewAllDto>> GetQueryable();
+
         Task<IServiceResult> GetById(int SpecializationId);
+
         Task<IServiceResult> Create(SpecializationCreateDto specializationDto);
+
         Task<IServiceResult> Update(SpecializationUpdateDto specializationDto);
+
         Task<IServiceResult> DeleteById(int SpecializationId);
     }
 }

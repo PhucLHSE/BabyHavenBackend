@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.ChildMilestoneDTOs;
 using BabyHaven.Services.IServices;
 using BabyHaven.Services.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BabyHaven.APIService.Controllers
 {
@@ -14,7 +15,8 @@ namespace BabyHaven.APIService.Controllers
 
         public ChildMilestoneController(IChildMilestoneService childMilestoneService)
         {
-            _childMilestoneService = childMilestoneService ?? throw new ArgumentNullException(nameof(childMilestoneService));
+            _childMilestoneService = childMilestoneService 
+                ?? throw new ArgumentNullException(nameof(childMilestoneService));
         }
 
         /// <summary>
@@ -25,7 +27,15 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _childMilestoneService.GetAll();
+
             return StatusCode(result.Status, result);
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<ChildMilestoneViewAllDto>> GetForOData()
+        {
+            return await _childMilestoneService.GetQueryable();
         }
 
         /// <summary>
@@ -38,6 +48,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetById(Guid childId, int milestoneId)
         {
             var result = await _childMilestoneService.GetById(childId, milestoneId);
+
             return StatusCode(result.Status, result);
         }
 
@@ -54,6 +65,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _childMilestoneService.Create(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -71,6 +83,7 @@ namespace BabyHaven.APIService.Controllers
                 return BadRequest(ModelState);
 
             var result = await _childMilestoneService.Update(dto);
+
             return StatusCode(result.Status, result);
         }
 
@@ -84,6 +97,7 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> Delete(Guid childId, int milestoneId)
         {
             var result = await _childMilestoneService.Delete(childId, milestoneId);
+
             return StatusCode(result.Status, result);
         }
     }

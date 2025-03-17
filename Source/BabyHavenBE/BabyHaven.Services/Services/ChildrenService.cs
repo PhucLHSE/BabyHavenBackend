@@ -17,29 +17,34 @@ namespace BabyHaven.Services.Services
     public class ChildrenService : IChildrenService
     {
         private readonly UnitOfWork _unitOfWork;
+
         public ChildrenService(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork 
                 ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
+
         // when the baby is born 
         public async Task<IServiceResult> CreateChild(ChildCreateDto dto)
         {
             try
             {
+
                 if (dto == null)
                     return new ServiceResult { Status = Const.FAIL_CREATE_CODE,
                         Message = Const.FAIL_CREATE_MSG };
 
                 var child = dto.ToChild();
 
-                await _unitOfWork.ChildrenRepository.CreateAsync(child);
+                await _unitOfWork.ChildrenRepository
+                    .CreateAsync(child);
 
                 return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE,
                     Message = Const.SUCCESS_CREATE_MSG};
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while creating the child: {ex.InnerException?.Message}" };
             }
@@ -50,11 +55,13 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 if (dto == null)
                     return new ServiceResult { Status = Const.FAIL_CREATE_CODE,
                         Message = Const.FAIL_CREATE_MSG };
 
-                var member = await _unitOfWork.MemberRepository.GetMemberByUserId(dto.UserId);
+                var member = await _unitOfWork.MemberRepository
+                    .GetMemberByUserId(dto.UserId);
 
                 if (member == null)
                     return new ServiceResult { Status = Const.FAIL_CREATE_CODE,
@@ -62,13 +69,15 @@ namespace BabyHaven.Services.Services
 
                 var child = dto.ToChild(member.MemberId);
 
-                await _unitOfWork.ChildrenRepository.CreateAsync(child);
+                await _unitOfWork.ChildrenRepository
+                    .CreateAsync(child);
 
                 return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE,
                     Message = Const.SUCCESS_CREATE_MSG };
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while creating the child: {ex.InnerException?.Message}" };
             }
@@ -78,6 +87,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var child = await _unitOfWork.ChildrenRepository
                     .GetByIdAsync(childId);
 
@@ -85,13 +95,15 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult { Status = Const.FAIL_READ_CODE,
                         Message = "Child not found." };
 
-                await _unitOfWork.ChildrenRepository.RemoveAsync(child);
+                await _unitOfWork.ChildrenRepository
+                    .RemoveAsync(child);
 
                 return new ServiceResult { Status = Const.SUCCESS_DELETE_CODE, 
                     Message = Const.SUCCESS_DELETE_MSG };
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION, 
                     Message = $"An error occurred while deleting the child: {ex.Message}" };
             }
@@ -101,6 +113,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var children = await _unitOfWork.ChildrenRepository
                     .GetAllAsync();
 
@@ -114,6 +127,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION, 
                     Message = $"An error occurred while retrieving children: {ex.Message}" };
             }
@@ -123,6 +137,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var child = await _unitOfWork.ChildrenRepository
                     .GetByIdAsync(childId);
 
@@ -136,6 +151,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while retrieving the child: {ex.Message}" };
             }
@@ -145,6 +161,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var child = await _unitOfWork.ChildrenRepository
                     .GetChildByNameAndDateOfBirthAsync(childName, DateOnly.Parse(dateOfBirth), memberId);
 
@@ -158,6 +175,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while retrieving the child: {ex.Message}" };
             }
@@ -167,6 +185,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var children = await _unitOfWork.ChildrenRepository
                     .GetChildrenByMemberIdAsync(memberId);
 
@@ -180,6 +199,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while retrieving children: {ex.Message}" };
             }
@@ -189,6 +209,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var child = await _unitOfWork.ChildrenRepository
                     .GetByIdAsync(childId);
 
@@ -197,13 +218,16 @@ namespace BabyHaven.Services.Services
                         Message = "Child not found." };
 
                 child.Status = ChildrenStatus.Inactive.ToString();
-                await _unitOfWork.ChildrenRepository.UpdateAsync(child);
+
+                await _unitOfWork.ChildrenRepository
+                    .UpdateAsync(child);
 
                 return new ServiceResult { Status = Const.SUCCESS_UPDATE_CODE,
                     Message = "Child marked for deletion." };
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while marking the child for deletion: {ex.Message}" };
             }
@@ -213,6 +237,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 var child = await _unitOfWork.ChildrenRepository
                     .GetByIdAsync(childId);
 
@@ -221,13 +246,16 @@ namespace BabyHaven.Services.Services
                         Message = "Child not found." };
 
                 child.Status = ChildrenStatus.Active.ToString();
-                await _unitOfWork.ChildrenRepository.UpdateAsync(child);
+
+                await _unitOfWork.ChildrenRepository
+                    .UpdateAsync(child);
 
                 return new ServiceResult { Status = Const.SUCCESS_UPDATE_CODE,
                     Message = "Child recovered successfully." };
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while recovering the child: {ex.Message}" };
             }
@@ -237,6 +265,7 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 if (dto == null)
                     return new ServiceResult { Status = Const.FAIL_UPDATE_CODE,
                         Message = Const.FAIL_UPDATE_MSG };
@@ -258,6 +287,7 @@ namespace BabyHaven.Services.Services
             }
             catch (Exception ex)
             {
+
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION,
                     Message = $"An error occurred while updating the child: {ex.Message}" };
             }
@@ -265,6 +295,7 @@ namespace BabyHaven.Services.Services
 
         public async Task<IQueryable<ChildViewAllDto>> GetQueryable()
         {
+
             var children = await _unitOfWork.ChildrenRepository
                 .GetAllAsync();
 
