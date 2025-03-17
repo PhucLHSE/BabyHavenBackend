@@ -62,6 +62,8 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<List<Transaction>?> GetByUserId(Guid userId)
         {
             return await _context.Transactions
+                .Include(p => p.MemberMembership)
+                    .ThenInclude(p => p.Package)
                 .Where(t => t.UserId == userId)
                 .ToListAsync();
         }
