@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Services.Services
 {
-    public class DoctorSpecializationService:IDoctorSpecializationService
+    public class DoctorSpecializationService : IDoctorSpecializationService
     {
         private readonly UnitOfWork _unitOfWork;
 
@@ -22,38 +22,50 @@ namespace BabyHaven.Services.Services
         }
         public async Task<IServiceResult> GetAll()
         {
-            var doctorSpecializations = await _unitOfWork.DoctorSpecializationRepository.GetAllDoctorSpecializationAsync();
+
+            var doctorSpecializations = await _unitOfWork.DoctorSpecializationRepository
+                .GetAllDoctorSpecializationAsync();
 
             if (doctorSpecializations == null || !doctorSpecializations.Any())
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                    Const.WARNING_NO_DATA_MSG,
                     new List<DoctorSpecializationViewAllDto>());
             }
             else
             {
+
                 var doctorSpecializationDtos = doctorSpecializations
                     .Select(doctorSpecialization => doctorSpecialization.MapToDoctorSpecializationViewAllDto())
                     .ToList();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     doctorSpecializationDtos);
             }
         }
 
         public async Task<IServiceResult> GetById(int DoctorSpecializationId)
         {
-            var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository.GetByIdDoctorSpecializationAsync(DoctorSpecializationId);
+
+            var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository
+                .GetByIdDoctorSpecializationAsync(DoctorSpecializationId);
 
             if (doctorSpecialization == null)
             {
-                return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
                     new DoctorSpecializationViewDetailsDto());
             }
             else
             {
+
                 var doctorSpecializationDto = doctorSpecialization.MapToDoctorSpecializationViewDetailsDto();
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG,
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    Const.SUCCESS_READ_MSG,
                     doctorSpecializationDto);
             }
         }
@@ -62,13 +74,18 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve mappings: SpecializationName -> SpecializationId and DoctorName -> DoctorId
-                var specializationNameToIdMapping = await _unitOfWork.SpecializationRepository.GetAllSpecializationNameToIdMappingAsync();
-                var doctorNameToIdMapping = await _unitOfWork.DoctorRepository.GetAllDoctorNameToIdMappingAsync();
+                var specializationNameToIdMapping = await _unitOfWork.SpecializationRepository
+                    .GetAllSpecializationNameToIdMappingAsync();
+
+                var doctorNameToIdMapping = await _unitOfWork.DoctorRepository
+                    .GetAllDoctorNameToIdMappingAsync();
 
                 // Check if the provided SpecializationName exists
                 if (!specializationNameToIdMapping.ContainsKey(doctorSpecializationCreateDto.SpecializationName))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"SpecializationName '{doctorSpecializationCreateDto.SpecializationName}' does not exist.");
                 }
@@ -76,6 +93,7 @@ namespace BabyHaven.Services.Services
                 // Check if the provided DoctorName exists
                 if (!doctorNameToIdMapping.ContainsKey(doctorSpecializationCreateDto.DoctorName))
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         $"DoctorName '{doctorSpecializationCreateDto.DoctorName}' does not exist.");
                 }
@@ -90,6 +108,7 @@ namespace BabyHaven.Services.Services
 
                 if (existingDoctorSpecialization != null && existingDoctorSpecialization.SpecializationId > 0)
                 {
+
                     return new ServiceResult(Const.FAIL_CREATE_CODE,
                         "The specified DoctorSpecialization already exists.");
                 }
@@ -101,28 +120,36 @@ namespace BabyHaven.Services.Services
                 newDoctorSpecialization.CreatedAt = DateTime.UtcNow;
 
                 // Save the new entity to the database
-                var result = await _unitOfWork.DoctorSpecializationRepository.CreateAsync(newDoctorSpecialization);
+                var result = await _unitOfWork.DoctorSpecializationRepository
+                    .CreateAsync(newDoctorSpecialization);
 
                 if (result > 0)
                 {
+
                     var responseDto = new DoctorSpecializationCreateDto
                     {
+
                         DoctorName = doctorSpecializationCreateDto.DoctorName,
                         SpecializationName = doctorSpecializationCreateDto.SpecializationName,
                         Status = doctorSpecializationCreateDto.Status
                     };
 
-                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, Const.SUCCESS_CREATE_MSG,
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE,
+                        Const.SUCCESS_CREATE_MSG,
                         responseDto);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                        Const.FAIL_CREATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -130,13 +157,16 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Check if DoctorSpecialization exists
                 var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository
                     .GetByIdAsync(doctorSpecializationUpdateDto.DoctorSpecializationId);
 
                 if (doctorSpecialization == null)
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "DoctorSpecialization not found.");
+
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, 
+                        "DoctorSpecialization not found.");
                 }
 
                 // Call the correct extension method
@@ -146,20 +176,28 @@ namespace BabyHaven.Services.Services
                 doctorSpecialization.UpdatedAt = DateTime.UtcNow;
 
                 // Save changes to the database
-                var result = await _unitOfWork.DoctorSpecializationRepository.UpdateAsync(doctorSpecialization);
+                var result = await _unitOfWork.DoctorSpecializationRepository
+                    .UpdateAsync(doctorSpecialization);
 
                 if (result > 0)
                 {
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, Const.SUCCESS_UPDATE_MSG, doctorSpecialization);
+
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE, 
+                        Const.SUCCESS_UPDATE_MSG,
+                        doctorSpecialization);
                 }
                 else
                 {
-                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        Const.FAIL_UPDATE_MSG);
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
 
@@ -169,37 +207,49 @@ namespace BabyHaven.Services.Services
         {
             try
             {
+
                 // Retrieve the DoctorSpecialization using the provided SpecializationId and DoctorId
-                var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository.GetByIdDoctorSpecializationAsync( DoctorSpecializationId);
+                var doctorSpecialization = await _unitOfWork.DoctorSpecializationRepository
+                    .GetByIdDoctorSpecializationAsync( DoctorSpecializationId);
 
                 // Check if the DoctorSpecialization exists
                 if (doctorSpecialization == null)
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG,
+
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, 
+                        Const.WARNING_NO_DATA_MSG,
                         new DoctorSpecializationDeleteDto());
                 }
                 else
                 {
+
                     // Map to DoctorSpecializationDeleteDto for response
                     var deleteDoctorSpecializationDto = doctorSpecialization.MapToDoctorSpecializationDeleteDto();
 
-                    var result = await _unitOfWork.DoctorSpecializationRepository.RemoveAsync(doctorSpecialization);
+                    var result = await _unitOfWork.DoctorSpecializationRepository
+                        .RemoveAsync(doctorSpecialization);
 
                     if (result)
                     {
-                        return new ServiceResult(Const.SUCCESS_DELETE_CODE, Const.SUCCESS_DELETE_MSG,
+
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE,
+                            Const.SUCCESS_DELETE_MSG,
                             deleteDoctorSpecializationDto);
                     }
                     else
                     {
-                        return new ServiceResult(Const.FAIL_DELETE_CODE, Const.FAIL_DELETE_MSG,
+
+                        return new ServiceResult(Const.FAIL_DELETE_CODE,
+                            Const.FAIL_DELETE_MSG,
                             deleteDoctorSpecializationDto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, ex.ToString());
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
             }
         }
     }
