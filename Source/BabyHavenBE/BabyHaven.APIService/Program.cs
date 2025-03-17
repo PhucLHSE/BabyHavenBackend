@@ -23,6 +23,8 @@ using Microsoft.OData.ModelBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Environment.EnvironmentName = Environments.Development;
+
 // Đăng ký dịch vụ trong DI Container
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IMembershipPackageService, MembershipPackageService>();
@@ -198,10 +200,20 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 //Cấu hình Middleware
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "BabyHaven API V1");
+        c.RoutePrefix = string.Empty;
+    });
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
