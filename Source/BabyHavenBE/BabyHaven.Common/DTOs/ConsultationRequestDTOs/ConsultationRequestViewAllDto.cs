@@ -14,6 +14,8 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 
         public string ChildName { get; set; } = string.Empty;
 
+        public int DoctorId { get; set; }
+
         public DateTime RequestDate { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
