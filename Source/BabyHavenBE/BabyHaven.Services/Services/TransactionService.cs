@@ -47,6 +47,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<TransactionViewAllDto>> GetQueryable()
+        {
+
+            var transactions = await _unitOfWork.TransactionRepository
+                .GetAllTransactionAsync();
+
+            return transactions
+                .Select(transactions => transactions.MapToTransactionViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(Guid TransactionId)
         {
 
