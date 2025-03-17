@@ -22,20 +22,23 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 
         [Required]
         public Guid MemberId { get; set; }
+
         [Required]
-        public string ChildName { get; set; }
+        public string ChildName { get; set; } = string.Empty;
+
         [Required]
-        public string ChildBirth { get; set; }
+        public string ChildBirth { get; set; } = string.Empty;
+
         public int DoctorId { get; set; }
 
         [Required(ErrorMessage = "RequestDate is required.")]
         //[FutureDate(ErrorMessage = "RequestDate must be today or in the future.")]
-        public string RequestDate { get; set; }
+        public string RequestDate { get; set; } = string.Empty;
 
         // Status and categorization of the request
         [Required(ErrorMessage = "Status is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public ConsultationRequestStatus Status { get; set; }
+        public ConsultationRequestStatus Status { get; set; } = ConsultationRequestStatus.Pending;
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestUrgency Urgency { get; set; } = ConsultationRequestUrgency.Low;
