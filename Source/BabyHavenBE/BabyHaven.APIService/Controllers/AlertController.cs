@@ -83,23 +83,18 @@ namespace BabyHaven.APIService.Controllers
         /// <summary>
         /// Creates an automatic alert for a child.
         /// </summary>
-        /// <param name="id">The ID of the child.</param>
+        /// <param name="AlertViewCheckingDto">The DTO include name, dob and parents id of the child.</param>
         /// <returns>The result of the creation operation.</returns>
-        [HttpGet("create-automatic/{id}")]
-        public async Task<IActionResult> CreateAutomatic(Guid id)
+        [HttpGet("{name}/{dob}/{id}")]
+        public async Task<IActionResult> CreateAutomatic(string name, string dob, Guid id)
         {
-            if (id == Guid.Empty)
-            {
-                return BadRequest("Invalid child ID provided.");
-            }
-
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
-                return BadRequest(errors); // Trả về lỗi nếu model không hợp lệ
+                return BadRequest(errors);
             }
 
-            var result = await _alertService.CheckAndCreateAlert(id);
+            var result = await _alertService.CheckAndCreateAlert(name, dob, id);
             return StatusCode(result.Status, result);
         }
     }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Azure;
 using BabyHaven.Common;
 using BabyHaven.Common.DTOs.AlertDTOS;
 using BabyHaven.Repositories;
+using BabyHaven.Repositories.Helper;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -110,22 +112,24 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> CheckAndCreateAlert(Guid childId)
+        public async Task<IServiceResult> CheckAndCreateAlert(string name, string dob, Guid memberId)
         {
             try
             {
-                if (childId == Guid.Empty)
+
+                var child = await _unitOfWork.ChildrenRepository.GetChildByNameAndDateOfBirthAsync(name, DateOnly.Parse(dob), memberId);
+
+                if (child == null)
                 {
-                    return new ServiceResult(Const.FAIL_READ_CODE, "Invalid child ID.");
+                    return new ServiceResult(Const.FAIL_READ_CODE, "Invalid child.");
                 }
 
-                var latestRecord = await _unitOfWork.GrowthRecordRepository.GetLatestGrowthRecordByChildAsync(childId);
+                var latestRecord = await _unitOfWork.GrowthRecordRepository.GetLatestGrowthRecordByChildAsync(child.ChildId);
                 if (latestRecord == null)
                 {
                     return new ServiceResult(Const.FAIL_READ_CODE, "No growth records found for this child.");
                 }
 
-                var child = await _unitOfWork.ChildrenRepository.GetByIdAsync(childId);
                 if (child?.Gender == null)
                 {
                     return new ServiceResult(Const.FAIL_READ_CODE, "Child not found or gender not specified.");
@@ -155,83 +159,52 @@ namespace BabyHaven.Services.Services
             }
         }
 
-
-        private bool IsWeightAndHeightIssue(GrowthRecord record, Disease disease, Child child)
+        private bool ShouldCreateAlert(GrowthRecord growthRecord, Disease disease, Child child)
         {
-            // Kiểm tra giá trị 0 hoặc âm
-            if (record.Weight <= 0 || record.Height <= 0)
-                return false;
+            int age = ChildrenHelper.CalculateAge(child.DateOfBirth.ToDateTime(TimeOnly.MinValue));
+            if (age < 0) return false;
 
-            double bmi = record.Weight / (record.Height * record.Height) * 10000;
-            bool isBmiLowForMale = (child.Gender == "Male" && bmi < disease.LowerBoundMale);
-            bool isBmiLowForFemale = (child.Gender == "Female" && bmi < disease.LowerBoundFemale);
-
-            return isBmiLowForMale || isBmiLowForFemale;
+            return disease.DiseaseName switch
+            {
+                "Severe Malnutrition" => IsBmiInRange(growthRecord, disease, child),
+                "Mild Malnutrition" => IsBmiInRange(growthRecord, disease, child),
+                "Anemia" => IsValueInRange(growthRecord.FerritinLevel, disease, child),
+                "Diabetes Type 1" => IsValueInRange(growthRecord.BloodSugarLevel, disease, child),
+                "Stunted Growth" => IsValueInRange(growthRecord.Height, disease, child),
+                "Asthma" => IsValueInRange(growthRecord.OxygenSaturation, disease, child),
+                "Rickets" => IsValueInRange(growthRecord.GrowthHormoneLevel, disease, child),
+                "Overweight" => IsBmiInRange(growthRecord, disease, child),
+                "Obesity" => IsBmiInRange(growthRecord, disease, child),
+                "Hypertension" => IsValueInRange(growthRecord.BloodPressure, disease, child),
+                "Failure to Thrive" => IsDevelopmentalMilestonesInRange(growthRecord, disease, child),
+                _ => false
+            };
         }
 
-        private bool IsFerritinLevelLow(GrowthRecord record, Disease disease, Child child)
+        private bool IsBmiInRange(GrowthRecord growthRecord, Disease disease, Child child)
         {
-            bool isFerritinLowForMale = (child.Gender == "Male" && record.FerritinLevel.HasValue && record.FerritinLevel.Value < disease.LowerBoundMale);
-            bool isFerritinLowForFemale = (child.Gender == "Female" && record.FerritinLevel.HasValue && record.FerritinLevel.Value < disease.LowerBoundFemale);
-
-            return isFerritinLowForMale || isFerritinLowForFemale;
+            if (growthRecord.Weight <= 0 || growthRecord.Height <= 0) return false;
+            double bmi = growthRecord.Weight / (growthRecord.Height * growthRecord.Height) * 10000;
+            return IsValueInRange(bmi, disease, child);
         }
 
-        private bool IsTriglyceridesHigh(GrowthRecord record, Disease disease, Child child)
+        private bool IsValueInRange(double? value, Disease disease, Child child)
         {
-            bool isTriglyceridesHighForMale = (child.Gender == "Male" && record.Triglycerides.HasValue && record.Triglycerides.Value > disease.UpperBoundMale);
-            bool isTriglyceridesHighForFemale = (child.Gender == "Female" && record.Triglycerides.HasValue && record.Triglycerides.Value > disease.UpperBoundFemale);
-
-            return isTriglyceridesHighForMale || isTriglyceridesHighForFemale;
+            if (!value.HasValue || value.Value < 0) return false;
+            return child.Gender == "Male"
+                ? value.Value > disease.LowerBoundMale && value.Value < disease.UpperBoundMale
+                : value.Value > disease.LowerBoundFemale && value.Value < disease.UpperBoundFemale;
         }
 
-        private bool IsBloodSugarLevelHigh(GrowthRecord record, Disease disease, Child child)
+        private bool IsDevelopmentalMilestonesInRange(GrowthRecord growthRecord, Disease disease, Child child)
         {
-            bool isBloodSugarHighForMale = (child.Gender == "Male" && record.BloodSugarLevel.HasValue && record.BloodSugarLevel.Value > disease.UpperBoundMale);
-            bool isBloodSugarHighForFemale = (child.Gender == "Female" && record.BloodSugarLevel.HasValue && record.BloodSugarLevel.Value > disease.UpperBoundFemale);
-
-            return isBloodSugarHighForMale || isBloodSugarHighForFemale;
+            if (string.IsNullOrEmpty(growthRecord.DevelopmentalMilestones)) return false;
+            int length = growthRecord.DevelopmentalMilestones.Length;
+            return child.Gender == "Male"
+                ? length > disease.LowerBoundMale && length < disease.UpperBoundMale
+                : length > disease.LowerBoundFemale && length < disease.UpperBoundFemale;
         }
 
-        private bool IsBloodPressureIssue(GrowthRecord record, Disease disease, Child child)
-        {
-            bool isBloodPressureHighForMale = (child.Gender == "Male" && record.BloodPressure.HasValue && record.BloodPressure.Value > disease.UpperBoundMale);
-            bool isBloodPressureHighForFemale = (child.Gender == "Female" && record.BloodPressure.HasValue && record.BloodPressure.Value > disease.UpperBoundFemale);
-
-            return isBloodPressureHighForMale || isBloodPressureHighForFemale;
-        }
-
-        private bool IsMuscleMassLow(GrowthRecord record, Disease disease, Child child)
-        {
-            bool isMuscleMassLowForMale = (child.Gender == "Male" && record.MuscleMass.HasValue && record.MuscleMass.Value < disease.LowerBoundMale);
-            bool isMuscleMassLowForFemale = (child.Gender == "Female" && record.MuscleMass.HasValue && record.MuscleMass.Value < disease.LowerBoundFemale);
-
-            return isMuscleMassLowForMale || isMuscleMassLowForFemale;
-        }
-
-
-        private bool ShouldCreateAlert(GrowthRecord record, Disease disease, Child child)
-        {
-            if (IsWeightAndHeightIssue(record, disease, child))
-                return true;
-
-            if (IsFerritinLevelLow(record, disease, child))
-                return true;
-
-            if (IsTriglyceridesHigh(record, disease, child))
-                return true;
-
-            if (IsBloodSugarLevelHigh(record, disease, child))
-                return true;
-
-            if (IsBloodPressureIssue(record, disease, child))
-                return true;
-
-            if (IsMuscleMassLow(record, disease, child))
-                return true;
-
-            return false;
-        }
 
         private ServiceResult HandleException(string action, Exception ex)
         {
