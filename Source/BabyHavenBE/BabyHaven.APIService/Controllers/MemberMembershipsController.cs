@@ -72,7 +72,7 @@ namespace BabyHaven.APIService.Controllers
             return await _membershipService.DeleteById(id);
         }
 
-        [HttpPut("/pre-del/{id}")]
+        [HttpPut("pre-del/{id}")]
         public async Task<IServiceResult> PreDelete(Guid id)
         {
             if (!ModelState.IsValid)
