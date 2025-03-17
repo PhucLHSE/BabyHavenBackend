@@ -127,8 +127,10 @@ namespace BabyHaven.Services.Mappers
             if (!string.IsNullOrWhiteSpace(updateDto.Gender))
                 userAccount.Gender = updateDto.Gender;
 
-            if (updateDto.DateOfBirth.HasValue)
-                userAccount.DateOfBirth = updateDto.DateOfBirth.Value;
+            if (!string.IsNullOrWhiteSpace(updateDto.DateOfBirth))
+            {
+                userAccount.DateOfBirth = DateOnly.Parse(updateDto.DateOfBirth);
+            }
 
             if (!string.IsNullOrWhiteSpace(updateDto.Address))
                 userAccount.Address = updateDto.Address;
@@ -141,6 +143,7 @@ namespace BabyHaven.Services.Mappers
 
             if (updateDto.Status.HasValue)
                 userAccount.Status = updateDto.Status.ToString();
+
             userAccount.UpdatedAt = DateTime.UtcNow;
         }
 
