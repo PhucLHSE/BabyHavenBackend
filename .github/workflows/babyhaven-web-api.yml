@@ -40,14 +40,15 @@ jobs:
       with:
         name: webapp
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    - name: Azure Login
-      uses: azure/login@v2
-      with:
-        client-id: 017f7b88-48ff-4ed4-a650-3fccc21c5ab0
-        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_35A47E0D88664C3A89C4B3D15C62CC21 }}
-        allow-no-subscriptions: false
+    # - name: Azure Login
+    #   uses: azure/login@v2
+    #   with:
+    #     client-id: 017f7b88-48ff-4ed4-a650-3fccc21c5ab0
+    #     subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_35A47E0D88664C3A89C4B3D15C62CC21 }}
+    #     allow-no-subscriptions: false
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.API_PUBLISH_SECRET_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
