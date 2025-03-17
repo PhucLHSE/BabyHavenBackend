@@ -98,13 +98,16 @@ namespace BabyHaven.Services.Mappers
         }
 
         //Mapper BlogUpdateDto
-        public static void MapToUpdatedBlog(this Blog blog, BlogUpdateDto updateDto)
+        public static void MapToUpdatedBlog(this Blog blog, BlogUpdateDto updateDto, BlogCategory category)
         {
             if (!string.IsNullOrWhiteSpace(updateDto.Title))
                 blog.Title = updateDto.Title;
 
             if (!string.IsNullOrWhiteSpace(updateDto.Content))
                 blog.Content = updateDto.Content;
+
+            if (!string.IsNullOrWhiteSpace(updateDto.CategoryName))
+                blog.CategoryId = category.CategoryId;
 
             if (!string.IsNullOrWhiteSpace(updateDto.ImageBlog))
                 blog.ImageBlog = updateDto.ImageBlog;

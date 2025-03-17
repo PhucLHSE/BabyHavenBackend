@@ -198,13 +198,21 @@ namespace BabyHaven.Services.Services
                 var blog = await _unitOfWork.BlogRepository
                     .GetByIdAsync(blogUpdateDto.BlogId);
 
+                var category = await _unitOfWork.BlogCategoryRepository
+                    .GetByCategoryNameAsync(blogUpdateDto.CategoryName);
+
+                if (category == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, "Blog not found.");
+                }
+
                 if (blog == null)
                 {
                     return new ServiceResult(Const.FAIL_UPDATE_CODE, "Blog not found.");
                 }
 
                 // Call the correct extension method
-                blog.MapToUpdatedBlog(blogUpdateDto);
+                blog.MapToUpdatedBlog(blogUpdateDto, category);
 
                 // Update modification timestamp
                 blog.UpdatedAt = DateTime.UtcNow;
