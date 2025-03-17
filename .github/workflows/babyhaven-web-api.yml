@@ -43,7 +43,9 @@ jobs:
     - name: Azure Login
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.babyhaven_web_api_SPN }}
+        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C27B98054FB8463ABFEE40CA8CCBC23C }}
+        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F94F4FAAE5A74BF49907B59E1F50AED4 }}
+        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_35A47E0D88664C3A89C4B3D15C62CC21 }}
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
