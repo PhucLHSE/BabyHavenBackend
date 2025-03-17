@@ -19,9 +19,15 @@ namespace BabyHaven.Repositories.Repositories
         public AlertRepository(SWP391_ChildGrowthTrackingSystemContext context)
             => _context = context;
 
-        public async Task GetByChild(string name, string dob, Guid memberId)
+        public async Task<List<Alert>> GetChildByNameAndDateOfBirthAsync(string name, DateOnly dateOfBirth, Guid memberId)
         {
-            throw new NotImplementedException();
+            return await _context.Alerts
+                .Include(a => a.GrowthRecord)
+                    .ThenInclude(gr => gr.Child)
+                .Where(a => a.GrowthRecord.Child.Name == name 
+                    && a.GrowthRecord.Child.DateOfBirth == dateOfBirth 
+                    && a.GrowthRecord.Child.MemberId == memberId)
+                .ToListAsync();
         }
     }
 }

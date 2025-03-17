@@ -58,11 +58,13 @@ namespace BabyHaven.Services.Services
         {
             try
             {
-                var alert = await _unitOfWork.AlertRepository.GetByChild(name, dob, memberId);
+                var alert = await _unitOfWork.AlertRepository.GetChildByNameAndDateOfBirthAsync(name, DateOnly.Parse(dob), memberId);
                 if (alert == null)
                     return new ServiceResult { Status = Const.FAIL_READ_CODE, Message = "Alert not found." };
 
-                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = alert.ToAlertViewDetailsDto() };
+                var alerts = alert.Select(a => a.ToAlertViewDetailsDto()).ToList();
+
+                return new ServiceResult { Status = Const.SUCCESS_READ_CODE, Message = Const.SUCCESS_READ_MSG, Data = alerts };
             }
             catch (Exception ex)
             {

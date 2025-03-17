@@ -97,5 +97,19 @@ namespace BabyHaven.APIService.Controllers
             var result = await _alertService.CheckAndCreateAlert(name, dob, id);
             return StatusCode(result.Status, result);
         }
+
+        [HttpGet("alerts/{name}/{dob}/{id}")]
+        public async Task<IActionResult> GetByChild(string name, string dob, Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return BadRequest(errors);
+            }
+
+            var result = await _alertService.GetByChild(name, dob, id);
+            return StatusCode(result.Status, result);
+        }
     }
 }
+
