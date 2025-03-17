@@ -16,6 +16,8 @@ namespace BabyHaven.Services.Mappers
         {
             return new MemberViewAllDto
             {
+                MemberId = model.MemberId,
+                UserId = model.UserId,
                 MemberName = model.User?.Name ?? "Unknown",
                 EmergencyContact = model.EmergencyContact,
 
@@ -23,6 +25,7 @@ namespace BabyHaven.Services.Mappers
                 Status = Enum.TryParse<MemberStatus>(model.Status, true, out var status)
                           ? status
                           : MemberStatus.Inactive,
+                Notes = model.Notes
             };
         }
 

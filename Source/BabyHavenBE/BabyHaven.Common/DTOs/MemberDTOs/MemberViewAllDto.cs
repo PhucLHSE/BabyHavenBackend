@@ -10,11 +10,14 @@ namespace BabyHaven.Common.DTOs.MemberDTOs
 {
     public class MemberViewAllDto
     {
+        public Guid MemberId { get; set; }
+        public Guid UserId { get; set; }
         public string MemberName { get; set; } = string.Empty;
 
         public string EmergencyContact { get; set; } = string.Empty;
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public MemberStatus Status { get; set; } = MemberStatus.Inactive;
+        public string Notes { get; set; }
     }
 }

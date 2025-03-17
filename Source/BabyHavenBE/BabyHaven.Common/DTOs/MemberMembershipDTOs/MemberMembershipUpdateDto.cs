@@ -14,18 +14,12 @@ namespace BabyHaven.Common.DTOs.MemberMembershipDTOs
         [Required(ErrorMessage = "MemberMembershipId is required.")]
         public Guid MemberMembershipId { get; set; }
 
-        [Required(ErrorMessage = "MemberName is required.")]
-        [MaxLength(255, ErrorMessage = "PackagMemberNameeName cannot exceed 255 characters.")]
         public string MemberName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "PackageName is required.")]
-        [MaxLength(255, ErrorMessage = "PackageName cannot exceed 255 characters.")]
         public string PackageName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "StartDate is required.")]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "EndDate is required.")]
         public DateTime EndDate { get; set; }
 
         [Required(ErrorMessage = "Status is required.")]
