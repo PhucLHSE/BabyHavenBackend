@@ -3,6 +3,7 @@ using BabyHaven.Common.DTOs.DoctorSpecializationDTOs;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,6 +24,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IServiceResult> Get()
         {
             return await _doctorSpecializationService.GetAll();
+        }
+
+        [HttpGet("odata")]
+        [EnableQuery]
+        public async Task<IQueryable<DoctorSpecializationViewAllDto>> GetForOData()
+        {
+            return await _doctorSpecializationService.GetQueryable();
         }
 
         // GET api/<DoctorSpecializationsController>/5/3

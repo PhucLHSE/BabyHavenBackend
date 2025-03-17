@@ -11,6 +11,7 @@ namespace BabyHaven.Services.IServices
     public interface IDoctorSpecializationService
     {
         Task<IServiceResult> GetAll();
+        Task<IQueryable<DoctorSpecializationViewAllDto>> GetQueryable();
         Task<IServiceResult> GetById(int DoctorSpecializationId);
         Task<IServiceResult> Create(DoctorSpecializationCreateDto doctorSpecializationCreateDto);
         Task<IServiceResult> Update(DoctorSpecializationUpdateDto doctorSpecializationUpdateDto);
