@@ -48,6 +48,17 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IQueryable<RoleViewAllDto>> GetQueryable()
+        {
+
+            var roles = await _unitOfWork.RoleRepository
+                .GetAllAsync();
+
+            return roles
+                .Select(roles => roles.MapToRoleViewAllDto())
+                .AsQueryable();
+        }
+
         public async Task<IServiceResult> GetById(int RoleId)
         {
 
