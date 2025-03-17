@@ -36,13 +36,13 @@ jobs:
         run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c Release -o "${{ env.WORKING_DIRECTORY }}"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: "${{ env.WORKING_DIRECTORY }}"
 
   deploy:
     runs-on: windows-latest
