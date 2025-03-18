@@ -39,11 +39,16 @@ namespace BabyHaven.API.Controllers
         [HttpGet("payment-confirm")]
         public async Task<IActionResult> PaymentConfirm()
         {
-            var result = await _vnPayService.ValidateResponse(Request.Query);
-            // Tạo JWT token
-            var token = _jwtTokenService.GenerateJSONPaymentToken(result.Data as Repositories.Models.Transaction);
-            // Chuyển hướng về frontend với token trong query string
-            return Redirect($"http://localhost:5173/packages?token={token}");
+            try
+            {
+                var result = await _vnPayService.ValidateResponse(Request.Query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("PaymentConfirm Error: " + ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
 
