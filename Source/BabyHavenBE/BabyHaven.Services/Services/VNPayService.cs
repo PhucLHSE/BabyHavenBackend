@@ -135,6 +135,7 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Membership not found!");
                 }
 
+
                 transaction.UpdateTransactionFromVNPayResponse(paymentResult);
                 await _unitOfWork.MemberMembershipRepository.UpdateAsync(transaction.MemberMembership);
                 await _unitOfWork.TransactionRepository.UpdateAsync(transaction);

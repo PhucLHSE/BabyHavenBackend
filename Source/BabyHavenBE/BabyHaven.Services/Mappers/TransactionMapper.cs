@@ -109,7 +109,7 @@ namespace BabyHaven.Services.Mappers
                 ? Common.Enum.TransactionEnums.TransactionStatus.Completed.ToString() 
                 : Common.Enum.TransactionEnums.TransactionStatus.Failed.ToString();
 
-            transaction.PaymentDate = vnpayResponse.Timestamp;
+            transaction.PaymentDate = DateTime.Now;
             transaction.PaymentMethod = vnpayResponse.PaymentMethod ?? transaction.PaymentMethod;
             transaction.Currency = "VND";
             transaction.TransactionType = "VNpay";
