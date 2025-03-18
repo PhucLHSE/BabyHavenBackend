@@ -63,7 +63,7 @@ namespace BabyHaven.Services.Services
         {
 
             var blogCategory = await _unitOfWork.BlogCategoryRepository
-                .GetByIdAsync(CategoryId);
+                .GetByIdBlogCategory(CategoryId);
 
             if (blogCategory == null)
             {
