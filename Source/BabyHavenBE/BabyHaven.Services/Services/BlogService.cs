@@ -294,7 +294,7 @@ namespace BabyHaven.Services.Services
         {
 
             var blogs = await _unitOfWork.BlogRepository
-                .GetAllAsync();
+                .GetAllBlogAsync();
 
             return blogs
                 .Select(blogs => blogs.MapToBlogViewAllDto())
