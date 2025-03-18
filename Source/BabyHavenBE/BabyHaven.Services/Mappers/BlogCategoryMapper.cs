@@ -1,5 +1,8 @@
 ﻿using BabyHaven.Common.DTOs.BlogCategoryDTOs;
+using BabyHaven.Common.DTOs.BlogDTOs;
 using BabyHaven.Common.DTOs.RoleDTOs;
+using BabyHaven.Common.Enum.BlogEnums;
+using BabyHaven.Common.Enum.MemberEnums;
 using BabyHaven.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -33,10 +36,30 @@ namespace BabyHaven.Services.Mappers
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt,
                 IsActive = model.IsActive,
-                ParentCategoryId = model.ParentCategoryId
+                ParentCategoryId = model.ParentCategoryId,
+                Blogs = model.Blogs?.Select(blog => new BlogViewAllDto
+                {
+                    BlogId = blog.BlogId,
+                    AuthorId = blog.AuthorId,
+                    Title = blog.Title,
+                    Content = blog.Content,
+                    AuthorName = blog.Author?.Name ?? "Unknown",
+                    CategoryName = model.CategoryName, // Hoặc blog.Category?.CategoryName
+                    Tags = blog.Tags,
+                    ImageBlog = blog.ImageBlog,
+
+                    // Convert Status from string to enum
+                    Status = Enum.TryParse<BlogStatus>(blog.Status, true, out var status)
+                          ? status
+                          : BlogStatus.Approved,
+
+                    CreatedAt = blog.CreatedAt,
+                    UpdatedAt = blog.UpdatedAt
+                }).ToList() ?? new()
             };
         }
 
+        // Mapper BlogCategoryAPIResponseDto
         public static BlogCategoryAPIResponseDto MapToBlogCategoryAPIResponseDto(this BlogCategory model)
         {
             return new BlogCategoryAPIResponseDto
@@ -50,6 +73,7 @@ namespace BabyHaven.Services.Mappers
                 ParentCategoryId = model.ParentCategoryId
             };
         }
+
         //Mapper BlogCategoryUpdateDto
         public static void MapToBlogCategoryUpdateDto(this BlogCategoryUpdateDto updateDto, BlogCategory blogCategory)
         {
