@@ -12,8 +12,14 @@ namespace BabyHaven.Repositories.Repositories
 {
     public class BlogCategoryRepository : GenericRepository<BlogCategory>
     {
-        public BlogCategoryRepository() { }
-        public BlogCategoryRepository(SWP391_ChildGrowthTrackingSystemContext context) => _context = context;
+        public BlogCategoryRepository()
+        {
+
+        }
+
+        public BlogCategoryRepository(SWP391_ChildGrowthTrackingSystemContext context) 
+            => _context = context;
+
         public async Task<BlogCategory?> GetByCategoryNameAsync(string categoryName)
         {
             return await _context.BlogCategories
@@ -33,10 +39,20 @@ namespace BabyHaven.Repositories.Repositories
                 .Where(bc => bc.ParentCategoryId == parentCategoryId)
                 .ToListAsync();
         }
+
         public async Task<Dictionary<string, int>> GetAllCategoryNameToIdMappingAsync()
         {
             return await _context.BlogCategories
                 .ToDictionaryAsync(bc => bc.CategoryName, bc => bc.CategoryId);
+        }
+
+        public async Task<BlogCategory> GetByIdBlogCategory(int categoryId)
+        {
+            return await _context.BlogCategories
+                .Where(c => c.CategoryId == categoryId)
+                .Include(c => c.Blogs)
+                    .ThenInclude(b => b.Author)
+                .FirstOrDefaultAsync();
         }
     }
 }
