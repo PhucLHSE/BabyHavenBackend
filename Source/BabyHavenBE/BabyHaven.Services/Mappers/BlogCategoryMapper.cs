@@ -16,6 +16,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new BlogCategoryViewAllDto
             {
+                Blog = model.Blogs.Select(b => b.MapToBlogViewAllDto()).ToList(),
                 CategoryName = model.CategoryName,
                 IsActive = model.IsActive,
                 ParentCategoryId = model.ParentCategoryId

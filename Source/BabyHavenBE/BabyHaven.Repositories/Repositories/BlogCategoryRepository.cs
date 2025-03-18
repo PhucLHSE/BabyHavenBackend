@@ -29,6 +29,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<List<BlogCategory?>> GetListByParentCategoryId(int? parentCategoryId)
         {
             return await _context.BlogCategories
+                .Include(bc => bc.Blogs)
                 .Where(bc => bc.ParentCategoryId == parentCategoryId)
                 .ToListAsync();
         }
