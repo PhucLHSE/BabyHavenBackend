@@ -15,7 +15,8 @@ namespace BabyHaven.APIService.Controllers
 
         public GrowthRecordController(IGrowthRecordService growthRecordService)
         {
-            _growthRecordService = growthRecordService ?? throw new ArgumentNullException(nameof(growthRecordService));
+            _growthRecordService = growthRecordService 
+                ?? throw new ArgumentNullException(nameof(growthRecordService));
         }
 
         [HttpPost]
@@ -28,10 +29,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> Update(GrowthRecordUpdateDto dto)
         {
             var result = await _growthRecordService.UpdateGrowthRecord(dto);
+
             if (result.Status == Const.SUCCESS_UPDATE_CODE)
             {
+
                 return Ok(result);
             }
+
             return StatusCode(result.Status, result);
         }
 
@@ -39,10 +43,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> Delete(int recordId)
         {
             var result = await _growthRecordService.DeleteGrowthRecord(recordId);
+
             if (result.Status == Const.SUCCESS_DELETE_CODE)
             {
+
                 return Ok(result);
             }
+
             return StatusCode(result.Status, result);
         }
 
@@ -50,10 +57,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetAllGrowthRecordsByChild(Guid childId)
         {
             var result = await _growthRecordService.GetAllGrowthRecordsByChild(childId);
+
             if (result.Status == Const.SUCCESS_READ_CODE)
             {
+
                 return Ok(result);
             }
+
             return StatusCode(result.Status, result);
         }
 
@@ -61,10 +71,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetGrowthRecordById(int recordId, Guid childId)
         {
             var result = await _growthRecordService.GetGrowthRecordById(recordId, childId);
+
             if (result.Status == Const.SUCCESS_READ_CODE)
             {
+
                 return Ok(result);
             }
+
             return StatusCode(result.Status, result);
         }
 
@@ -72,10 +85,13 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetRecordsByDateRange(Guid childId, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
             var result = await _growthRecordService.GetRecordsByDateRangeAsync(childId, startDate, endDate);
+
             if (result.Status == Const.SUCCESS_READ_CODE)
             {
+
                 return Ok(result);
             }
+
             return StatusCode(result.Status, result);
         }
 
