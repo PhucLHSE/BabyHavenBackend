@@ -18,6 +18,9 @@ namespace BabyHaven.Common.DTOs.MemberDTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public MemberStatus Status { get; set; } = MemberStatus.Inactive;
+
+        public DateTime JoinDate { get; set; }
+
         public string Notes { get; set; }
     }
 }

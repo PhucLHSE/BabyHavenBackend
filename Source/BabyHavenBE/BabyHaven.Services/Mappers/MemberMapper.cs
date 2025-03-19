@@ -25,6 +25,7 @@ namespace BabyHaven.Services.Mappers
                 Status = Enum.TryParse<MemberStatus>(model.Status, true, out var status)
                           ? status
                           : MemberStatus.Inactive,
+                JoinDate = model.JoinDate,
 
                 Notes = model.Notes
             };
