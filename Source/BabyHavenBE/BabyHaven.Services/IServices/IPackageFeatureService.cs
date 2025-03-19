@@ -11,10 +11,15 @@ namespace BabyHaven.Services.IServices
     public interface IPackageFeatureService
     {
         Task<IServiceResult> GetAll();
+
         Task<IQueryable<PackageFeatureViewAllDto>> GetQueryable();
+
         Task<IServiceResult> GetById(int packageId, int featureId);
+
         Task<IServiceResult> Create(PackageFeatureCreateDto packageFeatureCreateDto);
+
         Task<IServiceResult> Update(PackageFeatureUpdateDto packageFeatureUpdateDto);
+
         Task<IServiceResult> DeleteById(int packageId, int featureId);
     }
 }
