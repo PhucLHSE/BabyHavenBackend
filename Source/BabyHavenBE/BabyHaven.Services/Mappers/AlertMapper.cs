@@ -62,21 +62,29 @@ namespace BabyHaven.Services.Mappers
 
         public static Alert ToAlertFromGrowthRecord(this Disease disease, GrowthRecord record, string? customMessage = null)
         {
-            string defaultMessage = $"Alert: {disease.DiseaseName}";
+            //string defaultMessage = $"Alert: {disease.DiseaseName}";
+            var messageBuilder = new StringBuilder();
+            messageBuilder.AppendLine($"Alert: {disease.DiseaseName}");
+
 
             // Thêm treatment nếu có
             if (!string.IsNullOrEmpty(disease.Treatment))
-                defaultMessage += $" Recommended treatment: {disease.Treatment}.";
+                //defaultMessage += $" Recommended treatment: {disease.Treatment}.";
+                messageBuilder.AppendLine($"- Recommended Treatment: {disease.Treatment}");
+
 
             // Thêm prevention nếu có
             if (!string.IsNullOrEmpty(disease.Prevention))
-                defaultMessage += $" Prevention tips: {disease.Prevention}.";
+                //defaultMessage += $" Prevention tips: {disease.Prevention}.";
+                messageBuilder.AppendLine($"- Prevention Tips: {disease.Prevention}");
+
             return new Alert
             {
                 GrowthRecordId = record.RecordId,
                 AlertDate = DateTime.UtcNow,
                 DiseaseId = disease.DiseaseId,
-                Message = customMessage ?? defaultMessage,
+                //Message = customMessage ?? defaultMessage,
+                Message = customMessage ?? messageBuilder.ToString().Trim(),
                 IsRead = false,
                 IsAcknowledged = false,
                 SeverityLevel = disease.Severity              
