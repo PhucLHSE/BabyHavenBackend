@@ -19,21 +19,26 @@ namespace BabyHaven.Services.Services
 
         public GrowthRecordAnalysisService(IConfiguration config)
         {
-            _config = config ?? throw new ArgumentNullException(nameof(config));
+            _config = config 
+                ?? throw new ArgumentNullException(nameof(config));
         }
 
         public async Task<IServiceResult> AnalyzeGrowthRecord(GrowthRecordAnalysisDto record)
         {
+
             var endpoint = _config["AzureOpenAI:Endpoint"];
             var apiKey = _config["AzureOpenAI:ApiKey"];
             var deploymentName = _config["AzureOpenAI:DeploymentName"];
 
             if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(apiKey))
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, "Missing API Key or Endpoint");
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    "Missing API Key or Endpoint");
             }
 
             var azureClient = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
+
             ChatClient chatClient = azureClient.GetChatClient(deploymentName);
 
             var prompt = $"Analyze this child's growth data:\n" +
@@ -46,12 +51,14 @@ namespace BabyHaven.Services.Services
 
             var messages = new List<ChatMessage>
             {
+
                 new SystemChatMessage("You are an AI assistant that provides health analysis based on growth data."),
                 new UserChatMessage(prompt)
             };
 
             var options = new ChatCompletionOptions
             {
+
                 Temperature = 0.7f,
                 MaxOutputTokenCount = 800,
                 FrequencyPenalty = 0,
@@ -60,16 +67,23 @@ namespace BabyHaven.Services.Services
 
             try
             {
-                ChatCompletion response = await chatClient.CompleteChatAsync(messages, options);
+
+                ChatCompletion response = await chatClient
+                    .CompleteChatAsync(messages, options);
+
                 var analysisResult = response.Content != null && response.Content.Count > 0
                     ? response.Content[0].Text.Trim()
                     : "No response received.";
 
-                return new ServiceResult(Const.SUCCESS_READ_CODE, "Growth record analysis completed.", new { analysisResult });
+                return new ServiceResult(Const.SUCCESS_READ_CODE, 
+                    "Growth record analysis completed.", 
+                    new { analysisResult });
             }
             catch (Exception ex)
             {
-                return new ServiceResult(Const.ERROR_EXCEPTION, $"Error in AI analysis: {ex.Message}");
+
+                return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    $"Error in AI analysis: {ex.Message}");
             }
         }
     }
