@@ -36,13 +36,15 @@ namespace BabyHaven.Common.DTOs.BlogDTOs
         public BlogStatus? Status { get; set; } = BlogStatus.Approved;
 
 
-        [Required(ErrorMessage = "RejectionReason is required.")]
+        //[Required(ErrorMessage = "RejectionReason is required.")]
         [MaxLength(2000, ErrorMessage = "RejectionReason cannot exceed 2000 characters.")]
         public string RejectionReason { get; set; } = string.Empty;
+
 
         [Required(ErrorMessage = "Tags is required.")]
         [MaxLength(255, ErrorMessage = "Tags cannot exceed 255 characters.")]
         public string Tags { get; set; } = string.Empty;
+
 
         [Required(ErrorMessage = "ReferenceSources is required.")]
         [MaxLength(2000, ErrorMessage = "ReferenceSources cannot exceed 2000 characters.")]
