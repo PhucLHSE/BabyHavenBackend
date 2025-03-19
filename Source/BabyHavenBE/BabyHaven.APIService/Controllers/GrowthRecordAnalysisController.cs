@@ -16,23 +16,29 @@ namespace BabyHaven.APIService.Controllers
 
         public GrowthRecordAnalysisController(IGrowthAnalysisService growthAnalysisService)
         {
-            _growthAnalysisService = growthAnalysisService ?? throw new ArgumentNullException(nameof(growthAnalysisService));
+            _growthAnalysisService = growthAnalysisService 
+                ?? throw new ArgumentNullException(nameof(growthAnalysisService));
         }
 
         [HttpPost("analyze-growth-record")]
         public async Task<IActionResult> AnalyzeGrowthRecord([FromBody] GrowthRecordAnalysisDto record)
         {
+
             if (record == null)
             {
-                return BadRequest(new ServiceResult(Const.ERROR_VALIDATION_CODE, "Invalid input data"));
+
+                return BadRequest(new ServiceResult(Const.ERROR_VALIDATION_CODE, 
+                    "Invalid input data"));
             }
 
             var result = await _growthAnalysisService.AnalyzeGrowthRecord(record);
 
             if (result.Status == Const.SUCCESS_READ_CODE)
             {
+
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
     }
