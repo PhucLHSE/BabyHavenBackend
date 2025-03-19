@@ -85,9 +85,8 @@ namespace BabyHaven.APIService.Controllers
             var token = _jwtTokenService.GenerateJSONWebToken(user);
 
             // Chuyển hướng về frontend với token trong query string
-            return Redirect($"http://localhost:5173/google-callback?token={token}");
+            return Redirect($"https://baby-haven-swp-fe.vercel.app/google-callback?token={token}");
         }
-
 
 
         [HttpGet("google-signout")]
