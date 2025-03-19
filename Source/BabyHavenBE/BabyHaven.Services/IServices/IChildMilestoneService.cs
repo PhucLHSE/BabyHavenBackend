@@ -12,10 +12,15 @@ namespace BabyHaven.Services.IServices
     public interface IChildMilestoneService
     {
         Task<IServiceResult> GetAll();
+
         Task<IQueryable<ChildMilestoneViewAllDto>> GetQueryable();
+
         Task<IServiceResult> GetById(Guid childId, int milestoneId);
+
         Task<IServiceResult> Create(ChildMilestoneCreateDto childMilestone);
+
         Task<IServiceResult> Update(ChildMilestoneUpdateDto childMilestone);
+
         Task<IServiceResult> Delete(Guid childId, int milestoneId);
     }
 }

@@ -177,6 +177,7 @@ namespace BabyHaven.Repositories
                 return specializationRepository ??= new SpecializationRepository(context);
             }
         }
+
         public DoctorRepository DoctorRepository
         {
             get
@@ -184,6 +185,7 @@ namespace BabyHaven.Repositories
                 return doctorRepository ??= new DoctorRepository(context);
             }
         }
+
         public DoctorSpecializationRepository DoctorSpecializationRepository
         {
             get
@@ -213,6 +215,7 @@ namespace BabyHaven.Repositories
                 return consultationRequestRepository ??= new ConsultationRequestRepository(context);
             }
         }
+
         public ConsultationResponseRepository ConsultationResponseRepository
         {
             get
