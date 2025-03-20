@@ -104,7 +104,7 @@ namespace BabyHaven.Services.Services
 
                 return new ServiceResult(Const.SUCCESS_READ_CODE, 
                     Const.SUCCESS_READ_MSG,
-                    blogCategory);
+                    cateDtos);
             }
         }
 
