@@ -19,5 +19,6 @@ namespace BabyHaven.Services.IServices
         Task<IServiceResult> Create(ConsultationRequestCreateDto consultationRequestDto);
 
         Task<IServiceResult> DeleteById(int RequestId);
+        Task<IServiceResult> UpdateStatus(int requestId, string status);
     }
 }

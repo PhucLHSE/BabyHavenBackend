@@ -55,6 +55,13 @@ namespace BabyHaven.APIService.Controllers
             return await _consultationRequestService.Create(consultationRequestCreateDto);
         }
 
+        [HttpPut("{requestId}/{status}")]
+        public async Task<IServiceResult> UpdateStatus(int requestId, string status)
+        {
+            return await _consultationRequestService.UpdateStatus(requestId, status);
+        }
+
+
         // DELETE api/<ConsultationRequestsController>/5
         [HttpDelete("{id}")]
         public async Task<IServiceResult> DeleteById(int id)

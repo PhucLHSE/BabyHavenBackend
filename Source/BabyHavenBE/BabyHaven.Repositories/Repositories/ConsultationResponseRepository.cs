@@ -1,4 +1,5 @@
-﻿using BabyHaven.Repositories.Base;
+﻿using Azure;
+using BabyHaven.Repositories.Base;
 using BabyHaven.Repositories.DBContext;
 using BabyHaven.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,13 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(cr => cr.Request)
                 .Where(cr => cr.Request.MemberId == memberId)
                 .ToListAsync();
+        }
+
+        public async Task<ConsultationResponse?> GetByRequestId(int requestId)
+        {
+            return await _context.ConsultationResponses
+                .Include(cr => cr.Request)
+                .FirstOrDefaultAsync(cr => cr.RequestId == requestId);
         }
     }
 }
