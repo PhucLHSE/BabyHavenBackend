@@ -10,6 +10,7 @@ namespace BabyHaven.Common.DTOs.DoctorDTOs
 {
     public class DoctorViewDetailsDto
     {
+        public int DoctorId { get; set; }
         public string UserName { get; set; } = string.Empty;
 
         public string Name { get; set; } = string.Empty;

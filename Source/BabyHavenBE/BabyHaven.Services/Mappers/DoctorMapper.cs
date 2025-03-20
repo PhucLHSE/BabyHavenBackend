@@ -37,6 +37,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new DoctorViewDetailsDto
             {
+                DoctorId = model.DoctorId,
                 UserName = model.User?.Username ?? string.Empty,
                 Name = model.Name,
                 Email = model.Email,
