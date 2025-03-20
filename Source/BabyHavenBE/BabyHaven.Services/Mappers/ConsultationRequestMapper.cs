@@ -19,6 +19,8 @@ namespace BabyHaven.Services.Mappers
         {
             return new ConsultationRequestViewAllDto
             {
+                RequestId = model.RequestId,
+
                 MemberName = model.Member?.User?.Name ?? "Unknown",
                 ChildName = model.Child?.Name ?? "Unknown",
 

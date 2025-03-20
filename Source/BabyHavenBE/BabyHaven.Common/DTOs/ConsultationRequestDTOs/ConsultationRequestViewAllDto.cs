@@ -10,6 +10,8 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 {
     public class ConsultationRequestViewAllDto
     {
+        public int RequestId { get; set; }
+
         public string MemberName { get; set; } = string.Empty;
 
         public string ChildName { get; set; } = string.Empty;
