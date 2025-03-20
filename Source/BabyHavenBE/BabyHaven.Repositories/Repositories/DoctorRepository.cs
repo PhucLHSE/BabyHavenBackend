@@ -43,5 +43,11 @@ namespace BabyHaven.Repositories.Repositories
             return await _context.Doctors
                 .FirstOrDefaultAsync(d => d.Email == email);
         }
+
+        public async Task<Doctor?> GetByUserId(Guid userId)
+        {
+            return await _context.Doctors
+                .FirstOrDefaultAsync(d => d.UserId == userId);
+        }
     }
 }
