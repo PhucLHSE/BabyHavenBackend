@@ -37,5 +37,12 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(cr => cr.Child)
                 .FirstOrDefaultAsync(cr => cr.RequestId == requestId);
         }
+
+        public async Task<ConsultationRequest?> GetByRequestId(int requestId)
+        {
+            return await _context.ConsultationRequests
+                .Include(cr => cr.ConsultationResponse)
+                .FirstOrDefaultAsync(cr => cr.RequestId == requestId);
+        }
     }
 }

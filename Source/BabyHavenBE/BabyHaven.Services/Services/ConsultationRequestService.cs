@@ -136,6 +136,35 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> UpdateStatus(int requestId, string status)
+        {
+            try
+            {
+                var consultationRequest = await _unitOfWork.ConsultationRequestRepository
+                                    .GetByRequestId(requestId);
+                if (consultationRequest == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                        Const.WARNING_NO_DATA_MSG);
+                }
+
+                consultationRequest.Status = status;
+
+                var result = await _unitOfWork.ConsultationRequestRepository
+                    .UpdateAsync(consultationRequest);
+
+                return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                    Const.SUCCESS_UPDATE_MSG,
+                    consultationRequest);
+
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                    ex.InnerException.ToString());
+            }
+        }
+
         public async Task<IServiceResult> DeleteById(int RequestId)
         {
             try

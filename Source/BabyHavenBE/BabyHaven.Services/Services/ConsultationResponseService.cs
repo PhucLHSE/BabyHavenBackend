@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.ConsultationResponseDTOs;
 using BabyHaven.Repositories.Models;
+using BabyHaven.Common.Enum.ConsultationResponseEnums;
 
 namespace BabyHaven.Services.Services
 {
@@ -190,6 +191,35 @@ namespace BabyHaven.Services.Services
 
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
                     ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> UpdateStatus(int requestId, string status)
+        {
+            try
+            {
+                var consultationResponse = await _unitOfWork.ConsultationResponseRepository
+                                    .GetByRequestId(requestId);
+                if (consultationResponse == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                        Const.WARNING_NO_DATA_MSG);
+                }
+
+                consultationResponse.Status = status;
+
+                var result = await _unitOfWork.ConsultationResponseRepository
+                    .UpdateAsync(consultationResponse);
+
+                return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                    Const.SUCCESS_UPDATE_MSG,
+                    consultationResponse);
+
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                    ex.InnerException.ToString());
             }
         }
     }
