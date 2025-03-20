@@ -75,7 +75,7 @@ namespace BabyHaven.Services.Mappers
                 messageBuilder.AppendLine($"💊 Recommended Treatment: {disease.Treatment}\n");
 
             if (!string.IsNullOrEmpty(disease.Prevention))
-                messageBuilder.AppendLine($"🛡 Prevention Tips: {disease.Prevention}\n");
+                messageBuilder.AppendLine($"🛡️ Prevention Tips: {disease.Prevention}\n");
 
             if (!string.IsNullOrEmpty(disease.Description))
                 messageBuilder.AppendLine($"📖 Description: {disease.Description}\n");
