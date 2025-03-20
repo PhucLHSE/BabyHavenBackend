@@ -43,6 +43,12 @@ namespace BabyHaven.APIService.Controllers
             return await _doctorService.GetById(id);
         }
 
+        [HttpGet("doctor/{userId}")]
+        public async Task<IServiceResult> GetByUserId(Guid userId)
+        {
+            return await _doctorService.GetByUserId(userId);
+        }
+
         // POST api/<DoctorController>/5
         [HttpPost]
         public async Task<IServiceResult> Create([FromBody] DoctorCreateDto dto)
