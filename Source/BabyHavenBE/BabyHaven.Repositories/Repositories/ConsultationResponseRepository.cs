@@ -10,9 +10,13 @@ using System.Threading.Tasks;
 
 namespace BabyHaven.Repositories.Repositories
 {
-    public class ConsultationResponseRepository:GenericRepository<ConsultationResponse>
+    public class ConsultationResponseRepository : GenericRepository<ConsultationResponse>
     {
-        public ConsultationResponseRepository() { }
+        public ConsultationResponseRepository()
+        {
+
+        }
+
         public ConsultationResponseRepository(SWP391_ChildGrowthTrackingSystemContext context)
             => _context = context;
 
@@ -20,6 +24,7 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.ConsultationResponses
                 .Include(cr => cr.Request)
+                   .ThenInclude(cr => cr.Doctor)
                 .ToListAsync();
         }
 
@@ -27,6 +32,7 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.ConsultationResponses
                 .Include(cr => cr.Request)
+                   .ThenInclude(cr => cr.Doctor)
                 .FirstOrDefaultAsync(cr => cr.ResponseId == responseId);
         }
 
