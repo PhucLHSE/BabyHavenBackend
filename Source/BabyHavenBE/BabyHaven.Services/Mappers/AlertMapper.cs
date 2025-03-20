@@ -64,19 +64,35 @@ namespace BabyHaven.Services.Mappers
         {
             //string defaultMessage = $"Alert: {disease.DiseaseName}";
             var messageBuilder = new StringBuilder();
-            messageBuilder.AppendLine($"Alert: {disease.DiseaseName}");
 
+            messageBuilder.AppendLine($"🚨 Alert: {disease.DiseaseName}\n");
+            messageBuilder.AppendLine($"🩺 Disease Type: {disease.DiseaseType}\n");
 
-            // Thêm treatment nếu có
+            if (!string.IsNullOrEmpty(disease.Symptoms))
+                messageBuilder.AppendLine($"🤒 Symptoms: {disease.Symptoms}\n");
+
             if (!string.IsNullOrEmpty(disease.Treatment))
-                //defaultMessage += $" Recommended treatment: {disease.Treatment}.";
-                messageBuilder.AppendLine($"- Recommended Treatment: {disease.Treatment}");
+                messageBuilder.AppendLine($"💊 Recommended Treatment: {disease.Treatment}\n");
 
-
-            // Thêm prevention nếu có
             if (!string.IsNullOrEmpty(disease.Prevention))
-                //defaultMessage += $" Prevention tips: {disease.Prevention}.";
-                messageBuilder.AppendLine($"- Prevention Tips: {disease.Prevention}");
+                messageBuilder.AppendLine($"🛡 Prevention Tips: {disease.Prevention}\n");
+
+            if (!string.IsNullOrEmpty(disease.Description))
+                messageBuilder.AppendLine($"📖 Description: {disease.Description}\n");
+
+            if (!string.IsNullOrEmpty(disease.Notes))
+                messageBuilder.AppendLine($"📝 Notes: {disease.Notes}\n");
+
+            //// Thêm treatment nếu có
+            //if (!string.IsNullOrEmpty(disease.Treatment))
+            //    //defaultMessage += $" Recommended treatment: {disease.Treatment}.";
+            //    messageBuilder.AppendLine($"- Recommended Treatment: {disease.Treatment}");
+
+
+            //// Thêm prevention nếu có
+            //if (!string.IsNullOrEmpty(disease.Prevention))
+            //    //defaultMessage += $" Prevention tips: {disease.Prevention}.";
+            //    messageBuilder.AppendLine($"- Prevention Tips: {disease.Prevention}");
 
             return new Alert
             {
