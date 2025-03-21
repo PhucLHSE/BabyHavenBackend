@@ -22,6 +22,7 @@ namespace BabyHaven.Services.Mappers
 
                 RequestId = model.Request?.RequestId ?? 0,
 
+                MemberId = model.Request?.MemberId ?? Guid.Empty,
                 ResponseDate = model.ResponseDate,
                 Content = model.Content ?? string.Empty,
                 IsHelpful = model.IsHelpful,

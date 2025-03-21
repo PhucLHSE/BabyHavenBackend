@@ -15,6 +15,8 @@ namespace BabyHaven.Common.DTOs.ConsultationResponseDTOs
 
         public string DoctorName { get; set; } = string.Empty ;
 
+        public Guid MemberId { get; set; } 
+
         public DateTime ResponseDate { get; set; }
 
         // Detailed information about the response
