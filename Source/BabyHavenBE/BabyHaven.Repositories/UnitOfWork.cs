@@ -36,6 +36,7 @@ namespace BabyHaven.Repositories
         private BlogRepository blogRepository;
         private ConsultationRequestRepository consultationRequestRepository;
         private ConsultationResponseRepository consultationResponseRepository;
+        private RatingFeedbackRepository ratingFeedbackRepository;
 
         public UnitOfWork() 
         {
@@ -221,6 +222,14 @@ namespace BabyHaven.Repositories
             get
             {
                 return consultationResponseRepository ??= new ConsultationResponseRepository(context); 
+            }
+        }
+
+        public RatingFeedbackRepository RatingFeedbackRepository
+        {
+            get 
+            {
+                return ratingFeedbackRepository ??= new RatingFeedbackRepository(context);
             }
         }
     }
