@@ -55,6 +55,7 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IConsultationResponseService, ConsultationResponseService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRatingFeedbackService, RatingFeedbackService>();
 
 
 // Đăng ký UnitOfWork và Repository

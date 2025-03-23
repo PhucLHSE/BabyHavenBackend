@@ -36,7 +36,7 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.BlogCategories
                 .Include(bc => bc.Blogs)
-                    .ThenInclude(b => b.Author)
+                  .ThenInclude(bc => bc.Author)
                 .Where(bc => bc.ParentCategoryId == parentCategoryId)
                 .ToListAsync();
         }

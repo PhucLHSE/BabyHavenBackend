@@ -18,9 +18,11 @@ namespace BabyHaven.Services.Mappers
         {
             return new ConsultationResponseViewAllDto
             {
-                //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
+                DoctorName = model.Request?.Doctor?.Name ?? "Unknown",
+
                 RequestId = model.Request?.RequestId ?? 0,
 
+                MemberId = model.Request?.MemberId ?? Guid.Empty,
                 ResponseDate = model.ResponseDate,
                 Content = model.Content ?? string.Empty,
                 IsHelpful = model.IsHelpful,
@@ -37,7 +39,8 @@ namespace BabyHaven.Services.Mappers
         {
             return new ConsultationResponseViewDetailsDto
             {
-                //DoctorName = model.Doctor?.User?.Name ?? "Unknown",
+                DoctorName = model.Request?.Doctor?.Name ?? "Unknown",
+
                 RequestId = model.Request?.RequestId ?? 0,
 
                 ResponseDate = model.ResponseDate,
