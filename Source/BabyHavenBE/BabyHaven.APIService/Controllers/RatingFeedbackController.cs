@@ -42,8 +42,9 @@ namespace BabyHaven.APIService.Controllers
 
         // POST api/<RatingFeedbackController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IServiceResult> Post([FromBody] RatingFeedbackCreateDto dto)
         {
+            return await _ratingFeedbackService.Create(dto);
         }
 
         // PUT api/<RatingFeedbackController>/5

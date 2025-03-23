@@ -21,6 +21,29 @@ namespace BabyHaven.Services.Services
             _unitOfWork ??= new UnitOfWork();
         }
 
+        public async Task<IServiceResult> Create(RatingFeedbackCreateDto dto)
+        {
+            if (dto == null)
+            {
+                return new ServiceResult(Const.FAIL_DELETE_CODE,
+                    Const.FAIL_DELETE_MSG);
+            }
+            var feedback = dto.MapToRatingFeedBack();
+
+            var result = await _unitOfWork.RatingFeedbackRepository
+                .CreateAsync(feedback);
+
+            if (result > 0)
+            {
+                return new ServiceResult(Const.SUCCESS_CREATE_CODE,
+                    Const.SUCCESS_CREATE_MSG, feedback);
+            }
+            else
+            {
+                return new ServiceResult(Const.FAIL_CREATE_CODE, Const.FAIL_CREATE_MSG);
+            }
+        }
+
         public async Task<IServiceResult> GetAll()
         {
 
@@ -47,6 +70,12 @@ namespace BabyHaven.Services.Services
             }
 
         }
+
+        public Task<IServiceResult> GetByid(int ratingId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IQueryable<RatingFeedbackViewAllDto>> GetQueryable()
         {
 

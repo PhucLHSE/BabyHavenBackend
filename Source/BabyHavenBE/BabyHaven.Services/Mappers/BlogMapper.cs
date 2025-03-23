@@ -25,7 +25,7 @@ namespace BabyHaven.Services.Mappers
                 ImageBlog = model.ImageBlog,
                 Tags = model.Tags,
                 // Author
-                AuthorName = model.Author?.Name ?? string.Empty,
+                AuthorName = model.Author.Name,
 
                 // Feature
                 CategoryName = model.Category?.CategoryName ?? string.Empty,

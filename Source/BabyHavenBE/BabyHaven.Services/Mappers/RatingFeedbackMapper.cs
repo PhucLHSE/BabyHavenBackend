@@ -33,5 +33,21 @@ namespace BabyHaven.Services.Mappers
                           : FeedbackStatus.Pending
             };
         }
+
+        public static RatingFeedback MapToRatingFeedBack(this RatingFeedbackCreateDto dto)
+        {
+            return new RatingFeedback
+            {
+                UserId = dto.UserId,
+                ResponseId = dto.ResponseId,
+                Rating = dto.Rating,
+                Comment = dto.Comment,
+                FeedbackDate = DateTime.Parse(dto.FeedbackDate),
+                FeedbackType = dto.FeedbackType.ToString(),
+                Status = dto.Status.ToString(),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+        }
     }
 }
