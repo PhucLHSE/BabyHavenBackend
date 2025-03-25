@@ -31,15 +31,15 @@ namespace BabyHaven.Services.Services
             string otp = new Random().Next(100000, 999999).ToString();
             _otpStorage[email] = (otp, DateTime.UtcNow.AddMinutes(5));
 
-            string subject = "[BabyHaven] Xác nhận đăng ký tài khoản";
+            string subject = "[BabyHaven] Account Registration OTP";
             string body = $"<html><body style='font-family:Arial, sans-serif; color:#333; text-align:center;'>"
                         + "<div style='max-width:600px; margin:auto; padding:20px; border-radius:10px; background:#f9f9f9; box-shadow:0 0 10px rgba(0,0,0,0.1);'>"
                         + "<img src='https://i.pinimg.com/736x/5a/99/6a/5a996a8df2a8ea9452ea11da2160df80.jpg' alt='BabyHaven Logo' style='width:120px; height:120px; border-radius:50%; margin-bottom:20px;'>"
-                        + "<h2 style='color:#00d0bc;'>Chào mừng bạn đến với BabyHaven!</h2>"
-                        + "<p>Cảm ơn bạn đã đăng ký tài khoản tại <b>BabyHaven</b>. Để hoàn tất quá trình đăng ký, vui lòng sử dụng mã OTP bên dưới:</p>"
+                        + "<h2 style='color:#00d0bc;'>Welcome to BabyHaven!</h2>"
+                        + "<p>Thank you for registering an account at <b>BabyHaven</b>. Please use the OTP below to complete your registration:</p>"
                         + "<h3 style='color:#00d0bc; font-size:24px; background:#e0f7f5; display:inline-block; padding:10px 20px; border-radius:5px;'><b>" + otp + "</b></h3>"
-                        + "<p><i>Lưu ý: Mã OTP này có hiệu lực trong 5 phút. Vui lòng không chia sẻ với bất kỳ ai.</i></p>"
-                        + "<br><p>Trân trọng,<br><b>Đội ngũ BabyHaven</b></p>"
+                        + "<p><i>Note: This OTP is valid for 5 minutes. Do not share it with anyone.</i></p>"
+                        + "<br><p>Best regards,<br><b>BabyHaven Team</b></p>"
                         + "</div></body></html>";
 
             await _emailService.SendEmailAsync(email, subject, body);
@@ -64,15 +64,15 @@ namespace BabyHaven.Services.Services
             string otp = new Random().Next(100000, 999999).ToString();
             _otpStorage[email] = (otp, DateTime.UtcNow.AddMinutes(5));
 
-            string subject = "[BabyHaven] Xác nhận đặt lại mật khẩu";
+            string subject = "[BabyHaven] Password Reset OTP";
             string body = $"<html><body style='font-family:Arial, sans-serif; color:#333; text-align:center;'>"
                         + "<div style='max-width:600px; margin:auto; padding:20px; border-radius:10px; background:#f9f9f9; box-shadow:0 0 10px rgba(0,0,0,0.1);'>"
                         + "<img src='https://i.pinimg.com/736x/5a/99/6a/5a996a8df2a8ea9452ea11da2160df80.jpg' alt='BabyHaven Logo' style='width:120px; height:120px; border-radius:50%; margin-bottom:20px;'>"
-                        + "<h2 style='color:#00d0bc;'>Xin chào,</h2>"
-                        + "<p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Để tiếp tục, vui lòng sử dụng mã OTP bên dưới:</p>"
+                        + "<h2 style='color:#00d0bc;'>Hello,</h2>"
+                        + "<p>We received a request to reset your password. Please use the OTP below to proceed:</p>"
                         + "<h3 style='color:#00d0bc; font-size:24px; background:#e0f7f5; display:inline-block; padding:10px 20px; border-radius:5px;'><b>" + otp + "</b></h3>"
-                        + "<p><i>Mã OTP này có hiệu lực trong 5 phút. Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</i></p>"
-                        + "<br><p>Trân trọng,<br><b>Đội ngũ BabyHaven</b></p>"
+                        + "<p><i>Note: This OTP is valid for 5 minutes. If you did not request a password reset, please ignore this email.</i></p>"
+                        + "<br><p>Best regards,<br><b>BabyHaven Team</b></p>"
                         + "</div></body></html>";
             return true;
         }
