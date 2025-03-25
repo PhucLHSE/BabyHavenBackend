@@ -26,5 +26,6 @@ namespace BabyHaven.Common.DTOs.ConsultationResponseDTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationResponseStatus Status { get; set; } = ConsultationResponseStatus.Pending;
+        public int ResponseId { get; set; }
     }
 }
