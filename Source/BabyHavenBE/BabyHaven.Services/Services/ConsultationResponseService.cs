@@ -194,12 +194,12 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> UpdateStatus(int requestId, string status)
+        public async Task<IServiceResult> UpdateStatus(int responseId, string status)
         {
             try
             {
                 var consultationResponse = await _unitOfWork.ConsultationResponseRepository
-                                    .GetByRequestId(requestId);
+                                    .GetByIdConsultationResponseAsync(responseId);
                 if (consultationResponse == null)
                 {
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE,
