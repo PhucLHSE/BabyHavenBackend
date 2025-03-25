@@ -1,4 +1,5 @@
-﻿using BabyHaven.Common.DTOs.ConsultationResponseDTOs;
+﻿using BabyHaven.Common;
+using BabyHaven.Common.DTOs.ConsultationResponseDTOs;
 using BabyHaven.Common.DTOs.RatingFeedbackDTOs;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -35,9 +36,9 @@ namespace BabyHaven.APIService.Controllers
 
         // GET api/<RatingFeedbackController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IServiceResult> GetById(int id)
         {
-            return "value";
+            return await _ratingFeedbackService.GetById(id);
         }
 
         // POST api/<RatingFeedbackController>
@@ -49,14 +50,25 @@ namespace BabyHaven.APIService.Controllers
 
         // PUT api/<RatingFeedbackController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IServiceResult> Put(int id, [FromBody] RatingFeedbackUpdateDto dto)
         {
+            if (id != dto.FeedbackId)
+            {
+                return new ServiceResult(Const.FAIL_UPDATE_CODE, "Feedback ID mismatch.");
+            }
+            return await _ratingFeedbackService.Update(dto);
         }
 
         // DELETE api/<RatingFeedbackController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IServiceResult> DeleteById(int id)
         {
+            return await _ratingFeedbackService.DeleteById(id);
+        }
+
+        private bool RatingFeedbackExists(int id)
+        {
+            return _ratingFeedbackService.GetById(id) != null;
         }
     }
 }
