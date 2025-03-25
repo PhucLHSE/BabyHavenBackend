@@ -22,5 +22,13 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(cr => cr.Response)
                 .ToListAsync();
         }
+        public async Task<RatingFeedback?> GetByIdRatingFeedbackAsync(int FeedbackId)
+        {
+            return await _context.RatingFeedbacks
+                .Include(t => t.User)
+                .Include(t => t.Response)
+                    .ThenInclude(t => t.Request)   
+                .FirstOrDefaultAsync(t => t.FeedbackId == FeedbackId);
+        }
     }
 }

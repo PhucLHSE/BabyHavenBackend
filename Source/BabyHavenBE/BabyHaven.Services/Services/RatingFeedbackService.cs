@@ -1,5 +1,4 @@
-﻿using BabyHaven.Common.DTOs.ConsultationResponseDTOs;
-using BabyHaven.Common;
+﻿using BabyHaven.Common;
 using BabyHaven.Repositories;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
@@ -71,9 +70,27 @@ namespace BabyHaven.Services.Services
 
         }
 
-        public Task<IServiceResult> GetByid(int ratingId)
+        public async Task<IServiceResult> GetById(int FeedbackId)
         {
-            throw new NotImplementedException();
+            var ratingFeedback = await _unitOfWork.RatingFeedbackRepository
+               .GetByIdRatingFeedbackAsync(FeedbackId);
+
+            if (ratingFeedback == null)
+            {
+
+                return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                    Const.WARNING_NO_DATA_MSG,
+                    new RatingFeedbackViewDetailsDto());
+            }
+            else
+            {
+
+                var ratingFeedbackDto = ratingFeedback.ToRatingFeedbackViewDetailsDto();
+
+                return new ServiceResult(Const.SUCCESS_READ_CODE,
+                    Const.SUCCESS_READ_MSG,
+                    ratingFeedbackDto);
+            }
         }
 
         public async Task<IQueryable<RatingFeedbackViewAllDto>> GetQueryable()
@@ -85,6 +102,88 @@ namespace BabyHaven.Services.Services
             return feedbacks
                 .Select(feedbacks => feedbacks.MapToRatingFeedbackViewAllDto())
                 .AsQueryable();
+        }
+
+        public async Task<IServiceResult> DeleteById(int FeedbackId)
+        {
+            try
+            {
+
+                var ratingFeedback = await _unitOfWork.RatingFeedbackRepository
+                    .GetByIdRatingFeedbackAsync(FeedbackId);
+
+                if (ratingFeedback == null)
+                {
+
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                        Const.WARNING_NO_DATA_MSG,
+                        new RatingFeedbackDeleteDto());
+                }
+                else
+                {
+
+                    var deleteRatingFeedbackDto = ratingFeedback.MapToRatingFeedbackDeleteDto();
+
+                    var result = await _unitOfWork.RatingFeedbackRepository
+                        .RemoveAsync(ratingFeedback);
+
+                    if (result)
+                    {
+
+                        return new ServiceResult(Const.SUCCESS_DELETE_CODE,
+                            Const.SUCCESS_DELETE_MSG,
+                            deleteRatingFeedbackDto);
+                    }
+                    else
+                    {
+
+                        return new ServiceResult(Const.FAIL_DELETE_CODE,
+                            Const.FAIL_DELETE_MSG,
+                            deleteRatingFeedbackDto);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                    ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> Update(RatingFeedbackUpdateDto dto)
+        {
+            try
+            {
+                var ratingFeedback = await _unitOfWork.RatingFeedbackRepository
+                    .GetByIdRatingFeedbackAsync(dto.FeedbackId);
+
+                if (ratingFeedback == null)
+                {
+                    return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                        Const.WARNING_NO_DATA_MSG);
+                }
+
+                ratingFeedback.Comment = dto.Comment;
+                ratingFeedback.Rating = dto.Rating;
+
+                var result = await _unitOfWork.RatingFeedbackRepository.UpdateAsync(ratingFeedback);
+
+                if (result > 0)
+                {
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                        Const.SUCCESS_UPDATE_MSG, ratingFeedback);
+                }
+                else
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE, Const.FAIL_UPDATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(Const.ERROR_EXCEPTION,
+                    ex.ToString());
+            }
         }
     }
 }
