@@ -42,6 +42,7 @@ namespace BabyHaven.Repositories.Repositories
             return await _context.ConsultationResponses
                 .AsNoTracking()
                 .Include(cr => cr.Request)
+                    .ThenInclude(cr => cr.Doctor)
                 .Where(cr => cr.Request.MemberId == memberId)
                 .ToListAsync();
         }
