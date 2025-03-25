@@ -6,7 +6,6 @@ using BabyHaven.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using BabyHaven.Common.DTOs.ConsultationResponseDTOs;
 using Microsoft.AspNetCore.OData.Query;
-using Azure;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -63,7 +62,7 @@ namespace BabyHaven.APIService.Controllers
             return await _consultationResponseService.Create(consultationResponseCreateDto);
         }
 
-        [HttpPut("{requestId}/{status}")]
+        [HttpPut("{responseId}/{status}")]
         public async Task<IServiceResult> UpdateStatus(int responseId, string status)
         {
             return await _consultationResponseService.UpdateStatus(responseId, status);
