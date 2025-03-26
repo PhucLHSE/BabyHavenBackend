@@ -27,6 +27,9 @@ namespace BabyHaven.Common.DTOs.DoctorDTOs
         [MaxLength(20, ErrorMessage = "PhoneNumber cannot exceed 20 characters.")]
         public string PhoneNumber { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "SpecializationId is required.")]
+        public int[] SpecializationIds { get; set; }
+
         [Required(ErrorMessage = "Degree is required.")]
         [MaxLength(255, ErrorMessage = "Degree cannot exceed 255 characters.")]
         public string Degree { get; set; } = string.Empty;
