@@ -18,6 +18,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new SpecializationViewAllDto
             {
+                SpecializationId = model.SpecializationId,
                 // Feature
                 SpecializationName = model.SpecializationName,
 

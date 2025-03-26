@@ -11,11 +11,11 @@ namespace BabyHaven.Common.DTOs.SpecializationDTOs
 {
     public class SpecializationViewAllDto
     {
+        public int SpecializationId { get; set; }
         public string SpecializationName { get; set; } = string.Empty;
 
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public SpecializationStatus Status { get; set; } = SpecializationStatus.Inactive;
-
     }
 }
