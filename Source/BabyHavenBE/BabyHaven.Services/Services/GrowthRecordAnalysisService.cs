@@ -248,5 +248,16 @@ namespace BabyHaven.Services.Services
 
             return new ServiceResult(Const.ERROR_EXCEPTION, "Failed to get response from AI after multiple retries due to rate limit.");
         }
+
+        public void ClearChatHistory(string sessionId)
+        {
+            lock (_lock)
+            {
+                if (ChatHistories.ContainsKey(sessionId))
+                {
+                    ChatHistories.Remove(sessionId);
+                }
+            }
+        }
     }
 }

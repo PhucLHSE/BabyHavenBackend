@@ -67,7 +67,7 @@ namespace BabyHaven.APIService.Controllers
         }
 
         // PUT api/<UserAccountsController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IServiceResult> Put(UserAccountUpdateDto userDto)
         {
             if (!ModelState.IsValid)
