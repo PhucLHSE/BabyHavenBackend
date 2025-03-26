@@ -65,7 +65,7 @@ namespace BabyHaven.Services.Mappers
             {
                 DoctorId = doctorId,
                 SpecializationId = specializationId,
-                Status = dto.Status.ToString(),
+                Status = DoctorSpecializationStatus.Active.ToString(),
                 CreatedAt = DateTime.UtcNow
             };
         }
