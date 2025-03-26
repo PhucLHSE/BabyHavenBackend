@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BabyHaven.Common;
-using BabyHaven.Common.DTOs.GrowthRecordDTOs;
+using BabyHaven.Common.DTOs.AIChatDTOs;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +39,17 @@ namespace BabyHaven.APIService.Controllers
                 return Ok(result);
             }
 
+            return BadRequest(result);
+        }
+
+        [HttpPost("chat")]
+        public async Task<IActionResult> ChatWithAI([FromBody] GrowthRecordChatRequest request)
+        {
+            var result = await _growthAnalysisService.ChatWithAI(request.SessionId, request.UserMessage, request?.InitialRecord);
+            if (result.Status == Const.SUCCESS_READ_CODE)
+            {
+                return Ok(result);
+            }
             return BadRequest(result);
         }
     }
