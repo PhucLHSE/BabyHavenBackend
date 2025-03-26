@@ -74,6 +74,7 @@ namespace BabyHaven.Services.Services
                         + "<p><i>Note: This OTP is valid for 5 minutes. If you did not request a password reset, please ignore this email.</i></p>"
                         + "<br><p>Best regards,<br><b>BabyHaven Team</b></p>"
                         + "</div></body></html>";
+            await _emailService.SendEmailAsync(email, subject, body);
             return true;
         }
 
