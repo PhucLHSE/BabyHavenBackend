@@ -12,6 +12,6 @@ namespace BabyHaven.Services.IServices
     {
         Task<IServiceResult> AnalyzeGrowthRecord(GrowthRecordAnalysisDto record);
         Task<IServiceResult> ChatWithAI(string sessionId, string userMessage, GrowthRecordAnalysisDto initialRecord = null);
-
+        void ClearChatHistory(string sessionId);
     }
 }

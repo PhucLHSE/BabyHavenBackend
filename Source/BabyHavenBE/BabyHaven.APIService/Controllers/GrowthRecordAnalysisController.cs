@@ -52,5 +52,24 @@ namespace BabyHaven.APIService.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpPost("clear-chat")]
+        public IActionResult ClearChat([FromBody] ClearChatRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.SessionId))
+            {
+                return BadRequest(new ServiceResult(Const.ERROR_EXCEPTION, "Invalid request. SessionId is required."));
+            }
+
+            try
+            {
+                _growthAnalysisService.ClearChatHistory(request.SessionId);
+                return Ok(new ServiceResult(Const.SUCCESS_CREATE_CODE, "Chat history cleared successfully."));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ServiceResult(Const.ERROR_EXCEPTION, $"Error clearing chat history: {ex.Message}"));
+            }
+        }
     }
 }
