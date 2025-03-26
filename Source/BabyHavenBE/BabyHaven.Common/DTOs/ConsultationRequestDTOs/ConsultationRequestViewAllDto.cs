@@ -11,6 +11,7 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
     public class ConsultationRequestViewAllDto
     {
         public int RequestId { get; set; }
+        public Guid MemberId { get; set; }
 
         public string MemberName { get; set; } = string.Empty;
 
