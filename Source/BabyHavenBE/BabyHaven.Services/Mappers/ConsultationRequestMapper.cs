@@ -21,6 +21,8 @@ namespace BabyHaven.Services.Mappers
             {
                 RequestId = model.RequestId,
 
+                MemberId = model.MemberId,
+
                 MemberName = model.Member?.User?.Name ?? "Unknown",
                 ChildName = model.Child?.Name ?? "Unknown",
 
