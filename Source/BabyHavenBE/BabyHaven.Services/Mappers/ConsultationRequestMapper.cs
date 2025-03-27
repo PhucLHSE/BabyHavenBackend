@@ -30,6 +30,8 @@ namespace BabyHaven.Services.Mappers
 
                 RequestDate = model.RequestDate,
 
+                Description = model.Description,
+
                 // Convert Status from string to enum
                 Status = Enum.TryParse<ConsultationRequestStatus>(model.Status, true, out var status)
                           ? status
