@@ -144,33 +144,25 @@ namespace BabyHaven.APIService.Controllers
         }
 
         [HttpPost("VerifyResetPasswordOtp")]
-        public async Task<IActionResult> VerifyResetPasswordOtp([FromBody] string email, string otp)
+        public async Task<IActionResult> VerifyResetPasswordOtp([FromBody] VerifyOtpForPasswordRequest request)
         {
-            var isValid = await _authService.VerifyResetPasswordOtpAsync(email, otp);
+            var (isValid, resetToken) = await _authService.VerifyResetPasswordOtpWithTokenAsync(request.Email, request.Otp);
             if (!isValid)
             {
                 return BadRequest(new { message = "Invalid OTP." });
             }
-            await _authService.MarkOtpVerified(email);
-            return Ok(new { message = "OTP verified successfully. You can now reset your password." });
+            return Ok(new { message = "OTP verified successfully.", ResetToken = resetToken });
         }
 
         [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordWithOtpRequest request)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordWithTokenRequest request)
         {
-            // Kiểm tra xem email đã xác thực OTP chưa
-            var isOtpVerified = await _authService.IsOtpVerified(request.Email);
-            if (!isOtpVerified)
-            {
-                return BadRequest(new { message = "OTP verification required before resetting password." });
-            }
-            var result = await _authService.ResetPasswordAsync(request.Email, request.NewPassword);
+            var result = await _authService.ResetPasswordWithTokenAsync(request.ResetToken, request.NewPassword);
             if (result)
             {
                 return Ok(new { message = "Password reset successfully." });
             }
-
-            return BadRequest(new { message = "Failed to reset password." });
+            return BadRequest(new { message = "Invalid or expired reset token." });
         }
 
         //[HttpPost("VerifyOtpAndResetPassword")]
@@ -212,6 +204,13 @@ namespace BabyHaven.APIService.Controllers
             string Email,
             string NewPassword
         );
-
+        public sealed record VerifyOtpForPasswordRequest(
+            string Email,
+            string Otp
+        );
+        public sealed record ResetPasswordWithTokenRequest(
+            string ResetToken,
+            string NewPassword
+        );
     }
 }
