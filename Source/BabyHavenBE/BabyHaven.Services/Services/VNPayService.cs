@@ -135,6 +135,16 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Membership not found!");
                 }
 
+                if (paymentResult.IsSuccess is true)
+                {
+                    var existingMemberships = await _unitOfWork.MemberMembershipRepository
+                        .GetAllOldByMemberIdAsync(transaction.MemberMembership.MemberId);
+                    foreach (var membership in existingMemberships)
+                    {
+                        membership.Status = MemberMembershipStatus.Suspended.ToString();
+                        await _unitOfWork.MemberMembershipRepository.UpdateAsync(membership);
+                    }
+                }
 
                 transaction.UpdateTransactionFromVNPayResponse(paymentResult);
                 await _unitOfWork.MemberMembershipRepository.UpdateAsync(transaction.MemberMembership);
@@ -147,7 +157,5 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.ERROR_EXCEPTION, ex.Message);
             }
         }
-
-
     }
 }
