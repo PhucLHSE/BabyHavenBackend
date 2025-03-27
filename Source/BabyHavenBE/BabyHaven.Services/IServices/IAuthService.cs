@@ -24,6 +24,10 @@ namespace BabyHaven.Services.IServices
         Task MarkOtpVerified(string email);
 
         // Kiểm tra trạng thái OTP
-        Task<bool> IsOtpVerified(string email); 
+        Task<bool> IsOtpVerified(string email);
+
+        // Phương thức mới
+        Task<(bool Success, string ResetToken)> VerifyResetPasswordOtpWithTokenAsync(string email, string otp);
+        Task<bool> ResetPasswordWithTokenAsync(string resetToken, string newPassword);
     }
 }
