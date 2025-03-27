@@ -19,14 +19,22 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _bmiPercentileService.GetAll();
-            return StatusCode(result.Status, result);
+            if (result == null)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
         }
 
         [HttpGet("{age}/{gender}")]
         public async Task<IActionResult> GetByAgeAndGender(int age, string gender)
         {
             var result = await _bmiPercentileService.GetByAgeAndGender(age, gender);
-            return StatusCode(result.Status, result);
+            if (result == null)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
         }
 
     }
