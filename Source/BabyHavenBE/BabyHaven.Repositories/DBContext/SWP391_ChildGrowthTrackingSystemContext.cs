@@ -25,6 +25,8 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
     public virtual DbSet<BlogCategory> BlogCategories { get; set; }
 
+    public virtual DbSet<BmiPercentile> BmiPercentiles { get; set; }
+
     public virtual DbSet<Child> Children { get; set; }
 
     public virtual DbSet<ChildMilestone> ChildMilestones { get; set; }
@@ -197,6 +199,13 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .WithMany(p => p.InverseParentCategory)
                 .HasForeignKey(d => d.ParentCategoryId)
                 .HasConstraintName("FK__BlogCateg__Paren__531856C7");
+        });
+
+        modelBuilder.Entity<BmiPercentile>(entity =>
+        {
+            entity.HasKey(e => new { e.Age, e.Gender });
+
+            entity.Property(e => e.Gender).HasMaxLength(10);
         });
 
         modelBuilder.Entity<Child>(entity =>
