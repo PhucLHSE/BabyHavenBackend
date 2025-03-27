@@ -48,6 +48,7 @@ namespace BabyHaven.Services.Mappers
                 HospitalName = model.HospitalName,
                 HospitalAddress = model.HospitalAddress,
                 Biography = model.Biography,
+                DateOfBirth = model.User?.DateOfBirth,
 
                 //Convert Status from string to enum
                 Status = Enum.TryParse<DoctorStatus>(model.Status, true, out var status)
