@@ -12,6 +12,7 @@ namespace BabyHaven.Common.DTOs.ConsultationResponseDTOs
     {
         // Basic information about the consultation response
         public int RequestId { get; set; }
+        public int DoctorId { get; set; }
 
         public string DoctorName { get; set; } = string.Empty ;
 

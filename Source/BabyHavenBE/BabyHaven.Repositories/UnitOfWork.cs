@@ -37,12 +37,21 @@ namespace BabyHaven.Repositories
         private ConsultationRequestRepository consultationRequestRepository;
         private ConsultationResponseRepository consultationResponseRepository;
         private RatingFeedbackRepository ratingFeedbackRepository;
+        private BmiPercentileRepository bmiPercentileRepository;
 
         public UnitOfWork() 
         {
             context ??= new SWP391_ChildGrowthTrackingSystemContext();
         }
-        
+
+        public BmiPercentileRepository BmiPercentileRepository
+        {
+            get
+            {
+                return bmiPercentileRepository ??= new BmiPercentileRepository(context);
+            }
+        }
+
         public ChildMilestoneRepository ChildMilestoneRepository
         {
             get

@@ -19,6 +19,7 @@ namespace BabyHaven.Services.Mappers
             return new ConsultationResponseViewAllDto
             {
                 ResponseId = model.ResponseId,
+                DoctorId = model.Request.DoctorId,
                 DoctorName = model.Request?.Doctor?.Name ?? "Unknown",
 
                 RequestId = model.Request?.RequestId ?? 0,
