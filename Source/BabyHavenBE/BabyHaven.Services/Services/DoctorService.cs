@@ -56,7 +56,7 @@ namespace BabyHaven.Services.Services
         {
 
             var doctors = await _unitOfWork.DoctorRepository
-                .GetAllAsync();
+                .GetAllDoctorAsync();
 
             return doctors
                 .Select(doctors => doctors.MapToDoctorViewAllDto())

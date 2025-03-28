@@ -17,6 +17,7 @@ namespace BabyHaven.Services.Services
         private readonly IEmailService _emailService;
         private static readonly ConcurrentDictionary<string, (string Otp, DateTime Expiry)> _otpStorage = new();
         private static readonly ConcurrentDictionary<string, bool> _verifiedEmails = new();
+        private static readonly ConcurrentDictionary<string, (string Email, DateTime Expiry)> _resetTokens = new(); // Lưu trữ token -> email
         public AuthService(UnitOfWork unitOfWork, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
@@ -74,6 +75,7 @@ namespace BabyHaven.Services.Services
                         + "<p><i>Note: This OTP is valid for 5 minutes. If you did not request a password reset, please ignore this email.</i></p>"
                         + "<br><p>Best regards,<br><b>BabyHaven Team</b></p>"
                         + "</div></body></html>";
+            await _emailService.SendEmailAsync(email, subject, body);
             return true;
         }
 
@@ -105,6 +107,38 @@ namespace BabyHaven.Services.Services
         public async Task MarkOtpVerified(string email)
         {
             _verifiedEmails[email] = true;
+        }
+        // Các phương thức mới để hỗ trợ token
+        public async Task<(bool Success, string ResetToken)> VerifyResetPasswordOtpWithTokenAsync(string email, string otp)
+        {
+            if (_otpStorage.TryGetValue(email, out var storedOtp) && storedOtp.Otp == otp && storedOtp.Expiry > DateTime.UtcNow)
+            {
+                _otpStorage.Remove(email, out _);
+                _verifiedEmails[email] = true;
+
+                // Tạo reset token
+                string resetToken = Guid.NewGuid().ToString();
+                _resetTokens[resetToken] = (email, DateTime.UtcNow.AddMinutes(10)); // Token hết hạn sau 10 phút
+                return (true, resetToken);
+            }
+            return (false, null);
+        }
+
+        public async Task<bool> ResetPasswordWithTokenAsync(string resetToken, string newPassword)
+        {
+            if (_resetTokens.TryGetValue(resetToken, out var tokenData) && tokenData.Expiry > DateTime.UtcNow)
+            {
+                var email = tokenData.Email;
+                var user = await _unitOfWork.UserAccountRepository.GetByEmailAsync(email);
+                if (user == null) return false;
+
+                user.Password = newPassword; // Nên hash mật khẩu ở đây
+                await _unitOfWork.UserAccountRepository.UpdateAsync(user);
+                _resetTokens.TryRemove(resetToken, out _);
+                _verifiedEmails.TryRemove(email, out _);
+                return true;
+            }
+            return false;
         }
 
 
