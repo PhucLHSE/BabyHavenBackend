@@ -10,6 +10,7 @@ namespace BabyHaven.Common.DTOs.RatingFeedbackDTOs
 {
     public class RatingFeedbackViewAllDto
     {
+        public int FeedbackId { get; set; }
 
         public Guid UserId { get; set; }
 
@@ -21,8 +22,10 @@ namespace BabyHaven.Common.DTOs.RatingFeedbackDTOs
 
         public DateTime FeedbackDate { get; set; }
 
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public RatingFeedbackType  FeedbackType { get; set; } = RatingFeedbackType.General;
+
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public FeedbackStatus Status { get; set; } = FeedbackStatus.Pending;

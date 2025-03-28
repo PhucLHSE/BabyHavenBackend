@@ -58,7 +58,8 @@ namespace BabyHaven.APIService.Controllers
                     Message = "Invalid model state." };
 
             // Lấy userId từ token hoặc request (tuỳ theo cách bạn triển khai xác thực)
-            var userId = Guid.Parse(User.FindFirst("UserId")?.Value ?? Guid.Empty.ToString());
+            var userId = Guid.Parse(User.FindFirst("UserId")?.Value 
+                ?? Guid.Empty.ToString());
 
             if (userId == Guid.Empty)
                 return new ServiceResult { Status = Const.ERROR_VALIDATION_CODE, 

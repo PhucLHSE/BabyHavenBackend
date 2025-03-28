@@ -12,8 +12,14 @@ namespace BabyHaven.Repositories.Repositories
 {
     public class DoctorRepository:GenericRepository<Doctor>
     {
-        public DoctorRepository() { }
-        public DoctorRepository(SWP391_ChildGrowthTrackingSystemContext context) => _context = context;
+        public DoctorRepository()
+        {
+
+        }
+        
+        public DoctorRepository(SWP391_ChildGrowthTrackingSystemContext context) 
+            => _context = context;
+
         public async Task<Doctor?> GetByDoctorNameAsync(string name)
         {
             return await _context.Doctors
@@ -48,6 +54,15 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.Doctors
                 .FirstOrDefaultAsync(d => d.UserId == userId);
+        }
+
+        public async Task<List<Doctor>> GetAllDoctorAsync()
+        {
+            var doctors = await _context.Doctors
+                .Include(mm => mm.User)
+                .ToListAsync();
+
+            return doctors;
         }
     }
 }
