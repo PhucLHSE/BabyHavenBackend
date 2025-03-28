@@ -114,5 +114,14 @@ namespace BabyHaven.Repositories.Repositories
                 .OrderByDescending(gr => gr.CreatedAt)
                 .ToListAsync();
         }
+
+        public async Task<List<GrowthRecord>> GetRecentGrowthRecordsByChildAsync(Guid childId, int count)
+        {
+            return await _context.GrowthRecords
+                .Where(gr => gr.ChildId == childId)
+                .OrderByDescending(gr => gr.CreatedAt)
+                .Take(count)
+                .ToListAsync();
+        }
     }
 }
