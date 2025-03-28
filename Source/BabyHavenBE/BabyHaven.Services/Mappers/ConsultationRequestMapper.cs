@@ -30,6 +30,8 @@ namespace BabyHaven.Services.Mappers
 
                 RequestDate = model.RequestDate,
 
+
+                Attachments = model.Attachments,
                 Description = model.Description,
 
                 // Convert Status from string to enum
@@ -121,6 +123,7 @@ namespace BabyHaven.Services.Mappers
                 Urgency = dto.Urgency.ToString(),
                 Category = dto.Category.ToString(),
                 Description = dto.Description,
+                Attachments = dto.Attachments,
 
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
