@@ -50,6 +50,7 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         // Detailed information about the request
         [Required(ErrorMessage = "Description is required.")]
         public string Description { get; set; } = string.Empty;
+        public string Attachments { get; set; }
     }
 
     // Custom validation attribute for future date
