@@ -303,7 +303,6 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.RequestId)
                 .HasColumnName("RequestID");
             entity.Property(e => e.Attachments)
-                .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.Category)
                  .HasMaxLength(100);
@@ -360,7 +359,6 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
 
             entity.Property(e => e.Attachments)
-                .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.Content)
                 .IsRequired();
