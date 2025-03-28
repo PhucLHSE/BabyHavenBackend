@@ -5,25 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
+namespace BabyHaven.Common.DTOs.AIChatDTOs
 {
     public class GrowthRecordAnalysisDto
     {
-        [Required]
         public float Weight { get; set; }
 
-        [Required]
         public float Height { get; set; }
 
-        public float? BMI => (Height > 0) ? Weight / ((Height / 100) * (Height / 100)) : null;
+        public float? BMI => Height > 0 ? Weight / (Height / 100 * (Height / 100)) : null;
 
         public float? ChestCircumference { get; set; }
         public float? MuscleMass { get; set; }
         public float? BloodSugarLevel { get; set; }
         public float? Triglycerides { get; set; }
         public string? NutritionalStatus { get; set; }
-
-        [Required]
         public int Age { get; set; }
     }
 }

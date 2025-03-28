@@ -32,6 +32,17 @@ namespace BabyHaven.Repositories.Repositories
             return memberMemberships;
         }
 
+        public async Task<List<MemberMembership>> GetAllOldByMemberIdAsync(Guid memberId)
+        {
+            var memberMemberships = await _context.MemberMemberships
+                .Where(mm => mm.MemberId == memberId && mm.Status == "Active")
+                .OrderByDescending(mm => mm.CreatedAt) // Sort by CreatedAt in descending order
+                .Skip(1) // Exclude the first membership
+                .ToListAsync();
+
+            return memberMemberships;
+        }
+
         public async Task<MemberMembership?> GetByIdMemberMembershipAsync(Guid memberMembershipId)
         {
             return await _context.MemberMemberships

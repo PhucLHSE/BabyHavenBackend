@@ -1,6 +1,7 @@
 ﻿
 using BabyHaven.Common;
 using BabyHaven.Common.DTOs.DoctorDTOs;
+using BabyHaven.Common.DTOs.DoctorSpecializationDTOs;
 using BabyHaven.Repositories;
 using BabyHaven.Repositories.Models;
 using BabyHaven.Services.Base;
@@ -9,6 +10,7 @@ using BabyHaven.Services.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,7 +56,7 @@ namespace BabyHaven.Services.Services
         {
 
             var doctors = await _unitOfWork.DoctorRepository
-                .GetAllAsync();
+                .GetAllDoctorAsync();
 
             return doctors
                 .Select(doctors => doctors.MapToDoctorViewAllDto())
@@ -206,55 +208,42 @@ namespace BabyHaven.Services.Services
                     ex.ToString());
             }
         }
-        public async Task<IServiceResult> Create(DoctorCreateDto doctorDto,Guid userId)
+        public async Task<IServiceResult> Create(DoctorCreateDto doctorDto, Guid userId)
         {
             try
             {
-
                 if (doctorDto == null)
-                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, 
-                        Message = Const.FAIL_CREATE_MSG };
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
 
-                // Kiểm tra trùng lặp theo tên bác sĩ
-                var existingDoctor = await _unitOfWork.DoctorRepository.GetByDoctorNameAsync(doctorDto.Name);
-
-                if (existingDoctor != null)
-                {
-
-                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, 
-                        Message = "A doctor with this name already exists." };
-                }
-
-                // Kiểm tra trùng lặp theo email bác sĩ
-                var existingDoctorByEmail = await _unitOfWork.DoctorRepository
-                    .GetByEmailAsync(doctorDto.Email);
-
+                // Check for duplicate email
+                var existingDoctorByEmail = await _unitOfWork.DoctorRepository.GetByEmailAsync(doctorDto.Email);
                 if (existingDoctorByEmail != null)
                 {
-
-                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, 
-                        Message = "A doctor with this email already exists." };
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = "A doctor with this email already exists." };
                 }
 
-                // Map DTO sang Entity
+                // Retrieve specializations
+                var specializations = await _unitOfWork.SpecializationRepository.GetByIds(doctorDto.SpecializationIds);
+
+                // Map DTO to Entity
                 var newDoctor = doctorDto.MapToDoctor(userId);
 
-                newDoctor.CreatedAt = DateTime.UtcNow;
-                newDoctor.UpdatedAt = DateTime.UtcNow;
-
-                // Thêm vào database
+                // Add doctor to database
                 await _unitOfWork.DoctorRepository.CreateAsync(newDoctor);
 
-                // Trả về kết quả
-                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, 
-                    Message = Const.SUCCESS_CREATE_MSG, 
-                    Data = newDoctor.MapToDoctorViewDetailsDto() };
+                // Create DoctorSpecialization entries using the mapper
+                foreach (var specialization in specializations)
+                {
+                    var doctorSpecialization = new DoctorSpecializationCreateDto().MapToDoctorSpecialization(newDoctor.DoctorId, specialization.SpecializationId);
+                    await _unitOfWork.DoctorSpecializationRepository.CreateAsync(doctorSpecialization);
+                }
+
+                // Return result
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = newDoctor.MapToDoctorViewDetailsDto() };
             }
             catch (Exception ex)
             {
-
-                return new ServiceResult { Status = Const.ERROR_EXCEPTION, 
-                    Message = $"An error occurred while creating the doctor: {ex.Message}" };
+                return new ServiceResult { Status = Const.ERROR_EXCEPTION, Message = $"An error occurred while creating the doctor: {ex.Message}" };
             }
         }
 

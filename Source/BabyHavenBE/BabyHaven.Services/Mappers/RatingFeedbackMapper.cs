@@ -22,11 +22,13 @@ namespace BabyHaven.Services.Mappers
         {
             return new RatingFeedbackViewAllDto
             {
+                FeedbackId = model.FeedbackId,
                 UserId = model.User?.UserId ?? Guid.Empty,
                 ResponseId = model.Response?.ResponseId ?? 0,
                 Rating = model.Rating,
                 Comment = model.Comment,
                 FeedbackDate = model.FeedbackDate,
+
                 FeedbackType = Enum.TryParse<RatingFeedbackType>(model.FeedbackType, true, out var type)
                                 ? type
                                 : RatingFeedbackType.General,
