@@ -199,7 +199,7 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_READ_CODE, "No growth records found for this child.");
                 }
 
-                // Lấy dữ liệu chuẩn từ WHO dựa trên tuổi và giới tính (cho các bệnh liên quan đến BMI)
+                // Lấy dữ liệu chuẩn từ WHO dựa trên tuổi và giới tính
                 var bmiPercentileData = await _unitOfWork.BmiPercentileRepository
                     .GetByAgeAndGender(age, child.Gender);
 
@@ -218,12 +218,14 @@ namespace BabyHaven.Services.Services
                 // Phân tích xu hướng và tạo alert
                 var alertsToCreate = new List<Alert>();
 
-                // Tính BMI trung bình và xu hướng để sử dụng trong thông điệp
+                // Tính BMI và xu hướng
                 var bmiValues = recentRecords
                     .Select(r => r.Weight / (r.Height * r.Height) * 10000)
                     .ToList();
                 bool isBmiDecreasing = IsDecreasingTrend(bmiValues);
                 bool isBmiIncreasing = IsIncreasingTrend(bmiValues);
+                bool isSuddenBmiChange = IsSuddenChange(bmiValues, 20.0); // Ngưỡng 20%
+                double latestBmi = bmiValues.First();
                 double averageBmi = bmiValues.Average();
 
                 // Tính xu hướng chiều cao
@@ -232,9 +234,8 @@ namespace BabyHaven.Services.Services
 
                 foreach (var disease in diseases)
                 {
-                    if (ShouldCreateAlert(recentRecords, disease, child, bmiPercentileData))
+                    if (ShouldCreateAlert(recentRecords, disease, child, bmiPercentileData, isBmiDecreasing, isBmiIncreasing, isSuddenBmiChange))
                     {
-                        // Tạo thông điệp chi tiết bằng AlertMapper
                         var latestRecord = recentRecords.OrderByDescending(r => r.CreatedAt).First();
                         string customMessage = AlertMapper.BuildDetailedMessage(
                             disease,
@@ -279,88 +280,65 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        private bool ShouldCreateAlert(List<GrowthRecord> recentRecords, Disease disease, Child child, BmiPercentile bmiPercentileData)
+        private bool ShouldCreateAlert(List<GrowthRecord> recentRecords, Disease disease, Child child,
+            BmiPercentile bmiPercentileData, bool isBmiDecreasing, bool isBmiIncreasing, bool isSuddenBmiChange)
         {
-            // Tính BMI cho từng bản ghi
-            var bmiValues = recentRecords
-                .Select(r => r.Weight / (r.Height * r.Height) * 10000)
-                .ToList();
+            var latestRecord = recentRecords.First();
+            var latestBmi = latestRecord.Weight / (latestRecord.Height * latestRecord.Height) * 10000;
+            var bmiValues = recentRecords.Select(r => r.Weight / (r.Height * r.Height) * 10000).ToList();
+            bool hasTrendData = bmiValues.Count >= 2;
 
-            // Kiểm tra xu hướng BMI
-            bool isBmiDecreasing = IsDecreasingTrend(bmiValues);
-            bool isBmiIncreasing = IsIncreasingTrend(bmiValues);
-
-            // Tính BMI trung bình
-            double averageBmi = bmiValues.Average();
-
-            // So sánh với dữ liệu chuẩn từ WHO (BmiPercentile) hoặc ngưỡng từ Disease
             switch (disease.DiseaseName)
             {
                 case "Severe Malnutrition":
-                    // Kiểm tra nếu BMI dưới percentile 1st và có xu hướng giảm
-                    return averageBmi < bmiPercentileData.P01 && isBmiDecreasing;
+                    return latestBmi < bmiPercentileData.P01 &&
+                           (!hasTrendData || isBmiDecreasing || isSuddenBmiChange);
 
                 case "Mild Malnutrition":
-                    // Kiểm tra nếu BMI dưới percentile 5th và có xu hướng giảm
-                    // Vì không có P05, ước lượng P05 nằm giữa P01 và P50
                     double estimatedP05 = bmiPercentileData.P01 + (bmiPercentileData.P50 - bmiPercentileData.P01) * 0.2;
-                    return averageBmi < estimatedP05 && isBmiDecreasing;
+                    return latestBmi < estimatedP05 &&
+                           (!hasTrendData || isBmiDecreasing || isSuddenBmiChange);
 
                 case "Overweight":
-                    // Kiểm tra nếu BMI trên percentile 75th và có xu hướng tăng
-                    return averageBmi > bmiPercentileData.P75 && isBmiIncreasing;
+                    return latestBmi > bmiPercentileData.P75 &&
+                           (!hasTrendData || isBmiIncreasing || isSuddenBmiChange);
 
                 case "Obesity":
-                    // Kiểm tra nếu BMI trên percentile 99th và có xu hướng tăng
-                    return averageBmi > bmiPercentileData.P99 && isBmiIncreasing;
+                    return latestBmi > bmiPercentileData.P99 &&
+                           (!hasTrendData || isBmiIncreasing || isSuddenBmiChange);
 
                 case "Stunted Growth":
-                    // Kiểm tra xu hướng chiều cao
                     var heights = recentRecords.Select(r => r.Height).ToList();
                     bool isHeightStagnant = IsStagnantTrend(heights);
                     return isHeightStagnant && IsValueInRange(heights.Last(), disease, child);
 
                 case "Anemia":
-                    // Kiểm tra FerritinLevel
                     var ferritinLevels = recentRecords.Select(r => r.FerritinLevel).ToList();
                     return IsValueInRange(ferritinLevels.Last(), disease, child);
 
                 case "Diabetes Type 1":
-                    // Kiểm tra BloodSugarLevel
                     var bloodSugarLevels = recentRecords.Select(r => r.BloodSugarLevel).ToList();
                     return IsValueInRange(bloodSugarLevels.Last(), disease, child);
 
                 case "Asthma":
-                    // Kiểm tra OxygenSaturation
                     var oxygenLevels = recentRecords.Select(r => r.OxygenSaturation).ToList();
                     return IsValueInRange(oxygenLevels.Last(), disease, child);
 
                 case "Rickets":
-                    // Kiểm tra GrowthHormoneLevel
                     var growthHormoneLevels = recentRecords.Select(r => r.GrowthHormoneLevel).ToList();
                     return IsValueInRange(growthHormoneLevels.Last(), disease, child);
 
                 case "Hypertension":
-                    // Kiểm tra BloodPressure
                     var bloodPressures = recentRecords.Select(r => r.BloodPressure).ToList();
                     return IsValueInRange(bloodPressures.Last(), disease, child);
 
                 case "Failure to Thrive":
-                    // Kiểm tra DevelopmentalMilestones
                     return IsDevelopmentalMilestonesInRange(recentRecords.Last(), disease, child);
 
                 default:
                     return false;
             }
         }
-
-        //private bool IsBmiInRange(GrowthRecord growthRecord, Disease disease, Child child)
-        //{
-        //    if (growthRecord.Weight <= 0 || growthRecord.Height <= 0) return false;
-
-        //    double bmi = growthRecord.Weight / (growthRecord.Height * growthRecord.Height) * 10000;
-        //    return IsValueInRange(bmi, disease, child);
-        //}
 
         private bool IsValueInRange(double? value, Disease disease, Child child)
         {
@@ -387,7 +365,7 @@ namespace BabyHaven.Services.Services
             if (values.Count < 2) return false;
             for (int i = 1; i < values.Count; i++)
             {
-                if (values[i] >= values[i - 1]) return false; // Nếu có giá trị tăng hoặc không đổi, không phải xu hướng giảm
+                if (values[i] >= values[i - 1]) return false;
             }
             return true;
         }
@@ -397,7 +375,7 @@ namespace BabyHaven.Services.Services
             if (values.Count < 2) return false;
             for (int i = 1; i < values.Count; i++)
             {
-                if (values[i] <= values[i - 1]) return false; // Nếu có giá trị giảm hoặc không đổi, không phải xu hướng tăng
+                if (values[i] <= values[i - 1]) return false;
             }
             return true;
         }
@@ -406,7 +384,21 @@ namespace BabyHaven.Services.Services
         {
             if (values.Count < 2) return false;
             double averageChange = (values.Last() - values.First()) / (values.Count - 1);
-            return Math.Abs(averageChange) < 0.5; // Giả định thay đổi trung bình nhỏ hơn 0.5 cm là "stagnant"
+            return Math.Abs(averageChange) < 0.5; // Thay đổi trung bình nhỏ hơn 0.5 cm
+        }
+
+        private bool IsSuddenChange(List<double> values, double thresholdPercentage = 20.0)
+        {
+            if (values.Count < 2) return false;
+            for (int i = 1; i < values.Count; i++)
+            {
+                double previous = values[i - 1];
+                double current = values[i];
+                if (previous == 0) continue; // Tránh chia cho 0
+                double changePercentage = Math.Abs((current - previous) / previous) * 100;
+                if (changePercentage > thresholdPercentage) return true;
+            }
+            return false;
         }
 
         private ServiceResult HandleException(string action, Exception ex)
