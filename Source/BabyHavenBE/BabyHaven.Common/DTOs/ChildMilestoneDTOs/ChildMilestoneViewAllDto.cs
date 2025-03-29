@@ -12,6 +12,9 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
     {
         [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly? AchievedDate { get; set; }
+        public string ChildName { get; set; }
+        public string DateOfBirth { get; set; }
+        public Guid MemberId { get; set; }
 
         public string Status { get; set; } = string.Empty;
 
