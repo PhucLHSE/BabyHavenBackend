@@ -31,6 +31,6 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
         public string Category { get; set; } = string.Empty;
 
         [JsonConverter(typeof(DateOnlyJsonConverter))]
-        public DateOnly? AchievedDate { get; set; }
+        public string AchievedDate { get; set; }
     }
 }
