@@ -52,6 +52,14 @@ namespace BabyHaven.APIService.Controllers
             return StatusCode(result.Status, result);
         }
 
+        [HttpGet("child/{name}/{dob}/{memberId}")]
+        public async Task<IActionResult> GetByChild(string name, string dob, Guid memberId)
+        {
+            var result = await _childMilestoneService.GetByChild(name, dob, memberId);
+
+            return StatusCode(result.Status, result);
+        }
+
         /// <summary>
         /// Creates a new child milestone.
         /// </summary>
