@@ -13,9 +13,14 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
     {
         [Required(ErrorMessage = "Milestone ID is required.")]
         public int MilestoneId { get; set; }
+        [Required(ErrorMessage = "ChildName is required.")]
+        public string ChildName { get; set; }
 
-        [Required(ErrorMessage = "Child ID is required.")]
-        public Guid ChildId { get; set; }
+        [Required(ErrorMessage = "DateOfBirth is required.")]
+        public string DateOfBirth { get; set; }
+
+        [Required(ErrorMessage = "MemberId is required.")]
+        public Guid MemberId { get; set; }
 
         [StringLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
         public string Notes { get; set; } = string.Empty;
