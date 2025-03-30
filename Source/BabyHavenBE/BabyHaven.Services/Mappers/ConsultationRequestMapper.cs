@@ -24,6 +24,7 @@ namespace BabyHaven.Services.Mappers
                 MemberId = model.MemberId,
 
                 MemberName = model.Member?.User?.Name ?? "Unknown",
+
                 ChildName = model.Child?.Name ?? "Unknown",
 
                 DoctorId = model.DoctorId,
