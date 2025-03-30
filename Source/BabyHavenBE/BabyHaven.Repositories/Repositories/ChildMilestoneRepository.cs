@@ -32,5 +32,13 @@ namespace BabyHaven.Repositories.Repositories
             _context.ChildMilestones.Add(childMilestone);
             return await _context.SaveChangesAsync();
         }
+
+        public async Task<List<ChildMilestone>> GetByChild(Guid childId)
+        {
+            return await _context.ChildMilestones
+                .Include(cm => cm.Milestone)
+                .Where(cm => cm.ChildId == childId)
+                .ToListAsync();
+        }
     }
 }

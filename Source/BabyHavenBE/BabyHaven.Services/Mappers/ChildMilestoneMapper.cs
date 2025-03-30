@@ -19,7 +19,8 @@ namespace BabyHaven.Services.Mappers
                 Guidelines = dto.Guidelines,
                 Importance = dto.Importance,
                 Category = dto.Category,
-                AchievedDate = dto.AchievedDate
+                AchievedDate = DateOnly.Parse(dto.AchievedDate),
+                Status = dto.AchievedDate == null ? "In Progress" : "Completed",
             };
         }
 

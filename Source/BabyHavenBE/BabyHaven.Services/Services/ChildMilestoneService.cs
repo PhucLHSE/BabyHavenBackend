@@ -82,6 +82,38 @@ namespace BabyHaven.Services.Services
             }
         }
 
+        public async Task<IServiceResult> GetByChild(string name, string dob, Guid memberId)
+        {
+            try
+            {
+                var child = await _unitOfWork.ChildrenRepository
+                    .GetChildByNameAndDateOfBirthAsync(name, DateOnly.Parse(dob), memberId);
+
+                var childMilestones = await _unitOfWork.ChildMilestoneRepository
+                    .GetByChild(child.ChildId);
+
+                if (childMilestones == null)
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_READ_CODE,
+                        Message = "Child milestone not found."
+                    };
+
+                return new ServiceResult
+                {
+                    Status = Const.SUCCESS_READ_CODE,
+                    Message = Const.SUCCESS_READ_MSG,
+                    Data = childMilestones
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return HandleException("retrieving the child milestone",
+                    ex);
+            }
+        }
+
         public async Task<IServiceResult> Create(ChildMilestoneCreateDto dto)
         {
             try
@@ -91,8 +123,22 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult { Status = Const.FAIL_CREATE_CODE, 
                         Message = Const.FAIL_CREATE_MSG };
 
+                var child = await _unitOfWork.ChildrenRepository
+                    .GetChildByNameAndDateOfBirthAsync(dto.ChildName, DateOnly.Parse(dto.DateOfBirth), dto.MemberId);
+
+                var milestone = await _unitOfWork.MilestoneRepository.GetByIdAsync(dto.MilestoneId);
+
+                if (milestone == null)
+                {
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_READ_CODE,
+                        Message = "Milestone not found"
+                    };
+                }
+
                 await _unitOfWork.ChildMilestoneRepository
-                    .CreateAsync(dto.ToChildMilestone(), dto.ChildId, dto.MilestoneId);
+                    .CreateAsync(dto.ToChildMilestone(), child.ChildId, milestone.MilestoneId);
 
                 return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, 
                     Message = Const.SUCCESS_CREATE_MSG, 

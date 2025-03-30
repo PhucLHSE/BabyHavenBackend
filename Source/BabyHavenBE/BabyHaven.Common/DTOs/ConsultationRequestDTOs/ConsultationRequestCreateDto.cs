@@ -50,6 +50,19 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         // Detailed information about the request
         [Required(ErrorMessage = "Description is required.")]
         public string Description { get; set; } = string.Empty;
+        public List<AttachmentDto> Attachments { get; set; } = new List<AttachmentDto>();
+    }
+
+    public class AttachmentDto
+    {
+        [Required(ErrorMessage = "FileName is required.")]
+        public string FileName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Content is required.")]
+        public string Content { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "MimeType is required.")]
+        public string MimeType { get; set; } = string.Empty; //File type
     }
 
     // Custom validation attribute for future date

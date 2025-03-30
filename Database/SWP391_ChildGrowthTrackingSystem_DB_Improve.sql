@@ -263,7 +263,7 @@ CREATE TABLE ConsultationRequests (
     Description NVARCHAR(MAX),                                      -- Mô tả chi tiết về yêu cầu tư vấn
     Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                  -- Trạng thái yêu cầu: 0 (pending), 1 (approved), 2 (rejected)
     Urgency NVARCHAR(50),                                            -- Mức độ khẩn cấp: low, medium, high
-    Attachments VARCHAR(1000),                                       -- Đường dẫn tệp đính kèm
+    Attachments VARCHAR(MAX),                                       -- Đường dẫn tệp đính kèm
     Category NVARCHAR(100),                                          -- Danh mục tư vấn: ví dụ: dinh dưỡng, phát triển, ...
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Thời gian yêu cầu được tạo
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Thời gian cập nhật yêu cầu
@@ -278,7 +278,7 @@ CREATE TABLE ConsultationResponses (
     RequestID INT UNIQUE NOT NULL,                                      -- Liên kết với bảng ConsultationRequests
     ResponseDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Thời gian phản hồi
     Content NVARCHAR(MAX) NOT NULL,                                    -- Nội dung phản hồi (bắt buộc)
-    Attachments VARCHAR(1000),                                          -- Đường dẫn tệp đính kèm (không bắt buộc)
+    Attachments VARCHAR(MAX),                                          -- Đường dẫn tệp đính kèm (không bắt buộc)
     IsHelpful BIT NULL,                                                 -- Đánh giá xem phản hồi có hữu ích không (NULL nếu không đánh giá)
     Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',                     -- Trạng thái phản hồi: 0 (pending), 1 (answered), 2 (resolved)
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,              -- Thời gian tạo phản hồi
@@ -1266,4 +1266,3 @@ VALUES
 (16, 'Female', -0.8553, 21.2603, 0.1433, 14.6, 21.26, 23.52, 37.03),
 (17, 'Female', -0.7965, 21.3752, 0.144, 14.59, 21.38, 23.65, 36.94);
 GO
-

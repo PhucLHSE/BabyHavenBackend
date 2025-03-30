@@ -30,6 +30,8 @@ namespace BabyHaven.Services.Mappers
 
                 RequestDate = model.RequestDate,
 
+
+                Attachments = model.Attachments,
                 Description = model.Description,
 
                 // Convert Status from string to enum
@@ -110,6 +112,13 @@ namespace BabyHaven.Services.Mappers
         // Mapper for ConsultationRequestCreateDto
         public static ConsultationRequest MapToConsultationRequest(this ConsultationRequestCreateDto dto, int doctorId, Child child)
         {
+            var attachmentsList = dto.Attachments.Select(att => new
+            {
+                FileName = att.FileName,
+                Content = att.Content,
+                MimeType = att.MimeType
+            }).ToList();
+
             return new ConsultationRequest
             {
                 MemberId = child.MemberId,
@@ -121,6 +130,7 @@ namespace BabyHaven.Services.Mappers
                 Urgency = dto.Urgency.ToString(),
                 Category = dto.Category.ToString(),
                 Description = dto.Description,
+                Attachments = JsonSerializer.Serialize(attachmentsList),
 
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
