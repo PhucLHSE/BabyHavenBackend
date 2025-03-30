@@ -24,7 +24,7 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.ConsultationRequests
                 .Include(cr => cr.Member)
-                   .ThenInclude(cr => cr.User)
+                   .ThenInclude(cr => cr.User.Name)
                 .Include(cr => cr.Child)
                 .ToListAsync();
         }
