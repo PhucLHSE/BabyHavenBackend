@@ -34,7 +34,7 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         // Detailed information about the request
         public string Description { get; set; } = string.Empty;
 
-        public List<string> Attachments { get; set; } = new List<string>();
+        public string Attachments { get; set; }
 
 
         // Timestamps for tracking changes
