@@ -47,11 +47,11 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         public ChildViewDetailsDto? Child { get; set; }
 
 
-        // Growth history of the child
-        public List<GrowthRecordViewAllDto> RecentGrowthRecords { get; set; } = new List<GrowthRecordViewAllDto>();
+        //// Growth history of the child
+        //public List<GrowthRecordViewAllDto> RecentGrowthRecords { get; set; } = new List<GrowthRecordViewAllDto>();
 
 
-        // Previous consultation requests related to the child
-        public List<ConsultationRequestViewAllDto> PreviousConsultations { get; set; } = new List<ConsultationRequestViewAllDto>();
+        //// Previous consultation requests related to the child
+        //public List<ConsultationRequestViewAllDto> PreviousConsultations { get; set; } = new List<ConsultationRequestViewAllDto>();
     }
 }
