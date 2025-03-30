@@ -135,6 +135,7 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Membership not found!");
                 }
 
+
                 if (paymentResult.IsSuccess is true)
                 {
                     var existingMemberships = await _unitOfWork.MemberMembershipRepository
