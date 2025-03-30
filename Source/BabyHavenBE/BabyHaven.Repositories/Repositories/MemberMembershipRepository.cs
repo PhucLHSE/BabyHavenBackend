@@ -58,7 +58,7 @@ namespace BabyHaven.Repositories.Repositories
                 .Include(mm => mm.Member )
                    .ThenInclude(m => m.User) // Include User from Member
                 .Include(mm => mm.Package)
-                .FirstOrDefaultAsync(mm => mm.MemberId == memberId);
+                .FirstOrDefaultAsync(mm => mm.MemberId == memberId && mm.Status == "Active");
         }
 
         public async Task<bool> HasActiveMembershipAsync(Guid memberId, int packageId)
