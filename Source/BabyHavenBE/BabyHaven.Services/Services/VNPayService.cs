@@ -128,11 +128,22 @@ namespace BabyHaven.Services.Services
                 if (transaction == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Transaction not found!");
-                }   
+                }
 
                 if (transaction.MemberMembership == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Membership not found!");
+                }
+
+                if (paymentResult.IsSuccess is true)
+                {
+                    var existingMemberships = await _unitOfWork.MemberMembershipRepository
+                        .GetAllOldByMemberIdAsync(transaction.MemberMembership.MemberId);
+                    foreach (var membership in existingMemberships)
+                    {
+                        membership.Status = MemberMembershipStatus.Suspended.ToString();
+                        await _unitOfWork.MemberMembershipRepository.UpdateAsync(membership);
+                    }
                 }
 
                 if (paymentResult.IsSuccess is true)

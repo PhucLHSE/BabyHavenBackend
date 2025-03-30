@@ -55,7 +55,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<MemberMembership?> GetByMemberId(Guid memberId)
         {
             return await _context.MemberMemberships
-                .Include(mm => mm.Member )
+                .Include(mm => mm.Member)
                    .ThenInclude(m => m.User) // Include User from Member
                 .Include(mm => mm.Package)
                 .FirstOrDefaultAsync(mm => mm.MemberId == memberId);
