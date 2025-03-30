@@ -80,10 +80,7 @@ namespace BabyHaven.Services.Mappers
                 Description = model.Description ?? string.Empty,
 
                 // Attachments of the consultation request, defaulting to an empty list if null
-                Attachments = string.IsNullOrEmpty(model.Attachments) 
-                          ? new List<string>() 
-                          : JsonSerializer.Deserialize<List<string>>(model.Attachments) 
-                          ?? new List<string>(),
+                Attachments = model.Attachments,
 
                 // Audit Information
                 CreatedAt = model.CreatedAt,
