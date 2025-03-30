@@ -20,6 +20,7 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         public int DoctorId { get; set; }
 
         public DateTime RequestDate { get; set; }
+        public string Description { get; set; } = string.Empty ;
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestStatus Status { get; set; } = ConsultationRequestStatus.Pending;
@@ -29,5 +30,6 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestCategory Category { get; set; } = ConsultationRequestCategory.Other;
+        public string Attachments { get; set; }
     }
 }

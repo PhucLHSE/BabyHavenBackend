@@ -15,6 +15,7 @@ namespace BabyHaven.Services.IServices
         Task<IQueryable<DoctorViewAllDto>> GetQueryable();
 
         Task<IServiceResult> GetById(int DoctorId);
+
         Task<IServiceResult> GetByUserId(Guid userId);
 
         Task<IServiceResult> Create(DoctorCreateDto doctorDto,Guid userId);

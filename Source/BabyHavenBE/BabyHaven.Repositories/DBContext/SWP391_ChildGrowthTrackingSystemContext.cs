@@ -25,6 +25,8 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
 
     public virtual DbSet<BlogCategory> BlogCategories { get; set; }
 
+    public virtual DbSet<BmiPercentile> BmiPercentiles { get; set; }
+
     public virtual DbSet<Child> Children { get; set; }
 
     public virtual DbSet<ChildMilestone> ChildMilestones { get; set; }
@@ -199,6 +201,13 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasConstraintName("FK__BlogCateg__Paren__531856C7");
         });
 
+        modelBuilder.Entity<BmiPercentile>(entity =>
+        {
+            entity.HasKey(e => new { e.Age, e.Gender });
+
+            entity.Property(e => e.Gender).HasMaxLength(10);
+        });
+
         modelBuilder.Entity<Child>(entity =>
         {
             entity.HasKey(e => e.ChildId)
@@ -294,7 +303,6 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.RequestId)
                 .HasColumnName("RequestID");
             entity.Property(e => e.Attachments)
-                .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.Category)
                  .HasMaxLength(100);
@@ -351,7 +359,6 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
             entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
 
             entity.Property(e => e.Attachments)
-                .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.Content)
                 .IsRequired();

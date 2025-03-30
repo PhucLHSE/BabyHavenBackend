@@ -29,5 +29,13 @@ namespace BabyHaven.Repositories.Repositories
                     && a.GrowthRecord.Child.MemberId == memberId)
                 .ToListAsync();
         }
+
+        public async Task<List<Alert>> GetRecentAlertsByChildAsync(Guid childId, TimeSpan timeSpan)
+        {
+            var cutoffDate = DateTime.UtcNow - timeSpan;
+            return await _context.Alerts
+                .Where(a => a.GrowthRecord.ChildId == childId && a.AlertDate >= cutoffDate)
+                .ToListAsync();
+        }
     }
 }

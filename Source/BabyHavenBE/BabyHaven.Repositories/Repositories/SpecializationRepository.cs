@@ -25,5 +25,13 @@ namespace BabyHaven.Repositories.Repositories
             return await _context.Specializations
                 .ToDictionaryAsync(s => s.SpecializationName, s => s.SpecializationId);
         }
+
+        public async Task<List<Specialization>> GetByIds(int[] specIds)
+        {
+            var distinctSpecIds = specIds.Distinct().ToArray();
+            return await _context.Specializations
+                .Where(s => distinctSpecIds.Contains(s.SpecializationId))
+                .ToListAsync();
+        }
     }
 }
