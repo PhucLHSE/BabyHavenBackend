@@ -30,5 +30,6 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestCategory Category { get; set; } = ConsultationRequestCategory.Other;
+        public string Attachments { get; set; }
     }
 }
