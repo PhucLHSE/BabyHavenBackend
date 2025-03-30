@@ -18,14 +18,34 @@ namespace BabyHaven.Repositories.Repositories
         }
 
         public ConsultationRequestRepository(SWP391_ChildGrowthTrackingSystemContext context)
-            => _context = context; 
+            => _context = context;
 
         public async Task<List<ConsultationRequest>> GetAllConsultationRequestAsync()
         {
             return await _context.ConsultationRequests
-                .Include(cr => cr.Member)
-                   .ThenInclude(cr => cr.User)
-                .Include(cr => cr.Child)
+                .Select(cr => new ConsultationRequest
+                {
+                    RequestId = cr.RequestId,
+                    MemberId = cr.MemberId,
+                    DoctorId = cr.DoctorId,
+                    RequestDate = cr.RequestDate,
+                    Description = cr.Description,
+                    Status = cr.Status,
+                    Urgency = cr.Urgency,
+                    Category = cr.Category,
+                    Member = cr.Member == null ? null : new Member
+                    {
+                        MemberId = cr.Member.MemberId,
+                        User = cr.Member.User == null ? null : new UserAccount
+                        {
+                            Name = cr.Member.User.Name
+                        }
+                    },
+                    Child = cr.Child == null ? null : new Child
+                    {
+                        Name = cr.Child.Name
+                    }
+                })
                 .ToListAsync();
         }
 
