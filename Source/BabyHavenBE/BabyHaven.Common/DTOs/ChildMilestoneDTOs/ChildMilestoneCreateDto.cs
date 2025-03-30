@@ -35,7 +35,6 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
         [StringLength(100, ErrorMessage = "Category cannot exceed 100 characters.")]
         public string Category { get; set; } = string.Empty;
 
-        [JsonConverter(typeof(DateOnlyJsonConverter))]
         public string AchievedDate { get; set; }
     }
 }

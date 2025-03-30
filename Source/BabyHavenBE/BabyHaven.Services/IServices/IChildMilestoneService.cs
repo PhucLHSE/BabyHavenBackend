@@ -17,6 +17,8 @@ namespace BabyHaven.Services.IServices
 
         Task<IServiceResult> GetById(Guid childId, int milestoneId);
 
+        Task<IServiceResult> GetByChild(string name, string dob, Guid memberId);
+
         Task<IServiceResult> Create(ChildMilestoneCreateDto childMilestone);
 
         Task<IServiceResult> Update(ChildMilestoneUpdateDto childMilestone);

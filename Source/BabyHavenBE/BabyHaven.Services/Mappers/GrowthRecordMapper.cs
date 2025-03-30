@@ -54,7 +54,7 @@ namespace BabyHaven.Services.Mappers
                 Height = dto.Height,
                 DevelopmentalMilestones = dto.DevelopmentalMilestones,
                 Notes = dto.Notes,
-                CreatedAt = dto.CreatedAt
+                CreatedAt = DateTime.Parse(dto.CreatedAt)
             };
         }
         public static void MapToUpdatedGrowthRecord(this GrowthRecord growthRecord, GrowthRecordUpdateDto updateDto)
