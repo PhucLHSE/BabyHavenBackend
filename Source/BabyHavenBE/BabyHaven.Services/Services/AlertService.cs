@@ -263,7 +263,7 @@ namespace BabyHaven.Services.Services
 
                 if (!alertsToCreate.Any())
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, "No new alerts created.");
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, "No new alerts created.");
                 }
 
                 // Lưu các alert mới
