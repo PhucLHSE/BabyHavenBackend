@@ -30,7 +30,6 @@ namespace BabyHaven.Services.Mappers
 
                 RequestDate = model.RequestDate,
 
-                Attachments = model.Attachments,
 
                 Description = model.Description,
 
