@@ -47,6 +47,21 @@ namespace BabyHaven.APIService.Controllers
             return await _memberService.GetByUserId(id);
         }
 
+        // POST api/<MembersController>
+        [HttpPost]
+        public async Task<IServiceResult> Post(MemberCreateDto memberCreateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+
+                return new ServiceResult(Const.ERROR_VALIDATION_CODE,
+                    "Validation failed",
+                    ModelState);
+            }
+
+            return await _memberService.Create(memberCreateDto);
+        }
+
         // PUT api/<MembersController>/5
         [HttpPut("{id}")]
         public async Task<IServiceResult> Update(MemberUpdateDto memberUpdateDto)
