@@ -242,7 +242,7 @@ namespace BabyHaven.Services.Services
                         MemberId = newMember.MemberId,
                         PackageId = packageId,
                         StartDate = DateTime.Now,
-                        EndDate = DateTime.Now.AddMonths(1200),
+                        EndDate = DateTime.Now.AddMonths(120),
                         Status = "Active",
                         IsActive = true,
                         Description = "Gói thành viên Free",
