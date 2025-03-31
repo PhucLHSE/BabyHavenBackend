@@ -133,6 +133,9 @@ namespace BabyHaven.Services.Mappers
                 userAccount.DateOfBirth = DateOnly.Parse(updateDto.DateOfBirth);
             }
 
+            
+                userAccount.IsVerified = updateDto.IsVerified;
+
             if (!string.IsNullOrWhiteSpace(updateDto.Address))
                 userAccount.Address = updateDto.Address;
 
