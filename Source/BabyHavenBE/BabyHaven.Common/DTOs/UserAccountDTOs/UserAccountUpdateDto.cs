@@ -59,6 +59,6 @@ namespace BabyHaven.Common.DTOs.UserAccountDTOs
         [Required(ErrorMessage = "Status is required.")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public UserAccountStatus? Status { get; set; } = UserAccountStatus.Inactive;
-
+        public bool? IsVerified { get; set; } = false;
     }
 }
