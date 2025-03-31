@@ -123,7 +123,7 @@ namespace BabyHaven.Services.Mappers
                 UserId = createDto.UserId,
                 EmergencyContact = createDto.EmergencyContact,
                 Status = createDto.Status.ToString(),
-                JoinDate = createDto.JoinDate,
+                JoinDate = DateTime.Now,
                 LeaveDate = createDto.LeaveDate,
                 Notes = createDto.Notes
             };
