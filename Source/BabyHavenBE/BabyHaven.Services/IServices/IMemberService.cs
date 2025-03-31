@@ -18,6 +18,8 @@ namespace BabyHaven.Services.IServices
 
         Task<IServiceResult> GetByUserId(Guid UserId);
 
+        Task<IServiceResult> Create(MemberCreateDto memberCreateDto);
+
         Task<IServiceResult> Update(MemberUpdateDto memberUpdateDto);
 
         Task<IServiceResult> DeleteById(Guid MemberId);
