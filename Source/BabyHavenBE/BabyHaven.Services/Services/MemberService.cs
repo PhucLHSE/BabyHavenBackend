@@ -235,14 +235,14 @@ namespace BabyHaven.Services.Services
                     var packageId = memberCreateDto.PackageId > 0 
                         ? memberCreateDto.PackageId : 1;
 
-                    // Tạo MemberMembership với gói Free
+                    // Create MemberMembership with Free plan
                     var newMemberMembership = new MemberMembership
                     {
                         MemberMembershipId = Guid.NewGuid(),
                         MemberId = newMember.MemberId,
                         PackageId = packageId,
                         StartDate = DateTime.Now,
-                        EndDate = DateTime.Now.AddMonths(1200),
+                        EndDate = DateTime.Now.AddMonths(120),
                         Status = "Active",
                         IsActive = true,
                         Description = "Gói thành viên Free",
@@ -250,10 +250,21 @@ namespace BabyHaven.Services.Services
                         UpdatedAt = DateTime.Now
                     };
 
-                    await _unitOfWork.MemberMembershipRepository.CreateAsync(newMemberMembership);
+                    await _unitOfWork.MemberMembershipRepository
+                        .CreateAsync(newMemberMembership);
+
+                    // Get Member back from database to ensure full data
+                    var savedMember = await _unitOfWork.MemberRepository
+                        .GetMemberByUserId(newMember.UserId);
+
+                    if (savedMember == null)
+                    {
+                        return new ServiceResult(Const.FAIL_CREATE_CODE,
+                            "Failed to retrieve member details after creation.");
+                    }
 
                     // Map the saved entity to a response DTO
-                    var responseDto = newMember.MapToMemberViewDetailsDto();
+                    var responseDto = savedMember.MapToMemberViewDetailsDto();
 
                     return new ServiceResult(Const.SUCCESS_CREATE_CODE,
                         Const.SUCCESS_CREATE_MSG,
