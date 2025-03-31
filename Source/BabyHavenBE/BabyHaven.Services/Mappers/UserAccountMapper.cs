@@ -46,6 +46,7 @@ namespace BabyHaven.Services.Mappers
         {
             return new UserAccountViewDetailsDto
             {
+                UserId = model.UserId,
                 Username = model.Username,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
