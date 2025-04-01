@@ -161,8 +161,18 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult { Status = Const.FAIL_UPDATE_CODE, 
                         Message = Const.FAIL_UPDATE_MSG };
 
+                var child = await _unitOfWork.ChildrenRepository
+                    .GetChildByNameAndDateOfBirthAsync(dto.Name, DateOnly.Parse(dto.DateOfBirth), dto.MemberId);
+
+                if (child == null)
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_UPDATE_CODE,
+                        Message = "Child not found"
+                    };
+
                 var existingChildMilestone = await _unitOfWork.ChildMilestoneRepository
-                    .GetByIdAsync(dto.ChildId, dto.MilestoneId);
+                    .GetByIdAsync(child.ChildId, dto.MilestoneId);
 
                 if (existingChildMilestone == null)
                     return new ServiceResult { Status = Const.FAIL_READ_CODE, 
