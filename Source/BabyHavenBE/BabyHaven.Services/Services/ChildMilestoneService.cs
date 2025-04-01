@@ -126,6 +126,24 @@ namespace BabyHaven.Services.Services
                 var child = await _unitOfWork.ChildrenRepository
                     .GetChildByNameAndDateOfBirthAsync(dto.ChildName, DateOnly.Parse(dto.DateOfBirth), dto.MemberId);
 
+                if (child == null)
+                {
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_CREATE_CODE,
+                        Message = "Child not found"
+                    };
+                }
+
+                var member = await _unitOfWork.MemberRepository.GetByIdAsync(dto.MemberId);
+
+                if (member == null)
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_CREATE_CODE,
+                        Message = "Member not found"
+                    };
+
                 var milestone = await _unitOfWork.MilestoneRepository.GetByIdAsync(dto.MilestoneId);
 
                 if (milestone == null)
