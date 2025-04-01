@@ -208,7 +208,7 @@ namespace BabyHaven.Services.Services
                     ex.ToString());
             }
         }
-        public async Task<IServiceResult> Create(DoctorCreateDto doctorDto, Guid userId)
+        public async Task<IServiceResult> Create(DoctorCreateDto doctorDto)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace BabyHaven.Services.Services
                     .GetByIds(doctorDto.SpecializationIds);
 
                 // Map DTO to Entity
-                var newDoctor = doctorDto.MapToDoctor(userId);
+                var newDoctor = doctorDto.MapToDoctor();
 
                 // Add doctor to database
                 await _unitOfWork.DoctorRepository
@@ -259,7 +259,7 @@ namespace BabyHaven.Services.Services
             {
 
                 return new ServiceResult { Status = Const.ERROR_EXCEPTION, 
-                    Message = $"An error occurred while creating the doctor: {ex.Message}" };
+                    Message = $"An error occurred while creating the doctor: {ex.InnerException.Message}" };
             }
         }
 

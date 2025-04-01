@@ -61,10 +61,11 @@ namespace BabyHaven.Services.Mappers
         }
 
         //Mapper DoctorCreateDto
-        public static Doctor MapToDoctor(this DoctorCreateDto dto,Guid userId)
+        public static Doctor MapToDoctor(this DoctorCreateDto dto)
         {
             return new Doctor
             {
+                UserId = dto.UserId,
                 Name = dto.Name,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
