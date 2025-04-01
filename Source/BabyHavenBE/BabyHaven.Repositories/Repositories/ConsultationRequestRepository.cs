@@ -23,6 +23,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<List<ConsultationRequest>> GetAllConsultationRequestAsync()
         {
             return await _context.ConsultationRequests
+                .Include(cr => cr.ConsultationResponse.RatingFeedbacks)
                 .Select(cr => new ConsultationRequest
                 {
                     RequestId = cr.RequestId,
@@ -44,7 +45,7 @@ namespace BabyHaven.Repositories.Repositories
                     Child = cr.Child == null ? null : new Child
                     {
                         Name = cr.Child.Name
-                    }
+                    },
                 })
                 .ToListAsync();
         }

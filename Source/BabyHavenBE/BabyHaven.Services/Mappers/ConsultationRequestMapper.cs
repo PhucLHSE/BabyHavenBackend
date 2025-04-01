@@ -31,6 +31,7 @@ namespace BabyHaven.Services.Mappers
 
                 RequestDate = model.RequestDate,
 
+                Rating = model.ConsultationResponse.RatingFeedbacks.First().Rating,
 
                 Description = model.Description,
 
