@@ -84,8 +84,8 @@ namespace BabyHaven.APIService.Controllers
         /// <param name="milestoneId">The ID of the milestone.</param>
         /// <param name="dto">The child milestone update DTO.</param>
         /// <returns>The result of the update operation.</returns>
-        [HttpPut("{childId}/{milestoneId}")]
-        public async Task<IActionResult> Update(Guid childId, int milestoneId, [FromBody] ChildMilestoneUpdateDto dto)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ChildMilestoneUpdateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

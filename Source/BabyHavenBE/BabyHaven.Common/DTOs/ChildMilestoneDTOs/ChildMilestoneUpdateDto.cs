@@ -15,8 +15,14 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
         [Required(ErrorMessage = "Milestone ID is required.")]
         public int MilestoneId { get; set; }
 
-        [Required(ErrorMessage = "Child ID is required.")]
-        public Guid ChildId { get; set; }
+        [Required(ErrorMessage = "Name is required.")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "DateOfBirth is required.")]
+        public string DateOfBirth { get; set; }
+
+        [Required(ErrorMessage = "MemberId ID is required.")]
+        public Guid MemberId { get; set; }
 
         public string AchievedDate { get; set; }
 
