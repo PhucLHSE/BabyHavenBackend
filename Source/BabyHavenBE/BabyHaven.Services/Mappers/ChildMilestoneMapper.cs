@@ -26,7 +26,6 @@ namespace BabyHaven.Services.Mappers
 
         public static ChildMilestone ToChildMilestone(this ChildMilestoneUpdateDto dto, ChildMilestone existingChildMilestone)
         {
-            existingChildMilestone.MilestoneId = dto.MilestoneId;
 
             if (!string.IsNullOrEmpty(dto.AchievedDate))
             {

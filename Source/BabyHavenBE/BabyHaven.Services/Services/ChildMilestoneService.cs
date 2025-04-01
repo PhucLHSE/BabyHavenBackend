@@ -170,7 +170,7 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> Update(ChildMilestoneUpdateDto dto)
+        public async Task<IServiceResult> Update(int milestoneId, ChildMilestoneUpdateDto dto)
         {
             try
             {
@@ -190,7 +190,7 @@ namespace BabyHaven.Services.Services
                     };
 
                 var existingChildMilestone = await _unitOfWork.ChildMilestoneRepository
-                    .GetByIdAsync(child.ChildId, dto.MilestoneId);
+                    .GetByIdAsync(child.ChildId, milestoneId);
 
                 if (existingChildMilestone == null)
                     return new ServiceResult { Status = Const.FAIL_READ_CODE, 
