@@ -12,8 +12,6 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
 {
     public class ChildMilestoneUpdateDto
     {
-        [Required(ErrorMessage = "Milestone ID is required.")]
-        public int MilestoneId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
