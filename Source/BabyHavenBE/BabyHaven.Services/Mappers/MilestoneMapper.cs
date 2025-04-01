@@ -27,12 +27,36 @@ namespace BabyHaven.Services.Mappers
 
         public static Milestone ToMilestone(this MilestoneUpdateDto dto, Milestone existingMilestone)
         {
-            existingMilestone.MilestoneName = dto.MilestoneName;
-            existingMilestone.Description = dto.Description;
-            existingMilestone.Importance = dto.Importance;
-            existingMilestone.Category = dto.Category;
-            existingMilestone.MinAge = dto.MinAge;
-            existingMilestone.MaxAge = dto.MaxAge;
+            if (!string.IsNullOrEmpty(dto.MilestoneName))
+            {
+                existingMilestone.MilestoneName = dto.MilestoneName;
+            }
+
+            if (!string.IsNullOrEmpty(dto.Description))
+            {
+                existingMilestone.Description = dto.Description;
+            }
+
+            if (!string.IsNullOrEmpty(dto.Importance))
+            {
+                existingMilestone.Importance = dto.Importance;
+            }
+
+            if (!string.IsNullOrEmpty(dto.Category))
+            {
+                existingMilestone.Category = dto.Category;
+            }
+
+            if (dto.MinAge.HasValue)
+            {
+                existingMilestone.MinAge = dto.MinAge;
+            }
+
+            if (dto.MaxAge.HasValue)
+            {
+                existingMilestone.MaxAge = dto.MaxAge;
+            }
+
             existingMilestone.IsPersonal = dto.IsPersonal;
             existingMilestone.UpdatedAt = DateTime.UtcNow;
 

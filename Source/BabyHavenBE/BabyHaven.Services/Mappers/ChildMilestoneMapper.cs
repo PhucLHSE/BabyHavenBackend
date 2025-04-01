@@ -27,12 +27,37 @@ namespace BabyHaven.Services.Mappers
         public static ChildMilestone ToChildMilestone(this ChildMilestoneUpdateDto dto, ChildMilestone existingChildMilestone)
         {
             existingChildMilestone.MilestoneId = dto.MilestoneId;
-            existingChildMilestone.AchievedDate = dto.AchievedDate;
-            existingChildMilestone.Status = dto.Status;
-            existingChildMilestone.Notes = dto.Notes;
-            existingChildMilestone.Guidelines = dto.Guidelines;
-            existingChildMilestone.Importance = dto.Importance;
-            existingChildMilestone.Category = dto.Category;
+
+            if (!string.IsNullOrEmpty(dto.AchievedDate))
+            {
+                existingChildMilestone.AchievedDate = DateOnly.Parse(dto.AchievedDate);
+            }
+
+            if (!string.IsNullOrEmpty(dto.Status))
+            {
+                existingChildMilestone.Status = dto.Status;
+            }
+
+            if (!string.IsNullOrEmpty(dto.Notes))
+            {
+                existingChildMilestone.Notes = dto.Notes;
+            }
+
+            if (!string.IsNullOrEmpty(dto.Guidelines))
+            {
+                existingChildMilestone.Guidelines = dto.Guidelines;
+            }
+
+            if (!string.IsNullOrEmpty(dto.Importance))
+            {
+                existingChildMilestone.Importance = dto.Importance;
+            }
+
+            if (!string.IsNullOrEmpty(dto.Category))
+            {
+                existingChildMilestone.Category = dto.Category;
+            }
+
             existingChildMilestone.UpdatedAt = DateTime.UtcNow;
 
             return existingChildMilestone;

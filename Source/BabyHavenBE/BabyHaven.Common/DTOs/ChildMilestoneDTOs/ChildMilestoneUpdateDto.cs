@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BabyHaven.Common.Enum.ChildMilestoneEnums;
 using BabyHaven.Common.Enum.Converters;
 
 namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
@@ -17,12 +18,10 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
         [Required(ErrorMessage = "Child ID is required.")]
         public Guid ChildId { get; set; }
 
-        [JsonConverter(typeof(DateOnlyJsonConverter))]
-        public DateOnly? AchievedDate { get; set; }
+        public string AchievedDate { get; set; }
 
-        [Required(ErrorMessage = "Status is required.")]
         [StringLength(50, ErrorMessage = "Status cannot exceed 50 characters.")]
-        public string Status { get; set; } = "Not Achieved";
+        public string Status { get; set; }
 
         [StringLength(2000, ErrorMessage = "Notes cannot exceed 2000 characters.")]
         public string Notes { get; set; } = string.Empty;
@@ -30,7 +29,6 @@ namespace BabyHaven.Common.DTOs.ChildMilestoneDTOs
         [StringLength(2000, ErrorMessage = "Guidelines cannot exceed 2000 characters.")]
         public string Guidelines { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Importance is required.")]
         [StringLength(50, ErrorMessage = "Importance cannot exceed 50 characters.")]
         public string Importance { get; set; } = "Medium";
 
