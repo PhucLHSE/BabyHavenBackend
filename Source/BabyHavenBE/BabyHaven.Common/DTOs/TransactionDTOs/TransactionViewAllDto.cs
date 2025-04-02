@@ -26,6 +26,8 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
 
         public DateTime TransactionDate { get; set; }
 
+        public DateTime? PaymentDate { get; set; }
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public TransactionStatus PaymentStatus { get; set; } = TransactionStatus.Pending;
     }
