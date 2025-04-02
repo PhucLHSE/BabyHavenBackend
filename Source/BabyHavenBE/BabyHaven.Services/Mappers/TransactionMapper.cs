@@ -28,6 +28,7 @@ namespace BabyHaven.Services.Mappers
                 TransactionType = model.TransactionType,
                 PaymentMethod = model.PaymentMethod,
                 TransactionDate = model.TransactionDate,
+                GatewayTransactionId = model.GatewayTransactionId,
 
                 // Convert Status from string to enum
                 PaymentStatus = Enum.TryParse<Common.Enum.TransactionEnums.TransactionStatus>(model.PaymentStatus, true, out var status)

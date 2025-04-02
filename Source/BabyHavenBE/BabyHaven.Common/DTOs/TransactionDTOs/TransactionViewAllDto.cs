@@ -22,6 +22,8 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
 
         public string PaymentMethod {  get; set; } = string.Empty;
 
+        public long GatewayTransactionId { get; set; }
+
         public DateTime TransactionDate { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
