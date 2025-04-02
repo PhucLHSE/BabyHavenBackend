@@ -1,4 +1,4 @@
-﻿using BabyHaven.Common.Enum.MemberMembershipEnums;
+using BabyHaven.Common.Enum.MemberMembershipEnums;
 using BabyHaven.Repositories.Base;
 using BabyHaven.Repositories.DBContext;
 using BabyHaven.Repositories.Models;
