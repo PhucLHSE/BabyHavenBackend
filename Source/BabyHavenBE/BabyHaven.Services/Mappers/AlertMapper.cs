@@ -49,6 +49,7 @@ namespace BabyHaven.Services.Mappers
             {
                 AlertId = alert.AlertId,
                 GrowthRecordId = alert.GrowthRecordId,
+                RecordDate = alert.GrowthRecord.CreatedAt,
                 AlertDate = alert.AlertDate,
                 DiseaseId = alert.DiseaseId,
                 Message = alert.Message,

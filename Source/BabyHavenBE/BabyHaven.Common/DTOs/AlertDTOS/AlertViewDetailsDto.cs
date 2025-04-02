@@ -17,5 +17,6 @@ namespace BabyHaven.Common.DTOs.AlertDTOS
         public bool IsRead { get; set; }
         public string SeverityLevel { get; set; } = string.Empty;
         public bool IsAcknowledged { get; set; }
+        public DateTime? RecordDate { get; set; }
     }
 }
