@@ -126,6 +126,24 @@ namespace BabyHaven.Services.Services
                 var child = await _unitOfWork.ChildrenRepository
                     .GetChildByNameAndDateOfBirthAsync(dto.ChildName, DateOnly.Parse(dto.DateOfBirth), dto.MemberId);
 
+                if (child == null)
+                {
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_CREATE_CODE,
+                        Message = "Child not found"
+                    };
+                }
+
+                var member = await _unitOfWork.MemberRepository.GetByIdAsync(dto.MemberId);
+
+                if (member == null)
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_CREATE_CODE,
+                        Message = "Member not found"
+                    };
+
                 var milestone = await _unitOfWork.MilestoneRepository.GetByIdAsync(dto.MilestoneId);
 
                 if (milestone == null)
@@ -152,7 +170,7 @@ namespace BabyHaven.Services.Services
             }
         }
 
-        public async Task<IServiceResult> Update(ChildMilestoneUpdateDto dto)
+        public async Task<IServiceResult> Update(int milestoneId, ChildMilestoneUpdateDto dto)
         {
             try
             {
@@ -161,8 +179,18 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult { Status = Const.FAIL_UPDATE_CODE, 
                         Message = Const.FAIL_UPDATE_MSG };
 
+                var child = await _unitOfWork.ChildrenRepository
+                    .GetChildByNameAndDateOfBirthAsync(dto.Name, DateOnly.Parse(dto.DateOfBirth), dto.MemberId);
+
+                if (child == null)
+                    return new ServiceResult
+                    {
+                        Status = Const.FAIL_UPDATE_CODE,
+                        Message = "Child not found"
+                    };
+
                 var existingChildMilestone = await _unitOfWork.ChildMilestoneRepository
-                    .GetByIdAsync(dto.ChildId, dto.MilestoneId);
+                    .GetByIdAsync(child.ChildId, milestoneId);
 
                 if (existingChildMilestone == null)
                     return new ServiceResult { Status = Const.FAIL_READ_CODE, 

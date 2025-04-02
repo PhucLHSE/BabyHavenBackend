@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.MemberDTOs;
 using BabyHaven.Services.Mappers;
 using BabyHaven.Common.DTOs.PromotionDTOs;
+using BabyHaven.Common.DTOs.TransactionDTOs;
+using BabyHaven.Repositories.Models;
 
 namespace BabyHaven.Services.Services
 {
@@ -199,6 +201,86 @@ namespace BabyHaven.Services.Services
             {
 
                 return new ServiceResult(Const.ERROR_EXCEPTION, 
+                    ex.ToString());
+            }
+        }
+
+        public async Task<IServiceResult> Create(MemberCreateDto memberCreateDto)
+        {
+            try
+            {
+
+                // Check if the member exists in the database
+                var member = await _unitOfWork.MemberRepository
+                    .GetMemberByUserId(memberCreateDto.UserId);
+
+                if (member != null)
+                {
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        "Member already exists.");
+                }
+
+                // Map DTO to Entity
+                var newMember = memberCreateDto.MapToMemberCreateDto();
+
+                // Save data to database
+                var result = await _unitOfWork.MemberRepository
+                    .CreateAsync(newMember);
+
+                if (result > 0)
+                {
+
+                    // Assign Free package if PackageId is invalid or not passed
+                    var packageId = memberCreateDto.PackageId > 0 
+                        ? memberCreateDto.PackageId : 1;
+
+                    // Create MemberMembership with Free plan
+                    var newMemberMembership = new MemberMembership
+                    {
+                        MemberMembershipId = Guid.NewGuid(),
+                        MemberId = newMember.MemberId,
+                        PackageId = packageId,
+                        StartDate = DateTime.Now,
+                        EndDate = DateTime.Now.AddMonths(120),
+                        Status = "Active",
+                        IsActive = true,
+                        Description = "Gói thành viên Free",
+                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Now
+                    };
+
+                    await _unitOfWork.MemberMembershipRepository
+                        .CreateAsync(newMemberMembership);
+
+                    // Get Member back from database to ensure full data
+                    var savedMember = await _unitOfWork.MemberRepository
+                        .GetMemberByUserId(newMember.UserId);
+
+                    if (savedMember == null)
+                    {
+                        return new ServiceResult(Const.FAIL_CREATE_CODE,
+                            "Failed to retrieve member details after creation.");
+                    }
+
+                    // Map the saved entity to a response DTO
+                    var responseDto = savedMember.MapToMemberViewDetailsDto();
+
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE,
+                        Const.SUCCESS_CREATE_MSG,
+                        responseDto);
+                }
+                else
+                {
+
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
+                        Const.FAIL_CREATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return new ServiceResult(Const.ERROR_EXCEPTION,
                     ex.ToString());
             }
         }

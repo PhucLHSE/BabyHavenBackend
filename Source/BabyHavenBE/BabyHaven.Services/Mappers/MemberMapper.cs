@@ -113,5 +113,20 @@ namespace BabyHaven.Services.Mappers
                 Notes = model.Notes
             };
         }
+
+        // Mapper MemberCreateDto
+        public static Member MapToMemberCreateDto(this MemberCreateDto createDto)
+        {
+            return new Member
+            {
+                MemberId = Guid.NewGuid(),
+                UserId = createDto.UserId,
+                EmergencyContact = createDto.EmergencyContact,
+                Status = createDto.Status.ToString(),
+                JoinDate = DateTime.Now,
+                LeaveDate = createDto.LeaveDate,
+                Notes = createDto.Notes
+            };
+        }
     }
 }

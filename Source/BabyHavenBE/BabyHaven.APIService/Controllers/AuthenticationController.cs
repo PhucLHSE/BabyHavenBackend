@@ -91,6 +91,7 @@ namespace BabyHaven.APIService.Controllers
         {
 
             var isValid = await _authService.VerifyOtpAsync(request.Email, otp);
+
             if (!isValid)
             {
                 return BadRequest(new { message = "Invalid OTP." });
@@ -117,9 +118,20 @@ namespace BabyHaven.APIService.Controllers
 
             // Save to the database
             var result = await _userAccountsService.CreateAsync(userAccount);
+
             if (result)
             {
-                return Ok(new { message = "User registered successfully." });
+                // Call back to get the successfully created userId
+                var createdUser = await _userAccountsService.GetByEmailAsync(request.Email);
+
+                if (createdUser != null)
+                {
+                    return Ok(new
+                    {
+                        message = "User registered successfully.",
+                        userId = createdUser.UserId
+                    });
+                }
             }
 
             return BadRequest(new { message = "Failed to register user." });
@@ -129,12 +141,14 @@ namespace BabyHaven.APIService.Controllers
         public async Task<IActionResult> ForgetPassword([FromBody] ResetPasswordRequest request)
         {
             var user = await _userAccountsService.GetByEmailAsync(request.Email);
+
             if (user == null)
             {
                 return NotFound(new { message = "Email not found." });
             }
 
             var otpSent = await _authService.SendResetPasswordOtpAsync(request.Email);
+
             if (!otpSent)
             {
                 return BadRequest(new { message = "Failed to send OTP." });
@@ -146,7 +160,9 @@ namespace BabyHaven.APIService.Controllers
         [HttpPost("VerifyResetPasswordOtp")]
         public async Task<IActionResult> VerifyResetPasswordOtp([FromBody] VerifyOtpForPasswordRequest request)
         {
-            var (isValid, resetToken) = await _authService.VerifyResetPasswordOtpWithTokenAsync(request.Email, request.Otp);
+            var (isValid, resetToken) = await _authService
+                .VerifyResetPasswordOtpWithTokenAsync(request.Email, request.Otp);
+
             if (!isValid)
             {
                 return BadRequest(new { message = "Invalid OTP." });

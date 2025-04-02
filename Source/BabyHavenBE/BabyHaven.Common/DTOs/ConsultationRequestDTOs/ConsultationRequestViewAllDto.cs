@@ -11,6 +11,7 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
     public class ConsultationRequestViewAllDto
     {
         public int RequestId { get; set; }
+
         public Guid MemberId { get; set; }
 
         public string MemberName { get; set; } = string.Empty;
@@ -20,16 +21,20 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
         public int DoctorId { get; set; }
 
         public DateTime RequestDate { get; set; }
+
         public string Description { get; set; } = string.Empty ;
+
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestStatus Status { get; set; } = ConsultationRequestStatus.Pending;
 
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestUrgency Urgency { get; set; } = ConsultationRequestUrgency.Low;
 
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestCategory Category { get; set; } = ConsultationRequestCategory.Other;
-        public string Attachments { get; set; }
+        public int Rating { get; set; }
     }
 }

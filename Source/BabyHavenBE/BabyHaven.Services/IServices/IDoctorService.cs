@@ -18,7 +18,7 @@ namespace BabyHaven.Services.IServices
 
         Task<IServiceResult> GetByUserId(Guid userId);
 
-        Task<IServiceResult> Create(DoctorCreateDto doctorDto,Guid userId);
+        Task<IServiceResult> Create(DoctorCreateDto doctorDto);
 
         Task<IServiceResult> Update(DoctorUpdateDto doctorUpdateDto);
 

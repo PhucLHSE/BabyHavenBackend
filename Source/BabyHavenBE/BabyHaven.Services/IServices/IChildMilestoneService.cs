@@ -21,7 +21,7 @@ namespace BabyHaven.Services.IServices
 
         Task<IServiceResult> Create(ChildMilestoneCreateDto childMilestone);
 
-        Task<IServiceResult> Update(ChildMilestoneUpdateDto childMilestone);
+        Task<IServiceResult> Update(int milestoneId, ChildMilestoneUpdateDto childMilestone);
 
         Task<IServiceResult> Delete(Guid childId, int milestoneId);
     }

@@ -24,6 +24,7 @@ namespace BabyHaven.Services.Mappers
                 MemberId = model.MemberId,
 
                 MemberName = model.Member?.User?.Name ?? "Unknown",
+
                 ChildName = model.Child?.Name ?? "Unknown",
 
                 DoctorId = model.DoctorId,
@@ -31,7 +32,6 @@ namespace BabyHaven.Services.Mappers
                 RequestDate = model.RequestDate,
 
 
-                Attachments = model.Attachments,
                 Description = model.Description,
 
                 // Convert Status from string to enum
@@ -89,20 +89,20 @@ namespace BabyHaven.Services.Mappers
                 // Map Child details
                 Child = model.Child?.ToChildViewDetailsDto() ?? new ChildViewDetailsDto(),
 
-                // Map recent growth records
-                RecentGrowthRecords = model.Child?.GrowthRecords?
-                    .OrderByDescending(gr => gr.UpdatedAt)
-                    .Take(5)
-                    .Select(gr => gr.MapToGrowthRecordViewAll())
-                    .ToList() ?? new List<GrowthRecordViewAllDto>(),
+                //// Map recent growth records
+                //RecentGrowthRecords = model.Child?.GrowthRecords?
+                //    .OrderByDescending(gr => gr.UpdatedAt)
+                //    .Take(5)
+                //    .Select(gr => gr.MapToGrowthRecordViewAll())
+                //    .ToList() ?? new List<GrowthRecordViewAllDto>(),
 
-                // Map previous consultation requests
-                PreviousConsultations = model.Child?.ConsultationRequests?
-                    .Where(cr => cr.RequestId != model.RequestId) // Exclude current request
-                    .OrderByDescending(cr => cr.RequestDate)
-                    .Take(5)
-                    .Select(cr => cr.MapToConsultationRequestViewAllDto())
-                    .ToList() ?? new List<ConsultationRequestViewAllDto>()
+                //// Map previous consultation requests
+                //PreviousConsultations = model.Child?.ConsultationRequests?
+                //    .Where(cr => cr.RequestId != model.RequestId) // Exclude current request
+                //    .OrderByDescending(cr => cr.RequestDate)
+                //    .Take(5)
+                //    .Select(cr => cr.MapToConsultationRequestViewAllDto())
+                //    .ToList() ?? new List<ConsultationRequestViewAllDto>()
             };
         }
 

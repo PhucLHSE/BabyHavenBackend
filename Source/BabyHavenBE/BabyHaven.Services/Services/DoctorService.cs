@@ -208,42 +208,58 @@ namespace BabyHaven.Services.Services
                     ex.ToString());
             }
         }
-        public async Task<IServiceResult> Create(DoctorCreateDto doctorDto, Guid userId)
+        public async Task<IServiceResult> Create(DoctorCreateDto doctorDto)
         {
             try
             {
+
                 if (doctorDto == null)
-                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = Const.FAIL_CREATE_MSG };
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, 
+                        Message = Const.FAIL_CREATE_MSG };
 
                 // Check for duplicate email
-                var existingDoctorByEmail = await _unitOfWork.DoctorRepository.GetByEmailAsync(doctorDto.Email);
+                var existingDoctorByEmail = await _unitOfWork.DoctorRepository
+                    .GetByEmailAsync(doctorDto.Email);
+
                 if (existingDoctorByEmail != null)
                 {
-                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, Message = "A doctor with this email already exists." };
+
+                    return new ServiceResult { Status = Const.FAIL_CREATE_CODE, 
+                        Message = "A doctor with this email already exists." };
                 }
 
                 // Retrieve specializations
-                var specializations = await _unitOfWork.SpecializationRepository.GetByIds(doctorDto.SpecializationIds);
+                var specializations = await _unitOfWork.SpecializationRepository
+                    .GetByIds(doctorDto.SpecializationIds);
 
                 // Map DTO to Entity
-                var newDoctor = doctorDto.MapToDoctor(userId);
+                var newDoctor = doctorDto.MapToDoctor();
 
                 // Add doctor to database
-                await _unitOfWork.DoctorRepository.CreateAsync(newDoctor);
+                await _unitOfWork.DoctorRepository
+                    .CreateAsync(newDoctor);
 
                 // Create DoctorSpecialization entries using the mapper
                 foreach (var specialization in specializations)
                 {
-                    var doctorSpecialization = new DoctorSpecializationCreateDto().MapToDoctorSpecialization(newDoctor.DoctorId, specialization.SpecializationId);
-                    await _unitOfWork.DoctorSpecializationRepository.CreateAsync(doctorSpecialization);
+
+                    var doctorSpecialization = new DoctorSpecializationCreateDto()
+                        .MapToDoctorSpecialization(newDoctor.DoctorId, specialization.SpecializationId);
+
+                    await _unitOfWork.DoctorSpecializationRepository
+                        .CreateAsync(doctorSpecialization);
                 }
 
                 // Return result
-                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, Message = Const.SUCCESS_CREATE_MSG, Data = newDoctor.MapToDoctorViewDetailsDto() };
+                return new ServiceResult { Status = Const.SUCCESS_CREATE_CODE, 
+                    Message = Const.SUCCESS_CREATE_MSG,
+                    Data = newDoctor.MapToDoctorViewDetailsDto() };
             }
             catch (Exception ex)
             {
-                return new ServiceResult { Status = Const.ERROR_EXCEPTION, Message = $"An error occurred while creating the doctor: {ex.Message}" };
+
+                return new ServiceResult { Status = Const.ERROR_EXCEPTION, 
+                    Message = $"An error occurred while creating the doctor: {ex.InnerException.Message}" };
             }
         }
 

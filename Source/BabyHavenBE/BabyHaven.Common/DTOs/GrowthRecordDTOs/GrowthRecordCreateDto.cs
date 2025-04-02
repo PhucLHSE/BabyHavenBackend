@@ -19,11 +19,11 @@ namespace BabyHaven.Common.DTOs.GrowthRecordDTOs
         public Guid RecordedBy { get; set; }
 
         [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "Weight must be a positive number.")]
+        [Range(0, 300, ErrorMessage = "Weight must be a positive number.")]
         public double Weight { get; set; }
 
         [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "Height must be a positive number.")]
+        [Range(0, 200, ErrorMessage = "Height must be a positive number.")]
         public double Height { get; set; }
 
         public double? HeadCircumference { get; set; }

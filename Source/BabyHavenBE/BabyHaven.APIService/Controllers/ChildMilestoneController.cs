@@ -80,17 +80,16 @@ namespace BabyHaven.APIService.Controllers
         /// <summary>
         /// Updates an existing child milestone.
         /// </summary>
-        /// <param name="childId">The ID of the child.</param>
         /// <param name="milestoneId">The ID of the milestone.</param>
         /// <param name="dto">The child milestone update DTO.</param>
         /// <returns>The result of the update operation.</returns>
-        [HttpPut("{childId}/{milestoneId}")]
-        public async Task<IActionResult> Update(Guid childId, int milestoneId, [FromBody] ChildMilestoneUpdateDto dto)
+        [HttpPut("{milestoneId}")]
+        public async Task<IActionResult> Update(int milestoneId, [FromBody] ChildMilestoneUpdateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _childMilestoneService.Update(dto);
+            var result = await _childMilestoneService.Update(milestoneId, dto);
 
             return StatusCode(result.Status, result);
         }

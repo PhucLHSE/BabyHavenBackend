@@ -226,7 +226,7 @@ namespace BabyHaven.Services.Services
                 bool isBmiIncreasing = IsIncreasingTrend(bmiValues);
                 bool isSuddenBmiChange = IsSuddenChange(bmiValues, 20.0); // Ngưỡng 20%
                 double latestBmi = bmiValues.First();
-                double averageBmi = bmiValues.Average();
+                double averageBmi = bmiValues.First();
 
                 // Tính xu hướng chiều cao
                 var heights = recentRecords.Select(r => r.Height).ToList();
@@ -263,7 +263,7 @@ namespace BabyHaven.Services.Services
 
                 if (!alertsToCreate.Any())
                 {
-                    return new ServiceResult(Const.WARNING_NO_DATA_CODE, "No new alerts created.");
+                    return new ServiceResult(Const.SUCCESS_CREATE_CODE, "No new alerts created.");
                 }
 
                 // Lưu các alert mới
