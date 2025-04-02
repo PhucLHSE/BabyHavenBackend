@@ -81,7 +81,7 @@ namespace BabyHaven.Services.Mappers
             {
                 //DoctorId = doctorId,
                 RequestId = dto.RequestId,
-                ResponseDate = DateTime.Now,
+                ResponseDate = DateTime.UtcNow,
                 Status = dto.Status.ToString(),
                 Content = dto.Content,
                 IsHelpful = dto.IsHelpful,
