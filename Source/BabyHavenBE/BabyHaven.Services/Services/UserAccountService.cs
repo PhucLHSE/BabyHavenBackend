@@ -103,7 +103,7 @@ namespace BabyHaven.Services.Services
         {
 
             var userAccounts = await _unitOfWork.UserAccountRepository
-                .GetAllAsync();
+                .GetAllWithRolesAsync();
 
             return userAccounts
                 .Select(users => users.MapToUserAccountViewAllDto())
