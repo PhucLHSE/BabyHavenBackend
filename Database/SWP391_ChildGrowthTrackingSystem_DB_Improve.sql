@@ -1,12 +1,14 @@
-﻿IF EXISTS (SELECT * FROM sys.databases WHERE name = 'SWP391_ChildGrowthTrackingSystemDB')
+﻿USE master
+GO
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'SWP391_ChildGrowthTrackingSystemDB')
 BEGIN
     DROP DATABASE SWP391_ChildGrowthTrackingSystemDB;
 END
-
+GO
 CREATE DATABASE SWP391_ChildGrowthTrackingSystemDB;
-
+GO
 USE SWP391_ChildGrowthTrackingSystemDB;
-
+GO
 -- Table Roles
 CREATE TABLE Roles (
     RoleID INT PRIMARY KEY IDENTITY(1,1),
