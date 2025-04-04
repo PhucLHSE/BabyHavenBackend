@@ -4,7 +4,7 @@ on:
     branches:
     - main
 env:
-  AZURE_WEBAPP_NAME: babyhaven-swp
+  AZURE_WEBAPP_NAME: babyhaven-swp-web
   AZURE_WEBAPP_PACKAGE_PATH: BabyHaven.APIService\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
@@ -44,5 +44,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.BABYHAVEN_WEBAPI }}
+        publish-profile: ${{ secrets.BABYHAVEN_SWP_SECRET }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
