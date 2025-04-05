@@ -21,6 +21,7 @@ namespace BabyHaven.Services.Mappers
             return new TransactionViewAllDto
             {
                 FullName = model.User?.Name ?? "Unknown",
+                Email = model.User?.Email ?? "Unknown",
                 PackageName = model.MemberMembership?.Package?.PackageName ?? "Unknown",
 
                 Amount = model.Amount,
