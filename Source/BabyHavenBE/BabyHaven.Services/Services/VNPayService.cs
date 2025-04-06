@@ -60,7 +60,7 @@ namespace BabyHaven.Services.Services
                     Description = membership.Package.Description,
                     IpAddress = ipAddress,
                     BankCode = BankCode.ANY, // Cho phép chọn bất kỳ ngân hàng nào
-                    CreatedDate = DateTime.UtcNow,
+                    CreatedDate = DateTime.UtcNow.AddHours(7),
                     Currency = Currency.VND,
                     Language = DisplayLanguage.Vietnamese
                 };
