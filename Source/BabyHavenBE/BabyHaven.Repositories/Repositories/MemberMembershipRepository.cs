@@ -35,9 +35,7 @@ namespace BabyHaven.Repositories.Repositories
         public async Task<List<MemberMembership>> GetAllOldByMemberIdAsync(Guid memberId)
         {
             var memberMemberships = await _context.MemberMemberships
-                .Where(mm => mm.MemberId == memberId && mm.Status == "Active" && mm.IsActive == true)
-                .OrderByDescending(mm => mm.CreatedAt) // Sort by CreatedAt in descending order
-                .Skip(1) // Exclude the first membership
+                .Where(mm => mm.MemberId == memberId && mm.Status == "Active")
                 .ToListAsync();
 
             return memberMemberships;
