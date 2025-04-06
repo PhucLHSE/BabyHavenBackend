@@ -137,12 +137,13 @@ namespace BabyHaven.Services.Services
 
 
                 if (paymentResult.IsSuccess is true)
-                {
+                { 
                     var existingMemberships = await _unitOfWork.MemberMembershipRepository
                         .GetAllOldByMemberIdAsync(transaction.MemberMembership.MemberId);
                     foreach (var membership in existingMemberships)
                     {
                         membership.Status = MemberMembershipStatus.Suspended.ToString();
+                        membership.IsActive = false;
                         await _unitOfWork.MemberMembershipRepository.UpdateAsync(membership);
                     }
                 }
