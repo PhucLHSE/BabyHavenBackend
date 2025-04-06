@@ -143,7 +143,6 @@ namespace BabyHaven.Services.Services
                     foreach (var membership in existingMemberships)
                     {
                         membership.Status = MemberMembershipStatus.Suspended.ToString();
-                        membership.IsActive = false;
                         await _unitOfWork.MemberMembershipRepository.UpdateAsync(membership);
                     }
                 }
