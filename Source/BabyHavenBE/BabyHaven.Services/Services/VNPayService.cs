@@ -125,6 +125,7 @@ namespace BabyHaven.Services.Services
                 var gatewayTransactionId = paymentResult.PaymentId;
 
                 var transaction = await _unitOfWork.TransactionRepository.GetByGatewayTransactionIdAsync(gatewayTransactionId);
+
                 if (transaction == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Transaction not found!");
@@ -135,11 +136,19 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Membership not found!");
                 }
 
+                
 
                 if (paymentResult.IsSuccess is true)
-                { 
+                {
+                    var member = await _unitOfWork.MemberRepository.GetMemberByUserId(transaction.UserId);
+
+                    if (member == null)
+                    {
+                        return new ServiceResult(Const.FAIL_CREATE_CODE, "Member not found!");
+                    }
+
                     var existingMemberships = await _unitOfWork.MemberMembershipRepository
-                        .GetAllOldByMemberIdAsync(transaction.MemberMembership.MemberId);
+                        .GetAllOldByMemberIdAsync(member.MemberId);
                     foreach (var membership in existingMemberships)
                     {
                         membership.Status = MemberMembershipStatus.Suspended.ToString();
