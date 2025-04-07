@@ -178,18 +178,32 @@ namespace BabyHaven.Services.Services
                         }
                     }
 
-                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
-                        Const.SUCCESS_UPDATE_MSG);
+                    consultationRequest.Status = status;
+                    var updatedRequest = await _unitOfWork.ConsultationRequestRepository.UpdateAsync(consultationRequest);
+
+                    if (updatedRequest > 0)
+                    {
+                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                            Const.SUCCESS_UPDATE_MSG,
+                            consultationRequest);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                            "No valid pending requests found to update.");
+                    }
                 }
+                else
+                {
+                    consultationRequest.Status = status;
 
-                consultationRequest.Status = status;
+                    var result = await _unitOfWork.ConsultationRequestRepository
+                        .UpdateAsync(consultationRequest);
 
-                var result = await _unitOfWork.ConsultationRequestRepository
-                    .UpdateAsync(consultationRequest);
-
-                return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
-                    Const.SUCCESS_UPDATE_MSG,
-                    consultationRequest);
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                        Const.SUCCESS_UPDATE_MSG,
+                        consultationRequest);
+                }
             }
             catch (Exception ex)
             {
