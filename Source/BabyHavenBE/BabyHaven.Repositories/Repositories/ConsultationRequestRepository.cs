@@ -49,10 +49,10 @@ namespace BabyHaven.Repositories.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<ConsultationRequest>> GetAllConsultationRequestByMemberId(Guid memberId)
+        public async Task<List<ConsultationRequest>> GetAllConsultationRequestByMemberId(Guid memberId, Guid childId)
         {
             return await _context.ConsultationRequests
-                .Where(cr => cr.MemberId == memberId)
+                .Where(cr => cr.MemberId == memberId && cr.ChildId == childId)
                 .Include(cr => cr.Member)
                     .ThenInclude(m => m.User)
                 .Include(cr => cr.Child)

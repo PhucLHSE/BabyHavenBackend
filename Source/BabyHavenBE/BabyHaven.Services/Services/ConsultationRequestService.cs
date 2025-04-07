@@ -152,7 +152,7 @@ namespace BabyHaven.Services.Services
                 if (status.Equals("Completed"))
                 {
                     var pendingRequests = await _unitOfWork.ConsultationRequestRepository
-                        .GetAllConsultationRequestByMemberId(consultationRequest.MemberId);
+                        .GetAllConsultationRequestByMemberId(consultationRequest.MemberId, consultationRequest.ChildId);
 
                     foreach (var request in pendingRequests)
                     {
