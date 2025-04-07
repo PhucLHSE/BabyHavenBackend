@@ -154,9 +154,15 @@ namespace BabyHaven.Services.Services
                     var pendingRequests = await _unitOfWork.ConsultationRequestRepository
                         .GetAllConsultationRequestByMemberId(consultationRequest.MemberId, consultationRequest.ChildId, consultationRequest.DoctorId);
 
+                    if (pendingRequests == null)
+                    {
+                        return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                            Const.WARNING_NO_DATA_MSG);
+                    }
+
                     foreach (var request in pendingRequests)
                     {
-                        if (request != null && request.Status.Equals("Pending"))
+                        if (request != null)
                         {
                             request.Status = "Completed";
                             await _unitOfWork.ConsultationRequestRepository.UpdateAsync(request);
