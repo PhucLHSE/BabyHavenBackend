@@ -149,15 +149,18 @@ namespace BabyHaven.Services.Services
                         Const.WARNING_NO_DATA_MSG);
                 }
 
-                if (status.Equals("Completed"))
+                if (status.Equals("Completed") && status != null)
                 {
                     var pendingRequests = await _unitOfWork.ConsultationRequestRepository
                         .GetAllConsultationRequestByMemberId(consultationRequest.MemberId, consultationRequest.ChildId, consultationRequest.DoctorId);
 
                     foreach (var request in pendingRequests)
                     {
-                        request.Status = "Completed";
-                        await _unitOfWork.ConsultationRequestRepository.UpdateAsync(request);
+                        if (request != null && request.Status.Equals("Pending"))
+                        {
+                            request.Status = "Completed";
+                            await _unitOfWork.ConsultationRequestRepository.UpdateAsync(request);
+                        }
                         
                     }
                     return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
