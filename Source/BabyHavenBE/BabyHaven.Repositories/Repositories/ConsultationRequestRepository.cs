@@ -53,9 +53,6 @@ namespace BabyHaven.Repositories.Repositories
         {
             return await _context.ConsultationRequests
                 .Where(cr => cr.MemberId == memberId && cr.ChildId == childId && cr.DoctorId == doctorId)
-                .Include(cr => cr.Member)
-                    .ThenInclude(m => m.User)
-                .Include(cr => cr.Child)
                 .ToListAsync();
         }
 

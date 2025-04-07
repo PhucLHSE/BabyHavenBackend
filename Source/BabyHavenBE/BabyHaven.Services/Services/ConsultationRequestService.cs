@@ -142,35 +142,44 @@ namespace BabyHaven.Services.Services
             try
             {
                 var consultationRequest = await _unitOfWork.ConsultationRequestRepository
-                                    .GetByRequestId(requestId);
+                    .GetByRequestId(requestId);
                 if (consultationRequest == null)
                 {
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE,
                         Const.WARNING_NO_DATA_MSG);
                 }
 
+
                 if (status.Equals("Completed") && status != null)
                 {
                     var pendingRequests = await _unitOfWork.ConsultationRequestRepository
                         .GetAllConsultationRequestByMemberId(consultationRequest.MemberId, consultationRequest.ChildId, consultationRequest.DoctorId);
 
-                    if (pendingRequests == null)
+                    if (pendingRequests == null || !pendingRequests.Any())
                     {
                         return new ServiceResult(Const.WARNING_NO_DATA_CODE,
                             Const.WARNING_NO_DATA_MSG);
                     }
 
-                    foreach (var request in pendingRequests)
+                    var validRequests = pendingRequests.Where(request => request != null).ToList();
+
+                    if (!validRequests.Any())
                     {
-                        if (request != null)
+                        return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                            "No valid pending requests found to update.");
+                    }
+
+                    foreach (var request in validRequests)
+                    {
+                        if (request.Status != "Completed")
                         {
                             request.Status = "Completed";
                             await _unitOfWork.ConsultationRequestRepository.UpdateAsync(request);
                         }
-                        
                     }
+
                     return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
-                            Const.SUCCESS_UPDATE_MSG);
+                        Const.SUCCESS_UPDATE_MSG);
                 }
 
                 consultationRequest.Status = status;
@@ -181,12 +190,11 @@ namespace BabyHaven.Services.Services
                 return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
                     Const.SUCCESS_UPDATE_MSG,
                     consultationRequest);
-
             }
             catch (Exception ex)
             {
                 return new ServiceResult(Const.ERROR_EXCEPTION,
-                    ex.InnerException.ToString());
+                    ex.InnerException?.ToString() ?? ex.ToString());
             }
         }
 
