@@ -63,7 +63,7 @@ namespace BabyHaven.Services.Services
                         Const.FAIL_DELETE_MSG);
                 }
 
-                var currentDate = DateTime.UtcNow.Date;
+                var newRecordDate = DateTime.Parse(dto.CreatedAt).Date;
                 var child = await _unitOfWork.ChildrenRepository
                     .GetChildByNameAndDateOfBirthAsync(dto.name, DateOnly.Parse(dto.DateOfBirth), dto.RecordedBy);
 
@@ -76,16 +76,17 @@ namespace BabyHaven.Services.Services
                         "Child not found");
                 }
 
-                var lastestRecord = await _unitOfWork.GrowthRecordRepository
-                    .GetLatestGrowthRecordByChildAsync(child.ChildId);
+                var records = await _unitOfWork.GrowthRecordRepository
+                    .GetAllGrowthRecordsByChild(child.ChildId);
 
-                if (lastestRecord != null && lastestRecord.CreatedAt?.Date == currentDate)
+                if (records != null && records.Any(record => record.CreatedAt?.Date == newRecordDate))
                 {
                     return new ServiceResult(10,
                         "You have already recorded today");
                 }
 
                 var record = dto.MapToGrowthRecordEntity(child);
+
 
                 if (record == null)
                 {
