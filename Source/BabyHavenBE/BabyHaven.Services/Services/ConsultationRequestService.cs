@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.ConsultationRequestDTOs;
 using BabyHaven.Services.IServices;
 using BabyHaven.Common.DTOs.TransactionDTOs;
+using Azure.Core;
 
 namespace BabyHaven.Services.Services
 {
@@ -146,6 +147,21 @@ namespace BabyHaven.Services.Services
                 {
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE,
                         Const.WARNING_NO_DATA_MSG);
+                }
+
+                if (status.Equals("Completed"))
+                {
+                    var pendingRequests = await _unitOfWork.ConsultationRequestRepository
+                        .GetAllConsultationRequestByMemberId(consultationRequest.MemberId);
+
+                    foreach (var request in pendingRequests)
+                    {
+                        request.Status = "Completed";
+                        await _unitOfWork.ConsultationRequestRepository.UpdateAsync(request);
+                        
+                    }
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                            Const.SUCCESS_UPDATE_MSG);
                 }
 
                 consultationRequest.Status = status;
