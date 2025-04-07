@@ -49,6 +49,16 @@ namespace BabyHaven.Repositories.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<ConsultationRequest>> GetAllConsultationRequestByMemberId(Guid memberId)
+        {
+            return await _context.ConsultationRequests
+                .Where(cr => cr.MemberId == memberId)
+                .Include(cr => cr.Member)
+                    .ThenInclude(m => m.User)
+                .Include(cr => cr.Child)
+                .ToListAsync();
+        }
+
         public async Task<ConsultationRequest?> GetByIdConsultationRequestAsync(int requestId)
         {
             return await _context.ConsultationRequests
