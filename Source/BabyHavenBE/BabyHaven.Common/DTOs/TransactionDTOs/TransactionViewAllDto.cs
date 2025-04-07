@@ -12,6 +12,8 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
     {
         public string FullName { get; set; } = string.Empty;
 
+        public string Email { get; set; } = string.Empty;
+
         public string PackageName { get; set; } = string.Empty;
 
         public decimal Amount { get; set; }
@@ -22,7 +24,11 @@ namespace BabyHaven.Common.DTOs.TransactionDTOs
 
         public string PaymentMethod {  get; set; } = string.Empty;
 
+        public long GatewayTransactionId { get; set; }
+
         public DateTime TransactionDate { get; set; }
+
+        public DateTime? PaymentDate { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public TransactionStatus PaymentStatus { get; set; } = TransactionStatus.Pending;

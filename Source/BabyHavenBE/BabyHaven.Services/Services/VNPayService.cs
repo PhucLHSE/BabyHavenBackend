@@ -1,4 +1,4 @@
-﻿using BabyHaven.Common;
+using BabyHaven.Common;
 using BabyHaven.Services.Base;
 using BabyHaven.Services.IServices;
 using Microsoft.Extensions.Configuration;
@@ -60,7 +60,7 @@ namespace BabyHaven.Services.Services
                     Description = membership.Package.Description,
                     IpAddress = ipAddress,
                     BankCode = BankCode.ANY, // Cho phép chọn bất kỳ ngân hàng nào
-                    CreatedDate = DateTime.UtcNow,
+                    CreatedDate = DateTime.UtcNow.AddHours(7),
                     Currency = Currency.VND,
                     Language = DisplayLanguage.Vietnamese
                 };
@@ -125,6 +125,7 @@ namespace BabyHaven.Services.Services
                 var gatewayTransactionId = paymentResult.PaymentId;
 
                 var transaction = await _unitOfWork.TransactionRepository.GetByGatewayTransactionIdAsync(gatewayTransactionId);
+
                 if (transaction == null)
                 {
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Transaction not found!");
@@ -135,11 +136,19 @@ namespace BabyHaven.Services.Services
                     return new ServiceResult(Const.FAIL_CREATE_CODE, "Membership not found!");
                 }
 
+                
 
                 if (paymentResult.IsSuccess is true)
                 {
+                    var member = await _unitOfWork.MemberRepository.GetMemberByUserId(transaction.UserId);
+
+                    if (member == null)
+                    {
+                        return new ServiceResult(Const.FAIL_CREATE_CODE, "Member not found!");
+                    }
+
                     var existingMemberships = await _unitOfWork.MemberMembershipRepository
-                        .GetAllOldByMemberIdAsync(transaction.MemberMembership.MemberId);
+                        .GetAllOldByMemberIdAsync(member.MemberId);
                     foreach (var membership in existingMemberships)
                     {
                         membership.Status = MemberMembershipStatus.Suspended.ToString();

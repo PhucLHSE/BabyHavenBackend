@@ -21,13 +21,16 @@ namespace BabyHaven.Services.Mappers
             return new TransactionViewAllDto
             {
                 FullName = model.User?.Name ?? "Unknown",
+                Email = model.User?.Email ?? "Unknown",
                 PackageName = model.MemberMembership?.Package?.PackageName ?? "Unknown",
 
                 Amount = model.Amount,
                 Currency = model.Currency,
                 TransactionType = model.TransactionType,
                 PaymentMethod = model.PaymentMethod,
+                GatewayTransactionId = model.GatewayTransactionId,
                 TransactionDate = model.TransactionDate,
+                PaymentDate = model.PaymentDate,
 
                 // Convert Status from string to enum
                 PaymentStatus = Enum.TryParse<Common.Enum.TransactionEnums.TransactionStatus>(model.PaymentStatus, true, out var status)

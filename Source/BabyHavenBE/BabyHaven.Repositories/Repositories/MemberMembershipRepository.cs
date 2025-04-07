@@ -1,4 +1,4 @@
-﻿using BabyHaven.Common.Enum.MemberMembershipEnums;
+using BabyHaven.Common.Enum.MemberMembershipEnums;
 using BabyHaven.Repositories.Base;
 using BabyHaven.Repositories.DBContext;
 using BabyHaven.Repositories.Models;
@@ -36,8 +36,6 @@ namespace BabyHaven.Repositories.Repositories
         {
             var memberMemberships = await _context.MemberMemberships
                 .Where(mm => mm.MemberId == memberId && mm.Status == "Active")
-                .OrderByDescending(mm => mm.CreatedAt) // Sort by CreatedAt in descending order
-                .Skip(1) // Exclude the first membership
                 .ToListAsync();
 
             return memberMemberships;
