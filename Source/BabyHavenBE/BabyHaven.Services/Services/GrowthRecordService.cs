@@ -63,6 +63,7 @@ namespace BabyHaven.Services.Services
                         Const.FAIL_DELETE_MSG);
                 }
 
+                var currentDate = DateTime.UtcNow.Date;
                 var child = await _unitOfWork.ChildrenRepository
                     .GetChildByNameAndDateOfBirthAsync(dto.name, DateOnly.Parse(dto.DateOfBirth), dto.RecordedBy);
 
@@ -71,9 +72,17 @@ namespace BabyHaven.Services.Services
 
                 if (child == null)
                 {
-
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
                         "Child not found");
+                }
+
+                var lastestRecord = await _unitOfWork.GrowthRecordRepository
+                    .GetLatestGrowthRecordByChildAsync(child.ChildId);
+
+                if (lastestRecord != null && lastestRecord.CreatedAt?.Date == currentDate)
+                {
+                    return new ServiceResult(10,
+                        "You have already recorded today");
                 }
 
                 var record = dto.MapToGrowthRecordEntity(child);
