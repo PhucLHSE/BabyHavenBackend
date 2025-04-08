@@ -63,6 +63,7 @@ namespace BabyHaven.Services.Services
                         Const.FAIL_DELETE_MSG);
                 }
 
+                var newRecordDate = DateTime.Parse(dto.CreatedAt).Date;
                 var child = await _unitOfWork.ChildrenRepository
                     .GetChildByNameAndDateOfBirthAsync(dto.name, DateOnly.Parse(dto.DateOfBirth), dto.RecordedBy);
 
@@ -71,12 +72,21 @@ namespace BabyHaven.Services.Services
 
                 if (child == null)
                 {
-
-                    return new ServiceResult(Const.FAIL_CREATE_CODE, 
+                    return new ServiceResult(Const.FAIL_CREATE_CODE,
                         "Child not found");
                 }
 
+                var records = await _unitOfWork.GrowthRecordRepository
+                    .GetAllGrowthRecordsByChild(child.ChildId);
+
+                if (records != null && records.Any(record => record.CreatedAt?.Date == newRecordDate))
+                {
+                    return new ServiceResult(10,
+                        "You have already recorded today");
+                }
+
                 var record = dto.MapToGrowthRecordEntity(child);
+
 
                 if (record == null)
                 {

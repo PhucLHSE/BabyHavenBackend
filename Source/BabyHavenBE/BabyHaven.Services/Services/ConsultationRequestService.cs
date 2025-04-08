@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using BabyHaven.Common.DTOs.ConsultationRequestDTOs;
 using BabyHaven.Services.IServices;
 using BabyHaven.Common.DTOs.TransactionDTOs;
+using Azure.Core;
 
 namespace BabyHaven.Services.Services
 {
@@ -141,27 +142,73 @@ namespace BabyHaven.Services.Services
             try
             {
                 var consultationRequest = await _unitOfWork.ConsultationRequestRepository
-                                    .GetByRequestId(requestId);
+                    .GetByRequestId(requestId);
                 if (consultationRequest == null)
                 {
                     return new ServiceResult(Const.WARNING_NO_DATA_CODE,
                         Const.WARNING_NO_DATA_MSG);
                 }
 
-                consultationRequest.Status = status;
 
-                var result = await _unitOfWork.ConsultationRequestRepository
-                    .UpdateAsync(consultationRequest);
+                if (status.Equals("Completed") && status != null)
+                {
+                    var pendingRequests = await _unitOfWork.ConsultationRequestRepository
+                        .GetAllConsultationRequestByMemberId(consultationRequest.MemberId, consultationRequest.ChildId, consultationRequest.DoctorId);
 
-                return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
-                    Const.SUCCESS_UPDATE_MSG,
-                    consultationRequest);
+                    if (pendingRequests == null || !pendingRequests.Any())
+                    {
+                        return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                            Const.WARNING_NO_DATA_MSG);
+                    }
 
+                    var validRequests = pendingRequests.Where(request => request != null).ToList();
+
+                    if (!validRequests.Any())
+                    {
+                        return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                            "No valid pending requests found to update.");
+                    }
+
+                    foreach (var request in validRequests)
+                    {
+                        if (request.Status != "Completed")
+                        {
+                            request.Status = "Completed";
+                            await _unitOfWork.ConsultationRequestRepository.UpdateAsync(request);
+                        }
+                    }
+
+                    consultationRequest.Status = status;
+                    var updatedRequest = await _unitOfWork.ConsultationRequestRepository.UpdateAsync(consultationRequest);
+
+                    if (updatedRequest > 0)
+                    {
+                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                            Const.SUCCESS_UPDATE_MSG,
+                            consultationRequest);
+                    }
+                    else
+                    {
+                        return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                            "No valid pending requests found to update.");
+                    }
+                }
+                else
+                {
+                    consultationRequest.Status = status;
+
+                    var result = await _unitOfWork.ConsultationRequestRepository
+                        .UpdateAsync(consultationRequest);
+
+                    return new ServiceResult(Const.SUCCESS_UPDATE_CODE,
+                        Const.SUCCESS_UPDATE_MSG,
+                        consultationRequest);
+                }
             }
             catch (Exception ex)
             {
                 return new ServiceResult(Const.ERROR_EXCEPTION,
-                    ex.InnerException.ToString());
+                    ex.InnerException?.ToString() ?? ex.ToString());
             }
         }
 
