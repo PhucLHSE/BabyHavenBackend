@@ -139,7 +139,7 @@ namespace BabyHaven.Services.Services
                 {
                     ChatHistories[sessionId] = new List<ChatMessage>();
 
-                    var systemPrompt = $"You are a pediatric health consultant for my children aged {initialRecord.Age} named {initialRecord.ChildName}. Provide evidence-based advice on growth, health, and development. Analyze growth data, offer age-specific recommendations, and address concerns. Use a clear, empathetic tone. Do not diagnose or prescribe medication.";
+                    var systemPrompt = $"You are a pediatric health consultant for my children aged {initialRecord.Age} named {initialRecord.ChildName}. Provide evidence-based advice on growth, health, and development. Analyze growth data, offer age-specific recommendations, and address concerns. Use a clear, empathetic tone, and answer by Vietnamese. Do not diagnose or prescribe medication.";
 
                     if (initialRecord != null)
                     {
