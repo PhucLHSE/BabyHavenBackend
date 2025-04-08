@@ -9,6 +9,7 @@ namespace BabyHaven.Common.DTOs.AIChatDTOs
 {
     public class GrowthRecordAnalysisDto
     {
+        public string ChildName { get; set; }
         public float Weight { get; set; }
 
         public float Height { get; set; }
