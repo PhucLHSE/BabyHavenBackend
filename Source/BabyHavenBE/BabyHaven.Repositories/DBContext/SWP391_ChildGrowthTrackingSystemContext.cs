@@ -328,6 +328,10 @@ public partial class SWP391_ChildGrowthTrackingSystemContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Urgency)
                 .HasMaxLength(50);
+            entity.Property(e => e.IsActive)
+                .HasColumnType("bit")
+                .HasDefaultValue(true)
+                .IsRequired(false);
 
             entity.HasOne(d => d.Child)
                 .WithMany(p => p.ConsultationRequests)

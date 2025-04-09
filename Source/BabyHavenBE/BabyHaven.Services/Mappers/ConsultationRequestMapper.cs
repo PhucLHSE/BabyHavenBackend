@@ -31,6 +31,7 @@ namespace BabyHaven.Services.Mappers
 
                 RequestDate = model.RequestDate,
 
+                IsActive = model.IsActive,
 
                 Description = model.Description,
 
