@@ -149,8 +149,41 @@ namespace BabyHaven.Services.Services
                         Const.WARNING_NO_DATA_MSG);
                 }
 
+                if (status == null)
+                {
+                    return new ServiceResult(Const.FAIL_UPDATE_CODE,
+                        "Status cannot be null");
+                }
 
-                if (status.Equals("Completed") && status != null)
+                if (status.Equals("True") && status != null)
+                {
+                    var pendingRequests = await _unitOfWork.ConsultationRequestRepository
+                        .GetAllConsultationRequestByMemberId(consultationRequest.MemberId, consultationRequest.ChildId, consultationRequest.DoctorId);
+
+                    if (pendingRequests == null || !pendingRequests.Any())
+                    {
+                        return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                            Const.WARNING_NO_DATA_MSG);
+                    }
+
+                    var validRequests = pendingRequests.Where(request => request != null).ToList();
+
+                    if (!validRequests.Any())
+                    {
+                        return new ServiceResult(Const.WARNING_NO_DATA_CODE,
+                            "No valid pending requests found to update.");
+                    }
+
+                    foreach (var request in validRequests)
+                    {
+                        if (request.IsActive != true)
+                        {
+                            request.IsActive = true;
+                            await _unitOfWork.ConsultationRequestRepository.UpdateAsync(request);
+                        }
+                    }
+                }
+                else if (status.Equals("Completed") && status != null)
                 {
                     var pendingRequests = await _unitOfWork.ConsultationRequestRepository
                         .GetAllConsultationRequestByMemberId(consultationRequest.MemberId, consultationRequest.ChildId, consultationRequest.DoctorId);
