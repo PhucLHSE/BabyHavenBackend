@@ -24,6 +24,8 @@ namespace BabyHaven.Common.DTOs.ConsultationRequestDTOs
 
         public string Description { get; set; } = string.Empty ;
 
+        public bool? IsActive { get; set; } = true;
+
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsultationRequestStatus Status { get; set; } = ConsultationRequestStatus.Pending;

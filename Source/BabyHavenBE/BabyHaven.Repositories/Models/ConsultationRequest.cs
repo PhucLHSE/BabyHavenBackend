@@ -33,6 +33,8 @@ public partial class ConsultationRequest
 
     public DateTime UpdatedAt { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual Child Child { get; set; }
 
     public virtual ConsultationResponse ConsultationResponse { get; set; }
