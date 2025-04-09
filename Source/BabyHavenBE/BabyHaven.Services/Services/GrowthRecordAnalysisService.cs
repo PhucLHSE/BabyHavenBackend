@@ -122,7 +122,7 @@ namespace BabyHaven.Services.Services
             return new ServiceResult(Const.ERROR_EXCEPTION, "Failed to get response from AI after multiple retries due to rate limit.");
         }
 
-        public async Task<IServiceResult> ChatWithAI(string sessionId, string userMessage, GrowthRecordAnalysisDto initialRecord = null)
+        public async Task<IServiceResult> ChatWithAI(string sessionId, string userMessage, GrowthRecordAnalysisDto? initialRecord)
         {
             var apiKey = _config["Gemini:ApiKey"];
             var endpoint = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={apiKey}";
