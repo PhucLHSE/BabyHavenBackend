@@ -33,6 +33,7 @@ namespace BabyHaven.Repositories.Repositories
                     Status = cr.Status,
                     Urgency = cr.Urgency,
                     Category = cr.Category,
+                    IsActive = cr.IsActive,
                     Member = cr.Member == null ? null : new Member
                     {
                         MemberId = cr.Member.MemberId,
